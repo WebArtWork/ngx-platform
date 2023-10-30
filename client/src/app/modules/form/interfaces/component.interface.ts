@@ -1,5 +1,3 @@
-import { TemplateRef } from "@angular/core";
-
 export interface TemplateFieldInterface {
 	name: string;
 	value: unknown;
@@ -23,5 +21,5 @@ export interface FormComponentInterface {
 	class?: string;
 
 	components?: FormComponentInterface[];
-	fields: TemplateFieldInterface[];
+	fields?: TemplateFieldInterface[];
 }

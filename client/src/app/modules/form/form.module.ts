@@ -8,6 +8,7 @@ import { SelectModule } from '../select/select.module';
 import { FormComponent } from './form/form.component';
 import { InputModule } from '../input/input.module';
 import { ModalFormButtonComponent } from './modals/modal-form/modal-form-button/modal-form-button.component';
+import { ModalUniqueComponent } from './modals/modal-unique/modal-unique.component';
 
 @NgModule({
 	imports: [
@@ -21,7 +22,8 @@ import { ModalFormButtonComponent } from './modals/modal-form/modal-form-button/
 		FormComponentComponent,
 		ModalFormComponent,
 		FormComponent,
-		ModalFormButtonComponent
+		ModalFormButtonComponent,
+  ModalUniqueComponent
 	],
 	exports: [FormComponent]
 })

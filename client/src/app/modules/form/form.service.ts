@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MongoService, StoreService } from 'wacom';
+import { CoreService, MongoService, StoreService } from 'wacom';
 import {
 	FormComponentInterface,
 	TemplateComponentInterface,
@@ -10,6 +10,7 @@ import { AlertService } from 'src/app/modules/alert/alert.service';
 import { FormInterface } from './interfaces/form.interface';
 import { ModalFormComponent } from './modals/modal-form/modal-form.component';
 import { TranslateService } from '../translate/translate.service';
+import { ModalUniqueComponent } from './modals/modal-unique/modal-unique.component';
 
 export interface FormModalButton {
 	click: (submition: unknown, close: () => void) => void;
@@ -26,7 +27,8 @@ export class FormService {
 		private _modal: ModalService,
 		private _mongo: MongoService,
 		private _store: StoreService,
-		private _alert: AlertService
+		private _alert: AlertService,
+		private _core: CoreService
 	) {
 		this.customForms = _mongo.get('form', {}, (arr: any, obj: any) => {
 			this._forms = obj;
@@ -53,8 +55,10 @@ export class FormService {
 			);
 
 			for (const component of form.components) {
-				for (const field of component.fields) {
-					this.translateFormComponent(form, field);
+				for (const field of (component.fields as TemplateFieldInterface[])) {
+					if (typeof field.value === 'string') {
+						this.translateFormComponent(form, field);
+					}
 				}
 			}
 		}
@@ -77,16 +81,6 @@ export class FormService {
 			);
 		}
 	}
-
-	// components: TemplateComponentInterface[] = [];
-
-	// addComponent(component: TemplateComponentInterface) {
-	// 	if (this.components.map((c) => c.name).indexOf(component.name) === -1) {
-	// 		this.components.push(component);
-	// 	} else {
-	// 		throw 'Component name is unique';
-	// 	}
-	// }
 
 	components: TemplateComponentInterface[] = [];
 
@@ -194,40 +188,29 @@ export class FormService {
 		}
 	}
 
-	getDefaultForm(id: string): FormInterface {
+	getDefaultForm(id: string, components = ['name', 'description']): FormInterface {
 		const form = {
 			id,
-			components: [
-				{
-					name: 'Text',
-					key: 'name',
-					focused: true,
+			components: components.map((key, index) => {
+				const name = key.includes('.') ? key.split('.')[1] : 'Text';
+
+				return {
+					name,
+					key,
+					focused: !index,
+					root: true,
 					fields: [
 						{
 							name: 'Placeholder',
-							value: 'Enter your name'
+							value: 'Enter your ' + key.split('.')[0]
 						},
 						{
 							name: 'Label',
-							value: 'name'
+							value: this._core.capitalizeFirstLetter(key.split('.')[0])
 						}
 					]
-				},
-				{
-					name: 'Text',
-					key: 'description',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'Enter your description'
-						},
-						{
-							name: 'Label',
-							value: 'Description'
-						}
-					]
-				}
-			]
+				};
+			})
 		};
 
 		for (const component of form.components) {
@@ -334,6 +317,22 @@ export class FormService {
 					}
 				}
 			});
+		});
+	}
+
+	modalUnique<T>(
+		module: string,
+		field: string,
+		doc: T,
+		component: string = ''
+	): void {
+		this._modal.show({
+			component: ModalUniqueComponent,
+			form: this.getDefaultForm('unique', [field + (component ? '.' + component : '')]),
+			module,
+			field,
+			doc,
+			class: 'forms_modal'
 		});
 	}
 
