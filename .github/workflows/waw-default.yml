@@ -33,6 +33,22 @@ jobs:
         git add .
         git commit -m "Update files from source repository" || echo "No changes to commit"
         git push --force
+        cd ..
+        git clone git@github.com:WebArtWork/vue-platform.git vue-platform
+        rm -rf vue-platform/server/*
+        cp -r server/* vue-platform/server/
+        cd vue-platform
+        git add .
+        git commit -m "Update files from source repository" || echo "No changes to commit"
+        git push --force
+        cd ..
+        git clone git@github.com:WebArtWork/react-platform.git react-platform
+        rm -rf react-platform/server/*
+        cp -r server/* react-platform/server/
+        cd react-platform
+        git add .
+        git commit -m "Update files from source repository" || echo "No changes to commit"
+        git push --force
 
     - name: Clean up SSH
       run: |

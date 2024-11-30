@@ -34,6 +34,22 @@ jobs:
         git add .
         git commit -m "Update files from source repository" || echo "No changes to commit"
         git push --force
+        cd ..
+        git clone git@github.com:WebArtWork/vue-platform.git vue-platform
+        rm -rf vue-platform/template/*
+        cp -r template/* vue-platform/template/
+        cd vue-platform
+        git add .
+        git commit -m "Update files from source repository" || echo "No changes to commit"
+        git push --force
+        cd ..
+        git clone git@github.com:WebArtWork/react-platform.git react-platform
+        rm -rf react-platform/template/*
+        cp -r template/* react-platform/template/
+        cd react-platform
+        git add .
+        git commit -m "Update files from source repository" || echo "No changes to commit"
+        git push --force
 
     - name: Clean up SSH
       run: |
