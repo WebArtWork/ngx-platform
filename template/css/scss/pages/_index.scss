@@ -858,6 +858,150 @@ table {
 	}
 }
 
+//conference
+.conference{
+	&-join{
+		background: #f8ec20;
+		border-radius: 120px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 35px;
+		&__text{
+			color: #1c1b1b;
+			font-size: 20px;
+			font-weight: 600;
+		}
+		&__input{
+			position: relative;
+			input{
+				width: 100%;
+				background: #1c1b1b;
+				border-radius: 120px;
+				padding: 15px 30px;
+			}
+		}
+		&__btn{
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			right: 20px;
+			width: 70px;
+			background: #fff;
+			height: 60%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 120px;
+			svg{
+				width: 26px;
+				height: 26px;
+			}
+		}
+	}
+	&-about{
+		display: flex;
+		align-items: center;
+		padding: 100px 0;
+		&-text{
+			flex: 1 0;
+			padding-right: 40px;
+			&__title{
+				font-size: 38px;
+				font-weight: 700;
+				padding-bottom: 30px;
+				line-height: 1.2;
+			}
+			&__description{
+				color: #ffffffcc;
+			}
+		}
+		&-img{
+			flex: 0 0 500px;
+			img{
+				width: 100%;
+			}
+		}
+	}
+	&-triggers{
+		&__title{
+			text-align: center;
+			font-size: 32px;
+			font-weight: 700;
+		}
+		&-list{
+			display: flex;
+			flex-flow: row wrap;
+			padding-top: 30px;
+		}
+		&__wrap{
+			flex: 0 0 33.333%;
+			max-width: 33.333%;
+			padding: 0 30px;
+			margin-bottom: 40px;
+		}
+		&__item{
+			display: flex;
+			flex-flow: column wrap;
+			align-items: center;
+			justify-self: center;
+		}
+		&__text{
+			padding-top: 20px;
+			font-size: 20px;
+			font-weight: 600;
+		}
+		&__img{
+			img{
+				width: 96px;
+				height: 96px;
+			}
+		}
+	}
+	&-why{
+		padding: 70px 0 100px 0;
+		display: flex;
+		flex-flow: row wrap;
+		&__title{
+			text-align: center;
+			font-size: 32px;
+			font-weight: 700;
+			flex: 0 0 100%;
+			padding-bottom: 40px;
+		}
+
+		&-text{
+			flex: 1 0;
+			padding-right: 45px;
+			&-list{
+				li{
+					display: flex;
+					flex-flow: row wrap;
+					margin-bottom: 15px;
+				}
+				&__img{
+					flex: 0 0 28px;
+				}
+				&__text{
+					flex: 1 0;
+					padding-left: 15px;
+					&-title{
+						line-height: 1;
+						font-size: 18px;
+						font-weight: 600;
+						padding-bottom: 5px;
+					}
+					&-description{
+						color: #e3e3e3;
+					}
+				}
+			}
+		}
+		&-img{
+			flex: 0 0 500px;
+		}
+	}
+}
 
 @media screen and (max-width: 1199px) {
 	.pricing__wrap {
