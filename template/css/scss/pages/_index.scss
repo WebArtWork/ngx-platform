@@ -1003,6 +1003,102 @@ table {
 	}
 }
 
+//What You Get ?
+.what-get{
+	&__title{
+		text-align: center;
+		font-size: 32px;
+		font-weight: 700;
+		flex: 0 0 100%;
+		padding-bottom: 40px;
+	}
+	&-list{
+		display: flex;
+		flex-flow: row wrap;
+	}
+	&-img{
+		width: 50px;
+		height: 50px;
+		border-radius: 120px;
+		display: flex;
+		align-items: center;
+		background: #f8ec20;
+		justify-content: center;
+		color: #000;
+		font-size: 29px;
+		font-weight: 600;
+		margin-bottom: 20px;
+	}
+	&__wrap{
+		flex: 0 0 50%;
+		max-width: 50%;
+		padding: 0 30px;
+		margin-bottom: 40px;
+	}
+	&__item{
+		//background: linear-gradient(129deg, #12111147 0%, rgba(37, 37, 46, 0.06) 100%);
+		background: #2c3035;
+		padding: 20px;
+		border: 1px solid #f8ec202e;
+		border-radius: 15px;
+	}
+	&-text{
+		&__title{
+			font-weight: 700;
+			font-size: 20px;
+			margin: 10px 0;
+		}
+	}
+}
+
+//What You Get ?
+
+.contacts{
+	margin: 75px 0;
+	&__title{
+		text-align: center;
+		font-size: 32px;
+		font-weight: 700;
+		flex: 0 0 100%;
+		padding-bottom: 40px;
+	}
+	&-wrap{
+		display: flex;
+		flex-flow: row wrap;
+	}
+	&-img{
+		flex: 0 0 500px;
+	}
+	&-form{
+		flex: 1 0;
+		padding-left: 40px;
+		label{
+			span{
+				display: block;
+				margin-bottom: 10px;
+			}
+		}
+	}
+	&-name{
+		display: flex;
+		&__input{
+			margin-bottom: 25px;
+			&:first-child{
+				margin-right: 10px;
+			}
+		}
+	}
+	&-email{
+		margin-bottom: 30px;
+	}
+	&-subject{
+		margin-bottom: 30px;
+	}
+	&-message{
+		margin-bottom: 30px;
+	}
+}
+
 @media screen and (max-width: 1199px) {
 	.pricing__wrap {
 		flex: 0 0 50%;
