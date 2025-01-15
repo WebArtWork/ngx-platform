@@ -13,9 +13,9 @@ interface RespStatus {
 }
 
 @Component({
-    templateUrl: './sign.component.html',
-    styleUrls: ['./sign.component.scss'],
-    standalone: false
+	templateUrl: './sign.component.html',
+	styleUrls: ['./sign.component.scss'],
+	standalone: false
 })
 export class SignComponent {
 	form: FormInterface = this._form.getForm('sign', {
@@ -180,11 +180,6 @@ export class SignComponent {
 	private _set = (user: User): void => {
 		if (user) {
 			localStorage.setItem('waw_user', JSON.stringify(user));
-
-			this._http.set(
-				'token',
-				(user as unknown as { token: string }).token
-			);
 
 			this.us.setUser(user);
 

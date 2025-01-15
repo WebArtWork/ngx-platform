@@ -68,14 +68,17 @@ module.exports = function (waw) {
 
 	/* API */
 	waw.use((req, res, next) => {
-		if (req.headers.token) {
+		if (req.cookies.authToken) {
 			nJwt.verify(
-				req.headers.token,
+				req.cookies.authToken,
 				waw.config.signingKey,
 				(err, verifiedJwt) => {
 					if (err) {
-						res.set('remove', 'token');
-						res.set('Access-Control-Expose-Headers', 'field')
+						res.clearCookie('authToken', {
+							httpOnly: true,
+							secure: true,
+						});
+
 						next();
 					} else {
 						req.user = verifiedJwt.body;
@@ -85,18 +88,25 @@ module.exports = function (waw) {
 			);
 		} else next();
 	});
-	const clearUser = user => {
+	const prepareUser = (user, res) => {
 		user = JSON.parse(JSON.stringify(user));
 
 		delete user.password;
 
 		delete user.resetPin;
 
-		user.token = nJwt.create(user, waw.config.signingKey);
+		let token = nJwt.create(user, waw.config.signingKey);
 
-		user.token.setExpiration(new Date().getTime() + (48 * 60 * 60 * 1000));
+		token.setExpiration(new Date().getTime() + 48 * 60 * 60 * 1000);
 
-		user.token = user.token.compact();
+		token = token.compact();
+
+		// Set the token in a cookie
+		res.cookie('authToken', token, {
+			httpOnly: true, // Makes the cookie inaccessible to JavaScript on the client
+			secure: true,   // Ensures the cookie is sent only over HTTPS
+			maxAge: 3600000 * 24 * 30 // Sets cookie expiration
+		});
 
 		return user;
 	};
@@ -124,14 +134,49 @@ module.exports = function (waw) {
 			html: 'Code: ' + user.resetPin
 		}, cb);
 	};
-	// move below to angular/serve.js
+
 	waw.api({
 		app: path.join(
-			process.cwd(), 'client', 'dist', 'app'
+			process.cwd(), 'client', 'dist', 'app', 'browser'
 		)
 	});
+	const templatePath = path.join(process.cwd(), 'template')
+	waw.api({
+		template: {
+			path: templatePath,
+			prefix: '/wjst-default',
+			pages: 'index'
+		},
+		page: {
+			'/': (req, res) => {
+				res.send(
+					waw.render(
+						path.join(
+							templatePath,
+							"dist",
+							"index.html"
+						),
+						{
+							base: '/wjst-default/'
+						}
+					)
+				);
+			}
+		}
+	});
+
 	waw.api({
 		router: '/api/user',
+		get: {
+			'/logout': async (req, res) => {
+				res.clearCookie('authToken', {
+					httpOnly: true,
+					secure: true,
+				});
+
+				res.json(true);
+			},
+		},
 		post: {
 			"/status": async (req, res) => {
 				const user = await findUser(req.body.email);
@@ -194,7 +239,7 @@ module.exports = function (waw) {
 					return res.json(false);
 				}
 
-				res.json(clearUser(user));
+				res.json(prepareUser(user, res));
 			},
 			'/sign': async (req, res) => {
 				const userExists = await findUser(req.body.email);
@@ -216,7 +261,7 @@ module.exports = function (waw) {
 
 				await user.save();
 
-				res.json(clearUser(user));
+				res.json(prepareUser(user, res));
 			}
 		}
 	});

@@ -54,6 +54,11 @@
 						"stylePreprocessorOptions": {
 							"includePaths": ["src/scss/utils", "."]
 						},
+						"allowedCommonJsDependencies": [
+							"brace",
+							"brace/mode/json",
+							"brace/theme/monokai"
+						],
 						"browser": "src/main.ts"
 					},
 					"configurations": {
@@ -61,8 +66,8 @@
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "750kb",
-									"maximumError": "1.5mb"
+									"maximumWarning": "1.5mb",
+									"maximumError": "3mb"
 								},
 								{
 									"type": "anyComponentStyle",
