@@ -34,7 +34,7 @@ jobs:
         sed -i "s/admins.guard';/admins.guard';\\nimport { HashLocationStrategy, LocationStrategy } from '@angular\\/common';/g" src/app/app.module.ts
         sed -i "s|/\* providers \*/|/* providers */\\n\t\t{ provide: LocationStrategy, useClass: HashLocationStrategy },|g" src/app/app.module.ts
         sed -i "s/url: ''/url: 'https:\/\/webart.work'/g" src/environments/environment.prod.ts
-        sed -i "s/ceo@webart.work/demo@webart.work/g" src/app/pages/guest/guest.component.ts
+        sed -i "s/ceo@webart.work/demo@webart.work/g" src/app/pages/guest/sign/sign.component.ts
         git add .
         git commit -m "Update Angular files from source repository" || echo "No changes to commit"
         git push --force
