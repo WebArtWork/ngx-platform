@@ -4,6 +4,9 @@
 		<base href="{{{base || prefix + '/'}}}" />
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="index, follow" />
+		<meta name="author" content="Honchar Denys" />
+
 		<title>{{{title}}}</title>
 		<meta itemprop="name" content="{{{title}}}" />
 		<meta name="twitter:title" content="{{{title}}}" />
@@ -19,6 +22,7 @@
 		<meta property="og:image" content="{{{image}}}" />
 
 		<link rel="icon" type="image/x-icon" href="{{{favicon}}}" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
 		<link
 			href="https://fonts.googleapis.com/icon?family=Material+Icons"
 			rel="stylesheet"
@@ -154,18 +158,18 @@
 					"
 					class="header__nav header__nav--mobile"
 				>
-				<a
-					class="header__nav-link header__nav-link--github-mobile"
-					href="https://github.com/WebArtWork/wjst"
-					data-original-title="GitHub"
-					target="_blank"
-				>
-					<img
-						class="header__nav-icon"
-						src="img/github.svg"
-						alt="github"
-					/>
-				</a>
+					<a
+						class="header__nav-link header__nav-link--github-mobile"
+						href="https://github.com/WebArtWork/wjst"
+						data-original-title="GitHub"
+						target="_blank"
+					>
+						<img
+							class="header__nav-icon"
+							src="img/github.svg"
+							alt="github"
+						/>
+					</a>
 					<div class="burger-wrap">
 						<div class="burger" id="burger"></div>
 					</div>
@@ -208,9 +212,12 @@
 				<!-- HTML -->
 				<footer class="footer">
 					<p class="footer__text">
-						<span class="footer__text-part">Wjst is copyright ©2024 Web Art Work</span>
+						<span class="footer__text-part"
+							>Wjst is copyright ©2024 Web Art Work</span
+						>
 						<span class="footer__text-part">
-							Licensed for use under the permissive MIT Open Source License.</span
+							Licensed for use under the permissive MIT Open
+							Source License.</span
 						>
 						<span class="footer__text-part">
 							Architected by Honchar Denys</span
@@ -221,48 +228,31 @@
 							<div class="footer__link-title">
 								Title for links
 							</div>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
+							<a href="" class="footer__link"> - Link here </a>
+							<a href="" class="footer__link"> - Link here </a>
+							<a href="" class="footer__link"> - Link here </a>
 						</div>
-						<div class="footer__item-link footer__item-link--center">
+						<div
+							class="footer__item-link footer__item-link--center"
+						>
 							<div class="footer__link-title">
 								Title for links
 							</div>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
+							<a href="" class="footer__link"> - Link here </a>
+							<a href="" class="footer__link"> - Link here </a>
+							<a href="" class="footer__link"> - Link here </a>
 						</div>
 						<div class="footer__item-link footer__item-link--end">
 							<div class="footer__link-title">
 								Title for links
 							</div>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
-							<a href="" class="footer__link">
-								- Link here
-							</a>
+							<a href="" class="footer__link"> - Link here </a>
+							<a href="" class="footer__link"> - Link here </a>
+							<a href="" class="footer__link"> - Link here </a>
 						</div>
 					</div>
 				</footer>
 			</main>
-
 		</div>
 		<script src="js/index.js"></script>
 	</body>

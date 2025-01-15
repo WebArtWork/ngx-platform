@@ -144,9 +144,10 @@ const routes: Routes = [
 			meta: {
 				useTitleSuffix: true,
 				defaults: {
-					title: 'Web Art Work',
-					titleSuffix: ' | Web Art Work',
-					'og:image': 'https://webart.work/api/user/cdn/waw-logo.png'
+					title: environment.meta.title,
+					description: environment.meta.description,
+					titleSuffix: ' | ' + environment.meta.title,
+					'og:image': environment.meta.icon
 				}
 			},
 			modal: {
