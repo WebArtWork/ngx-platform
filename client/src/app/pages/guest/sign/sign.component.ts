@@ -179,6 +179,12 @@ export class SignComponent {
 
 	private _set = (user: User): void => {
 		if (user) {
+			const token = (user as unknown as { token: string }).token || '';
+
+			if (token) {
+				this._http.set('token', token);
+			}
+
 			localStorage.setItem('waw_user', JSON.stringify(user));
 
 			this.us.setUser(user);

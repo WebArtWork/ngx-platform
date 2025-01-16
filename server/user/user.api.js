@@ -1,18 +1,18 @@
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
-const nJwt = require('njwt');
+const path = require("path");
+const { v4: uuidv4 } = require("uuid");
+const nJwt = require("njwt");
 module.exports = function (waw) {
 	/*
-	*	User configuration
-	*/
+	 *	User configuration
+	 */
 	if (!waw.config.signingKey) {
 		waw.config.signingKey = uuidv4();
 
-		let serverJson = waw.readJson(process.cwd() + '/server.json');
+		let serverJson = waw.readJson(process.cwd() + "/server.json");
 
 		serverJson.signingKey = waw.config.signingKey;
 
-		waw.writeJson(process.cwd() + '/server.json', serverJson);
+		waw.writeJson(process.cwd() + "/server.json", serverJson);
 	}
 	// move below to other module, mail one
 	if (waw.config.mail) {
@@ -22,27 +22,30 @@ module.exports = function (waw) {
 			host: waw.config.mail.host,
 			port: waw.config.mail.port,
 			secure: waw.config.mail.secure,
-			auth: waw.config.mail.auth
+			auth: waw.config.mail.auth,
 		});
 
-		waw.send = (opts, cb = resp => { }) => {
-			transporter.sendMail({
-				from: waw.config.mail.from,
-				subject: opts.subject || waw.config.mail.subject,
-				to: opts.to,
-				text: opts.text,
-				html: opts.html
-			}, cb);
-		}
+		waw.send = (opts, cb = (resp) => { }) => {
+			transporter.sendMail(
+				{
+					from: waw.config.mail.from,
+					subject: opts.subject || waw.config.mail.subject,
+					to: opts.to,
+					text: opts.text,
+					html: opts.html,
+				},
+				cb
+			);
+		};
 	} else {
-		waw.send = () => { }
+		waw.send = () => { };
 	}
 
 	const set_is = async (email, is) => {
 		await waw.wait(300);
 
 		const user = await waw.User.findOne({
-			email: email
+			email: email,
 		});
 
 		if (!user) return;
@@ -51,14 +54,14 @@ module.exports = function (waw) {
 
 		user.is[is] = true;
 
-		user.markModified('is');
+		user.markModified("is");
 
 		await user.save();
-	}
+	};
 
 	if (waw.config.user && waw.config.user.is) {
 		for (const is in waw.config.user.is) {
-			const emails = waw.config.user.is[is].split(' ');
+			const emails = waw.config.user.is[is].split(" ");
 
 			for (var i = 0; i < emails.length; i++) {
 				set_is(emails[i], is);
@@ -74,10 +77,27 @@ module.exports = function (waw) {
 				waw.config.signingKey,
 				(err, verifiedJwt) => {
 					if (err) {
-						res.clearCookie('authToken', {
+						res.clearCookie("authToken", {
 							httpOnly: true,
 							secure: true,
 						});
+
+						next();
+					} else {
+						req.user = verifiedJwt.body;
+						next();
+					}
+				}
+			);
+		} else if (req.headers.token) {
+			nJwt.verify(
+				req.headers.token,
+				waw.config.signingKey,
+				(err, verifiedJwt) => {
+					if (err) {
+						res.set("remove", "token");
+
+						res.set("Access-Control-Expose-Headers", "field");
 
 						next();
 					} else {
@@ -95,28 +115,31 @@ module.exports = function (waw) {
 
 		delete user.resetPin;
 
-		let token = nJwt.create(user, waw.config.signingKey);
+		user.token = nJwt.create(user, waw.config.signingKey);
 
-		token.setExpiration(new Date().getTime() + 48 * 60 * 60 * 1000);
+		user.token.setExpiration(new Date().getTime() + 48 * 60 * 60 * 1000);
 
-		token = token.compact();
+		user.token = user.token.compact();
 
 		// Set the token in a cookie
-		res.cookie('authToken', token, {
+		res.cookie("authToken", user.token, {
 			httpOnly: true, // Makes the cookie inaccessible to JavaScript on the client
-			secure: true,   // Ensures the cookie is sent only over HTTPS
-			maxAge: 3600000 * 24 * 30 // Sets cookie expiration
+			secure: true, // Ensures the cookie is sent only over HTTPS
+			maxAge: 3600000 * 24 * 30, // Sets cookie expiration
 		});
 
 		return user;
 	};
 	const findUser = async (email) => {
 		return await waw.User.findOne({
-			$or: [{
-				reg_email: email.toLowerCase()
-			}, {
-				email: email.toLowerCase()
-			}]
+			$or: [
+				{
+					reg_email: email.toLowerCase(),
+				},
+				{
+					email: email.toLowerCase(),
+				},
+			],
 		});
 	};
 	const new_pin = async (user, cb = () => { }) => {
@@ -124,52 +147,46 @@ module.exports = function (waw) {
 
 		console.log(user.resetPin);
 
-		user.markModified('data');
+		user.markModified("data");
 
 		await user.save();
 
-		waw.send({
-			to: user.email,
-			subject: 'Code: ' + user.resetPin,
-			html: 'Code: ' + user.resetPin
-		}, cb);
+		waw.send(
+			{
+				to: user.email,
+				subject: "Code: " + user.resetPin,
+				html: "Code: " + user.resetPin,
+			},
+			cb
+		);
 	};
 
 	waw.api({
-		app: path.join(
-			process.cwd(), 'client', 'dist', 'app', 'browser'
-		)
+		app: path.join(process.cwd(), "client", "dist", "app", "browser"),
 	});
-	const templatePath = path.join(process.cwd(), 'template')
+	const templatePath = path.join(process.cwd(), "template");
 	waw.api({
 		template: {
 			path: templatePath,
-			prefix: '/wjst-default',
-			pages: 'index'
+			prefix: "/wjst-default",
+			pages: "index",
 		},
 		page: {
-			'/': (req, res) => {
+			"/": (req, res) => {
 				res.send(
-					waw.render(
-						path.join(
-							templatePath,
-							"dist",
-							"index.html"
-						),
-						{
-							base: '/wjst-default/'
-						}
-					)
+					waw.render(path.join(templatePath, "dist", "index.html"), {
+						base: "/wjst-default/",
+					})
 				);
-			}
-		}
+			},
+		},
 	});
 
 	waw.api({
-		router: '/api/user',
+		router: "/api/user",
 		get: {
-			'/logout': async (req, res) => {
-				res.clearCookie('authToken', {
+			"/logout": async (req, res) => {
+				res.clearCookie("authToken", {
 					httpOnly: true,
 					secure: true,
 				});
@@ -232,7 +249,7 @@ module.exports = function (waw) {
 					res.json(false);
 				}
 			},
-			'/login': async (req, res) => {
+			"/login": async (req, res) => {
 				const user = await findUser(req.body.email);
 
 				if (!user || !user.validPassword(req.body.password)) {
@@ -241,20 +258,19 @@ module.exports = function (waw) {
 
 				res.json(prepareUser(user, res));
 			},
-			'/sign': async (req, res) => {
+			"/sign": async (req, res) => {
 				const userExists = await findUser(req.body.email);
 
 				if (userExists) {
 					res.json(false);
 				} else {
-
 				}
 
 				const user = new waw.User({
 					reg_email: req.body.email.toLowerCase(),
 					email: req.body.email.toLowerCase(),
 					data: req.body.data || {},
-					is: {}
+					is: {},
 				});
 
 				user.password = user.generateHash(req.body.password);
@@ -262,63 +278,69 @@ module.exports = function (waw) {
 				await user.save();
 
 				res.json(prepareUser(user, res));
-			}
-		}
+			},
+		},
 	});
 
 	/* CRUD */
-	const select = () => '-password -resetPin';
-	waw.crud('user', {
+	const select = () => "-password -resetPin";
+	waw.crud("user", {
 		get: {
 			ensure: waw.next,
 			query: () => {
 				return {};
 			},
-			select
+			select,
 		},
-		fetch: [{
-			ensure: waw.next,
-			query: req => {
-				return {
-					_id: req.body._id
-				}
+		fetch: [
+			{
+				ensure: waw.next,
+				query: (req) => {
+					return {
+						_id: req.body._id,
+					};
+				},
+				select,
 			},
-			select
-		}, {
-			name: 'me',
-			query: req => {
-				return {
-					_id: req.user._id
-				}
+			{
+				name: "me",
+				query: (req) => {
+					return {
+						_id: req.user._id,
+					};
+				},
+				select,
 			},
-			select
-		}],
-		update: [{
-			query: req => {
-				return {
-					_id: req.user._id
-				}
+		],
+		update: [
+			{
+				query: (req) => {
+					return {
+						_id: req.user._id,
+					};
+				},
+				select,
 			},
-			select
-		}, {
-			name: 'admin',
-			ensure: waw.role('admin'),
-			query: req => {
-				return {
-					_id: req.body._id
-				}
+			{
+				name: "admin",
+				ensure: waw.role("admin"),
+				query: (req) => {
+					return {
+						_id: req.body._id,
+					};
+				},
+				select,
 			},
-			select
-		}],
+		],
 		delete: {
-			name: 'admin',
-			ensure: waw.role('admin'),
-			query: req => {
+			name: "admin",
+			ensure: waw.role("admin"),
+			query: (req) => {
 				return {
-					_id: req.body._id
-				}
+					_id: req.body._id,
+				};
 			},
-			select
-		}
+			select,
+		},
 	});
 };
