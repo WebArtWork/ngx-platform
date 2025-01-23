@@ -25,7 +25,7 @@ module.exports = function (waw) {
 			auth: waw.config.mail.auth,
 		});
 
-		waw.send = (opts, cb = (resp) => { }) => {
+		waw.send = (opts, cb = (resp) => {}) => {
 			transporter.sendMail(
 				{
 					from: waw.config.mail.from,
@@ -38,7 +38,7 @@ module.exports = function (waw) {
 			);
 		};
 	} else {
-		waw.send = () => { };
+		waw.send = () => {};
 	}
 
 	const set_is = async (email, is) => {
@@ -142,7 +142,7 @@ module.exports = function (waw) {
 			],
 		});
 	};
-	const new_pin = async (user, cb = () => { }) => {
+	const new_pin = async (user, cb = () => {}) => {
 		user.resetPin = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
 		console.log(user.resetPin);
@@ -220,7 +220,12 @@ module.exports = function (waw) {
 			"/change": async (req, res) => {
 				const user = await findUser(req.body.email);
 
-				if (user && user.resetPin === req.body.resetPin) {
+				if (
+					user &&
+					user.resetPin &&
+					req.body.code &&
+					user.resetPin.toString() === req.body.code.toString()
+				) {
 					user.password = user.generateHash(req.body.password);
 
 					delete user.resetPin;
