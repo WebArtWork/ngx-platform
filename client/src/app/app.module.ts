@@ -27,6 +27,16 @@ const routes: Routes = [
 		children: [
 			/* guest */
 			{
+				path: 'document',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Document'
+					}
+				},
+				loadChildren: () => import('./pages/guest/document/document.module').then(m => m.DocumentModule)
+			}, 
+			{
 				path: 'components',
 				canActivate: [MetaGuard],
 				data: {

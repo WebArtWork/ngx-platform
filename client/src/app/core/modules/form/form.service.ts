@@ -25,10 +25,6 @@ export interface FormModalButton {
 	class?: string;
 }
 
-interface Docs {
-	docs: string;
-}
-
 @Injectable({
 	providedIn: 'root'
 })
@@ -253,7 +249,9 @@ export class FormService {
 		buttons: FormModalButton | FormModalButton[] = [],
 		submition: unknown = {},
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		change = (update: T): void => {},
+		change: (update: T) => void | Promise<(update: T) => void> = (
+			update: T
+		): void => {},
 		modalOptions: Modal = {}
 	): Promise<T> {
 		return new Promise((resolve) => {
@@ -331,7 +329,7 @@ export class FormService {
 		field: string,
 		doc: T,
 		component: string = '',
-		onClose = (): void => {}
+		onClose: () => void | Promise<() => void> = (): void => {}
 	): void {
 		this._modal.show({
 			component: ModalUniqueComponent,
