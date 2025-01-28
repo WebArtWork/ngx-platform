@@ -287,9 +287,9 @@ wform {
 
 .documents{
     &-wrapper{
-        overflow-y: scroll;
+       //overflow-y: scroll;
         height: 100vh;
-        background: #282626;
+        background: var(--c-bg-primary);
         color: #fff;
         position: relative;
         &--open{
@@ -323,7 +323,7 @@ wform {
         }
         &-row{
             padding: 10px 20px;
-            background: #1c1b1b;
+            background: var(--c-bg-secondary);
             margin-bottom: 20px;
             border-radius: 10px;
         }
@@ -331,15 +331,20 @@ wform {
     &-sidebar{
         flex: 0 0 280px;
         max-width: 280px;
-        background: #1c1b1b;
+        background: var(--c-bg-secondary);
         height: calc(100vh - 10px);
-        border-radius: 0 0 12px 12px;
+        border-radius: 12px;
         position: sticky;
         top: 0;
         &-content{
             padding: 15px;
             height: 100%;
             overflow-y: scroll;
+            scrollbar-width: none;
+            &::-webkit-scrollbar{
+                width: 0px; /* Для вертикальной полосы прокрутки */
+                height: 0px; /* Для горизонтальной полосы прокрутки */
+            }
         }
         &__img{
             img{
@@ -352,6 +357,10 @@ wform {
         &__title{
             font-weight: 600;
             padding: 15px 0 5px 0;
+            color: var(--c-text-primary);
+        }
+        &__description{
+            color: var(--c-text-primary);
         }
     }
     &-tags{
@@ -415,12 +424,20 @@ wform {
         &__title{
             font-size: 20px;
             font-weight: 600;
+            color: var(--c-text-primary);
+        }
+        &__description{
+            color: var(--c-text-primary);
         }
     }
     &__title{
         font-size: 20px;
         font-weight: 600;
         padding-bottom: 10px;
+        color: var(--c-text-primary);
+    }
+    &__description{
+        color: var(--c-text-primary);
     }
     &__btn{
         max-width: 200px;
