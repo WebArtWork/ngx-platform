@@ -311,7 +311,6 @@ wform {
         width: 100%;
         margin: 0 auto;
         height: 100%;
-        padding: 0 15px;
     }
     &-list{
         display: flex;
@@ -504,7 +503,7 @@ wform {
     }
 
     .burger--close::before {
-        transform: translateY(1px) rotate(45deg);
+        transform: translateY(0px) rotate(45deg);
     }
 
     .burger--close::after {
