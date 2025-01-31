@@ -5,7 +5,6 @@
 			[placeholder]="data.field.Placeholder"
 			[label]="data.field.Label"
 			(wSubmit)="addTag(data)"
-			#inputRef
 		></winput>
 
 		<ng-container *ngFor="let tag of data.submition[data.key]; index as i">
