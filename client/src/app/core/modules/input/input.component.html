@@ -72,19 +72,38 @@
 
 <!-- Checkboxes -->
 <ng-container *ngIf="type === 'checkbox'">
-	<label class="container-box">
-		<input
-			(ngModelChange)="value = $event; onChange()"
-			class="w-input__checkbox"
-			[disabled]="disabled"
-			[class.error]="error"
-			[ngModel]="value"
-			[ngClass]="wClass"
-			type="checkbox"
-			[name]="name"
-			#inputEl
-		/>
-		<span class="checkmark"></span>
-		<span class="check-text" *ngIf="label">{{ label }}</span>
-	</label>
+	<ng-container *ngIf="items?.length">
+		<label class="check-label" *ngFor="let item of items; index as i">
+			<span class="form-label">{{ item }}</span>
+			<input
+				(ngModelChange)="setCheckboxValue($event, i); onChange()"
+				class="w-input__checkbox"
+				[disabled]="disabled"
+				[class.error]="error"
+				ngModel
+				[ngClass]="wClass"
+				type="checkbox"
+				[name]="name+i"
+				#inputEl
+			/>
+			<span class="checkbox _radio"></span>
+		</label>
+	</ng-container>
+	<ng-container *ngIf="!items?.length">
+		<label class="container-box">
+			<input
+				(ngModelChange)="value = $event; onChange()"
+				class="w-input__checkbox"
+				[disabled]="disabled"
+				[class.error]="error"
+				[ngModel]="value"
+				[ngClass]="wClass"
+				type="checkbox"
+				[name]="name"
+				#inputEl
+			/>
+			<span class="checkmark"></span>
+			<span class="check-text" *ngIf="label">{{ label }}</span>
+		</label>
+	</ng-container>
 </ng-container>
