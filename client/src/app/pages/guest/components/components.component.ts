@@ -3,9 +3,9 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 
 @Component({
-    templateUrl: './components.component.html',
-    styleUrls: ['./components.component.scss'],
-    standalone: false
+	templateUrl: './components.component.html',
+	styleUrls: ['./components.component.scss'],
+	standalone: false
 })
 export class ComponentsComponent {
 	submition: Record<string, unknown> = {
@@ -81,6 +81,34 @@ export class ComponentsComponent {
 								]
 							}
 						]
+					}
+				]
+			},
+			{
+				name: 'Tags',
+				key: 'tags',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'Enter tags'
+					},
+					{
+						name: 'Label',
+						value: 'Tags'
+					}
+				]
+			},
+			{
+				name: 'Tags',
+				key: 'tags2',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'Enter tags2'
+					},
+					{
+						name: 'Label',
+						value: 'Tags2'
 					}
 				]
 			},
