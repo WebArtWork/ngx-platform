@@ -153,6 +153,10 @@ export class InputComponent implements OnInit, OnChanges {
 		if (changes['disabled']) {
 			this.disabled = changes['disabled'].currentValue;
 		}
+
+		if (changes['value'] && this.value !== changes['value'].currentValue) {
+			this.value = changes['value'].currentValue;
+		}
 	}
 
 	/**
