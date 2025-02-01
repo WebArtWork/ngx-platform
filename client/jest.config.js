@@ -6,4 +6,3 @@ module.exports = {
   coverageDirectory: 'coverage',
   moduleFileExtensions: ['ts', 'js', 'html'],
 };
-
