@@ -10,9 +10,9 @@ import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interfa
 import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
 
 @Component({
-    templateUrl: './customforms.component.html',
-    styleUrls: ['./customforms.component.scss'],
-    standalone: false
+	templateUrl: './customforms.component.html',
+	styleUrls: ['./customforms.component.scss'],
+	standalone: false
 })
 export class CustomformsComponent {
 	columns = ['formId', 'components', 'active'];

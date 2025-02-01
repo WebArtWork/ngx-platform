@@ -10,10 +10,10 @@ import { environment } from 'src/environments/environment';
  * multiple file uploads.
  */
 @Component({
-    selector: 'ngx-file',
-    templateUrl: './file.component.html',
-    styleUrls: ['./file.component.scss'],
-    standalone: false
+	selector: 'ngx-file',
+	templateUrl: './file.component.html',
+	styleUrls: ['./file.component.scss'],
+	standalone: false
 })
 export class FileComponent implements OnInit {
 	readonly url = environment.url;

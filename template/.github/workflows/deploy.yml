@@ -1,50 +1,50 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - master
+    push:
+        branches:
+            - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'  # Set to the Node.js version you're using
+            - name: Install Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20" # Set to the Node.js version you're using
 
-      - name: Install waw globally
-        run: npm install -g waw
+            - name: Install waw globally
+              run: npm install -g waw
 
-      - name: Build with waw
-        run: waw build
+            - name: Build with waw
+              run: waw build
 
-      - name: Set up SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+            - name: Set up SSH
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Commit and push to gh-pages using SSH
-        env:
-          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add --all .
-          git commit -m "Deploy to GitHub Pages"
-          git checkout -B gh-pages  # Switch to gh-pages branch
-          git push git@github.com:${{ github.repository }} gh-pages --force
+            - name: Commit and push to gh-pages using SSH
+              env:
+                  GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git add --all .
+                  git commit -m "Deploy to GitHub Pages"
+                  git checkout -B gh-pages  # Switch to gh-pages branch
+                  git push git@github.com:${{ github.repository }} gh-pages --force
 
-      - name: Clean up SSH
-        run: |
-          rm -f ~/.ssh/id_rsa
-          rm -f ~/.ssh/known_hosts
+            - name: Clean up SSH
+              run: |
+                  rm -f ~/.ssh/id_rsa
+                  rm -f ~/.ssh/known_hosts

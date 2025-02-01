@@ -7,12 +7,12 @@ const toggleClass = (id, className) => {
 	}
 };
 
-const toTop = ()=>{
+const toTop = () => {
 	window.scrollTo({
 		top: 0,
 		behavior: "smooth",
 	});
-}
+};
 
 const sidebar = {};
 document.addEventListener("DOMContentLoaded", function () {

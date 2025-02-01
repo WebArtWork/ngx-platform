@@ -34,8 +34,11 @@ const routes: Routes = [
 						title: 'Document'
 					}
 				},
-				loadChildren: () => import('./pages/guest/document/document.module').then(m => m.DocumentModule)
-			}, 
+				loadChildren: () =>
+					import('./pages/guest/document/document.module').then(
+						(m) => m.DocumentModule
+					)
+			},
 			{
 				path: 'components',
 				canActivate: [MetaGuard],

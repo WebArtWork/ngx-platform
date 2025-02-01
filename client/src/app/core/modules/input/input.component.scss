@@ -42,7 +42,7 @@
 		/* Ensure compatibility across browsers */
 		appearance: textfield;
 		-webkit-appearance: textfield; /* For WebKit-based browsers */
-		-moz-appearance: textfield;    /* For Mozilla-based browsers */
+		-moz-appearance: textfield; /* For Mozilla-based browsers */
 
 		&::placeholder {
 			color: var(--c-placeholder);
@@ -81,7 +81,8 @@
 }
 
 /* Error Styling */
-input.error, textarea.error {
+input.error,
+textarea.error {
 	border: 1px solid red; /* Red border to indicate validation error */
 }
 

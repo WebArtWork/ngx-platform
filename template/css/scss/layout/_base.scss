@@ -1,5 +1,5 @@
 // ===== BASE STYLE =====
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 html {
 	font-size: var(--fs);
 	height: 100%;
@@ -263,7 +263,7 @@ ul {
 		}
 	}
 }
-.header__nav-link--github-mobile{
+.header__nav-link--github-mobile {
 	margin-right: 45px;
 }
 .footer {
@@ -279,14 +279,14 @@ ul {
 		margin: 0;
 		font-size: 0.9em;
 		text-align: center;
-		span{
+		span {
 			display: block;
 		}
 		&-part {
 			margin: 0 5px;
 		}
 	}
-	&-wrap{
+	&-wrap {
 		display: flex;
 		flex-flow: row wrap;
 		padding-top: 10px;
@@ -294,16 +294,16 @@ ul {
 			justify-content: center;
 		}
 	}
-	&__item-link{
+	&__item-link {
 		flex: 0 0 33.333%;
 		max-width: 33.333%;
 		display: flex;
 		flex-flow: column wrap;
 		text-align: center;
-		&--center{
+		&--center {
 			align-content: center;
 		}
-		&--end{
+		&--end {
 			align-content: center;
 		}
 		@media (max-width: 768px) {
@@ -315,7 +315,7 @@ ul {
 			margin-bottom: 20px;
 		}
 	}
-	&__link-title{
+	&__link-title {
 		color: var(--c-primary-hover);
 	}
 	&__link {

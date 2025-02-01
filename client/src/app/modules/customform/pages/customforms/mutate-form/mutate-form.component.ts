@@ -21,7 +21,7 @@ export class MutateFormComponent {
 
 		this.form.components.push({
 			name: component.name,
-			fields: (component.fields||[]).map((f) => {
+			fields: (component.fields || []).map((f) => {
 				return {
 					name: f,
 					value: ''

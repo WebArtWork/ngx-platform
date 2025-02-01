@@ -1,1 +1,1 @@
-require('waw');
+require("waw");

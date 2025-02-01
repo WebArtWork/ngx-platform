@@ -228,16 +228,14 @@ hr {
 		right: 0;
 		transform: translateX(120%);
 		z-index: 10;
-		box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.03), 
-            0 6px 10px rgba(0, 0, 0, 0.24),
-            0 1px 18px rgba(0, 0, 0, 0.31);
-			transition: all 0.5s ease-in-out;
+		box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.03),
+			0 6px 10px rgba(0, 0, 0, 0.24), 0 1px 18px rgba(0, 0, 0, 0.31);
+		transition: all 0.5s ease-in-out;
 		@media screen and (max-width: 767px) {
 			transform: translateX(120%) !important;
 		}
 		@include mixins.flexBox(flex, column, null, null, null);
-		
-		
+
 		&._active {
 			transform: translateX(120%) !important;
 			z-index: 0;

@@ -10,7 +10,7 @@ export class DocumentComponent {
 
 	// Метод для переключення класів
 	toggleMenu(): void {
-	  this.isMenuOpen = !this.isMenuOpen;
-	  console.log('Menu Open: ', this.isMenuOpen);  // Перевірка значення
+		this.isMenuOpen = !this.isMenuOpen;
+		console.log('Menu Open: ', this.isMenuOpen); // Перевірка значення
 	}
 }

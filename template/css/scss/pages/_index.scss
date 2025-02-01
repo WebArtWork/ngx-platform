@@ -199,7 +199,6 @@ p {
 }
 
 .text-center {
-
 	.blockquote,
 	.blockquote-footer {
 		justify-content: center;
@@ -209,7 +208,6 @@ p {
 }
 
 .text-end {
-
 	.blockquote,
 	.blockquote-footer {
 		flex-direction: column;
@@ -222,7 +220,7 @@ p {
 	padding-left: 0;
 	list-style: none;
 
-	&>li {
+	& > li {
 		list-style: none;
 	}
 
@@ -230,7 +228,7 @@ p {
 		padding-left: 1rem;
 		list-style: disc;
 
-		&>li {
+		& > li {
 			list-style: disc;
 		}
 	}
@@ -242,7 +240,7 @@ p {
 	display: flex;
 	flex-wrap: wrap;
 
-	&>.list-inline-item {
+	& > .list-inline-item {
 		display: inline-block;
 		margin-right: 0.5rem;
 	}
@@ -333,7 +331,7 @@ dl {
 }
 
 .img-thumbnail {
-	padding: .30rem;
+	padding: 0.3rem;
 	border: 1px solid var(--c-border);
 	border-radius: 5px;
 }
@@ -453,11 +451,10 @@ table {
 	&-hover,
 	&-active-light,
 	&-active-dark {
-
-		>tbody>tr>td,
-		>tbody>tr>th,
-		>thead>tr>th,
-		>thead>tr>td {
+		> tbody > tr > td,
+		> tbody > tr > th,
+		> thead > tr > th,
+		> thead > tr > td {
 			border: 1px solid var(--c-border);
 		}
 	}
@@ -553,7 +550,6 @@ table {
 }
 
 .table-sm {
-
 	th,
 	td {
 		padding: 0.3rem;
@@ -621,7 +617,7 @@ table {
 	transition: background-color 0.3s ease;
 	overflow: hidden;
 
-	a {		
+	a {
 		&:last-child {
 			border-bottom: none;
 		}
@@ -630,15 +626,15 @@ table {
 	.list-group {
 		display: flex;
 		align-items: center;
-		&__socials{
+		&__socials {
 			padding: 12px;
 			display: flex;
 			align-items: center;
 			border-top: 1px solid var(--c-border);
-			a{
+			a {
 				margin-right: 20px;
-				transition: all .3s;
-				&:hover{
+				transition: all 0.3s;
+				&:hover {
 					transform: scale(0.8);
 				}
 			}
@@ -705,26 +701,25 @@ table {
 	}
 }
 
-
-.pricing{
-	&__main-title{
+.pricing {
+	&__main-title {
 		font-size: 35px;
-		color: #D1D1D1;
+		color: #d1d1d1;
 		font-weight: 600;
 		text-transform: uppercase;
 		padding-bottom: 10px;
-		transition: all .3s;
+		transition: all 0.3s;
 		text-align: center;
 	}
-	&__description{
-		color: #B8B8B8;
+	&__description {
+		color: #b8b8b8;
 		font-size: 16px;
 	}
-	&-date{
+	&-date {
 		display: flex;
 		margin-bottom: 50px;
 		justify-content: center;
-		&__text{
+		&__text {
 			max-width: 255px;
 			width: 100%;
 			height: 55px;
@@ -733,125 +728,125 @@ table {
 			align-items: center;
 			justify-content: center;
 			background: #fff;
-    		border-radius: 120px 0 0 120px;
+			border-radius: 120px 0 0 120px;
 			color: #1c1c1c;
 			font-size: 20px;
-			&--right{
+			&--right {
 				border-radius: 0 120px 120px 0;
 				background: #34393e;
-				color: #F8EC20;
-				span{
+				color: #f8ec20;
+				span {
 					color: #fff;
 				}
 			}
 		}
 	}
-	&-list{
+	&-list {
 		display: flex;
 		flex-flow: row wrap;
 		margin-bottom: 20px;
 	}
-	&__wrap{
+	&__wrap {
 		flex: 0 0 33.333%;
 		max-width: 33.333%;
 		display: flex;
 		padding: 0 30px;
 		margin-bottom: 30px;
-		&--center{
+		&--center {
 			transform: scale(1.05);
-			.pricing__title{
+			.pricing__title {
 				color: #f5e920;
 			}
-			.pricing-accent__icon{
-				svg{
-					path{
-						&:first-child{
-							fill:#F8EC20;
+			.pricing-accent__icon {
+				svg {
+					path {
+						&:first-child {
+							fill: #f8ec20;
 						}
 					}
 				}
 			}
-			.pricing__item{
+			.pricing__item {
 				border: 1px solid #f5e920;
 			}
 		}
 	}
-	&__item{
+	&__item {
 		border: 1px solid #fff;
 		padding: 20px;
 		border-radius: 32px;
 		display: flex;
 		flex-flow: column wrap;
-		transition: all .3s;
+		transition: all 0.3s;
 		cursor: pointer;
 		background: #1312125c;
-		&:hover{
+		&:hover {
 			border: 1px solid #f5e920;
-			.pricing__title{
+			.pricing__title {
 				color: #f5e920;
 			}
-			.pricing-accent__icon{
-				svg{
-					path{
-						&:first-child{
-							fill:#F8EC20;
+			.pricing-accent__icon {
+				svg {
+					path {
+						&:first-child {
+							fill: #f8ec20;
 						}
 					}
 				}
 			}
 		}
 	}
-	&__title{
+	&__title {
 		font-size: 30px;
 		font-weight: 600;
 		padding-bottom: 10px;
 	}
-	&__top{
+	&__top {
 		margin-top: auto;
 	}
-	&-accent{
+	&-accent {
 		padding: 20px 0;
-		li{
+		li {
 			display: flex;
 			align-items: center;
 			margin-bottom: 10px;
-			&:last-child{
+			&:last-child {
 				margin-bottom: 0;
 			}
 		}
-		&__icon{
+		&__icon {
 			margin-right: 10px;
 			display: flex;
-			svg{
-				transition: all .3s;
-				path{
-					transition: all .3s;
+			svg {
+				transition: all 0.3s;
+				path {
+					transition: all 0.3s;
 				}
 			}
 		}
 	}
-	&__price{
+	&__price {
 		font-size: 40px;
 		text-align: center;
 		margin-bottom: 20px;
-		span{
+		span {
 			font-size: 18px;
 			color: #e3d9d9;
 		}
 	}
-	&__btn{
-		.btn-p{
+	&__btn {
+		.btn-p {
 			max-width: 100%;
 			height: 50px;
-			background: #F5E920;
+			background: #f5e920;
 			color: #000;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			font-size: 22px;
 			border-radius: 120px;
-			transition: all .3s;
-			&:hover{
+			transition: all 0.3s;
+			&:hover {
 				background: #d2ca44;
 			}
 		}
@@ -859,29 +854,29 @@ table {
 }
 
 //conference
-.conference{
-	&-join{
+.conference {
+	&-join {
 		background: #f8ec20;
 		border-radius: 120px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 0 35px;
-		&__text{
+		&__text {
 			color: #1c1b1b;
 			font-size: 20px;
 			font-weight: 600;
 		}
-		&__input{
+		&__input {
 			position: relative;
-			input{
+			input {
 				width: 100%;
 				background: #1c1b1b;
 				border-radius: 120px;
 				padding: 15px 30px;
 			}
 		}
-		&__btn{
+		&__btn {
 			position: absolute;
 			top: 50%;
 			transform: translateY(-50%);
@@ -893,77 +888,77 @@ table {
 			justify-content: center;
 			align-items: center;
 			border-radius: 120px;
-			svg{
+			svg {
 				width: 26px;
 				height: 26px;
 			}
 		}
 	}
-	&-about{
+	&-about {
 		display: flex;
 		align-items: center;
 		padding: 100px 0;
-		&-text{
+		&-text {
 			flex: 1 0;
 			padding-right: 40px;
-			&__title{
+			&__title {
 				font-size: 38px;
 				font-weight: 700;
 				padding-bottom: 30px;
 				line-height: 1.2;
 			}
-			&__description{
+			&__description {
 				color: #ffffffcc;
 			}
 		}
-		&-img{
+		&-img {
 			flex: 0 0 500px;
-			img{
+			img {
 				width: 100%;
 			}
 		}
 	}
-	&-triggers{
-		&__title{
+	&-triggers {
+		&__title {
 			text-align: center;
 			font-size: 32px;
 			font-weight: 700;
 		}
-		&-list{
+		&-list {
 			display: flex;
 			flex-flow: row wrap;
 			padding-top: 30px;
 		}
-		&__wrap{
+		&__wrap {
 			flex: 0 0 33.333%;
 			max-width: 33.333%;
 			padding: 0 30px;
 			margin-bottom: 40px;
 		}
-		&__item{
+		&__item {
 			display: flex;
 			flex-flow: column wrap;
 			align-items: center;
 			justify-self: center;
 		}
-		&__text{
+		&__text {
 			padding-top: 20px;
 			font-size: 20px;
 			font-weight: 600;
 			text-align: center;
 		}
-		&__img{
-			img{
+		&__img {
+			img {
 				width: 96px;
 				height: 96px;
 			}
 		}
 	}
-	&-why{
+	&-why {
 		padding: 70px 0 100px 0;
 		display: flex;
 		flex-flow: row wrap;
-		&__title{
+		&__title {
 			text-align: center;
 			font-size: 32px;
 			font-weight: 700;
@@ -971,53 +966,53 @@ table {
 			padding-bottom: 40px;
 		}
 
-		&-text{
+		&-text {
 			flex: 1 0;
 			padding-right: 45px;
-			&-list{
-				li{
+			&-list {
+				li {
 					display: flex;
 					flex-flow: row wrap;
 					margin-bottom: 15px;
 				}
-				&__img{
+				&__img {
 					flex: 0 0 28px;
 				}
-				&__text{
+				&__text {
 					flex: 1 0;
 					padding-left: 15px;
-					&-title{
+					&-title {
 						line-height: 1;
 						font-size: 18px;
 						font-weight: 600;
 						padding-bottom: 5px;
 					}
-					&-description{
+					&-description {
 						color: #e3e3e3;
 					}
 				}
 			}
 		}
-		&-img{
+		&-img {
 			flex: 0 0 500px;
 		}
 	}
 }
 
 //What You Get ?
-.what-get{
-	&__title{
+.what-get {
+	&__title {
 		text-align: center;
 		font-size: 32px;
 		font-weight: 700;
 		flex: 0 0 100%;
 		padding-bottom: 40px;
 	}
-	&-list{
+	&-list {
 		display: flex;
 		flex-flow: row wrap;
 	}
-	&-img{
+	&-img {
 		width: 40px;
 		height: 40px;
 		border-radius: 120px;
@@ -1030,22 +1025,22 @@ table {
 		font-weight: 600;
 		margin-bottom: 20px;
 	}
-	&__wrap{
+	&__wrap {
 		flex: 0 0 50%;
 		max-width: 50%;
 		padding: 0 30px;
 		margin-bottom: 40px;
 		display: flex;
 	}
-	&__item{
+	&__item {
 		//background: linear-gradient(129deg, #12111147 0%, rgba(37, 37, 46, 0.06) 100%);
 		background: #2c3035;
 		padding: 20px;
 		border: 1px solid #f8ec202e;
 		border-radius: 15px;
 	}
-	&-text{
-		&__title{
+	&-text {
+		&__title {
 			font-weight: 800;
 			font-size: 22px;
 			margin: 10px 0;
@@ -1055,51 +1050,50 @@ table {
 
 //What You Get ?
 
-.contacts{
+.contacts {
 	margin: 75px 0;
-	&__title{
+	&__title {
 		text-align: center;
 		font-size: 32px;
 		font-weight: 700;
 		flex: 0 0 100%;
 		padding-bottom: 40px;
 	}
-	&-wrap{
+	&-wrap {
 		display: flex;
 		flex-flow: row wrap;
 	}
-	&-img{
+	&-img {
 		flex: 0 0 500px;
 	}
-	&-form{
+	&-form {
 		flex: 1 0;
 		padding-left: 40px;
-		label{
-			span{
+		label {
+			span {
 				display: block;
 				margin-bottom: 10px;
 			}
 		}
 	}
-	&-name{
+	&-name {
 		display: flex;
-		&__input{
+		&__input {
 			margin-bottom: 25px;
-			&:first-child{
+			&:first-child {
 				margin-right: 10px;
 			}
 		}
 	}
-	&-email{
+	&-email {
 		margin-bottom: 30px;
 	}
-	&-subject{
+	&-subject {
 		margin-bottom: 30px;
 	}
-	&-message{
+	&-message {
 		margin-bottom: 30px;
 	}
-	
 }
 
 @media screen and (max-width: 1199px) {
@@ -1135,7 +1129,7 @@ table {
 	.conference-triggers__title {
 		font-size: 26px;
 	}
-	.conference-triggers__text{
+	.conference-triggers__text {
 		font-size: 18px;
 	}
 	.conference-triggers__img img {
@@ -1175,19 +1169,22 @@ table {
 	.contacts-img {
 		flex: 0 0 300px;
 	}
-	.contacts-form{
-		form{
-			label{
-				input{
+	.contacts-form {
+		form {
+			label {
+				input {
 					height: 50px;
 				}
-				textarea{
+				textarea {
 					height: 96px;
 				}
 			}
 		}
 	}
-	.contacts-name__inputm, .contacts-email, .contacts-subject, .contacts-message{
+	.contacts-name__inputm,
+	.contacts-email,
+	.contacts-subject,
+	.contacts-message {
 		margin-bottom: 15px;
 	}
 }
@@ -1196,25 +1193,25 @@ table {
 		flex-flow: row wrap;
 	}
 	.conference-about-img {
-        margin-top: 35px;
-    }
+		margin-top: 35px;
+	}
 	.conference-triggers__title {
-        font-size: 22px;
-    }
+		font-size: 22px;
+	}
 	.conference-triggers__wrap {
 		flex: 0 0 50%;
 		max-width: 50%;
 	}
 	.conference-why-img {
-        flex: 0 0 380px;
-        margin-top: 35px;
-    }
+		flex: 0 0 380px;
+		margin-top: 35px;
+	}
 	.what-get__wrap {
-        padding: 0 10px;
-    }
+		padding: 0 10px;
+	}
 	.contacts {
-        margin: 15px 0 30px 0;
-    }
+		margin: 15px 0 30px 0;
+	}
 	.contacts-form {
 		margin-top: 30px;
 		padding: 0;
@@ -1224,46 +1221,47 @@ table {
 		padding: 50px 0;
 	}
 	.conference-join {
-        padding: 0 20px;
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: center;
-        padding: 15px;
-        border-radius: 20px;
-    }
+		padding: 0 20px;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		padding: 15px;
+		border-radius: 20px;
+	}
 	.conference-join__text {
 		padding-bottom: 10px;
 	}
 }
 @media screen and (max-width: 767px) {
 	.pricing__wrap {
-        flex: 0 0 100%;
-        max-width: 500px;
-    }
+		flex: 0 0 100%;
+		max-width: 500px;
+	}
 	.pricing__main-title {
 		font-size: 28px;
 	}
 	.pricing-date__text {
-        font-size: 15px;
-    }
+		font-size: 15px;
+	}
 	.pricing__main-title {
 		padding-bottom: 30px;
 	}
 	.pricing-date__text {
-        max-width: 190px;
-    }
+		max-width: 190px;
+	}
 }
 @media screen and (max-width: 479px) {
 	.pricing-date {
 		margin-bottom: 30px;
 	}
 	.pricing__main-title {
-        font-size: 22px;
-    }
-	.conference-about-img, .conference-why-img {
-        flex: 0 0 100%;
-        max-width: 400px;
-    }
+		font-size: 22px;
+	}
+	.conference-about-img,
+	.conference-why-img {
+		flex: 0 0 100%;
+		max-width: 400px;
+	}
 	.what-get__wrap {
 		flex: 0 0 100%;
 		max-width: 100%;
@@ -1274,7 +1272,7 @@ table {
 		font-size: 22px;
 	}
 	.contacts-img {
-        flex: 0 0 100%;
-        max-width: 270px;
-    }
+		flex: 0 0 100%;
+		max-width: 270px;
+	}
 }

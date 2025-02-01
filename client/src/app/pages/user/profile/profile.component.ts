@@ -12,10 +12,10 @@ interface ChangePassword {
 }
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss'],
-    standalone: false
+	selector: 'app-profile',
+	templateUrl: './profile.component.html',
+	styleUrls: ['./profile.component.scss'],
+	standalone: false
 })
 export class ProfileComponent {
 	readonly url = environment.url;

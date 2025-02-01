@@ -3,7 +3,7 @@
 :root {
 	--fs: 16px; /* Font size */
 	--icon-size: 16px; /* Size for icons. */
-	--ff-base: 'Helvetica, Arial, sans-serif'; /* Base font family */
+	--ff-base: "Helvetica, Arial, sans-serif"; /* Base font family */
 	--b-radius: 4px; /* Border radius */
 	--transition: 0.3s ease-in-out; /* Transition property */
 	--letter-spacing: 0.5px; /* Letter spacing */
@@ -15,19 +15,19 @@
 	--c-text-primary: #fff; /* Primary text color */
 	--c-secondary: #24373d; /* Secondary color changed by NBer */
 	--c-text-secondary: #000; /* Secondary text color */
-	--c-primary-hover: #F8EC20; /* Primary color for hover state */
+	--c-primary-hover: #f8ec20; /* Primary color for hover state */
 	--c-primary-cursor: #cfc720;
 	--c-error: #ff4d4d; /* Error color */
 	--c-primary-border: #0028ffcc; /* Color table borders */
 	--c-secondary-border: #a0a0a0; /* Color table borders */
 	--c-success-border: #00ff00; /* Color table borders */
-	--c-danger-border: #ff0000;  /* Color table borders */
+	--c-danger-border: #ff0000; /* Color table borders */
 	--c-warning-border: #ffff00; /* Color table borders */
 	--c-info-border: #00ffff; /* Color table borders */
 	--c-success: #2bb729;
 	--c-error-hover: #cc0000; /* Error color for hover state */
 	--c-shadow: rgba(0, 0, 0, 0.5); /* Shadow color */
-	--c-table-shadow: rgba(0, 0, 0, 0.15);  /* Shadow table color */
+	--c-table-shadow: rgba(0, 0, 0, 0.15); /* Shadow table color */
 	--c-placeholder: #666666; /* Placeholder text color */
 	--c-bg-item: #1c1c1c; /* background item color */
 	--c-text-body-secondary: #6c757d; /* text example color */
@@ -42,15 +42,19 @@
 	--c-light-table: #f8f9fa; /* Color table */
 	--c-table-striped: #2c3034; /* Color table */
 	--c-border: #495057; /* Color border */
-	--c-orange: #FFA500; /* Color border */
-	--c-question: #4DA6FF;
-	--c-loading: #A0A0A0;
+	--c-orange: #ffa500; /* Color border */
+	--c-question: #4da6ff;
+	--c-loading: #a0a0a0;
 }
 
 $primary_color: var(--primary_color);
 
 $default-body_color: #242b36;
-$body_color: if(meta.variable-exists(--body_color), var(--body_color), $default-body_color);
+$body_color: if(
+	meta.variable-exists(--body_color),
+	var(--body_color),
+	$default-body_color
+);
 
 $default-dark: black;
 $dark: if(meta.variable-exists(--dark), var(--dark), $default-dark);
@@ -59,22 +63,38 @@ $default-white: white;
 $white: if(meta.variable-exists(--white), var(--white), $default-white);
 
 $default-blue-gray: #425155;
-$blue-gray: if(meta.variable-exists(--blue-gray), var(--blue-gray), $default-blue-gray);
+$blue-gray: if(
+	meta.variable-exists(--blue-gray),
+	var(--blue-gray),
+	$default-blue-gray
+);
 
 $default-blue-gray-darken: #262d2e;
-$blue-gray-darken: if(meta.variable-exists(--blue-gray-darken), var(--blue-gray-darken), $default-blue-gray-darken);
+$blue-gray-darken: if(
+	meta.variable-exists(--blue-gray-darken),
+	var(--blue-gray-darken),
+	$default-blue-gray-darken
+);
 
 $default-yellow: #e0dc10;
 $yellow: if(meta.variable-exists(--yellow), var(--yellow), $default-yellow);
 
 $default-yellow-darken: #8b890d;
-$yellow-darken: if(meta.variable-exists(--yellow-darken), var(--yellow-darken), $default-yellow-darken);
+$yellow-darken: if(
+	meta.variable-exists(--yellow-darken),
+	var(--yellow-darken),
+	$default-yellow-darken
+);
 
 $default-green: #3bc212;
 $green: if(meta.variable-exists(--green), var(--green), $default-green);
 
 $default-green-darken: #0a5803;
-$green-darken: if(meta.variable-exists(--green-darken), var(--green-darken), $default-green-darken);
+$green-darken: if(
+	meta.variable-exists(--green-darken),
+	var(--green-darken),
+	$default-green-darken
+);
 //PADDING
 $default-padding: 1;
 $padding: if(meta.variable-exists(--padding), var(--padding), $default-padding);
@@ -93,47 +113,44 @@ $m4: 20px * $margin;
 $m5: 50px * $margin;
 //FONT-SIZE
 $default-font-size: 1;
-$font-size: if(meta.variable-exists(--font-size), var(--font-size), $default-font-size);
+$font-size: if(
+	meta.variable-exists(--font-size),
+	var(--font-size),
+	$default-font-size
+);
 $fs1: 14px;
 $fs2: 16px;
 $fs3: 20px;
 $fs4: 24px;
 //LINE-HEIGHT
 $default-line-height: 1;
-$line-height: if(meta.variable-exists(--line-height), var(--line-height), $default-line-height);
+$line-height: if(
+	meta.variable-exists(--line-height),
+	var(--line-height),
+	$default-line-height
+);
 $lh1: 0;
 $lh2: 1.2 * $line-height;
 $lh3: 1.3 * $line-height;
 $lh4: 1.4 * $line-height;
 $lh5: 1.5 * $line-height;
 
-
-
-
-
-
-
-
 /* font family */
-$ff-base: "Roboto",
-sans-serif;
-$ff-title: "Lato",
-sans-serif;
-$ff-second: 'Roboto',
-sans-serif;
+$ff-base: "Roboto", sans-serif;
+$ff-title: "Lato", sans-serif;
+$ff-second: "Roboto", sans-serif;
 
 /* font-size */
 $fs: 16px;
 
-
 // ===== COLORS =====
-$blue: #334D6E;
-$sky: #3498DB;
-$skyL: #58ACF5;
-$grey: #BDBDBD;
-$greyL: #F2F2F2;
-$red: #A31010;
-$redD: #8C1B0F;
+$blue: #334d6e;
+$sky: #3498db;
+$skyL: #58acf5;
+$grey: #bdbdbd;
+$greyL: #f2f2f2;
+$red: #a31010;
+$redD: #8c1b0f;
 $green: #089227;
 $white: #fff;
 $black: #000;
