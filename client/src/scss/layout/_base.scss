@@ -263,14 +263,14 @@ wform {
 
 .burger::before,
 .burger::after {
-	content: '';
-	width: 100%;
-	height: 4px;
-	display: block;
-	background-color: var(--c-text-primary);
-	transition: all 0.3s;
-	position: absolute;
-	left: 0;
+	content: "";
+    width: 80%;
+    height: 4px;
+    display: block;
+    background-color: var(--c-text-primary);
+    transition: all 0.3s;
+    position: absolute;
+    right: 0;
 }
 
 .burger::before {
@@ -340,6 +340,7 @@ wform {
 		position: fixed;
 		top: 80px;
 		&__close{
+			display: none;
 			width: 32px;
 			height: 32px;
 			position: absolute;
@@ -507,6 +508,7 @@ wform {
         position: fixed;
         width: 100%;
         top: 0;
+		left: 0;
         padding: 10px;
 		background: var(--header-doc);
 		&__title{
@@ -547,7 +549,9 @@ wform {
 		transform: translate(-50%, -50%);
 		top: 50%;
 	}
-
+	.documents-sidebar__close{
+		display: block;
+	}
 	.burger--close {
 		max-width: 0;
 		overflow: hidden;
