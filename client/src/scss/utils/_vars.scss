@@ -136,6 +136,7 @@ $transition: if(
 	--transition: all 0.3s;
 	--events: #4c8e9d;
 	--border: rgba(102, 91, 91, 0.432);
+	--header-doc:#d8d8d8;
 }
 
 html.dark:root {
@@ -153,4 +154,5 @@ html.dark:root {
 	--day-name: #dad5d5;
 	--events: #1c2e32;
 	--border: rgb(255 255 255 / 23%);
+	--header-doc:#1b1b1be3;
 }

@@ -255,7 +255,7 @@ wform {
 	position: relative;
 }
 .burger {
-	height: 5px;
+	height: 4px;
 	width: 100%;
 	background-color: var(--c-text-primary);
 	transition: all 0.3s;
@@ -265,7 +265,7 @@ wform {
 .burger::after {
 	content: '';
 	width: 100%;
-	height: 5px;
+	height: 4px;
 	display: block;
 	background-color: var(--c-text-primary);
 	transition: all 0.3s;
@@ -274,11 +274,11 @@ wform {
 }
 
 .burger::before {
-	top: 0;
+	top: 2px;
 }
 
 .burger:after {
-	bottom: 0;
+	bottom: 1px;
 }
 
 /* burger */
@@ -311,6 +311,9 @@ wform {
 		margin: 0 auto;
 		height: 100%;
 	}
+	&-header{
+		display: none;
+	}
 	&-list {
 		display: flex;
 		flex-flow: row wrap;
@@ -336,6 +339,16 @@ wform {
 		border-radius: 12px;
 		position: fixed;
 		top: 80px;
+		&__close{
+			width: 32px;
+			height: 32px;
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			svg{
+				fill:var(--c-text-primary);
+			}
+		}
 		&-content {
 			padding: 15px;
 			height: 100%;
@@ -476,7 +489,7 @@ wform {
 		position: fixed;
 		top: 0;
 		left: 0;
-		margin: 15px;
+		margin: 5px;
 		transition: all 0.3s;
 		overflow: hidden;
 		&--open {
@@ -487,16 +500,52 @@ wform {
 		padding: 15px 30px 15px 15px;
 	}
 	.documents-main {
-		padding-left: 0;
+		padding: 20px 0 0 ;
+	}
+	.documents-header{
+        display: flex;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        padding: 10px;
+		background: var(--header-doc);
+		&__title{
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			top: 50%;
+			font-weight: 600;
+			color: var(--c-text-primary);
+		}
+	}
+	.documents-header-left{
+		display: flex;
+		align-items: center;
+		&__arrow{
+			display: flex;
+			svg{
+				fill: var(--c-text-primary);
+				width: 32px;
+				height: 32px;
+			}
+		}
+		&__avatar{
+			margin-left: 20px;
+			img{
+				width: 32px;
+				height: 32px;
+				object-fit: cover;
+			}
+		}
 	}
 	.burger-wrap {
 		display: flex;
 		align-items: center;
-		position: fixed;
+		position: absolute;
 		z-index: 3;
 		right: 3px;
-		transform: translateX(-50%);
-		top: 8px;
+		transform: translate(-50%, -50%);
+		top: 50%;
 	}
 
 	.burger--close {
