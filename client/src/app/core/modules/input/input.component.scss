@@ -152,9 +152,6 @@ textarea.error {
 
 	/* Custom checkbox styling */
 	.checkmark {
-		position: absolute;
-		top: 0;
-		left: 0;
 		height: 32px;
 		width: 32px;
 		background-color: #12677a6e;
@@ -190,4 +187,8 @@ textarea.error {
 			display: block;
 		}
 	}
+}
+.check-text{
+    margin-left: 10px;
+    line-height: 0;
 }
