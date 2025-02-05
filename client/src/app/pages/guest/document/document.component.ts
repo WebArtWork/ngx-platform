@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({
 	templateUrl: './document.component.html',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class DocumentComponent {
 	isMenuOpen = false;
+
+	constructor(public userService: UserService) {}
+
+	back(): void {
+		window.history.back();
+	}
 }

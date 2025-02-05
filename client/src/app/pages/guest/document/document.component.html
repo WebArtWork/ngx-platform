@@ -3,32 +3,35 @@
 		<div class="documents-list">
 			<div class="documents-header">
 				<div class="documents-header-left">
-					<div class="documents-header-left__arrow">
+					<div class="documents-header-left__arrow" (click)="back()">
 						<span class="material-icons">arrow_back_ios</span>
 					</div>
-					<div class="documents-header-left__avatar">
-						<img src="assets/default.png" alt="" />
+					<div
+						class="documents-header-left__avatar"
+						routerLink="/profile"
+					>
+						<img [src]="userService.thumb" alt="" />
 					</div>
 				</div>
 				<div class="documents-header__title">Title header</div>
 				<div
-					class="burger-wrap"
-					class="burger-wrap"
 					(click)="isMenuOpen = !isMenuOpen"
+					class="burger-wrap"
+					class="burger-wrap"
 				>
 					<div
-						class="burger"
 						[class.burger--close]="isMenuOpen"
+						class="burger"
 					></div>
 				</div>
 			</div>
 			<div
-				class="documents-sidebar"
 				[class.documents-sidebar--open]="isMenuOpen"
+				class="documents-sidebar"
 			>
 				<div
-					class="documents-sidebar__close"
 					(click)="isMenuOpen = !isMenuOpen"
+					class="documents-sidebar__close"
 				>
 					<span class="material-icons">close</span>
 				</div>
