@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import {
 	AlertService,
 	CoreService,
@@ -35,6 +36,8 @@ export interface Customform extends CrudDocument {
 	providedIn: 'root'
 })
 export class CustomformService extends CrudService<Customform> {
+	readonly appId = (environment as unknown as { appId: string }).appId;
+
 	customforms: Customform[] = [];
 
 	constructor(
@@ -53,7 +56,9 @@ export class CustomformService extends CrudService<Customform> {
 			_core
 		);
 
-		this.get().subscribe((customforms: Customform[]) =>
+		this.get({
+			query: this.appId ? 'appId=' + this.appId : ''
+		}).subscribe((customforms: Customform[]) =>
 			this.customforms.push(...customforms)
 		);
 
