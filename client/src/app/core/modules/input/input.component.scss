@@ -116,8 +116,8 @@ textarea.error {
 	/* Custom radio button checkbox styling */
 	.mark{
 		position: relative;
-		width: 33px;
-		height: 33px;
+		width: 26px;
+		height: 26px;
 		display: inline-block;
 		border-radius: 4px;
 		background-color: var(--c-primary);
@@ -146,8 +146,8 @@ textarea.error {
 				transform: translate(-50%, -50%) rotate(45deg);
 				border-bottom: unset;
     			border-right: unset;
-				width: 14px;
-				height: 14px;
+				width: 12px;
+				height: 12px;
 				border-radius: 120px;
 				background: #ffff;
 			}
@@ -236,6 +236,6 @@ textarea.error {
 	}
 }
 .check-text{
-    margin-left: 10px;
+    margin-left: 0;
     line-height: 0;
 }

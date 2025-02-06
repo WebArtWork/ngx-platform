@@ -92,7 +92,7 @@
 		</label>
 	</ng-container>
 	<ng-container *ngIf="!items?.length">
-		<label class="container-box">
+		<label class="check-label">
 			<span class="check-text form-label" *ngIf="label">{{ label }}</span>
 			<input
 				(ngModelChange)="value = $event; onChange()"
