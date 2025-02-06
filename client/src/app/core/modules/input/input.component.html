@@ -54,10 +54,12 @@
 <ng-container *ngIf="type === 'radio'">
 	<label class="check-label" *ngFor="let item of items">
 		<span class="form-label">{{ item }}</span>
+
 		<input
 			(ngModelChange)="value = $event; onChange()"
 			[disabled]="disabled"
 			[class.error]="error"
+			class="w-input__checkbox"
 			[ngModel]="value"
 			[ngClass]="wClass"
 			[value]="item"
@@ -65,7 +67,7 @@
 			type="radio"
 			#inputEl
 		/>
-		<span class="checkbox _radio"></span>
+		<span class="mark mark--radio"></span>
 		<ng-content></ng-content>
 	</label>
 </ng-container>
@@ -86,11 +88,12 @@
 				[name]="name+i"
 				#inputEl
 			/>
-			<span class="checkbox _radio"></span>
+			<span class="mark"></span>
 		</label>
 	</ng-container>
 	<ng-container *ngIf="!items?.length">
 		<label class="container-box">
+			<span class="check-text form-label" *ngIf="label">{{ label }}</span>
 			<input
 				(ngModelChange)="value = $event; onChange()"
 				class="w-input__checkbox"
@@ -102,8 +105,8 @@
 				[name]="name"
 				#inputEl
 			/>
-			<span class="checkmark"></span>
-			<span class="check-text" *ngIf="label">{{ label }}</span>
+			<span class="mark"></span>
+
 		</label>
 	</ng-container>
 </ng-container>
