@@ -5,20 +5,28 @@
 	[for]="name"
 >
 	<span class="w-forms__title" *ngIf="label">{{ label }}</span>
-	<input
-		[placeholder]="placeholder || 'Enter text...'"
-		(ngModelChange)="value = $event; onChange()"
-		(keyup.enter)="onSubmit()"
-		[type]="type || 'text'"
-		class="w-forms__input"
-		(blur)="wBlur.emit()"
-		[class.error]="error"
-		[disabled]="disabled"
-		[ngModel]="value"
-		[ngClass]="wClass"
-		[name]="name"
-		#inputEl
-	/>
+	<div style="position: relative">
+		<input
+			[placeholder]="placeholder || 'Enter text...'"
+			(ngModelChange)="value = $event; onChange(); error = false"
+			(keyup.enter)="onSubmit()"
+			[type]="type || 'text'"
+			class="w-forms__input"
+			(blur)="wBlur.emit()"
+			[class.error]="error"
+			[disabled]="disabled"
+			[ngModel]="value"
+			[ngClass]="wClass"
+			[name]="name"
+			#inputEl
+		/>
+		<i
+			style="position: absolute; right: 7px; bottom: 8px"
+			(click)="value = null; onSubmit(); focus()"
+			class="material-icons"
+			>close</i
+		>
+	</div>
 	<!-- Error Message Display -->
 	<div *ngIf="error" class="error-message">
 		{{ label || placeholder }} is invalid.
@@ -67,6 +75,7 @@
 			type="radio"
 			#inputEl
 		/>
+
 		<span class="mark mark--radio"></span>
 		<ng-content></ng-content>
 	</label>
@@ -106,7 +115,6 @@
 				#inputEl
 			/>
 			<span class="mark"></span>
-
 		</label>
 	</ng-container>
 </ng-container>

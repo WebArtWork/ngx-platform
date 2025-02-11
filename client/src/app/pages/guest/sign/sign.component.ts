@@ -97,7 +97,7 @@ export class SignComponent {
 	};
 
 	constructor(
-		public us: UserService,
+		public userService: UserService,
 		public ui: UiService,
 		private _alert: AlertService,
 		private _http: HttpService,
@@ -187,9 +187,9 @@ export class SignComponent {
 
 			localStorage.setItem('waw_user', JSON.stringify(user));
 
-			this.us.setUser(user);
+			this.userService.setUser(user);
 
-			this.us.get();
+			this.userService.get();
 
 			this._router.navigateByUrl('/profile');
 		} else {
