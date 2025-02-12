@@ -1,9 +1,11 @@
 <div class="auth-wrapper">
 	<div class="auth__wrap">
-		<div class="auth__img">
-			<icon-spider
-				(click)="userService.setMode(userService.mode ? '' : 'dark')"
-			></icon-spider>
+		<div
+			(click)="userService.setMode(userService.mode ? '' : 'dark')"
+			class="auth__img"
+		>
+			<img [src]="logo" alt="Logo" *ngIf="logo" />
+			<icon-spider *ngIf="!logo"></icon-spider>
 		</div>
 		<div class="auth__form">
 			<div class="auth">
