@@ -158,9 +158,10 @@ const routes: Routes = [
 				useTitleSuffix: true,
 				defaults: {
 					title: environment.meta.title,
+					favicon: environment.meta.favicon,
 					description: environment.meta.description,
 					titleSuffix: ' | ' + environment.meta.title,
-					'og:image': environment.meta.icon
+					'og:image': environment.meta.image
 				}
 			},
 			modal: {

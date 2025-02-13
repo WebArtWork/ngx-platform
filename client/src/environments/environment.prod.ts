@@ -3,11 +3,20 @@ export const environment = {
 	production: true,
 	appId: 'test',
 	url: '',
+	sign: {
+		logo: '',
+		email: '',
+		password: ''
+	},
+	image: {
+		default: 'https://ngx.webart.work/assets/logo.png',
+		logo: 'https://ngx.webart.work/assets/logo.png'
+	},
 	meta: {
 		title: 'Web Art Work',
 		description:
 			'An amazing solution to build web or mobile app for your business',
-		icon: 'https://ngx.webart.work/assets/logo.png',
-		logo: ''
+		favicon: 'https://ngx.webart.work/assets/favicon.ico',
+		image: 'https://ngx.webart.work/assets/logo.png'
 	}
 };

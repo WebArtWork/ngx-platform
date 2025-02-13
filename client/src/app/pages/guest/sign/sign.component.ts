@@ -19,7 +19,7 @@ interface RespStatus {
 	standalone: false
 })
 export class SignComponent {
-	readonly logo = environment.meta.logo;
+	readonly logo = environment.sign.logo;
 
 	form: FormInterface = this._form.getForm('sign', {
 		formId: 'sign',
@@ -94,8 +94,8 @@ export class SignComponent {
 	});
 
 	user = {
-		email: 'ceo@webart.work',
-		password: 'asdasdasdasd',
+		email: environment.sign.email,
+		password: environment.sign.password,
 		resetPin: null
 	};
 

@@ -5,6 +5,11 @@ import { environment as environmentProd } from './environment.prod';
 
 export const environment = {
 	...environmentProd,
+	sign: {
+		logo: '',
+		email: 'ceo@webart.work',
+		password: 'asdasdasdasd'
+	},
 	production: false
 };
 
