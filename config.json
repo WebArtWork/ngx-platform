@@ -1,11 +1,11 @@
 {
-	"name": "wawNgx",
+	"name": "platformNgx",
 	"description": "Default waw project with Angular client and Template landing",
 	"image": "https://webart.work/template/img/spider.svg",
 	"keywords": "Default Project",
 	"license": "MIT",
 	"icon": "/client/src/favicon.ico",
-	"prefix": "wawNgx",
+	"prefix": "platformNgx",
 	"port": 8080,
 	"session": true,
 	"mongo": {
@@ -26,6 +26,13 @@
 				"path": "/template",
 				"prefix": "/wjst-default",
 				"pages": "index"
+			}
+		]
+	},
+	"ngx": {
+		"apps": [
+			{
+				"path": "/client"
 			}
 		]
 	},
