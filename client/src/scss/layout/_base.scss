@@ -469,6 +469,45 @@ wform {
 			background-color: #ba593b;
 		}
 	}
+	&-products{
+		&-list{
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: center;
+		}
+		&__wrap{
+			flex: 0 0 33.333%;
+			max-width: 33.333%;
+			padding: 0 15px;
+			display: flex;
+			margin-bottom: 30px;
+		}
+		&__item{
+			display: flex;
+			flex-flow: column wrap;
+			padding: 15px;
+			background-color: var(--doc-products);
+		}
+		&__img{
+			img{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+		&__title{
+			font-weight: 600;
+			padding: 15px 0 5px 0;
+			color: var(--c-text-primary);
+		}
+		&__description{
+			color: var(--c-text-primary);
+		}
+		&__btn{
+			padding-top: 15px;
+			margin-top: auto;
+		}
+	}
 }
 
 @media screen and (max-width: 1199px) {
@@ -511,6 +550,7 @@ wform {
 		left: 0;
         padding: 10px;
 		background: var(--header-doc);
+		z-index: 8;
 		&__title{
 			position: absolute;
 			left: 50%;
@@ -525,10 +565,8 @@ wform {
 		align-items: center;
 		&__arrow{
 			display: flex;
-			svg{
-				fill: var(--c-text-primary);
-				width: 32px;
-				height: 32px;
+			span{
+				color: var(--c-text-primary);
 			}
 		}
 		&__avatar{
@@ -576,6 +614,10 @@ wform {
 	.documents-main-row {
 		padding: 10px 30px 20px 15px;
 	}
+	.documents-products__wrap{
+		flex: 0 0 50%;
+		max-width: 50%;
+	}
 }
 @media screen and (max-width: 767px) {
 	.documents-triggers__wrap {
@@ -593,9 +635,14 @@ wform {
 		flex: 0 0 100%;
 		padding: 20px 0 0 0;
 	}
+	
 }
 @media screen and (max-width: 479px) {
 	.documents-triggers__wrap {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+	.documents-products__wrap{
 		flex: 0 0 100%;
 		max-width: 100%;
 	}
