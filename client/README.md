@@ -23,8 +23,8 @@ The project includes two environment configurations:
 ```
 /src
   /app
-    /core          # Shared core modules and services
-    /modules       # Feature-specific modules
+    /core          # Shared code between pages
+    /modules       # Shared code between projects
     /pages         # Role-based pages (guest, user)
   /assets          # Static assets
   /environments    # Configuration files
