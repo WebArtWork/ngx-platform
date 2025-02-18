@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 // Core
 import { GuestComponent } from './core/theme/guest/guest.component';
 import { UserComponent } from './core/theme/user/user.component';
+import { PublicComponent } from './core/theme/public/public.component';
 import { AppComponent } from './app.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // config
 import { WacomModule, MetaGuard } from 'wacom';
 import { environment } from 'src/environments/environment';
+// guards
 import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 import { GuestGuard } from './core/guards/guest.guard';
 import { AdminsGuard } from './core/guards/admins.guard';
@@ -26,32 +28,6 @@ const routes: Routes = [
 		component: GuestComponent,
 		children: [
 			/* guest */
-			{
-				path: 'document',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Document'
-					}
-				},
-				loadChildren: () =>
-					import('./pages/guest/document/document.module').then(
-						(m) => m.DocumentModule
-					)
-			},
-			{
-				path: 'components',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Components'
-					}
-				},
-				loadChildren: () =>
-					import('./pages/guest/components/components.module').then(
-						(m) => m.ComponentsModule
-					)
-			},
 			{
 				path: 'sign',
 				canActivate: [MetaGuard],
@@ -84,6 +60,39 @@ const routes: Routes = [
 				loadChildren: () =>
 					import('./pages/user/profile/profile.module').then(
 						(m) => m.ProfileModule
+					)
+			}
+		]
+	},
+	{
+		path: '',
+		component: PublicComponent,
+		children: [
+			/* user */
+			{
+				path: 'document',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Document'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/guest/document/document.module').then(
+						(m) => m.DocumentModule
+					)
+			},
+			{
+				path: 'components',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Components'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/guest/components/components.module').then(
+						(m) => m.ComponentsModule
 					)
 			}
 		]
@@ -143,7 +152,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	declarations: [AppComponent, GuestComponent, UserComponent],
+	declarations: [
+		AppComponent,
+		GuestComponent,
+		UserComponent,
+		PublicComponent
+	],
 	imports: [
 		CoreModule,
 		BrowserModule,

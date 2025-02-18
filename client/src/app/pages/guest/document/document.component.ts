@@ -77,7 +77,7 @@ export class DocumentComponent {
 	isMenuOpen = false;
 
 	constructor(public userService: UserService,private _form: FormService) {
-		
+
 	}
 
 	back(): void {
