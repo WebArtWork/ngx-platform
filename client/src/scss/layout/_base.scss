@@ -334,6 +334,7 @@ wform {
 	&-sidebar {
 		flex: 0 0 280px;
 		max-width: 280px;
+		width: 100%;
 		background: var(--c-bg-secondary);
 		height: calc(100vh - 100px);
 		border-radius: 12px;
