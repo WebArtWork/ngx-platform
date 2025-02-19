@@ -18,5 +18,6 @@ export const environment = {
 			'An amazing solution to build web or mobile app for your business',
 		favicon: 'https://ngx.webart.work/assets/favicon.ico',
 		image: 'https://ngx.webart.work/assets/logo.png'
-	}
+	},
+	defaultLanguageCode: 'en'
 };
