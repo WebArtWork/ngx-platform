@@ -178,7 +178,7 @@ module.exports = function (waw) {
 		Array.isArray(waw.config.wjst.templates) &&
 		waw.config.wjst.templates.length
 	) {
-		for (const template of waw.config.ngx.templates) {
+		for (const template of waw.config.wjst.templates) {
 			const templatePath = path.join(process.cwd(), template.path);
 
 			waw.api({
