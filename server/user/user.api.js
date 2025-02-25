@@ -161,26 +161,47 @@ module.exports = function (waw) {
 		);
 	};
 
-	waw.api({
-		app: path.join(process.cwd(), "client", "dist", "app", "browser"),
-	});
-	const templatePath = path.join(process.cwd(), "template");
-	waw.api({
-		template: {
-			path: templatePath,
-			prefix: "/wjst-default",
-			pages: "index",
-		},
-		page: {
-			"/": (req, res) => {
-				res.send(
-					waw.render(path.join(templatePath, "dist", "index.html"), {
-						base: "/wjst-default/",
-					})
-				);
-			},
-		},
-	});
+	if (
+		waw.config.ngx &&
+		Array.isArray(waw.config.ngx.apps) &&
+		waw.config.ngx.apps.length
+	) {
+		for (const app of waw.config.ngx.apps) {
+			waw.api({
+				app: path.join(process.cwd(), app.dist),
+			});
+		}
+	}
+
+	if (
+		waw.config.wjst &&
+		Array.isArray(waw.config.wjst.templates) &&
+		waw.config.wjst.templates.length
+	) {
+		for (const template of waw.config.ngx.templates) {
+			const templatePath = path.join(process.cwd(), template.path);
+
+			waw.api({
+				template: {
+					path: templatePath,
+					prefix: template.prefix,
+					pages: template.pages,
+				},
+				page: {
+					"/": (req, res) => {
+						res.send(
+							waw.render(
+								path.join(templatePath, "dist", "index.html"),
+								{
+									base: "/wjst-default/",
+								}
+							)
+						);
+					},
+				},
+			});
+		}
+	}
 
 	waw.api({
 		router: "/api/user",

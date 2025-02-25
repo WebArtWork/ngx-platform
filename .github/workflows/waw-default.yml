@@ -1,56 +1,58 @@
 name: Sync waw default project to waw-default
 
 on:
-  push:
-    paths:
-      - 'server/**' # Trigger only on changes in the server folder
+    push:
+        paths:
+            - "server/**" # Trigger only on changes in the server folder
 
 jobs:
-  sync-waw:
-    runs-on: ubuntu-latest
+    sync-waw:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout source repository
-      uses: actions/checkout@v3
+        steps:
+            - name: Checkout source repository
+              uses: actions/checkout@v3
 
-    - name: Set up SSH
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+            - name: Set up SSH
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-    - name: Sync waw default folder to waw-default
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git clone git@github.com:WebArtWork/waw-default.git waw-default
-        rm -rf waw-default/*
-        cp -r server/* waw-default/
-        cd waw-default
-        git add .
-        git commit -m "Update files from source repository" || echo "No changes to commit"
-        git push --force
-        cd ..
-        git clone git@github.com:WebArtWork/vue-platform.git vue-platform
-        rm -rf vue-platform/server/*
-        cp -r server/* vue-platform/server/
-        cd vue-platform
-        git add .
-        git commit -m "Update files from source repository" || echo "No changes to commit"
-        git push --force
-        cd ..
-        git clone git@github.com:WebArtWork/react-platform.git react-platform
-        rm -rf react-platform/server/*
-        cp -r server/* react-platform/server/
-        cd react-platform
-        git add .
-        git commit -m "Update files from source repository" || echo "No changes to commit"
-        git push --force
+            - name: Sync waw default folder to waw-default
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git clone git@github.com:WebArtWork/waw-default.git waw-default
+                  rm -rf waw-default/*
+                  cp -r server/* waw-default/
+                  node .github/clean.config.js
+                  cp -r config.json waw-default/config.json
+                  cd waw-default
+                  git add .
+                  git commit -m "Update files from source repository" || echo "No changes to commit"
+                  git push --force
+                  cd ..
+                  git clone git@github.com:WebArtWork/vue-platform.git vue-platform
+                  rm -rf vue-platform/server/*
+                  cp -r server/* vue-platform/server/
+                  cd vue-platform
+                  git add .
+                  git commit -m "Update files from source repository" || echo "No changes to commit"
+                  git push --force
+                  cd ..
+                  git clone git@github.com:WebArtWork/react-platform.git react-platform
+                  rm -rf react-platform/server/*
+                  cp -r server/* react-platform/server/
+                  cd react-platform
+                  git add .
+                  git commit -m "Update files from source repository" || echo "No changes to commit"
+                  git push --force
 
-    - name: Clean up SSH
-      run: |
-        rm -f ~/.ssh/id_rsa
-        rm -f ~/.ssh/known_hosts
+            - name: Clean up SSH
+              run: |
+                  rm -f ~/.ssh/id_rsa
+                  rm -f ~/.ssh/known_hosts

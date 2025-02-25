@@ -32,7 +32,8 @@
 	"ngx": {
 		"apps": [
 			{
-				"path": "/client"
+				"path": "/client",
+				"dist": "/client/dist/app/browser"
 			}
 		]
 	},

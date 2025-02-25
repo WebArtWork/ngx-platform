@@ -1,45 +1,45 @@
 name: Sync Angular client to ngx-default
 
 on:
-  push:
-    paths:
-      - 'client/**' # Trigger only on changes in the angular folder
+    push:
+        paths:
+            - "client/**" # Trigger only on changes in the angular folder
 
 jobs:
-  sync-angular:
-    runs-on: ubuntu-latest
+    sync-angular:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout source repository
-      uses: actions/checkout@v3
+        steps:
+            - name: Checkout source repository
+              uses: actions/checkout@v3
 
-    - name: Set up SSH
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+            - name: Set up SSH
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-    - name: Sync Angular folder to ngx-default
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git clone git@github.com:WebArtWork/ngx-default.git ngx-default
-        rm -rf ngx-default/*
-        cp -r client/* ngx-default/
-        cd ngx-default
-        echo "ngx.webart.work" > CNAME
-        sed -i "s/admins.guard';/admins.guard';\\nimport { HashLocationStrategy, LocationStrategy } from '@angular\\/common';/g" src/app/app.module.ts
-        sed -i "s|/\* providers \*/|/* providers */\\n\t\t{ provide: LocationStrategy, useClass: HashLocationStrategy },|g" src/app/app.module.ts
-        sed -i "s/url: ''/url: 'https:\/\/webart.work'/g" src/environments/environment.prod.ts
-        sed -i "s/ceo@webart.work/demo@webart.work/g" src/app/pages/guest/sign/sign.component.ts
-        git add .
-        git commit -m "Update Angular files from source repository" || echo "No changes to commit"
-        git push --force
+            - name: Sync Angular folder to ngx-default
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git clone git@github.com:WebArtWork/ngx-default.git ngx-default
+                  rm -rf ngx-default/*
+                  cp -r client/* ngx-default/
+                  cd ngx-default
+                  echo "ngx.webart.work" > CNAME
+                  sed -i "s/admins.guard';/admins.guard';\\nimport { HashLocationStrategy, LocationStrategy } from '@angular\\/common';/g" src/app/app.module.ts
+                  sed -i "s|/\* providers \*/|/* providers */\\n\t\t{ provide: LocationStrategy, useClass: HashLocationStrategy },|g" src/app/app.module.ts
+                  sed -i "s/url: ''/url: 'https:\/\/webart.work'/g" src/environments/environment.prod.ts
+                  sed -i "s/ceo@webart.work/demo@webart.work/g" src/environments/environment.prod.ts
+                  git add .
+                  git commit -m "Update Angular files from source repository" || echo "No changes to commit"
+                  git push --force
 
-    - name: Clean up SSH
-      run: |
-        rm -f ~/.ssh/id_rsa
-        rm -f ~/.ssh/known_hosts
+            - name: Clean up SSH
+              run: |
+                  rm -f ~/.ssh/id_rsa
+                  rm -f ~/.ssh/known_hosts
