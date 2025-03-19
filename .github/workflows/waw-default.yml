@@ -28,7 +28,7 @@ jobs:
                   git config --global user.email "github-actions[bot]@users.noreply.github.com"
                   git clone git@github.com:WebArtWork/waw-default.git waw-default
                   rm -rf waw-default/*
-                  cp -r server/* waw-default/
+                  cp -r server/* waw-default/server/
                   node .github/clean.config.js
                   cp -r config.json waw-default/config.json
                   cd waw-default

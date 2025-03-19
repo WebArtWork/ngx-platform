@@ -9,6 +9,14 @@ export const fileFormComponents = {
 				{
 					name: 'Label',
 					value: 'Image'
+				},
+				{
+					name: 'Wdith',
+					value: 1920
+				},
+				{
+					name: 'Height',
+					value: 1080
 				}
 			]
 		}

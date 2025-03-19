@@ -347,11 +347,11 @@ export class FormService {
 		});
 	}
 
-	getComponent(
-		form: FormInterface,
-		key: string
-	): FormComponentInterface | null {
-		return this._getComponent(form.components, key) || null;
+	getComponent(form: FormInterface, key: string): FormComponentInterface {
+		return (
+			this._getComponent(form.components, key) ||
+			({} as FormComponentInterface)
+		);
 	}
 
 	private _getComponent(

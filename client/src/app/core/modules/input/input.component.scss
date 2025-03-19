@@ -93,6 +93,13 @@ textarea.error {
 	margin-top: 4px; /* Spacing above the error message */
 }
 
+.disabled {
+	opacity: 0.5;
+	.mark {
+		background-color: grey !important;
+	}
+}
+
 /* =====================================
    Radio Button Styles
    ===================================== */
@@ -100,13 +107,13 @@ textarea.error {
 	display: flex;
 	column-gap: 5px;
 	cursor: pointer;
-	
-	input{
+
+	input {
 		width: 0;
 		height: 0;
 		overflow: hidden;
 	}
-	.form-label{
+	.form-label {
 		line-height: unset;
 		display: flex;
 		align-items: center;
@@ -114,7 +121,7 @@ textarea.error {
 		font-size: 18px;
 	}
 	/* Custom radio button checkbox styling */
-	.mark{
+	.mark {
 		position: relative;
 		width: 26px;
 		height: 26px;
@@ -136,16 +143,16 @@ textarea.error {
 			height: 14px;
 			width: 7px;
 			display: block;
-			content: "";
+			content: '';
 			border-bottom: 3px solid #ffffff;
 			border-right: 3px solid #ffffff;
 		}
-		&--radio{
+		&--radio {
 			border-radius: 120px;
-			&::before{
+			&::before {
 				transform: translate(-50%, -50%) rotate(45deg);
 				border-bottom: unset;
-    			border-right: unset;
+				border-right: unset;
 				width: 12px;
 				height: 12px;
 				border-radius: 120px;
@@ -153,14 +160,11 @@ textarea.error {
 			}
 		}
 	}
-	
+
 	.checkbox {
-
-
-
 	}
 	input:checked ~ .mark {
-		&--radio{
+		&--radio {
 			&::before {
 				opacity: 1;
 			}
@@ -235,7 +239,7 @@ textarea.error {
 		}
 	}
 }
-.check-text{
-    margin-left: 0;
-    line-height: 0;
+.check-text {
+	margin-left: 0;
+	line-height: 0;
 }

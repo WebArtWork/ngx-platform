@@ -21,6 +21,7 @@
 			#inputEl
 		/>
 		<i
+			*ngIf="clearable"
 			style="position: absolute; right: 7px; bottom: 8px"
 			(click)="value = null; onSubmit(); focus()"
 			class="material-icons"
@@ -60,7 +61,11 @@
 
 <!-- Radio Buttons -->
 <ng-container *ngIf="type === 'radio'">
-	<label class="check-label" *ngFor="let item of items">
+	<label
+		[class.disabled]="disabled"
+		*ngFor="let item of items"
+		class="check-label"
+	>
 		<span class="form-label">{{ item }}</span>
 
 		<input
@@ -84,7 +89,11 @@
 <!-- Checkboxes -->
 <ng-container *ngIf="type === 'checkbox'">
 	<ng-container *ngIf="items?.length">
-		<label class="check-label" *ngFor="let item of items; index as i">
+		<label
+			*ngFor="let item of items; index as i"
+			[class.disabled]="disabled"
+			class="check-label"
+		>
 			<span class="form-label">{{ item }}</span>
 			<input
 				(ngModelChange)="setCheckboxValue($event, i); onChange()"
@@ -101,7 +110,7 @@
 		</label>
 	</ng-container>
 	<ng-container *ngIf="!items?.length">
-		<label class="check-label">
+		<label class="check-label" [class.disabled]="disabled">
 			<span class="check-text form-label" *ngIf="label">{{ label }}</span>
 			<input
 				(ngModelChange)="value = $event; onChange()"

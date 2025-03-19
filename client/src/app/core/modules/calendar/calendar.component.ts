@@ -5,7 +5,6 @@ import {
 	Input,
 	EventEmitter
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { CalendarDate } from './calendar.interface';
 
 @Component({
@@ -16,6 +15,10 @@ import { CalendarDate } from './calendar.interface';
 })
 export class CalendarComponent {
 	@Input() eventsByDate: Record<string, CalendarDate[]> = {};
+
+	@Output() todayClicked = new EventEmitter<string>();
+
+	@Output() dateClicked = new EventEmitter<string>();
 
 	@Output() createEvent = new EventEmitter<CalendarDate>();
 
@@ -44,8 +47,7 @@ export class CalendarComponent {
 		10: 'Листопад',
 		11: 'Грудень'
 	};
-	manager = this._router.url.includes('manager');
-	constructor(private _router: Router) {
+	constructor() {
 		this._onMonthChange();
 
 		this.onResize();
@@ -63,6 +65,12 @@ export class CalendarComponent {
 		this.currentYear = new Date().getFullYear();
 
 		this._onMonthChange();
+
+		this.selectedDate = this.date({
+			year: this.currentYear,
+			month: this.currentMonth+1,
+			day: new Date().getDate()
+		});
 	}
 	setPreviousMonth(): void {
 		this.currentMonth--;
@@ -155,8 +163,9 @@ export class CalendarComponent {
 			this.selectedDate.split('.')[0] !== this.currentYear.toString() ||
 			this.selectedDate.split('.')[1] !==
 				(this.currentMonth - 1).toString()
-		)
+		) {
 			this.selectedDate = '';
+		}
 	}
 	isMobile: boolean;
 	@HostListener('window:resize') onResize(): void {
@@ -166,10 +175,16 @@ export class CalendarComponent {
 		return `${year}${join}${month}${join}${day}`;
 	}
 	selectedDate: string = localStorage.getItem('travel_selectedDate') || '';
-	dateClicked(date: string): void {
+	onClick(date: string): void {
 		this.selectedDate = date;
 
 		localStorage.setItem('travel_selectedDate', date);
+
+		this.dateClicked.emit(this.date({
+			year: Number(date.split('.')[0]),
+			month: Number(date.split('.')[1]) + 1,
+			day: Number(date.split('.')[2])
+		}));
 
 		this.createEvent.emit({
 			year: Number(date.split('.')[0]),
@@ -177,8 +192,10 @@ export class CalendarComponent {
 			day: Number(date.split('.')[2])
 		});
 	}
+
 	eventClicked(date: CalendarDate): void {
 		this.selectedDate = this.date(date);
+
 		this.updateEvent.emit(date);
 	}
 
