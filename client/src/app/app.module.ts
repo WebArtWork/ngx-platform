@@ -50,6 +50,16 @@ const routes: Routes = [
 		children: [
 			/* user */
 			{
+				path: 'birds',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Birds'
+					}
+				},
+				loadChildren: () => import('./modules/bird/pages/birds/birds.module').then(m => m.BirdsModule)
+			}, 
+			{
 				path: 'profile',
 				canActivate: [MetaGuard],
 				data: {
