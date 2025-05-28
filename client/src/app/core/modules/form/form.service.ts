@@ -6,7 +6,7 @@ import {
 	Injector,
 	Type
 } from '@angular/core';
-import { CoreService, ModalService, StoreService } from 'wacom';
+import { CoreService, ModalService, StoreService, Modal } from 'wacom';
 import {
 	FormComponentInterface,
 	TemplateFieldInterface
@@ -17,7 +17,6 @@ import { TranslateService } from '../translate/translate.service';
 import { ModalUniqueComponent } from './modals/modal-unique/modal-unique.component';
 import { environment } from 'src/environments/environment';
 import { CustomformService } from 'src/app/modules/customform/services/customform.service';
-import { Modal } from 'wacom/lib/interfaces/modal.interface';
 
 export interface FormModalButton {
 	/** Function to execute on button click */
