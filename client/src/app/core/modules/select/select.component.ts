@@ -101,13 +101,19 @@ export class SelectComponent implements OnInit, OnChanges {
 				this.items[i] = {
 					name: this.items[i]
 				};
+
 				this.items[i][this.value] = this.items[i].name;
 			}
+
 			this._items[this.items[i][this.value]] = this.items[i];
 		}
 
 		if (this.multiple) {
-			this._values = this.select || [];
+			this._values = (this.select || []).filter((value: any) => {
+				return !!this.items.find(
+					(item: any) => item[this.value] === value
+				);
+			});
 		} else {
 			this._selected = this._items[this.select]
 				? this._items[this.select][this.name]
@@ -115,9 +121,21 @@ export class SelectComponent implements OnInit, OnChanges {
 		}
 	}
 
+	showOptions() {
+		if (!this.disabled) {
+			this.selectShow = !this.selectShow;
+
+			this.focus_search();
+		}
+	}
+
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['select'] && !changes['select'].firstChange) {
 			this.ngOnInit();
+		}
+
+		if (changes['disabled'] && !changes['disabled'].firstChange) {
+			this.disabled = changes['disabled'].currentValue;
 		}
 	}
 
