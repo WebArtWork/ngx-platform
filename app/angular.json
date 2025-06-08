@@ -7,7 +7,20 @@
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
+					"skipTests": true,
 					"style": "scss"
+				},
+				"@schematics/angular:service": {
+					"skipTests": true
+				},
+				"@schematics/angular:pipe": {
+					"skipTests": true
+				},
+				"@schematics/angular:directive": {
+					"skipTests": true
+				},
+				"@schematics/angular:guard": {
+					"skipTests": true
 				}
 			},
 			"root": "",
@@ -23,7 +36,8 @@
 						"assets": [
 							{
 								"glob": "**/*",
-								"input": "public"
+								"input": "src/assets",
+								"output": "assets"
 							}
 						],
 						"styles": ["src/styles.scss"]

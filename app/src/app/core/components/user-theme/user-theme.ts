@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-	selector: 'app-root',
+	selector: 'app-user-theme',
 	imports: [RouterOutlet],
-	templateUrl: './app.html',
-	styleUrl: './app.scss',
+	templateUrl: './user-theme.html',
+	styleUrl: './user-theme.scss',
 })
-export class App {}
+export class UserTheme {}
