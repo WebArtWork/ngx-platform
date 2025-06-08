@@ -8,6 +8,13 @@ import { guestsGuard } from './core/guards/guests-guard';
 
 export const routes: Routes = [
 	{
+		path: '',
+		component: PublicTheme,
+		children: [
+			/* public */
+		],
+	},
+	{
 		path: 'admin',
 		component: UserTheme,
 		canActivate: [adminsGuard],
@@ -25,17 +32,15 @@ export const routes: Routes = [
 	},
 	{
 		path: '',
-		component: PublicTheme,
-		children: [
-			/* public */
-		],
-	},
-	{
-		path: '',
 		component: GuestTheme,
 		canActivate: [guestsGuard],
 		children: [
 			/* guest */
+			{
+				path: 'sign',
+				loadChildren: () =>
+					import('./pages/guest/sign/routes').then((m) => m.routes),
+			},
 		],
 	},
 ];
