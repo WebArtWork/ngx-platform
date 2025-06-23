@@ -8,11 +8,14 @@ import { AlertService } from 'wacom';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
+import { TableComponent } from '../../../../core/modules/table/table.component';
+import { CellDirective } from '../../../../core/modules/table/table.directive';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-	templateUrl: './customforms.component.html',
-	styleUrls: ['./customforms.component.scss'],
-	standalone: false
+    templateUrl: './customforms.component.html',
+    styleUrls: ['./customforms.component.scss'],
+    imports: [TableComponent, CellDirective, FormsModule]
 })
 export class CustomformsComponent {
 	columns = ['formId', 'components', 'active'];

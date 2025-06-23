@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Collapse } from './collapse.interface';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-	selector: 'wcollapse',
-	templateUrl: './collapse.component.html',
-	styleUrls: ['./collapse.component.scss'],
-	standalone: false
+    selector: 'wcollapse',
+    templateUrl: './collapse.component.html',
+    styleUrls: ['./collapse.component.scss'],
+    imports: [NgClass, NgIf]
 })
 export class CollapseComponent {
 	@Input() config: Collapse;

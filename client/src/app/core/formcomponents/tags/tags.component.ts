@@ -1,12 +1,15 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
+import { InputComponent } from '../../modules/input/input.component';
+import { NgFor } from '@angular/common';
+import { ButtonComponent } from '../../modules/button/button.component';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './tags.component.html',
-	styleUrls: ['./tags.component.scss'],
-	standalone: false
+    templateUrl: './tags.component.html',
+    styleUrls: ['./tags.component.scss'],
+    imports: [InputComponent, NgFor, ButtonComponent]
 })
 export class TagsComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

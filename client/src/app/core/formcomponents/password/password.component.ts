@@ -1,11 +1,13 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
 import { UiService } from 'wacom';
+import { InputComponent } from '../../modules/input/input.component';
+import { NgClass, NgIf } from '@angular/common';
 interface Interface {}
 @Component({
-	templateUrl: './password.component.html',
-	styleUrls: ['./password.component.scss'],
-	standalone: false
+    templateUrl: './password.component.html',
+    styleUrls: ['./password.component.scss'],
+    imports: [InputComponent, NgClass, NgIf]
 })
 export class PasswordComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

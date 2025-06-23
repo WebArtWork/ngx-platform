@@ -3,6 +3,12 @@ import { Language, TranslateService, Word } from '../../translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { HttpService } from 'wacom';
+import { TranslateDirective } from '../../translate.directive';
+import { SelectComponent } from '../../../select/select.component';
+import { ButtonComponent } from '../../../button/button.component';
+import { TableComponent } from '../../../table/table.component';
+import { CellDirective } from '../../../table/table.directive';
+import { TranslatePipe } from '../../translate.pipe';
 
 interface Translate {
 	translate: string;
@@ -16,9 +22,9 @@ interface TranslateAll {
 }
 
 @Component({
-	templateUrl: './translates.component.html',
-	styleUrls: ['./translates.component.scss'],
-	standalone: false
+    templateUrl: './translates.component.html',
+    styleUrls: ['./translates.component.scss'],
+    imports: [TranslateDirective, SelectComponent, ButtonComponent, TableComponent, CellDirective, TranslatePipe]
 })
 export class TranslatesComponent {
 	columns = ['page', 'word', 'translation'];

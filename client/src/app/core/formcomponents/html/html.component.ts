@@ -1,12 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
+import { TinymceComponent } from 'ngx-tinymce';
+import { FormsModule } from '@angular/forms';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './html.component.html',
-	styleUrls: ['./html.component.scss'],
-	standalone: false
+    templateUrl: './html.component.html',
+    styleUrls: ['./html.component.scss'],
+    imports: [TinymceComponent, FormsModule]
 })
 export class HtmlComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

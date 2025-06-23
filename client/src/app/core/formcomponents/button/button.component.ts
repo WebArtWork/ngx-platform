@@ -1,13 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
+import { ButtonComponent as ButtonComponent_1 } from '../../modules/button/button.component';
 
 interface Interface {}
 
 @Component({
-	selector: 'button-formcomponents',
-	templateUrl: './button.component.html',
-	styleUrls: ['./button.component.scss'],
-	standalone: false
+    selector: 'button-formcomponents',
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.scss'],
+    imports: [ButtonComponent_1]
 })
 export class ButtonComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

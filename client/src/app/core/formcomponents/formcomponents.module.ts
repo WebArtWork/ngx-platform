@@ -1,8 +1,8 @@
-import { ButtonModule } from 'src/app/core/modules/button/button.module';
-import { InputModule } from 'src/app/core/modules/input/input.module';
-import { FileModule } from 'src/app/core/modules/file/file.module';
+
+
+
 import { FormService } from 'src/app/core/modules/form/form.service';
-import { SelectModule } from 'src/app/core/modules/select/select.module';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 /* componnets */
@@ -33,41 +33,35 @@ const DEFAULT_ACE_CONFIG: AceConfigInterface = {
 };
 
 @NgModule({
-	imports: [
-		InputModule,
-		ButtonModule,
-		CommonModule,
-		FileModule,
-		SelectModule,
-		AceModule,
-		FormsModule,
-		NgxTinymceModule.forRoot({
-			baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
-		})
-	],
-	declarations: [
-		/* declarations */
-		CodeComponent,
-		HtmlComponent,
-		EmailComponent,
-		NumberComponent,
-		TimeComponent,
-		DateComponent,
-		PhotoComponent,
-		PhotosComponent,
-		PasswordComponent,
-		SelectComponent,
-		TextComponent,
-		ButtonComponent,
-		BooleanComponent,
-		TagsComponent
-	],
-	providers: [
-		{
-			provide: ACE_CONFIG,
-			useValue: DEFAULT_ACE_CONFIG
-		}
-	]
+    imports: [
+    CommonModule,
+    AceModule,
+    FormsModule,
+    NgxTinymceModule.forRoot({
+        baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
+    }),
+    /* declarations */
+    CodeComponent,
+    HtmlComponent,
+    EmailComponent,
+    NumberComponent,
+    TimeComponent,
+    DateComponent,
+    PhotoComponent,
+    PhotosComponent,
+    PasswordComponent,
+    SelectComponent,
+    TextComponent,
+    ButtonComponent,
+    BooleanComponent,
+    TagsComponent
+],
+    providers: [
+        {
+            provide: ACE_CONFIG,
+            useValue: DEFAULT_ACE_CONFIG
+        }
+    ]
 })
 export class FormcomponentsModule {
 	constructor(private _form: FormService) {

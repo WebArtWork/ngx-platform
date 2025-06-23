@@ -3,13 +3,14 @@ import { FormService } from '../../modules/form/form.service';
 import 'brace';
 import 'brace/mode/json';
 import 'brace/theme/monokai';
+import { AceModule } from 'ngx-ace-wrapper';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './code.component.html',
-	styleUrls: ['./code.component.scss'],
-	standalone: false
+    templateUrl: './code.component.html',
+    styleUrls: ['./code.component.scss'],
+    imports: [AceModule]
 })
 export class CodeComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

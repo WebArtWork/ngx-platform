@@ -1,12 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
+import { InputComponent } from '../../modules/input/input.component';
+import { NgClass } from '@angular/common';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './text.component.html',
-	styleUrls: ['./text.component.scss'],
-	standalone: false
+    templateUrl: './text.component.html',
+    styleUrls: ['./text.component.scss'],
+    imports: [InputComponent, NgClass]
 })
 export class TextComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

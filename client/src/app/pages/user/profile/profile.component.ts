@@ -5,6 +5,12 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { environment } from 'src/environments/environment';
 import { Component } from '@angular/core';
 import { CoreService } from 'wacom';
+import { CardComponent } from '../../../core/modules/card/card.component';
+import { FileComponent } from '../../../core/modules/file/file.component';
+import { NgIf } from '@angular/common';
+import { FormComponent } from '../../../core/modules/form/form.component';
+import { ButtonComponent } from '../../../core/modules/button/button.component';
+import { TranslateDirective } from '../../../core/modules/translate/translate.directive';
 
 interface ChangePassword {
 	oldPass: string;
@@ -12,10 +18,10 @@ interface ChangePassword {
 }
 
 @Component({
-	selector: 'app-profile',
-	templateUrl: './profile.component.html',
-	styleUrls: ['./profile.component.scss'],
-	standalone: false
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    imports: [CardComponent, FileComponent, NgIf, FormComponent, ButtonComponent, TranslateDirective]
 })
 export class ProfileComponent {
 	readonly url = environment.url;

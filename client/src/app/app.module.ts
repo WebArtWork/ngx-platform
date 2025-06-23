@@ -1,20 +1,15 @@
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 // Core
 import { GuestComponent } from './core/theme/guest/guest.component';
-import { UserComponent } from './core/theme/user/user.component';
 import { PublicComponent } from './core/theme/public/public.component';
-import { AppComponent } from './app.component';
-import { CoreModule } from 'src/app/core/core.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserComponent } from './core/theme/user/user.component';
 // config
-import { WacomModule, MetaGuard } from 'wacom';
-import { environment } from 'src/environments/environment';
+import { MetaGuard } from 'wacom';
 // guards
+import { AdminsGuard } from './core/guards/admins.guard';
 import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 import { GuestGuard } from './core/guards/guest.guard';
-import { AdminsGuard } from './core/guards/admins.guard';
 
 const routes: Routes = [
 	{
@@ -151,65 +146,5 @@ const routes: Routes = [
 	}
 ];
 
-@NgModule({
-	declarations: [
-		AppComponent,
-		GuestComponent,
-		UserComponent,
-		PublicComponent
-	],
-	imports: [
-		CoreModule,
-		BrowserModule,
-		BrowserAnimationsModule,
-		WacomModule.forRoot({
-			store: {},
-			http: {
-				url: environment.url
-			},
-			socket: environment.production,
-			meta: {
-				useTitleSuffix: true,
-				defaults: {
-					title: environment.meta.title,
-					favicon: environment.meta.favicon,
-					description: environment.meta.description,
-					titleSuffix: ' | ' + environment.meta.title,
-					'og:image': environment.meta.image
-				}
-			},
-			modal: {
-				modals: {
-					/* modals */
-				}
-			},
-			alert: {
-				alerts: {
-					/* alerts */
-				}
-			},
-			loader: {
-				loaders: {
-					/* loaders */
-				}
-			},
-			popup: {
-				popups: {
-					/* popups */
-				}
-			}
-		}),
-		RouterModule.forRoot(routes, {
-			scrollPositionRestoration: 'enabled',
-			preloadingStrategy: PreloadAllModules
-		})
-	],
-	providers: [
-		/* providers */
-		AuthenticatedGuard,
-		GuestGuard,
-		AdminsGuard
-	],
-	bootstrap: [AppComponent]
-})
+@NgModule()
 export class AppModule {}

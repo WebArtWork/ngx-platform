@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
+import { InputComponent } from '../../../core/modules/input/input.component';
+import { FormComponent } from '../../../core/modules/form/form.component';
+import { ButtonComponent } from '../../../core/modules/button/button.component';
+import { FileComponent } from '../../../core/modules/file/file.component';
+import { JsonPipe } from '@angular/common';
 
 @Component({
-	templateUrl: './components.component.html',
-	styleUrls: ['./components.component.scss'],
-	standalone: false
+    templateUrl: './components.component.html',
+    styleUrls: ['./components.component.scss'],
+    imports: [InputComponent, FormComponent, ButtonComponent, FileComponent, JsonPipe]
 })
 export class ComponentsComponent {
 	submition: Record<string, unknown> = {

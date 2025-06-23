@@ -1,13 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
-import { Value } from '../../modules/input/input.component';
+import { Value, InputComponent } from '../../modules/input/input.component';
+import { NgClass } from '@angular/common';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './number.component.html',
-	styleUrls: ['./number.component.scss'],
-	standalone: false
+    templateUrl: './number.component.html',
+    styleUrls: ['./number.component.scss'],
+    imports: [InputComponent, NgClass]
 })
 export class NumberComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })

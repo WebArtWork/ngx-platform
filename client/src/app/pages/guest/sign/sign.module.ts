@@ -11,8 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CoreModule],
-	declarations: [SignComponent],
-	providers: []
+    imports: [RouterModule.forChild(routes), CoreModule, SignComponent],
+    providers: []
 })
 export class SignModule {}

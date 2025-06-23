@@ -11,8 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CoreModule],
-	declarations: [CustomformsComponent],
-	providers: []
+    imports: [RouterModule.forChild(routes), CoreModule, CustomformsComponent],
+    providers: []
 })
 export class CustomformsModule {}

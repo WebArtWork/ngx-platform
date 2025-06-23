@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../../core/modules/button/button.component';
+import { FormComponent } from '../../../core/modules/form/form.component';
 
 @Component({
-	templateUrl: './document.component.html',
-	styleUrls: ['./document.component.scss'],
-	standalone: false
+    templateUrl: './document.component.html',
+    styleUrls: ['./document.component.scss'],
+    imports: [RouterLink, ButtonComponent, FormComponent]
 })
 export class DocumentComponent {
 	formDoc: FormInterface = this._form.getForm('docForm', {

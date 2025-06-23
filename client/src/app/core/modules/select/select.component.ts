@@ -10,8 +10,12 @@ import {
 	TemplateRef,
 	ViewChild
 } from '@angular/core';
-import { CoreService } from 'wacom';
+import { CoreService, WacomModule } from 'wacom';
 import { TranslateService } from '../translate/translate.service';
+import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateDirective } from '../translate/translate.directive';
+import { TranslatePipe } from '../translate/translate.pipe';
 
 /**
  * The SelectComponent is a customizable select dropdown component that supports
@@ -19,10 +23,10 @@ import { TranslateService } from '../translate/translate.service';
  * and items.
  */
 @Component({
-	selector: 'wselect',
-	templateUrl: './select.component.html',
-	styleUrls: ['./select.component.scss'],
-	standalone: false
+    selector: 'wselect',
+    templateUrl: './select.component.html',
+    styleUrls: ['./select.component.scss'],
+    imports: [NgIf, WacomModule, NgTemplateOutlet, NgFor, FormsModule, TranslateDirective, TranslatePipe]
 })
 export class SelectComponent implements OnInit, OnChanges {
 	/** Placeholder text for the select input. */

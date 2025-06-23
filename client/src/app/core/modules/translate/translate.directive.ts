@@ -1,10 +1,7 @@
 import { OnInit, Directive, ElementRef } from '@angular/core';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 
-@Directive({
-	selector: '[translate]',
-	standalone: false
-})
+@Directive({ selector: '[translate]' })
 export class TranslateDirective implements OnInit {
 	constructor(public elementRef: ElementRef, private tr: TranslateService) {}
 

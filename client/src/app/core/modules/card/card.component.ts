@@ -5,6 +5,7 @@ import {
 	ContentChild,
 	ElementRef
 } from '@angular/core';
+import { NgClass, NgIf, NgFor } from '@angular/common';
 
 /**
  * CardComponent is a flexible container that can be used to display various types
@@ -12,10 +13,10 @@ import {
  * It supports a flexible layout with optional header and footer sections.
  */
 @Component({
-	selector: 'wcard',
-	templateUrl: './card.component.html',
-	styleUrls: ['./card.component.scss'],
-	standalone: false
+    selector: 'wcard',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
+    imports: [NgClass, NgIf, NgFor]
 })
 export class CardComponent implements AfterContentInit {
 	/**

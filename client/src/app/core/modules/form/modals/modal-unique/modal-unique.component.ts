@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormInterface } from '../../interfaces/form.interface';
 import { HttpService } from 'wacom';
+import { FormComponent } from '../../form.component';
 
 @Component({
-	selector: 'app-modal-unique',
-	templateUrl: './modal-unique.component.html',
-	styleUrls: ['./modal-unique.component.scss'],
-	standalone: false
+    selector: 'app-modal-unique',
+    templateUrl: './modal-unique.component.html',
+    styleUrls: ['./modal-unique.component.scss'],
+    imports: [FormComponent]
 })
 export class ModalUniqueComponent {
 	constructor(private _http: HttpService) {}
