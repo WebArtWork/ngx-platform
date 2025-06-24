@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 // Core
-import { GuestComponent } from './core/theme/guest/guest.component';
-import { PublicComponent } from './core/theme/public/public.component';
-import { UserComponent } from './core/theme/user/user.component';
+
+
+
 // config
 import { MetaGuard } from 'wacom';
 // guards
@@ -20,7 +20,7 @@ const routes: Routes = [
 	{
 		path: '',
 		canActivate: [GuestGuard],
-		component: GuestComponent,
+		loadComponent: () => import('./core/theme/guest/guest.component').then(m => m.GuestComponent),
 		children: [
 			/* guest */
 			{
@@ -41,7 +41,7 @@ const routes: Routes = [
 	{
 		path: '',
 		canActivate: [AuthenticatedGuard],
-		component: UserComponent,
+		loadComponent: () => import('./core/theme/user/user.component').then(m => m.UserComponent),
 		children: [
 			/* user */
 			{
@@ -61,7 +61,7 @@ const routes: Routes = [
 	},
 	{
 		path: '',
-		component: PublicComponent,
+		loadComponent: () => import('./core/theme/public/public.component').then(m => m.PublicComponent),
 		children: [
 			/* user */
 			{
@@ -95,7 +95,7 @@ const routes: Routes = [
 	{
 		path: 'admin',
 		canActivate: [AdminsGuard],
-		component: UserComponent,
+		loadComponent: () => import('./core/theme/user/user.component').then(m => m.UserComponent),
 		children: [
 			/* admin */
 			{

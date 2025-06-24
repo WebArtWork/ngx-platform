@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CoreModule } from 'src/app/core/core.module';
+
+import { RouterModule, Routes } from '@angular/router';
 import { SignComponent } from './sign.component';
-import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: SignComponent
+		loadComponent: () =>
+			import('./sign.component').then((m) => m.SignComponent)
 	}
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes), CoreModule, SignComponent],
-    providers: []
+	imports: [RouterModule.forChild(routes), CoreModule, SignComponent],
+	providers: []
 })
 export class SignModule {}

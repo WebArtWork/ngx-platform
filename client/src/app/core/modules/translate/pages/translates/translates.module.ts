@@ -1,29 +1,27 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslatesComponent } from './translates.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { WacomModule } from 'wacom';
-
-
-
-
+import { TranslatesComponent } from './translates.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: TranslatesComponent
+		loadComponent: () =>
+			import('./translates.component').then((m) => m.TranslatesComponent)
 	}
 ];
 
 @NgModule({
-    imports: [
-    RouterModule.forChild(routes),
-    CommonModule,
-    FormsModule,
-    WacomModule,
-    TranslatesComponent
-],
-    providers: []
+	imports: [
+		RouterModule.forChild(routes),
+		CommonModule,
+		FormsModule,
+		WacomModule,
+		TranslatesComponent
+	],
+	providers: []
 })
 export class TranslatesModule {}

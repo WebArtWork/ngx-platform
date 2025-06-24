@@ -5,10 +5,10 @@ import { environment } from './environments/environment';
 import { AuthenticatedGuard } from './app/core/guards/authenticated.guard';
 import { Routes, withPreloading, withInMemoryScrolling, provideRouter, PreloadAllModules } from '@angular/router';
 import { GuestGuard } from './app/core/guards/guest.guard';
-import { GuestComponent } from './app/core/theme/guest/guest.component';
+
 import { MetaGuard, WacomModule } from 'wacom';
-import { UserComponent } from './app/core/theme/user/user.component';
-import { PublicComponent } from './app/core/theme/public/public.component';
+
+
 import { AdminsGuard } from './app/core/guards/admins.guard';
 import { CoreModule } from 'src/app/core/core.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -25,7 +25,7 @@ const routes: Routes = [
     {
         path: '',
         canActivate: [GuestGuard],
-        component: GuestComponent,
+        loadComponent: () => import('./app/core/theme/guest/guest.component').then(m => m.GuestComponent),
         children: [
             /* guest */
             {
@@ -43,7 +43,7 @@ const routes: Routes = [
     {
         path: '',
         canActivate: [AuthenticatedGuard],
-        component: UserComponent,
+        loadComponent: () => import('./app/core/theme/user/user.component').then(m => m.UserComponent),
         children: [
             /* user */
             {
@@ -60,7 +60,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        component: PublicComponent,
+        loadComponent: () => import('./app/core/theme/public/public.component').then(m => m.PublicComponent),
         children: [
             /* user */
             {
@@ -88,7 +88,7 @@ const routes: Routes = [
     {
         path: 'admin',
         canActivate: [AdminsGuard],
-        component: UserComponent,
+        loadComponent: () => import('./app/core/theme/user/user.component').then(m => m.UserComponent),
         children: [
             /* admin */
             {
