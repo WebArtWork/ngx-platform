@@ -1,31 +1,37 @@
 <div class="auth-wrapper">
-	<div class="auth__wrap">
-		<div
-			(click)="userService.setMode(userService.mode ? '' : 'dark')"
-			class="auth__img"
-		>
-			<img [src]="logo" alt="Logo" *ngIf="logo" />
-			<icon-spider *ngIf="!logo"></icon-spider>
-		</div>
-		<div class="auth__form">
-			<div class="auth">
-				<span
-					(click)="userService.setMode('dark')"
-					class="material-icons auth__icon"
-					*ngIf="!userService.mode"
-				>
-					dark_mode
-				</span>
-				<span
-					class="material-icons auth__icon"
-					*ngIf="userService.mode"
-					(click)="userService.setMode()"
-				>
-					light_mode
-				</span>
-				<wform (wSubmit)="submit()" [submition]="user" [config]="form">
-				</wform>
-			</div>
-		</div>
-	</div>
+  <div class="auth__wrap">
+    <div
+      (click)="userService.setMode(userService.mode ? '' : 'dark')"
+      class="auth__img"
+      >
+      @if (logo) {
+        <img [src]="logo" alt="Logo" />
+      }
+      @if (!logo) {
+        <icon-spider></icon-spider>
+      }
+    </div>
+    <div class="auth__form">
+      <div class="auth">
+        @if (!userService.mode) {
+          <span
+            (click)="userService.setMode('dark')"
+            class="material-icons auth__icon"
+            >
+            dark_mode
+          </span>
+        }
+        @if (userService.mode) {
+          <span
+            class="material-icons auth__icon"
+            (click)="userService.setMode()"
+            >
+            light_mode
+          </span>
+        }
+        <wform (wSubmit)="submit()" [submition]="user" [config]="form">
+        </wform>
+      </div>
+    </div>
+  </div>
 </div>

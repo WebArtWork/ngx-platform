@@ -7,7 +7,7 @@ import { User } from '../../interfaces/user.interface';
 import { UserService } from '../../services/user.service';
 import { userFormComponents } from '../../formcomponents/user.formcomponents';
 import { TableComponent } from '../../../../core/modules/table/table.component';
-import { NgFor } from '@angular/common';
+
 import { CellDirective } from '../../../../core/modules/table/table.directive';
 import { InputComponent } from '../../../../core/modules/input/input.component';
 
@@ -15,7 +15,7 @@ import { InputComponent } from '../../../../core/modules/input/input.component';
     selector: 'app-users',
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.scss'],
-    imports: [TableComponent, NgFor, CellDirective, InputComponent]
+    imports: [TableComponent, CellDirective, InputComponent]
 })
 export class UsersComponent {
 	form: FormInterface = this._form.prepareForm(userFormComponents);

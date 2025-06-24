@@ -10,7 +10,7 @@ import {
 	ViewChild
 } from '@angular/core';
 import { CoreService } from 'wacom';
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '../translate/translate.pipe';
 
@@ -32,7 +32,7 @@ export type Value =
     selector: 'winput',
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
-    imports: [NgIf, FormsModule, NgClass, NgFor, TranslatePipe]
+    imports: [FormsModule, NgClass, TranslatePipe]
 })
 export class InputComponent implements OnInit, OnChanges {
 	/**

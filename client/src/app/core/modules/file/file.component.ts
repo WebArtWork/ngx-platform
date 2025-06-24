@@ -11,7 +11,7 @@ import { HttpService, ModalService } from 'wacom';
 import { FileService } from './file.service';
 import { FileCropperComponent } from './file-cropper/file-cropper.component';
 import { environment } from 'src/environments/environment';
-import { NgIf, NgClass, NgStyle, NgFor } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 
 /**
  * The FileComponent is responsible for handling file uploads, primarily images,
@@ -22,7 +22,7 @@ import { NgIf, NgClass, NgStyle, NgFor } from '@angular/common';
     selector: 'ngx-file',
     templateUrl: './file.component.html',
     styleUrls: ['./file.component.scss'],
-    imports: [NgIf, NgClass, NgStyle, NgFor]
+    imports: [NgClass, NgStyle]
 })
 export class FileComponent implements OnInit, OnChanges {
 	readonly url = environment.url;

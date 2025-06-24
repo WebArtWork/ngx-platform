@@ -17,7 +17,7 @@ import {
 } from './table.directive';
 import { Router, RouterLink } from '@angular/router';
 import { StoreService, WacomModule } from 'wacom';
-import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
 import { TranslateDirective } from '../translate/translate.directive';
@@ -31,7 +31,7 @@ import { PerPagePipe } from './per-page.pipe';
     selector: 'wtable',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
-    imports: [NgIf, FormsModule, NgFor, ButtonComponent, TranslateDirective, NgTemplateOutlet, RouterLink, WacomModule, PerPagePipe]
+    imports: [FormsModule, ButtonComponent, TranslateDirective, NgTemplateOutlet, RouterLink, WacomModule, PerPagePipe]
 })
 export class TableComponent implements OnInit, AfterContentInit {
 	constructor(private _router: Router, private _store: StoreService) {}

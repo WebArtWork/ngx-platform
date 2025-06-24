@@ -3,13 +3,13 @@ import { FormModalButton } from '../../form.service';
 import { FormInterface } from '../../interfaces/form.interface';
 import { CoreService } from 'wacom';
 import { FormComponent } from '../../form.component';
-import { NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../../../button/button.component';
 
 @Component({
     templateUrl: './modal-form.component.html',
     styleUrls: ['./modal-form.component.scss'],
-    imports: [FormComponent, NgFor, ButtonComponent, NgClass]
+    imports: [FormComponent, ButtonComponent, NgClass]
 })
 export class ModalFormComponent {
 	form: FormInterface;

@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 import { CalendarDate } from './calendar.interface';
 import { ButtonComponent } from '../button/button.component';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'wcalendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss'],
-    imports: [ButtonComponent, NgFor, NgIf]
+    imports: [ButtonComponent]
 })
 export class CalendarComponent {
 	@Input() eventsByDate: Record<string, CalendarDate[]> = {};

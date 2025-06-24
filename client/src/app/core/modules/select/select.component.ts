@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CoreService, WacomModule } from 'wacom';
 import { TranslateService } from '../translate/translate.service';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateDirective } from '../translate/translate.directive';
 import { TranslatePipe } from '../translate/translate.pipe';
@@ -26,7 +26,7 @@ import { TranslatePipe } from '../translate/translate.pipe';
     selector: 'wselect',
     templateUrl: './select.component.html',
     styleUrls: ['./select.component.scss'],
-    imports: [NgIf, WacomModule, NgTemplateOutlet, NgFor, FormsModule, TranslateDirective, TranslatePipe]
+    imports: [WacomModule, NgTemplateOutlet, FormsModule, TranslateDirective, TranslatePipe]
 })
 export class SelectComponent implements OnInit, OnChanges {
 	/** Placeholder text for the select input. */

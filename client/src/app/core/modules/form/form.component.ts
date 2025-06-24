@@ -8,14 +8,14 @@ import {
 import { FormComponentInterface } from './interfaces/component.interface';
 import { FormInterface } from './interfaces/form.interface';
 import { CoreService } from 'wacom';
-import { NgIf, NgFor } from '@angular/common';
+
 import { FormComponentComponent } from './form-component/form-component.component';
 
 @Component({
     selector: 'wform',
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.scss'],
-    imports: [NgIf, NgFor, FormComponentComponent]
+    imports: [FormComponentComponent]
 })
 export class FormComponent implements AfterViewInit {
 	@Input() config: FormInterface;

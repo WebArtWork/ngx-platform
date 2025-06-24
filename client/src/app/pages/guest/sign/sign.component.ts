@@ -7,7 +7,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { environment } from 'src/environments/environment';
-import { NgIf } from '@angular/common';
+
 import { SpiderComponent } from '../../../core/icons/spider/spider.component';
 import { FormComponent } from '../../../core/modules/form/form.component';
 
@@ -19,7 +19,7 @@ interface RespStatus {
 @Component({
     templateUrl: './sign.component.html',
     styleUrls: ['./sign.component.scss'],
-    imports: [NgIf, SpiderComponent, FormComponent]
+    imports: [SpiderComponent, FormComponent]
 })
 export class SignComponent {
 	readonly logo = environment.sign.logo;

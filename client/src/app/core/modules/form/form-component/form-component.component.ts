@@ -9,13 +9,13 @@ import {
 import { FormComponentInterface } from '../interfaces/component.interface';
 import { FormInterface } from '../interfaces/form.interface';
 import { FormService } from '../form.service';
-import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'form-component',
     templateUrl: './form-component.component.html',
     styleUrls: ['./form-component.component.scss'],
-    imports: [NgIf, NgFor, NgTemplateOutlet]
+    imports: [NgTemplateOutlet]
 })
 export class FormComponentComponent implements OnInit {
 	@Input() index: string;
