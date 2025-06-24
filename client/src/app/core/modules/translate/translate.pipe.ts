@@ -5,11 +5,6 @@ import { TranslateService } from './translate.service';
 export class TranslatePipe implements PipeTransform {
 	private _tr = inject(TranslateService);
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
-
 	/**
 	 * Transforms the given slug into its corresponding translated string.
 	 * @param slug - The translation key to be translated.

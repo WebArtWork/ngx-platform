@@ -1,7 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
-import { CoreService } from 'wacom';
 import { NgClass } from '@angular/common';
+import {
+	Component,
+	ElementRef,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
+	ViewChild,
+	inject
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CoreService } from 'wacom';
 import { TranslatePipe } from '../translate/translate.pipe';
 
 export type Value =
@@ -19,10 +30,10 @@ export type Value =
  * custom value replacement, and event handling for changes, submissions, and blur events.
  */
 @Component({
-    selector: 'winput',
-    templateUrl: './input.component.html',
-    styleUrls: ['./input.component.scss'],
-    imports: [FormsModule, NgClass, TranslatePipe]
+	selector: 'winput',
+	templateUrl: './input.component.html',
+	styleUrls: ['./input.component.scss'],
+	imports: [FormsModule, NgClass, TranslatePipe]
 })
 export class InputComponent implements OnInit, OnChanges {
 	private _core = inject(CoreService);
@@ -134,11 +145,6 @@ export class InputComponent implements OnInit, OnChanges {
 	 * Error state of the input field, set to true if validation fails.
 	 */
 	error = false;
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	/**
 	 * Initializes the component. Focuses the input field if the focused input is true.

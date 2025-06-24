@@ -1,21 +1,21 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { FormService } from 'src/app/core/modules/form/form.service';
-import {
-	CustomformService,
-	Customform
-} from '../../services/customform.service';
-import { AlertService } from 'wacom';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
+import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
+import { TranslateService } from 'src/app/core/modules/translate/translate.service';
+import { AlertService } from 'wacom';
 import { TableComponent } from '../../../../core/modules/table/table.component';
 import { CellDirective } from '../../../../core/modules/table/table.directive';
-import { FormsModule } from '@angular/forms';
+import {
+	Customform,
+	CustomformService
+} from '../../services/customform.service';
 
 @Component({
-    templateUrl: './customforms.component.html',
-    styleUrls: ['./customforms.component.scss'],
-    imports: [TableComponent, CellDirective, FormsModule]
+	templateUrl: './customforms.component.html',
+	styleUrls: ['./customforms.component.scss'],
+	imports: [TableComponent, CellDirective, FormsModule]
 })
 export class CustomformsComponent {
 	private _translate = inject(TranslateService);
@@ -267,11 +267,6 @@ export class CustomformsComponent {
 	get rows(): FormInterface[] {
 		return this._cfs.customforms;
 	}
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	private _addCustomComponent(
 		component: string,

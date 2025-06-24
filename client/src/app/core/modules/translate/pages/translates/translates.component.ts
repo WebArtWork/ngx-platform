@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { Language, TranslateService, Word } from '../../translate.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
+import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { HttpService } from 'wacom';
-import { TranslateDirective } from '../../translate.directive';
-import { SelectComponent } from '../../../select/select.component';
 import { ButtonComponent } from '../../../button/button.component';
+import { SelectComponent } from '../../../select/select.component';
 import { TableComponent } from '../../../table/table.component';
 import { CellDirective } from '../../../table/table.directive';
+import { TranslateDirective } from '../../translate.directive';
 import { TranslatePipe } from '../../translate.pipe';
+import { Language, TranslateService, Word } from '../../translate.service';
 
 interface Translate {
 	translate: string;
@@ -22,9 +22,16 @@ interface TranslateAll {
 }
 
 @Component({
-    templateUrl: './translates.component.html',
-    styleUrls: ['./translates.component.scss'],
-    imports: [TranslateDirective, SelectComponent, ButtonComponent, TableComponent, CellDirective, TranslatePipe]
+	templateUrl: './translates.component.html',
+	styleUrls: ['./translates.component.scss'],
+	imports: [
+		TranslateDirective,
+		SelectComponent,
+		ButtonComponent,
+		TableComponent,
+		CellDirective,
+		TranslatePipe
+	]
 })
 export class TranslatesComponent {
 	ts = inject(TranslateService);
@@ -146,16 +153,11 @@ export class TranslatesComponent {
 		});
 	}
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
-
 	translateAll(missed = false): void {
 		const rows = missed
 			? this.rows.filter(
 					(r) => !this.ts.translates[this.ts.language.code][r.slug]
-			  )
+				)
 			: this.rows;
 		const words = JSON.stringify(rows.map((r) => r.word));
 		const slugs = rows.map((r) => r.slug);

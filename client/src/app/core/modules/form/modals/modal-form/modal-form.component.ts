@@ -1,15 +1,15 @@
+import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { CoreService } from 'wacom';
+import { ButtonComponent } from '../../../button/button.component';
+import { FormComponent } from '../../form.component';
 import { FormModalButton } from '../../form.service';
 import { FormInterface } from '../../interfaces/form.interface';
-import { CoreService } from 'wacom';
-import { FormComponent } from '../../form.component';
-import { NgClass } from '@angular/common';
-import { ButtonComponent } from '../../../button/button.component';
 
 @Component({
-    templateUrl: './modal-form.component.html',
-    styleUrls: ['./modal-form.component.scss'],
-    imports: [FormComponent, ButtonComponent, NgClass]
+	templateUrl: './modal-form.component.html',
+	styleUrls: ['./modal-form.component.scss'],
+	imports: [FormComponent, ButtonComponent, NgClass]
 })
 export class ModalFormComponent {
 	private _core = inject(CoreService);
@@ -31,9 +31,4 @@ export class ModalFormComponent {
 	change: (form: any) => void = (form: any) => {};
 
 	buttons: FormModalButton[];
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 }

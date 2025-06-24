@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { AlertService, HashService, HttpService, UiService } from 'wacom';
 import { Router } from '@angular/router';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
+import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
-import { UserService } from 'src/app/modules/user/services/user.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
+import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
+import { AlertService, HashService, HttpService, UiService } from 'wacom';
 
 import { SpiderComponent } from '../../../core/icons/spider/spider.component';
 import { FormComponent } from '../../../core/modules/form/form.component';
@@ -17,9 +17,9 @@ interface RespStatus {
 }
 
 @Component({
-    templateUrl: './sign.component.html',
-    styleUrls: ['./sign.component.scss'],
-    imports: [SpiderComponent, FormComponent]
+	templateUrl: './sign.component.html',
+	styleUrls: ['./sign.component.scss'],
+	imports: [SpiderComponent, FormComponent]
 })
 export class SignComponent {
 	userService = inject(UserService);
@@ -110,11 +110,6 @@ export class SignComponent {
 		password: environment.sign.password,
 		resetPin: null
 	};
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	submit(): void {
 		if (!this.form.components[2].hidden && this.user.resetPin) {

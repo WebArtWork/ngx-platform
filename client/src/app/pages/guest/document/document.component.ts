@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { UserService } from 'src/app/modules/user/services/user.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { FormService } from 'src/app/core/modules/form/form.service';
 import { RouterLink } from '@angular/router';
+import { FormService } from 'src/app/core/modules/form/form.service';
+import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
+import { UserService } from 'src/app/modules/user/services/user.service';
 import { ButtonComponent } from '../../../core/modules/button/button.component';
 import { FormComponent } from '../../../core/modules/form/form.component';
 
 @Component({
-    templateUrl: './document.component.html',
-    styleUrls: ['./document.component.scss'],
-    imports: [RouterLink, ButtonComponent, FormComponent]
+	templateUrl: './document.component.html',
+	styleUrls: ['./document.component.scss'],
+	imports: [RouterLink, ButtonComponent, FormComponent]
 })
 export class DocumentComponent {
 	userService = inject(UserService);
@@ -83,11 +83,6 @@ export class DocumentComponent {
 	});
 
 	isMenuOpen = false;
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	back(): void {
 		window.history.back();

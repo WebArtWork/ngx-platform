@@ -1,9 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpService, ModalService } from 'wacom';
-import { FileService } from './../../services/file.service';
-import { FileCropperComponent } from '../file-cropper/file-cropper.component';
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
+	inject
+} from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { HttpService, ModalService } from 'wacom';
+import { FileCropperComponent } from '../file-cropper/file-cropper.component';
+import { FileService } from './../../services/file.service';
 
 /**
  * The FileComponent is responsible for handling file uploads, primarily images,
@@ -105,11 +114,6 @@ export class FileComponent implements OnInit, OnChanges {
 	get files(): string[] {
 		return this.value as string[];
 	}
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	ngOnInit(): void {
 		if (!this.name && !this.multiple && this.value) {

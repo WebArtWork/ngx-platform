@@ -1,6 +1,5 @@
 <ng-template #templateRef let-data>
-	<winput
-		[value]="data.submition[data.key]"
+	<winput [value]="data.submition[data.key]"
 		(wChange)="
 			data.submition[data.key] = $event;
 			data.wChange()
@@ -13,5 +12,5 @@
 		(wSubmit)="data.wSubmit()"
 		[label]="data.field.Label"
 		type="email"
-	></winput>
+	 />
 </ng-template>

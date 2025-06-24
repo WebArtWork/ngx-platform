@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { TestService, Test } from 'src/app/core/services/test.service';
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges,
+	inject
+} from '@angular/core';
+import { Test, TestService } from 'src/app/core/services/test.service';
 
 @Component({
 	selector: 'test-selector',
@@ -16,11 +24,6 @@ export class TestSelectorComponent implements OnChanges {
 	get items(): Test[] {
 		return this._testService.tests;
 	}
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['value'] && !changes['value'].firstChange) {

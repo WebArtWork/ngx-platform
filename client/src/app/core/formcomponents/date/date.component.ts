@@ -1,25 +1,26 @@
-import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
+import {
+	Component,
+	OnInit,
+	TemplateRef,
+	ViewChild,
+	inject
+} from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
 import { InputComponent } from '../../modules/input/input.component';
-import { NgClass } from '@angular/common';
 
 interface Interface {}
 
 @Component({
-    templateUrl: './date.component.html',
-    styleUrls: ['./date.component.scss'],
-    imports: [InputComponent, NgClass]
+	templateUrl: './date.component.html',
+	styleUrls: ['./date.component.scss'],
+	imports: [InputComponent, NgClass]
 })
 export class DateComponent implements OnInit {
 	private _form = inject(FormService);
 
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Date', this.templateRef);

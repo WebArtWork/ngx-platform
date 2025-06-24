@@ -1,36 +1,50 @@
-import { Component, Input, ContentChildren, OnInit, Output, QueryList, AfterContentInit, EventEmitter, ContentChild, inject } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import {
-	CellDirective,
-	SortDirective,
-	ActionsDirective,
-	CustomEditDirective
-} from './table.directive';
+	AfterContentInit,
+	Component,
+	ContentChild,
+	ContentChildren,
+	EventEmitter,
+	inject,
+	Input,
+	OnInit,
+	Output,
+	QueryList
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { StoreService, WacomModule } from 'wacom';
-import { NgTemplateOutlet } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
 import { TranslateDirective } from '../translate/translate.directive';
 import { PerPagePipe } from './per-page.pipe';
+import {
+	ActionsDirective,
+	CellDirective,
+	CustomEditDirective,
+	SortDirective
+} from './table.directive';
 
 /**
  * TableComponent is a reusable component for displaying data in a table format with
  * features like sorting, pagination, search, and custom action buttons.
  */
 @Component({
-    selector: 'wtable',
-    templateUrl: './table.component.html',
-    styleUrls: ['./table.component.scss'],
-    imports: [FormsModule, ButtonComponent, TranslateDirective, NgTemplateOutlet, RouterLink, WacomModule, PerPagePipe]
+	selector: 'wtable',
+	templateUrl: './table.component.html',
+	styleUrls: ['./table.component.scss'],
+	imports: [
+		FormsModule,
+		ButtonComponent,
+		TranslateDirective,
+		NgTemplateOutlet,
+		RouterLink,
+		WacomModule,
+		PerPagePipe
+	]
 })
 export class TableComponent implements OnInit, AfterContentInit {
 	private _router = inject(Router);
 	private _store = inject(StoreService);
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	/** A unique ID for the table based on the current route. */
 	tableId =

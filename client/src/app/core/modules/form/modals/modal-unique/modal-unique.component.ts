@@ -1,21 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { FormInterface } from '../../interfaces/form.interface';
 import { HttpService } from 'wacom';
 import { FormComponent } from '../../form.component';
+import { FormInterface } from '../../interfaces/form.interface';
 
 @Component({
-    selector: 'app-modal-unique',
-    templateUrl: './modal-unique.component.html',
-    styleUrls: ['./modal-unique.component.scss'],
-    imports: [FormComponent]
+	selector: 'app-modal-unique',
+	templateUrl: './modal-unique.component.html',
+	styleUrls: ['./modal-unique.component.scss'],
+	imports: [FormComponent]
 })
 export class ModalUniqueComponent {
 	private _http = inject(HttpService);
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 	form: FormInterface;
 	module: string;
 	field: string;

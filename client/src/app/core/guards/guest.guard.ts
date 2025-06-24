@@ -5,11 +5,6 @@ import { Router } from '@angular/router';
 export class GuestGuard {
 	private router = inject(Router);
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
-
 	canActivate(): boolean {
 		if (localStorage.getItem('waw_user')) {
 			this.router.navigateByUrl('/profile');

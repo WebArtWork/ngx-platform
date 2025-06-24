@@ -1,25 +1,26 @@
-import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
-import { FormService } from '../../modules/form/form.service';
-import { Value, InputComponent } from '../../modules/input/input.component';
 import { NgClass } from '@angular/common';
+import {
+	Component,
+	OnInit,
+	TemplateRef,
+	ViewChild,
+	inject
+} from '@angular/core';
+import { FormService } from '../../modules/form/form.service';
+import { InputComponent, Value } from '../../modules/input/input.component';
 
 interface Interface {}
 
 @Component({
-    templateUrl: './number.component.html',
-    styleUrls: ['./number.component.scss'],
-    imports: [InputComponent, NgClass]
+	templateUrl: './number.component.html',
+	styleUrls: ['./number.component.scss'],
+	imports: [InputComponent, NgClass]
 })
 export class NumberComponent implements OnInit {
 	private _form = inject(FormService);
 
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
 
 	number(value: Value) {
 		return Number(value);
