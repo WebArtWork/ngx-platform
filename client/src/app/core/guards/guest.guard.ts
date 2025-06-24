@@ -1,9 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class GuestGuard {
-	constructor(private router: Router) {}
+	private router = inject(Router);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	canActivate(): boolean {
 		if (localStorage.getItem('waw_user')) {

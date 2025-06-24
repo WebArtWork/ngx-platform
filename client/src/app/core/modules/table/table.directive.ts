@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, Input } from '@angular/core';
+import { Directive, TemplateRef, Input, inject } from '@angular/core';
 
 /**
  * CellDirective
@@ -8,9 +8,14 @@ import { Directive, TemplateRef, Input } from '@angular/core';
  */
 @Directive({ selector: 'ng-template[cell]' })
 export class CellDirective {
+	template = inject<TemplateRef<any>>(TemplateRef);
+
 	@Input() cell: any;
 
-	constructor(public template: TemplateRef<any>) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }
 
 /**
@@ -21,9 +26,14 @@ export class CellDirective {
  */
 @Directive({ selector: 'ng-template[sort]' })
 export class SortDirective {
+	template = inject<TemplateRef<any>>(TemplateRef);
+
 	@Input() cell: any;
 
-	constructor(public template: TemplateRef<any>) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }
 
 /**
@@ -34,7 +44,12 @@ export class SortDirective {
  */
 @Directive({ selector: 'ng-template[actions]' })
 export class ActionsDirective {
-	constructor(public template: TemplateRef<any>) {}
+	template = inject<TemplateRef<any>>(TemplateRef);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }
 
 /**
@@ -45,5 +60,10 @@ export class ActionsDirective {
  */
 @Directive({ selector: 'ng-template[customEdit]' })
 export class CustomEditDirective {
-	constructor(public template: TemplateRef<any>) {}
+	template = inject<TemplateRef<any>>(TemplateRef);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }

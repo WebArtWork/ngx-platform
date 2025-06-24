@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AlertService, CoreService } from 'wacom';
 import { FileService } from '../../services/file.service';
 import { File } from '../../interfaces/file.interface';
@@ -15,6 +15,13 @@ import { Clipboard } from '@angular/cdk/clipboard';
 	standalone: false
 })
 export class FilesComponent {
+	private _translate = inject(TranslateService);
+	private _fileService = inject(FileService);
+	private _clipboard = inject(Clipboard);
+	private _alert = inject(AlertService);
+	private _form = inject(FormService);
+	private _core = inject(CoreService);
+
 	columns = ['img', 'url'];
 
 	form: FormInterface = this._form.prepareForm(fileFormComponents);
@@ -64,14 +71,10 @@ export class FilesComponent {
 
 	rows: File[] = [];
 
-	constructor(
-		private _translate: TranslateService,
-		private _fileService: FileService,
-		private _clipboard: Clipboard,
-		private _alert: AlertService,
-		private _form: FormService,
-		private _core: CoreService
-	) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		this.setRows();
 	}
 

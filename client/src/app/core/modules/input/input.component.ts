@@ -1,14 +1,4 @@
-import {
-	Component,
-	ElementRef,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges,
-	ViewChild
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { CoreService } from 'wacom';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,6 +25,8 @@ export type Value =
     imports: [FormsModule, NgClass, TranslatePipe]
 })
 export class InputComponent implements OnInit, OnChanges {
+	private _core = inject(CoreService);
+
 	/**
 	 * The value of the input field.
 	 */
@@ -143,7 +135,10 @@ export class InputComponent implements OnInit, OnChanges {
 	 */
 	error = false;
 
-	constructor(private _core: CoreService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	/**
 	 * Initializes the component. Focuses the input field if the focused input is true.

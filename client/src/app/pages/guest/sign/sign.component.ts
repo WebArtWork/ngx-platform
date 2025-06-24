@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AlertService, HashService, HttpService, UiService } from 'wacom';
 import { Router } from '@angular/router';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
@@ -22,6 +22,15 @@ interface RespStatus {
     imports: [SpiderComponent, FormComponent]
 })
 export class SignComponent {
+	userService = inject(UserService);
+	ui = inject(UiService);
+	private _alert = inject(AlertService);
+	private _http = inject(HttpService);
+	private _hash = inject(HashService);
+	private _router = inject(Router);
+	private _form = inject(FormService);
+	private _translate = inject(TranslateService);
+
 	readonly logo = environment.sign.logo;
 
 	form: FormInterface = this._form.getForm('sign', {
@@ -102,16 +111,10 @@ export class SignComponent {
 		resetPin: null
 	};
 
-	constructor(
-		public userService: UserService,
-		public ui: UiService,
-		private _alert: AlertService,
-		private _http: HttpService,
-		private _hash: HashService,
-		private _router: Router,
-		private _form: FormService,
-		private _translate: TranslateService
-	) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	submit(): void {
 		if (!this.form.components[2].hidden && this.user.resetPin) {

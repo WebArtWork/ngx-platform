@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormInterface } from '../../interfaces/form.interface';
 import { HttpService } from 'wacom';
 import { FormComponent } from '../../form.component';
@@ -10,7 +10,12 @@ import { FormComponent } from '../../form.component';
     imports: [FormComponent]
 })
 export class ModalUniqueComponent {
-	constructor(private _http: HttpService) {}
+	private _http = inject(HttpService);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 	form: FormInterface;
 	module: string;
 	field: string;

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
 import { TinymceComponent } from 'ngx-tinymce';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,8 @@ interface Interface {}
     imports: [TinymceComponent, FormsModule]
 })
 export class HtmlComponent implements OnInit {
+	private _form = inject(FormService);
+
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
 
@@ -28,7 +30,10 @@ export class HtmlComponent implements OnInit {
     bullist numlist outdent indent | removeformat | help'
 	};
 
-	constructor(private _form: FormService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Html', this.templateRef);

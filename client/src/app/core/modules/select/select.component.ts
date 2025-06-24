@@ -1,15 +1,4 @@
-import {
-	Component,
-	ElementRef,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges,
-	TemplateRef,
-	ViewChild
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CoreService, WacomModule } from 'wacom';
 import { TranslateService } from '../translate/translate.service';
 import { NgTemplateOutlet } from '@angular/common';
@@ -29,6 +18,9 @@ import { TranslatePipe } from '../translate/translate.pipe';
     imports: [WacomModule, NgTemplateOutlet, FormsModule, TranslateDirective, TranslatePipe]
 })
 export class SelectComponent implements OnInit, OnChanges {
+	private _core = inject(CoreService);
+	private _translate = inject(TranslateService);
+
 	/** Placeholder text for the select input. */
 	@Input() placeholder = '';
 
@@ -101,7 +93,10 @@ export class SelectComponent implements OnInit, OnChanges {
 
 	search = '';
 
-	constructor(private _core: CoreService, private _translate: TranslateService) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 
 	}
 

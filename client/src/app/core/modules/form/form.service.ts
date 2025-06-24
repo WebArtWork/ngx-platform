@@ -1,11 +1,4 @@
-import {
-	ComponentFactoryResolver,
-	ApplicationRef,
-	TemplateRef,
-	Injectable,
-	Injector,
-	Type
-} from '@angular/core';
+import { ComponentFactoryResolver, ApplicationRef, TemplateRef, Injectable, Injector, Type, inject } from '@angular/core';
 import { CoreService, ModalService, StoreService, Modal } from 'wacom';
 import {
 	FormComponentInterface,
@@ -30,19 +23,22 @@ export interface FormModalButton {
 	providedIn: 'root'
 })
 export class FormService {
+	private componentFactoryResolver = inject(ComponentFactoryResolver);
+	private _translate = inject(TranslateService);
+	private _cfs = inject(CustomformService);
+	private appRef = inject(ApplicationRef);
+	private _modal = inject(ModalService);
+	private _store = inject(StoreService);
+	private _core = inject(CoreService);
+	private injector = inject(Injector);
+
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
 
-	constructor(
-		private componentFactoryResolver: ComponentFactoryResolver,
-		private _translate: TranslateService,
-		private _cfs: CustomformService,
-		private appRef: ApplicationRef,
-		private _modal: ModalService,
-		private _store: StoreService,
-		private _core: CoreService,
-		private injector: Injector
-	) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		/** Load form IDs from the store */
 		this._store.getJson('formIds', (formIds: string[]) => {
 			if (Array.isArray(formIds)) {

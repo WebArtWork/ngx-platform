@@ -1,10 +1,4 @@
-import {
-	AfterViewInit,
-	Component,
-	EventEmitter,
-	Input,
-	Output
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormComponentInterface } from './interfaces/component.interface';
 import { FormInterface } from './interfaces/form.interface';
 import { CoreService } from 'wacom';
@@ -18,6 +12,8 @@ import { FormComponentComponent } from './form-component/form-component.componen
     imports: [FormComponentComponent]
 })
 export class FormComponent implements AfterViewInit {
+	private _core = inject(CoreService);
+
 	@Input() config: FormInterface;
 
 	@Input() submition: Record<string, unknown> = {};
@@ -26,7 +22,10 @@ export class FormComponent implements AfterViewInit {
 
 	@Output() wSubmit = new EventEmitter();
 
-	constructor(private _core: CoreService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	ngAfterViewInit(): void {
 		this.submition['data'] = this.submition['data'] || {};

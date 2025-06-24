@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
 import { SelectComponent as SelectComponent_1 } from '../../modules/select/select.component';
 import { NgClass } from '@angular/common';
@@ -11,10 +11,15 @@ interface Interface {}
     imports: [SelectComponent_1, NgClass]
 })
 export class SelectComponent implements OnInit {
+	private _form = inject(FormService);
+
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
 
-	constructor(private _form: FormService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Select', this.templateRef);

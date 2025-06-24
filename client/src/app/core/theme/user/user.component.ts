@@ -1,7 +1,7 @@
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { coreAnimation } from '../../animations/core.animations';
 import { Platform } from '@angular/cdk/platform';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WacomModule } from 'wacom';
 import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 
@@ -15,6 +15,9 @@ import { TranslateDirective } from '../../modules/translate/translate.directive'
     imports: [WacomModule, RouterLinkActive, RouterLink, TranslateDirective, RouterOutlet]
 })
 export class UserComponent {
+	us = inject(UserService);
+	private _platform = inject(Platform);
+
 	showSidebar = false;
 
 	hideSidebar(): void {
@@ -23,5 +26,8 @@ export class UserComponent {
 		}
 	}
 
-	constructor(public us: UserService, private _platform: Platform) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }

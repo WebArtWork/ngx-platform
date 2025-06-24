@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
@@ -18,6 +18,12 @@ import { InputComponent } from '../../../../core/modules/input/input.component';
     imports: [TableComponent, CellDirective, InputComponent]
 })
 export class UsersComponent {
+	private _translate = inject(TranslateService);
+	private _alert = inject(AlertService);
+	private _form = inject(FormService);
+	private _core = inject(CoreService);
+	private _us = inject(UserService);
+
 	form: FormInterface = this._form.prepareForm(userFormComponents);
 
 	config = {
@@ -91,13 +97,10 @@ export class UsersComponent {
 		return this._us.users;
 	}
 
-	constructor(
-		private _translate: TranslateService,
-		private _alert: AlertService,
-		private _form: FormService,
-		private _core: CoreService,
-		private _us: UserService
-	) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		for (const role of this._us.roles) {
 			this.columns.push(role);
 		}

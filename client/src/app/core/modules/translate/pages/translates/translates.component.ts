@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Language, TranslateService, Word } from '../../translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
@@ -27,6 +27,10 @@ interface TranslateAll {
     imports: [TranslateDirective, SelectComponent, ButtonComponent, TableComponent, CellDirective, TranslatePipe]
 })
 export class TranslatesComponent {
+	ts = inject(TranslateService);
+	private _form = inject(FormService);
+	private _http = inject(HttpService);
+
 	columns = ['page', 'word', 'translation'];
 	form: FormInterface = this._form.prepareForm({
 		formId: 'translate',
@@ -142,11 +146,10 @@ export class TranslatesComponent {
 		});
 	}
 
-	constructor(
-		public ts: TranslateService,
-		private _form: FormService,
-		private _http: HttpService
-	) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	translateAll(missed = false): void {
 		const rows = missed

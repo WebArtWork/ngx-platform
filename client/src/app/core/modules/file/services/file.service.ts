@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { File } from '../interfaces/file.interface';
 import { FileService as WacomFileService } from 'wacom';
 import { CrudService } from 'wacom';
@@ -7,9 +7,14 @@ import { CrudService } from 'wacom';
 	providedIn: 'root'
 })
 export class FileService extends CrudService<File> {
+	private _file = inject(WacomFileService);
+
 	setFile: (dataUrl: string) => void;
 
-	constructor(private _file: WacomFileService) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		super({
 			name: 'file'
 		});

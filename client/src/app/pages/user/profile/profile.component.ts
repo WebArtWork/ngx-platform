@@ -3,7 +3,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { environment } from 'src/environments/environment';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CoreService } from 'wacom';
 import { CardComponent } from '../../../core/modules/card/card.component';
 import { FileComponent } from '../../../core/modules/file/file.component';
@@ -24,13 +24,16 @@ interface ChangePassword {
     imports: [CardComponent, FileComponent, FormComponent, ButtonComponent, TranslateDirective]
 })
 export class ProfileComponent {
+	private _form = inject(FormService);
+	private _core = inject(CoreService);
+	us = inject(UserService);
+
 	readonly url = environment.url;
 
-	constructor(
-		private _form: FormService,
-		private _core: CoreService,
-		public us: UserService
-	) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		this._core.onComplete('us.user').then(() => {
 			const user = {};
 

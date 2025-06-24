@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { InputComponent } from '../../../core/modules/input/input.component';
@@ -13,6 +13,8 @@ import { JsonPipe } from '@angular/common';
     imports: [InputComponent, FormComponent, ButtonComponent, FileComponent, JsonPipe]
 })
 export class ComponentsComponent {
+	private _form = inject(FormService);
+
 	submition: Record<string, unknown> = {
 		emails: []
 	};
@@ -181,5 +183,8 @@ export class ComponentsComponent {
 		]
 	});
 
-	constructor(private _form: FormService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }

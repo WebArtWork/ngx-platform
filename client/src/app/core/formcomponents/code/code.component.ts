@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
 import 'brace';
 import 'brace/mode/json';
@@ -13,10 +13,15 @@ interface Interface {}
     imports: [AceModule]
 })
 export class CodeComponent implements OnInit {
+	private _form = inject(FormService);
+
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
 
-	constructor(private _form: FormService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Code', this.templateRef);

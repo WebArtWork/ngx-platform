@@ -1,11 +1,4 @@
-import {
-	SimpleChanges,
-	EventEmitter,
-	Component,
-	OnChanges,
-	Output,
-	Input,
-} from '@angular/core';
+import { SimpleChanges, EventEmitter, Component, OnChanges, Output, Input, inject } from '@angular/core';
 import { SelectModule } from 'src/app/core/modules/select/select.module';
 import { FileService } from '../../services/file.service';
 import { File } from '../../interfaces/file.interface';
@@ -17,6 +10,8 @@ import { File } from '../../interfaces/file.interface';
 	imports: [SelectModule],
 })
 export class FileSelectorComponent implements OnChanges {
+	private _fileService = inject(FileService);
+
 	@Input() value: string;
 
 	@Output() wChange = new EventEmitter();
@@ -25,7 +20,10 @@ export class FileSelectorComponent implements OnChanges {
 		return this._fileService.files;
 	}
 
-	constructor(private _fileService: FileService) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['value'] && !changes['value'].firstChange) {

@@ -4,7 +4,7 @@
 import { FormService } from 'src/app/core/modules/form/form.service';
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 /* componnets */
 import { CodeComponent } from './code/code.component';
 import { HtmlComponent } from './html/html.component';
@@ -64,7 +64,12 @@ const DEFAULT_ACE_CONFIG: AceConfigInterface = {
     ]
 })
 export class FormcomponentsModule {
-	constructor(private _form: FormService) {
+	private _form = inject(FormService);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		/* addComponents */
 		this._form.injectComponent<CodeComponent>('Code', CodeComponent);
 

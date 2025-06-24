@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CoreService, HttpService, StoreService } from 'wacom';
 import { languages } from './languages';
@@ -22,6 +22,10 @@ export interface Word {
 	providedIn: 'root'
 })
 export class TranslateService {
+	private _store = inject(StoreService);
+	private _http = inject(HttpService);
+	private _core = inject(CoreService);
+
 	readonly allLanguages = languages;
 
 	readonly appId = (environment as unknown as { appId: string }).appId;
@@ -64,11 +68,10 @@ export class TranslateService {
 				origin: 'English'
 		  };
 
-	constructor(
-		private _store: StoreService,
-		private _http: HttpService,
-		private _core: CoreService
-	) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		this._store.getJson('translates', (translates) => {
 			if (translates) {
 				this.translates = translates || {};

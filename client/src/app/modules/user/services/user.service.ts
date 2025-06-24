@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
@@ -13,6 +13,12 @@ import { User } from '../interfaces/user.interface';
 	providedIn: 'root'
 })
 export class UserService extends CrudService<User> {
+	private _http = inject(HttpService);
+	private _store = inject(StoreService);
+	private _alert = inject(AlertService);
+	private _core = inject(CoreService);
+	private _router = inject(Router);
+
 	readonly url = environment.url;
 
 	get thumb(): string {
@@ -42,13 +48,10 @@ export class UserService extends CrudService<User> {
 
 	usersByRole: Record<string, User[]> = {};
 
-	constructor(
-		private _http: HttpService,
-		private _store: StoreService,
-		private _alert: AlertService,
-		private _core: CoreService,
-		private _router: Router
-	) {
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {
 		super({
 			name: 'user',
 			replace: (user) => {

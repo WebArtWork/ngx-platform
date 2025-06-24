@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import {
 	CustomformService,
@@ -18,6 +18,11 @@ import { FormsModule } from '@angular/forms';
     imports: [TableComponent, CellDirective, FormsModule]
 })
 export class CustomformsComponent {
+	private _translate = inject(TranslateService);
+	private _cfs = inject(CustomformService);
+	private _alert = inject(AlertService);
+	private _form = inject(FormService);
+
 	columns = ['formId', 'components', 'active'];
 
 	form: FormInterface = this._form.getForm('form', {
@@ -263,12 +268,10 @@ export class CustomformsComponent {
 		return this._cfs.customforms;
 	}
 
-	constructor(
-		private _translate: TranslateService,
-		private _cfs: CustomformService,
-		private _alert: AlertService,
-		private _form: FormService
-	) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	private _addCustomComponent(
 		component: string,

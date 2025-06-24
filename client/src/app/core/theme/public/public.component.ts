@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 
@@ -9,5 +9,10 @@ import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
     imports: [RouterLinkActive, RouterLink, RouterOutlet]
 })
 export class PublicComponent {
-	constructor(public us: UserService) {}
+	us = inject(UserService);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 }

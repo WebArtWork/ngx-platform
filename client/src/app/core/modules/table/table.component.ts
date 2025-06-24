@@ -1,14 +1,4 @@
-import {
-	Component,
-	Input,
-	ContentChildren,
-	OnInit,
-	Output,
-	QueryList,
-	AfterContentInit,
-	EventEmitter,
-	ContentChild
-} from '@angular/core';
+import { Component, Input, ContentChildren, OnInit, Output, QueryList, AfterContentInit, EventEmitter, ContentChild, inject } from '@angular/core';
 import {
 	CellDirective,
 	SortDirective,
@@ -34,7 +24,13 @@ import { PerPagePipe } from './per-page.pipe';
     imports: [FormsModule, ButtonComponent, TranslateDirective, NgTemplateOutlet, RouterLink, WacomModule, PerPagePipe]
 })
 export class TableComponent implements OnInit, AfterContentInit {
-	constructor(private _router: Router, private _store: StoreService) {}
+	private _router = inject(Router);
+	private _store = inject(StoreService);
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	/** A unique ID for the table based on the current route. */
 	tableId =

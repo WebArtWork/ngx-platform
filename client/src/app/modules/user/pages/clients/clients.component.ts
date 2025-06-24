@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
@@ -12,6 +12,12 @@ import { userFormComponents } from '../../formcomponents/user.formcomponents';
 	styleUrls: ['./clients.component.scss']
 })
 export class ClientsComponent {
+	private _translate = inject(TranslateService);
+	private _us = inject(UserService);
+	private _alert = inject(AlertService);
+	private _core = inject(CoreService);
+	private _form = inject(FormService);
+
 	columns = ['name', 'email'];
 
 	form: FormInterface = this._form.prepareForm(userFormComponents);
@@ -97,13 +103,10 @@ export class ClientsComponent {
 			});
 		}
 	};
-	constructor(
-		private _translate: TranslateService,
-		private _us: UserService,
-		private _alert: AlertService,
-		private _core: CoreService,
-		private _form: FormService
-	) {
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+	constructor() {
 		this.setUsers();
 	}
 }

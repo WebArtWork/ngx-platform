@@ -1,12 +1,4 @@
-import {
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpService, ModalService } from 'wacom';
 import { FileService } from './../../services/file.service';
@@ -26,6 +18,10 @@ import { environment } from 'src/environments/environment';
 	imports: [CommonModule]
 })
 export class FileComponent implements OnInit, OnChanges {
+	private _modal = inject(ModalService);
+	private _http = inject(HttpService);
+	private _fs = inject(FileService);
+
 	readonly url = environment.url;
 
 	/**
@@ -110,11 +106,10 @@ export class FileComponent implements OnInit, OnChanges {
 		return this.value as string[];
 	}
 
-	constructor(
-		private _modal: ModalService,
-		private _http: HttpService,
-		private _fs: FileService
-	) {}
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+
+	constructor() {}
 
 	ngOnInit(): void {
 		if (!this.name && !this.multiple && this.value) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../modules/form/form.service';
 import { FileComponent } from '../../modules/file/file.component';
 interface Interface {}
@@ -8,9 +8,14 @@ interface Interface {}
     imports: [FileComponent]
 })
 export class PhotosComponent implements OnInit {
+	private _form = inject(FormService);
+
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
-	constructor(private _form: FormService) {}
+
+	/** Inserted by Angular inject() migration for backwards compatibility */
+	constructor(...args: unknown[]);
+	constructor() {}
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Photos', this.templateRef);
 	}
