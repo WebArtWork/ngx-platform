@@ -1,17 +1,18 @@
-# Button Module
+# Button Component
 
-The Button Module is a customizable Angular component for creating various types of buttons, including primary, secondary, success, danger, and more. This module provides an easy way to manage button styles, states, and events in your Angular applications.
+The Button Component is a customizable standalone Angular component for creating various types of buttons—primary, secondary, success, danger, and more. It provides an easy way to manage button styles, states, and events in your Angular applications.
 
 ## Features
 
--   Supports multiple button types: primary, secondary, success, danger, warning, info, light, dark, link.
--   Customizable classes for additional styling.
--   Supports disabled state.
--   Emits custom click events.
+- Multiple button types: primary, secondary, success, danger, warning, info, light, dark, link
+- Customizable classes for additional styling
+- Supports disabled state
+- Emits custom click events
+- Fully standalone, uses Angular v20 `input()` and `output()`
 
 ## Installation
 
-To install this module, use the following command:
+To install this component, use:
 
 ```cmd
 waw add ngx-button
@@ -19,100 +20,112 @@ waw add ngx-button
 
 ## Usage
 
-### Importing the Module
+### Importing the Standalone Component
 
-First, import the `ButtonModule` into your Angular module:
+Import the standalone `ButtonComponent` directly where you need it:
 
-```Typescript
-import { ButtonModule } from '@your-namespace/button-module';
+```typescript
+import { signal } from '@angular/core';
+import { ButtonComponent } from '.../button.component.ts';
 
-@NgModule({
-  declarations: [...],
-  imports: [
-    ButtonModule,
-    ...
-  ],
-  providers: [],
-  bootstrap: [...]
+@Component({
+	imports: [ButtonComponent],
+	template: `<wbutton ...>Button</wbutton>`
 })
-export class AppModule { }
+export class AppComponent {}
 ```
 
 ### Basic Example
 
-Here's a basic example of how to use the button component in your Angular template:
+**Simple usage:**
 
-```Typescript
-<wbutton
-  [type]="'primary'"
-  [disabled]="false"
-  (wClick)="onButtonClick()"
->
-  Click Me
-</wbutton>
+```html
+<wbutton type="primary" (wClick)="onButtonClick()">Click Me</wbutton>
 ```
+
+### Parent-to-Child Reactivity with Signals
+
+You can use Angular signals in the parent and bind their value to the child.
+This keeps the button input reactive:
+
+```typescript
+import { signal } from '@angular/core';
+
+@Component({
+	imports: [ButtonComponent],
+	template: `
+		<wbutton
+			type="success"
+			[disabled]="disabledSignal()"
+			(wClick)="toggleDisabled()"
+		>
+			Toggle Disabled
+		</wbutton>
+	`
+})
+export class ParentComponent {
+	disabledSignal = signal(false);
+
+	toggleDisabled() {
+		this.disabledSignal.set(!this.disabledSignal());
+	}
+}
+```
+
+- The button will enable/disable reactively as `disabledSignal` changes.
 
 ### Handling Different Button Types
 
-The `ButtonComponent` supports a variety of button types:
+Supported types:
 
--   `primary`
--   `secondary`
--   `success`
--   `danger`
--   `warning`
--   `info`
--   `light`
--   `dark`
--   `link`
+- `primary`
+- `secondary`
+- `success`
+- `danger`
+- `warning`
+- `info`
+- `light`
+- `dark`
+- `link`
 
 Example:
 
-```Typescript
-<wbutton
-  [type]="'danger'"
-  (wClick)="onDangerClick()"
->
-  Delete
-</wbutton>
+```html
+<wbutton type="danger" (wClick)="onDangerClick()">Delete</wbutton>
 ```
 
 ### Custom Classes
 
-You can provide custom classes for additional styling:
+Add extra classes for custom styling:
 
-```Typescript
-<wbutton
-  [type]="'success'"
-  [class]="'custom-class'"
-  (wClick)="onSuccessClick()"
->
-  Save
+```html
+<wbutton type="success" class="custom-class" (wClick)="onSuccessClick()">
+	Save
 </wbutton>
 ```
 
 ## API
 
-### Inputs
+### Inputs (`input()` API)
 
--   **type** (`string`): The type of button. Options include primary, secondary, success, danger, warning, info, light, dark, and link.
--   **class** (`string`): Custom CSS classes to add to the button.
--   **disabled** (`boolean`): Whether the button is disabled.
--   **disableSubmit** (`boolean`): When true, the button will not submit the form, even if placed inside a form.
--   **click** (`(() => void) | undefined`): Custom function to handle the click event.
+- **type** (`'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link'`, default `'primary'`): Button style
+- **class** (`string`, default `''`): Extra CSS classes
+- **disabled** (`boolean`, default `false`): Disabled state
+- **disableSubmit** (`boolean`, default `false`): When true, button will not submit forms
+- **click** (`(() => void) | undefined`): Custom function called on click (optional)
 
-### Outputs
+### Outputs (`output()` API)
 
--   **wClick** (`EventEmitter<void>`): Emits an event when the button is clicked.
+- **wClick** (`void`): Emits when the button is clicked
 
 ## Customization
 
-You can customize the appearance of the button component using custom CSS or by passing additional classes through the `class` input.
+Style the button via the `class` input or by overriding CSS. The component uses BEM-like classes (e.g., `_primary`, `_success`, etc).
 
 ## Contributing
 
-Feel free to contribute to this project by opening issues or submitting pull requests. Make sure to follow the contribution guidelines.
+Contributions are welcome! Please open issues or submit pull requests. Follow the contribution guidelines.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License.
