@@ -1,15 +1,12 @@
+import { Component, inject } from '@angular/core';
+import { FormService } from 'src/app/core/modules/form/form.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
-import { User } from 'src/app/modules/user/interfaces/user.interface';
-import { FormService } from 'src/app/core/modules/form/form.service';
 import { environment } from 'src/environments/environment';
-import { Component, inject } from '@angular/core';
 import { CoreService } from 'wacom';
-import { CardComponent } from '../../../core/modules/card/card.component';
-import { FileComponent } from '../../../core/modules/file/file.component';
-
-import { FormComponent } from '../../../core/modules/form/form.component';
 import { ButtonComponent } from '../../../core/modules/button/button.component';
+import { FileComponent } from '../../../core/modules/file/file.component';
+import { FormComponent } from '../../../core/modules/form/form.component';
 import { TranslateDirective } from '../../../core/modules/translate/translate.directive';
 
 interface ChangePassword {
@@ -18,10 +15,10 @@ interface ChangePassword {
 }
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss'],
-    imports: [CardComponent, FileComponent, FormComponent, ButtonComponent, TranslateDirective]
+	selector: 'app-profile',
+	templateUrl: './profile.component.html',
+	styleUrls: ['./profile.component.scss'],
+	imports: [FileComponent, FormComponent, ButtonComponent, TranslateDirective]
 })
 export class ProfileComponent {
 	private _form = inject(FormService);

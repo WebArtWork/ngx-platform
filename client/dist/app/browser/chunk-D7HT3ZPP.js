@@ -1,1 +1,0 @@
-import{a}from"./chunk-CQC5ITEL.js";import"./chunk-FLV5XSWU.js";import"./chunk-NIOPTIDR.js";import"./chunk-M6G42QHH.js";import"./chunk-2TUBYUWN.js";import"./chunk-AS543DEV.js";import"./chunk-FZ63LWPL.js";import"./chunk-O6TSCDJI.js";export{a as ProfileComponent};

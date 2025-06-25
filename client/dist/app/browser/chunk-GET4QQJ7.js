@@ -1,0 +1,1 @@
+import{Bb as r,_ as n,ra as i}from"./chunk-Z2ISG73R.js";var a=(()=>{let e=class e{};e.\u0275fac=function(o){return new(o||e)},e.\u0275cmp=n({type:e,selectors:[["guest"]],decls:1,vars:0,template:function(o,c){o&1&&i(0,"router-outlet")},dependencies:[r],encapsulation:2});let t=e;return t})();export{a as GuestComponent};
