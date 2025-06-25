@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
+import { FormService } from 'src/app/libs/form/form.service';
+import { FormComponentInterface } from 'src/app/libs/form/interfaces/component.interface';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService } from 'wacom';
-import { TableComponent } from '../../../../core/modules/table/table.component';
-import { CellDirective } from '../../../../core/modules/table/table.directive';
+import { TableComponent } from '../../../../libs/table/table.component';
+import { CellDirective } from '../../../../libs/table/table.directive';
 import {
 	Customform,
 	CustomformService

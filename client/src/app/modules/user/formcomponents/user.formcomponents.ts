@@ -1,4 +1,4 @@
-import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
+import { FormComponentInterface } from 'src/app/libs/form/interfaces/component.interface';
 import { environment } from 'src/environments/environment';
 
 export const userFormComponents = {

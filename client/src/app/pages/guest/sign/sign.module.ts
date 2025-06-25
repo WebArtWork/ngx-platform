@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CoreModule } from 'src/app/core/core.module';
-
 import { RouterModule, Routes } from '@angular/router';
 import { SignComponent } from './sign.component';
 
@@ -13,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CoreModule, SignComponent],
+	imports: [RouterModule.forChild(routes), SignComponent],
 	providers: []
 })
 export class SignModule {}

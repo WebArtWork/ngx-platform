@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/form.service';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 import { CoreService } from 'wacom';
-import { ButtonComponent } from '../../../core/modules/button/button.component';
-import { FileComponent } from '../../../core/modules/file/file.component';
-import { FormComponent } from '../../../core/modules/form/form.component';
-import { TranslateDirective } from '../../../core/modules/translate/translate.directive';
+import { ButtonComponent } from '../../../libs/button/button.component';
+import { FileComponent } from '../../../libs/file/file.component';
+import { FormComponent } from '../../../libs/form/form.component';
+import { TranslateDirective } from '../../../libs/translate/translate.directive';
 
 interface ChangePassword {
 	oldPass: string;

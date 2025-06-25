@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/form.service';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
-import { ButtonComponent } from '../../../core/modules/button/button.component';
-import { FormComponent } from '../../../core/modules/form/form.component';
+import { ButtonComponent } from '../../../libs/button/button.component';
+import { FormComponent } from '../../../libs/form/form.component';
 
 @Component({
 	templateUrl: './document.component.html',

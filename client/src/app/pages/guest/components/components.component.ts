@@ -1,11 +1,11 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { ButtonComponent } from '../../../core/modules/button/button.component';
-import { FileComponent } from '../../../core/modules/file/file.component';
-import { FormComponent } from '../../../core/modules/form/form.component';
-import { InputComponent } from '../../../core/modules/input/input.component';
+import { FormService } from 'src/app/libs/form/form.service';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { ButtonComponent } from '../../../libs/button/button.component';
+import { FileComponent } from '../../../libs/file/file.component';
+import { FormComponent } from '../../../libs/form/form.component';
+import { InputComponent } from '../../../libs/input/input.component';
 
 @Component({
 	templateUrl: './components.component.html',

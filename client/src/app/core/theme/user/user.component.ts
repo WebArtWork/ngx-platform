@@ -1,11 +1,10 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { TranslateDirective } from 'src/app/libs/translate/translate.directive';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { WacomModule } from 'wacom';
 import { coreAnimation } from '../../animations/core.animations';
-
-import { TranslateDirective } from '../../modules/translate/translate.directive';
 
 @Component({
 	selector: 'app-user',

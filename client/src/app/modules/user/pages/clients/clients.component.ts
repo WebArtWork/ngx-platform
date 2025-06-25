@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
+import { FormService } from 'src/app/libs/form/form.service';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService, CoreService } from 'wacom';
-import { UserService } from '../../services/user.service';
-import { User } from '../../interfaces/user.interface';
 import { userFormComponents } from '../../formcomponents/user.formcomponents';
+import { User } from '../../interfaces/user.interface';
+import { UserService } from '../../services/user.service';
 
 @Component({
 	templateUrl: './clients.component.html',

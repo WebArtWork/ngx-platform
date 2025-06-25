@@ -7,7 +7,7 @@ import {
 	SimpleChanges,
 	inject
 } from '@angular/core';
-import { SelectModule } from 'src/app/core/modules/select/select.module';
+import { SelectModule } from 'src/app/libs/select/select.module';
 import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({

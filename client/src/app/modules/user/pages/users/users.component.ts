@@ -1,21 +1,21 @@
 import { Component, inject } from '@angular/core';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
+import { FormService } from 'src/app/libs/form/form.service';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService, CoreService } from 'wacom';
+import { TableComponent } from '../../../../libs/table/table.component';
+import { userFormComponents } from '../../formcomponents/user.formcomponents';
 import { User } from '../../interfaces/user.interface';
 import { UserService } from '../../services/user.service';
-import { userFormComponents } from '../../formcomponents/user.formcomponents';
-import { TableComponent } from '../../../../core/modules/table/table.component';
 
-import { CellDirective } from '../../../../core/modules/table/table.directive';
-import { InputComponent } from '../../../../core/modules/input/input.component';
+import { InputComponent } from '../../../../libs/input/input.component';
+import { CellDirective } from '../../../../libs/table/table.directive';
 
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss'],
-    imports: [TableComponent, CellDirective, InputComponent]
+	selector: 'app-users',
+	templateUrl: './users.component.html',
+	styleUrls: ['./users.component.scss'],
+	imports: [TableComponent, CellDirective, InputComponent]
 })
 export class UsersComponent {
 	private _translate = inject(TranslateService);
