@@ -1,0 +1,1 @@
+import{a}from"./chunk-2OAZMDCJ.js";import{C as s,ba as n}from"./chunk-Z2ISG73R.js";var m=(()=>{let t=class t{constructor(){this._tr=s(a)}transform(e,i){return this._tr.translate(e)}};t.\u0275fac=function(i){return new(i||t)},t.\u0275pipe=n({name:"translate",type:t,pure:!0});let r=t;return r})();export{m as a};
