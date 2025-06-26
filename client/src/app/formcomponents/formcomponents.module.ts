@@ -10,7 +10,6 @@ import { BooleanComponent } from './boolean/boolean.component';
 import { ButtonComponent } from './button/button.component';
 import { CodeComponent } from './code/code.component';
 import { DateComponent } from './date/date.component';
-import { EmailComponent } from './email/email.component';
 import { HtmlComponent } from './html/html.component';
 import { NumberComponent } from './number/number.component';
 import { PasswordComponent } from './password/password.component';
@@ -40,7 +39,7 @@ const DEFAULT_ACE_CONFIG: AceConfigInterface = {
 		/* declarations */
 		CodeComponent,
 		HtmlComponent,
-		EmailComponent,
+		// EmailComponent,
 		NumberComponent,
 		TimeComponent,
 		DateComponent,
@@ -63,9 +62,6 @@ const DEFAULT_ACE_CONFIG: AceConfigInterface = {
 export class FormcomponentsModule {
 	private _form = inject(FormService);
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
 	constructor() {
 		/* addComponents */
 		this._form.injectComponent<CodeComponent>('Code', CodeComponent);
@@ -84,7 +80,7 @@ export class FormcomponentsModule {
 
 		this._form.injectComponent<DateComponent>('Date', DateComponent);
 
-		this._form.injectComponent<EmailComponent>('Email', EmailComponent);
+		// this._form.injectComponent<EmailComponent>('Email', EmailComponent);
 
 		this._form.injectComponent<NumberComponent>('Number', NumberComponent);
 

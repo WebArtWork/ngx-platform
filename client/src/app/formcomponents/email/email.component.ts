@@ -13,7 +13,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './email.component.html',
-	styleUrls: ['./email.component.scss'],
 	imports: [InputComponent, NgClass]
 })
 export class EmailComponent implements OnInit {
@@ -23,6 +22,8 @@ export class EmailComponent implements OnInit {
 	templateRef: TemplateRef<Interface>;
 
 	ngOnInit(): void {
+		console.log('we are here');
+
 		this._form.addTemplateComponent<Interface>('Email', this.templateRef);
 	}
 }

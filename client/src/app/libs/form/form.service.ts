@@ -1,15 +1,24 @@
-import { ComponentFactoryResolver, ApplicationRef, TemplateRef, Injectable, Injector, Type, inject } from '@angular/core';
-import { CoreService, ModalService, StoreService, Modal } from 'wacom';
+import {
+	ApplicationRef,
+	ComponentFactoryResolver,
+	Injectable,
+	Injector,
+	TemplateRef,
+	Type,
+	createComponent,
+	inject
+} from '@angular/core';
+import { CustomformService } from 'src/app/modules/customform/services/customform.service';
+import { environment } from 'src/environments/environment';
+import { CoreService, Modal, ModalService, StoreService } from 'wacom';
+import { TranslateService } from '../translate/translate.service';
 import {
 	FormComponentInterface,
 	TemplateFieldInterface
 } from './interfaces/component.interface';
 import { FormInterface } from './interfaces/form.interface';
 import { ModalFormComponent } from './modals/modal-form/modal-form.component';
-import { TranslateService } from '../translate/translate.service';
 import { ModalUniqueComponent } from './modals/modal-unique/modal-unique.component';
-import { environment } from 'src/environments/environment';
-import { CustomformService } from 'src/app/modules/customform/services/customform.service';
 
 export interface FormModalButton {
 	click: (submition: unknown, close: () => void) => void;
@@ -35,15 +44,28 @@ export class FormService {
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
 	constructor() {
 		/** Load form IDs from the store */
 		this._store.getJson('formIds', (formIds: string[]) => {
 			if (Array.isArray(formIds)) {
 				this.formIds.push(...formIds);
 			}
+		});
+
+		setTimeout(async () => {
+			const mod = await import(
+				'src/app/formcomponents/email/email.component'
+			);
+
+			const component = mod['EmailComponent'] as Type<any>;
+
+			const compRef = createComponent(component, {
+				environmentInjector: this.appRef.injector
+			});
+
+			this.appRef.attachView(compRef.hostView);
+
+			(compRef.hostView as any).detectChanges?.();
 		});
 	}
 
