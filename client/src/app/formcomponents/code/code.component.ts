@@ -15,7 +15,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './code.component.html',
-	styleUrls: ['./code.component.scss'],
 	imports: [AceModule]
 })
 export class CodeComponent implements OnInit {

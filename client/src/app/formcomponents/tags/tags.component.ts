@@ -14,7 +14,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './tags.component.html',
-	styleUrls: ['./tags.component.scss'],
 	imports: [InputComponent, ButtonComponent]
 })
 export class TagsComponent implements OnInit {

@@ -8,6 +8,7 @@ import {
 	withInMemoryScrolling,
 	withPreloading
 } from '@angular/router';
+import { NgxTinymceModule } from 'ngx-tinymce';
 import { MetaGuard, WacomModule } from 'wacom';
 import { AppComponent } from './app/app.component';
 import { AdminsGuard } from './app/core/guards/admins.guard';
@@ -170,7 +171,9 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(
 			BrowserModule,
-			// FormcomponentsModule,
+			NgxTinymceModule.forRoot({
+				baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
+			}),
 			WacomModule.forRoot({
 				store: {},
 				http: {

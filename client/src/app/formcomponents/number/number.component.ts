@@ -13,7 +13,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './number.component.html',
-	styleUrls: ['./number.component.scss'],
 	imports: [InputComponent, NgClass]
 })
 export class NumberComponent implements OnInit {

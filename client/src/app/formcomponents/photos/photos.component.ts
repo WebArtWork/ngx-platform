@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 import { FileComponent } from '../../libs/file/file.component';
 import { FormService } from '../../libs/form/form.service';
+
 interface Interface {}
+
 @Component({
 	templateUrl: './photos.component.html',
-	styleUrls: ['./photos.component.scss'],
 	imports: [FileComponent]
 })
 export class PhotosComponent implements OnInit {

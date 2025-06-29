@@ -1,8 +1,6 @@
 import {
 	ApplicationRef,
-	ComponentFactoryResolver,
 	Injectable,
-	Injector,
 	TemplateRef,
 	Type,
 	createComponent,
@@ -32,14 +30,12 @@ export interface FormModalButton {
 	providedIn: 'root'
 })
 export class FormService {
-	private componentFactoryResolver = inject(ComponentFactoryResolver);
 	private _translate = inject(TranslateService);
 	private _cfs = inject(CustomformService);
 	private appRef = inject(ApplicationRef);
 	private _modal = inject(ModalService);
 	private _store = inject(StoreService);
 	private _core = inject(CoreService);
-	private injector = inject(Injector);
 
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
@@ -51,29 +47,14 @@ export class FormService {
 				this.formIds.push(...formIds);
 			}
 		});
-
-		setTimeout(async () => {
-			const mod = await import(
-				'src/app/formcomponents/email/email.component'
-			);
-
-			const component = mod['EmailComponent'] as Type<any>;
-
-			const compRef = createComponent(component, {
-				environmentInjector: this.appRef.injector
-			});
-
-			this.appRef.attachView(compRef.hostView);
-
-			(compRef.hostView as any).detectChanges?.();
-		});
 	}
 
-	private _injectedComponent: Record<string, boolean> = {};
 	templateFields: Record<string, string[]> = {};
+
 	getTemplateFields(name: string): string[] {
 		return this.templateFields[name] || ['Placeholder', 'Label'];
 	}
+
 	setTemplateFields(
 		name: string,
 		fields: string[],
@@ -86,48 +67,25 @@ export class FormService {
 			...customFields
 		};
 	}
+
 	customTemplateFields: Record<string, Record<string, string>> = {};
+
 	getCustomTemplateFields(name: string): Record<string, string> {
 		return this.customTemplateFields[name] || {};
 	}
-	injectComponent<T>(
-		name: string,
-		component: Type<T>,
-		fields = ['Placeholder', 'Label'],
-		customFields: Record<string, string> = {}
-	): void {
-		if (!this._injectedComponent[name]) {
-			this._injectedComponent[name] = true;
 
-			this.templateFields[name] = fields;
-
-			this.customTemplateFields[name] = customFields;
-
-			const componentFactory =
-				this.componentFactoryResolver.resolveComponentFactory(
-					component
-				);
-
-			const componentRef = componentFactory.create(this.injector);
-
-			this.appRef.attachView(componentRef.hostView);
-
-			const domElem = (
-				componentRef.hostView as unknown as { rootNodes: HTMLElement[] }
-			).rootNodes[0];
-
-			document.body.appendChild(domElem);
-		}
-	}
 	private _templateComponent: Record<string, TemplateRef<unknown>> = {};
+
 	addTemplateComponent<T>(name: string, template: TemplateRef<T>): void {
 		if (!this._templateComponent[name]) {
 			this._templateComponent[name] = template;
 		}
 	}
+
 	getTemplateComponent(name: string): TemplateRef<unknown> | undefined {
 		return this._templateComponent[name];
 	}
+
 	getTemplateComponentsNames(): string[] {
 		const names = [];
 
@@ -155,6 +113,7 @@ export class FormService {
 			}
 		}
 	}
+
 	/** Translates individual form components' fields */
 	translateFormComponent(
 		form: FormInterface,
@@ -180,17 +139,17 @@ export class FormService {
 
 	/** Creates a default form with specified components */
 	getDefaultForm(
-		id: string,
+		formIds: string,
 		components = ['name', 'description']
 	): FormInterface {
-		if (this.formIds.indexOf(id) === -1) {
-			this.formIds.push(id);
+		if (this.formIds.indexOf(formIds) === -1) {
+			this.formIds.push(formIds);
 
 			this._store.setJson('formIds', this.formIds);
 		}
 
 		const form = {
-			id,
+			formIds,
 			components: components.map((key, index) => {
 				const name = key.includes('.') ? key.split('.')[1] : 'Text';
 
@@ -249,55 +208,25 @@ export class FormService {
 			}
 
 			this.translateForm(form);
+
+			this._addFormComponents(form.components);
 		});
+
+		this._addFormComponents(form.components);
 
 		return form;
 	}
+
 	getForm(formId: string, form?: FormInterface): FormInterface {
 		console.warn('This function is deprecated');
 
-		if (
-			form &&
-			this.forms.map((c) => c.formId).indexOf(form?.formId) === -1
-		) {
-			this.forms.push(form);
-		}
+		this.prepareForm(
+			form ||
+				this.forms.find((f) => f.formId === formId) ||
+				this.getDefaultForm(formId)
+		);
 
-		if (this.formIds.indexOf(formId) === -1) {
-			this.formIds.push(formId);
-
-			this._store.setJson('formIds', this.formIds);
-		}
-
-		form = form || this.forms.find((f) => f.formId === formId);
-
-		form = form || this.getDefaultForm(formId);
-
-		form.formId = formId;
-
-		this._core.onComplete('form_loaded').then(() => {
-			const customForms = this._cfs.customforms.filter(
-				(f) => f.active && f.formId === form.formId
-			);
-
-			for (const customForm of customForms) {
-				form.title = form.title || customForm.name;
-
-				form.class = form.class || customForm.class;
-
-				for (const component of customForm.components) {
-					component.key = component.key?.startsWith('data.')
-						? component.key
-						: 'data.' + component.key;
-
-					form.components.push(component);
-				}
-			}
-
-			this.translateForm(form);
-		});
-
-		return form;
+		return form as FormInterface;
 	}
 
 	/** Shows a modal form with specified options */
@@ -464,5 +393,29 @@ export class FormService {
 		return null;
 	}
 
-	private _addCustomComponents(form: FormInterface) {}
+	private _addedFormComponent: Record<string, boolean> = {};
+
+	private async _addFormComponents(components: FormComponentInterface[]) {
+		for (const component of components) {
+			if (component.name) this._addFormComponent(component.name);
+		}
+	}
+
+	private async _addFormComponent(name: string) {
+		const component = (
+			environment.formcomponent as unknown as Record<string, Type<any>>
+		)[name];
+
+		if (component && !this._addedFormComponent[name]) {
+			this._addedFormComponent[name] = true;
+
+			const compRef = createComponent(component, {
+				environmentInjector: this.appRef.injector
+			});
+
+			this.appRef.attachView(compRef.hostView);
+
+			(compRef.hostView as any).detectChanges?.();
+		}
+	}
 }

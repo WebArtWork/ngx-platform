@@ -13,7 +13,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './text.component.html',
-	styleUrls: ['./text.component.scss'],
 	imports: [InputComponent, NgClass]
 })
 export class TextComponent implements OnInit {

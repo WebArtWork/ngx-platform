@@ -13,7 +13,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './boolean.component.html',
-	styleUrl: './boolean.component.scss',
 	imports: [InputComponent, NgClass]
 })
 export class BooleanComponent implements OnInit {

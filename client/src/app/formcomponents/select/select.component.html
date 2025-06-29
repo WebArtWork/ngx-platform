@@ -1,5 +1,6 @@
 <ng-template #templateRef let-data>
-	<wselect [select]="data.submition[data.key]"
+	<wselect
+		[select]="data.submition[data.key]"
 		(modelChange)="
 			data.submition[data.key] = $event;
 			data.wChange()
@@ -11,5 +12,5 @@
 		[ngClass]="data.component.class"
 		[items]="data.field.Items"
 		[searchable]="true"
-	 />
+	/>
 </ng-template>

@@ -13,7 +13,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './time.component.html',
-	styleUrls: ['./time.component.scss'],
 	imports: [InputComponent, NgClass]
 })
 export class TimeComponent implements OnInit {

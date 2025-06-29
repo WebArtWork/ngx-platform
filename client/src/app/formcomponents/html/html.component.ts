@@ -13,7 +13,6 @@ interface Interface {}
 
 @Component({
 	templateUrl: './html.component.html',
-	styleUrls: ['./html.component.scss'],
 	imports: [TinymceComponent, FormsModule]
 })
 export class HtmlComponent implements OnInit {
