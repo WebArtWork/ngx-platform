@@ -22,8 +22,6 @@ export class EmailComponent implements OnInit {
 	templateRef: TemplateRef<Interface>;
 
 	ngOnInit(): void {
-		console.log('we are here');
-
 		this._form.addTemplateComponent<Interface>('Email', this.templateRef);
 	}
 }

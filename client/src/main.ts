@@ -13,7 +13,6 @@ import { AppComponent } from './app/app.component';
 import { AdminsGuard } from './app/core/guards/admins.guard';
 import { AuthenticatedGuard } from './app/core/guards/authenticated.guard';
 import { GuestGuard } from './app/core/guards/guest.guard';
-import { FormcomponentsModule } from './app/formcomponents/formcomponents.module';
 import { environment } from './environments/environment';
 
 const routes: Routes = [
@@ -171,7 +170,7 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(
 			BrowserModule,
-			FormcomponentsModule,
+			// FormcomponentsModule,
 			WacomModule.forRoot({
 				store: {},
 				http: {
