@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { ButtonComponent } from '../../../libs/button/button.component';
@@ -8,13 +8,14 @@ import { FormComponent } from '../../../libs/form/form.component';
 import { InputComponent } from '../../../libs/input/input.component';
 
 @Component({
-	templateUrl: './components.component.html',
-	styleUrls: ['./components.component.scss'],
-	imports: [
-		InputComponent,
-		FormComponent,
-		ButtonComponent,
-		FileComponent,
+        templateUrl: './components.component.html',
+        styleUrls: ['./components.component.scss'],
+        changeDetection: ChangeDetectionStrategy.OnPush,
+        imports: [
+                InputComponent,
+                FormComponent,
+                ButtonComponent,
+                FileComponent,
 		JsonPipe
 	]
 })
