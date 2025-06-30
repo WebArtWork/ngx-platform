@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { HttpService } from 'wacom';
@@ -22,6 +22,7 @@ interface TranslateAll {
 }
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './translates.component.html',
 	styleUrls: ['./translates.component.scss'],
 	imports: [

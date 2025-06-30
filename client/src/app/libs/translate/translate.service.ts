@@ -51,7 +51,7 @@ export class TranslateService {
 					name: 'English',
 					origin: 'English'
 				}
-		  ];
+			];
 
 	// Currently selected language
 	language: Language = this.defaultLanguageCode
@@ -59,14 +59,14 @@ export class TranslateService {
 				code: 'en',
 				name: 'English',
 				origin: 'English'
-		  }
+			}
 		: this.languages.length
-		? this.languages[0]
-		: {
-				code: 'en',
-				name: 'English',
-				origin: 'English'
-		  };
+			? this.languages[0]
+			: {
+					code: 'en',
+					name: 'English',
+					origin: 'English'
+				};
 
 	/** Inserted by Angular inject() migration for backwards compatibility */
 	constructor(...args: unknown[]);

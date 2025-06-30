@@ -1,5 +1,6 @@
 <ng-template #templateRef let-data>
-	<winput [value]="data.submition[data.key]"
+	<winput
+		[value]="data.submition[data.key]"
 		(wChange)="
 			data.submition[data.key] = number($event);
 			data.wChange()
@@ -10,5 +11,5 @@
 		[ngClass]="data.component.class"
 		[label]="data.field.Label"
 		type="number"
-	 />
+	/>
 </ng-template>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormComponentInterface } from 'src/app/libs/form/interfaces/component.interface';
@@ -13,9 +13,10 @@ import {
 } from '../../services/customform.service';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [TableComponent, CellDirective, FormsModule],
 	templateUrl: './customforms.component.html',
-	styleUrls: ['./customforms.component.scss'],
-	imports: [TableComponent, CellDirective, FormsModule]
+	styleUrls: ['./customforms.component.scss']
 })
 export class CustomformsComponent {
 	private _translate = inject(TranslateService);

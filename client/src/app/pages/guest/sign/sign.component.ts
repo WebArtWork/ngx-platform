@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpiderComponent } from 'src/app/icons/spider/spider.component';
 import { FormService } from 'src/app/libs/form/form.service';
@@ -16,9 +16,9 @@ interface RespStatus {
 }
 
 @Component({
-	templateUrl: './sign.component.html',
-	styleUrls: ['./sign.component.scss'],
-	imports: [SpiderComponent, FormComponent]
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [SpiderComponent, FormComponent],
+	templateUrl: './sign.component.html'
 })
 export class SignComponent {
 	userService = inject(UserService);

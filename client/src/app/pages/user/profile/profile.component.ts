@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
@@ -15,10 +15,16 @@ interface ChangePassword {
 }
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [
+		FileComponent,
+		FormComponent,
+		ButtonComponent,
+		TranslateDirective
+	],
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
-	styleUrls: ['./profile.component.scss'],
-	imports: [FileComponent, FormComponent, ButtonComponent, TranslateDirective]
+	styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
 	private _form = inject(FormService);

@@ -1,5 +1,6 @@
 <ng-template #templateRef let-data>
-	<ngx-file [value]="data.submition[data.key]"
+	<ngx-file
+		[value]="data.submition[data.key]"
 		(update)="
 			data.submition[data.key] = $event;
 			data.wChange()
@@ -10,5 +11,5 @@
 		[height]="data.field.Height"
 		[multiple]="true"
 		[isPhoto]="true"
-	 />
+	/>
 </ng-template>

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
 	Component,
 	EventEmitter,
@@ -6,13 +7,12 @@ import {
 	TemplateRef
 } from '@angular/core';
 import { FormModalButton } from '../../../form.service';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-    selector: 'app-modal-form-button',
-    templateUrl: './modal-form-button.component.html',
-    styleUrls: ['./modal-form-button.component.scss'],
-    imports: [NgTemplateOutlet]
+	selector: 'app-modal-form-button',
+	templateUrl: './modal-form-button.component.html',
+	styleUrls: ['./modal-form-button.component.scss'],
+	imports: [NgTemplateOutlet]
 })
 export class ModalFormButtonComponent {
 	@Input() button: FormModalButton;

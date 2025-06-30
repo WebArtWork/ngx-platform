@@ -1,5 +1,6 @@
 <ng-template #templateRef let-data>
-	<ace (valueChange)="
+	<ace
+		(valueChange)="
 			data.submition[data.key] = $event;
 			data.wChange()
 		"
@@ -7,5 +8,5 @@
 		style="width: 100%"
 		theme="monkai"
 		mode="json"
-	 />
+	/>
 </ng-template>

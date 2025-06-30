@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
@@ -12,10 +12,11 @@ import { InputComponent } from '../../../../libs/input/input.component';
 import { CellDirective } from '../../../../libs/table/table.directive';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [TableComponent, CellDirective, InputComponent],
 	selector: 'app-users',
 	templateUrl: './users.component.html',
-	styleUrls: ['./users.component.scss'],
-	imports: [TableComponent, CellDirective, InputComponent]
+	styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
 	private _translate = inject(TranslateService);

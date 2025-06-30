@@ -40,8 +40,8 @@ const routes: Routes = [
 					}
 				},
 				loadChildren: () =>
-					import('./app/pages/guest/sign/sign.module').then(
-						(m) => m.SignModule
+					import('./app/pages/guest/sign/sign.routes').then(
+						(m) => m.routes
 					)
 			}
 		]
@@ -64,8 +64,8 @@ const routes: Routes = [
 					}
 				},
 				loadChildren: () =>
-					import('./app/pages/user/profile/profile.module').then(
-						(m) => m.ProfileModule
+					import('./app/pages/user/profile/profile.routes').then(
+						(m) => m.routes
 					)
 			}
 		]
@@ -87,22 +87,9 @@ const routes: Routes = [
 					}
 				},
 				loadChildren: () =>
-					import('./app/pages/guest/document/document.module').then(
-						(m) => m.DocumentModule
+					import('./app/pages/guest/document/document.routes').then(
+						(m) => m.routes
 					)
-			},
-			{
-				path: 'components',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Components'
-					}
-				},
-				loadChildren: () =>
-					import(
-						'./app/pages/guest/components/components.module'
-					).then((m) => m.ComponentsModule)
 			}
 		]
 	},
@@ -124,8 +111,8 @@ const routes: Routes = [
 					}
 				},
 				loadChildren: () =>
-					import('./app/modules/user/pages/users/users.module').then(
-						(m) => m.UsersModule
+					import('./app/modules/user/pages/users/users.routes').then(
+						(m) => m.routes
 					)
 			},
 			{
@@ -138,8 +125,8 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./app/modules/customform/pages/customforms/customforms.module'
-					).then((m) => m.CustomformsModule)
+						'./app/modules/customform/pages/customforms/customforms.routes'
+					).then((m) => m.routes)
 			},
 			{
 				path: 'translates',
@@ -151,8 +138,8 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./app/libs/translate/pages/translates/translates.module'
-					).then((m) => m.TranslatesModule)
+						'./app/libs/translate/pages/translates/translates.routes'
+					).then((m) => m.routes)
 			}
 		]
 	},
@@ -188,26 +175,6 @@ bootstrapApplication(AppComponent, {
 						description: environment.meta.description,
 						titleSuffix: ' | ' + environment.meta.title,
 						'og:image': environment.meta.image
-					}
-				},
-				modal: {
-					modals: {
-						/* modals */
-					}
-				},
-				alert: {
-					alerts: {
-						/* alerts */
-					}
-				},
-				loader: {
-					loaders: {
-						/* loaders */
-					}
-				},
-				popup: {
-					popups: {
-						/* popups */
 					}
 				}
 			})

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -7,9 +7,9 @@ import { ButtonComponent } from '../../../libs/button/button.component';
 import { FormComponent } from '../../../libs/form/form.component';
 
 @Component({
-	templateUrl: './document.component.html',
-	styleUrls: ['./document.component.scss'],
-	imports: [RouterLink, ButtonComponent, FormComponent]
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [RouterLink, ButtonComponent, FormComponent],
+	templateUrl: './document.component.html'
 })
 export class DocumentComponent {
 	userService = inject(UserService);

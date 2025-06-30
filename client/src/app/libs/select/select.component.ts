@@ -1,10 +1,22 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, inject } from '@angular/core';
-import { CoreService, WacomModule } from 'wacom';
-import { TranslateService } from '../translate/translate.service';
 import { NgTemplateOutlet } from '@angular/common';
+import {
+	Component,
+	ElementRef,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
+	TemplateRef,
+	ViewChild,
+	inject
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CoreService, WacomModule } from 'wacom';
 import { TranslateDirective } from '../translate/translate.directive';
 import { TranslatePipe } from '../translate/translate.pipe';
+import { TranslateService } from '../translate/translate.service';
 
 /**
  * The SelectComponent is a customizable select dropdown component that supports
@@ -12,10 +24,16 @@ import { TranslatePipe } from '../translate/translate.pipe';
  * and items.
  */
 @Component({
-    selector: 'wselect',
-    templateUrl: './select.component.html',
-    styleUrls: ['./select.component.scss'],
-    imports: [WacomModule, NgTemplateOutlet, FormsModule, TranslateDirective, TranslatePipe]
+	selector: 'wselect',
+	templateUrl: './select.component.html',
+	styleUrls: ['./select.component.scss'],
+	imports: [
+		WacomModule,
+		NgTemplateOutlet,
+		FormsModule,
+		TranslateDirective,
+		TranslatePipe
+	]
 })
 export class SelectComponent implements OnInit, OnChanges {
 	private _core = inject(CoreService);
@@ -96,16 +114,14 @@ export class SelectComponent implements OnInit, OnChanges {
 	/** Inserted by Angular inject() migration for backwards compatibility */
 	constructor(...args: unknown[]);
 
-	constructor() {
-
-	}
+	constructor() {}
 
 	ngOnInit(): void {
 		this._prepareItems();
 
-		this._core.onComplete('translate').then(()=>{
+		this._core.onComplete('translate').then(() => {
 			this._prepareItems();
-		})
+		});
 	}
 
 	showOptions() {
@@ -117,7 +133,10 @@ export class SelectComponent implements OnInit, OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['select'] && !changes['select'].firstChange || changes['items']) {
+		if (
+			(changes['select'] && !changes['select'].firstChange) ||
+			changes['items']
+		) {
 			this._prepareItems();
 		}
 
@@ -179,9 +198,14 @@ export class SelectComponent implements OnInit, OnChanges {
 				this.items[i][this.value] = this.items[i].name;
 			}
 
-			this.items[i].__search = this.searchableBy.split(' ').map(field => {
-				return this._translate.translate('Select.'+this.items[i][field] || '');
-			}).join('');
+			this.items[i].__search = this.searchableBy
+				.split(' ')
+				.map((field) => {
+					return this._translate.translate(
+						'Select.' + this.items[i][field] || ''
+					);
+				})
+				.join('');
 
 			this._items[this.items[i][this.value]] = this.items[i];
 		}
