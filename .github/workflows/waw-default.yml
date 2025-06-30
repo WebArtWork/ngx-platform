@@ -2,6 +2,8 @@ name: Sync waw default project to waw-default
 
 on:
     push:
+        branches:
+            - master
         paths:
             - "server/**" # Trigger only on changes in the server folder
 
