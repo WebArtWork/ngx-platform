@@ -105,7 +105,11 @@ export class UserService extends CrudService<User> {
 		});
 	}
 
-	setMode(mode = 'white'): void {
+	toggleMode() {
+		this.setMode(this.mode === 'dark' ? 'white' : 'dark');
+	}
+
+	setMode(mode = 'white') {
 		if (mode === 'white') {
 			this._store.remove('mode');
 

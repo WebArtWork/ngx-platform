@@ -4,8 +4,8 @@
 			<div class="avatar _profile">
 				<ngx-file
 					(update)="updateThumb($event)"
-					[value]="us.thumb"
-					[name]="us.user._id + '.jpg'"
+					[value]="userService.thumb"
+					[name]="userService.user._id + '.jpg'"
 					err="assets/default.png"
 					[isPhoto]="true"
 					[imgStyle]="{
@@ -23,15 +23,15 @@
 	<div class="profile__body">
 		@if (user) {
 		<wform
-			[config]="formProfile"
 			(wChange)="update()"
+			[config]="formUser"
 			[submition]="user"
 		></wform>
 		}
 
 		<div class="profile__footer">
 			<div class="profile__logout">
-				<wbutton (click)="us.logout()" type="danger">
+				<wbutton (click)="userService.logout()" type="danger">
 					<span class="material-icons">logout</span>
 					<span translate>Profile.Logout</span>
 				</wbutton>

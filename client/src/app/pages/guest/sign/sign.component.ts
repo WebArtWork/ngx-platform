@@ -7,7 +7,7 @@ import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
-import { AlertService, HashService, HttpService, UiService } from 'wacom';
+import { AlertService, HttpService, UiService } from 'wacom';
 import { FormComponent } from '../../../libs/form/form.component';
 
 interface RespStatus {
@@ -25,7 +25,6 @@ export class SignComponent {
 	ui = inject(UiService);
 	private _alert = inject(AlertService);
 	private _http = inject(HttpService);
-	private _hash = inject(HashService);
 	private _router = inject(Router);
 	private _form = inject(FormService);
 	private _translate = inject(TranslateService);
@@ -128,8 +127,6 @@ export class SignComponent {
 				text: this._translate.translate('Sign.Enter your password')
 			});
 		} else {
-			this._hash.set('email', this.user.email);
-
 			this._http.post(
 				'/api/user/status',
 				this.user,

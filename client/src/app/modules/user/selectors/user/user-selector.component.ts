@@ -1,4 +1,5 @@
 import {
+	ChangeDetectionStrategy,
 	Component,
 	EventEmitter,
 	Input,
@@ -7,17 +8,17 @@ import {
 	SimpleChanges,
 	inject
 } from '@angular/core';
-import { SelectModule } from 'src/app/libs/select/select.module';
+import { SelectComponent } from 'src/app/libs/select/select.component';
 import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [SelectComponent],
 	selector: 'user-selector',
 	templateUrl: './user-selector.component.html',
-	styleUrls: ['./user-selector.component.scss'],
-	standalone: true,
-	imports: [SelectModule]
+	styleUrls: ['./user-selector.component.scss']
 })
-export class SelectUserComponent implements OnChanges {
+export class UserSelectorComponent implements OnChanges {
 	us = inject(UserService);
 
 	@Input() value: string;

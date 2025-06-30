@@ -7,7 +7,6 @@ import { WacomModule } from 'wacom';
 import { coreAnimation } from '../../animations/core.animations';
 
 @Component({
-	selector: 'app-user',
 	templateUrl: './user.component.html',
 	styleUrls: ['./user.component.scss'],
 	animations: [coreAnimation],

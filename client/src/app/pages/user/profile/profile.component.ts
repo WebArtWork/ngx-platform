@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	inject
+} from '@angular/core';
 import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
@@ -17,10 +22,10 @@ interface ChangePassword {
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
-		FileComponent,
-		FormComponent,
+		TranslateDirective,
 		ButtonComponent,
-		TranslateDirective
+		FileComponent,
+		FormComponent
 	],
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
@@ -29,26 +34,25 @@ interface ChangePassword {
 export class ProfileComponent {
 	private _form = inject(FormService);
 	private _core = inject(CoreService);
-	us = inject(UserService);
+	private _cdr = inject(ChangeDetectorRef);
+	userService = inject(UserService);
 
 	readonly url = environment.url;
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
 
 	constructor() {
 		this._core.onComplete('us.user').then(() => {
 			const user = {};
 
-			this._core.copy(this.us.user, user);
+			this._core.copy(this.userService.user, user);
 
 			this.user = user;
+
+			this._cdr.detectChanges();
 		});
 	}
 
-	// Update user profile
-	formProfile: FormInterface = this._form.getForm('profile', {
-		formId: 'profile',
+	formUser: FormInterface = this._form.prepareForm({
+		formId: 'user',
 		title: 'Profile Settings',
 		components: [
 			{
@@ -104,9 +108,9 @@ export class ProfileComponent {
 	user: Record<string, unknown>;
 
 	update(): void {
-		this._core.copy(this.user, this.us.user);
+		this._core.copy(this.user, this.userService.user);
 
-		this.us.updateMe();
+		this.userService.updateMe();
 	}
 
 	// Update user password
@@ -151,7 +155,7 @@ export class ProfileComponent {
 			.modal<ChangePassword>(this.formPassword, {
 				label: 'Change',
 				click: (submition: unknown, close: () => void) => {
-					this.us.changePassword(
+					this.userService.changePassword(
 						(submition as ChangePassword).oldPass,
 						(submition as ChangePassword).newPass
 					);
@@ -160,13 +164,16 @@ export class ProfileComponent {
 				}
 			})
 			.then((submition: ChangePassword) => {
-				this.us.changePassword(submition.oldPass, submition.newPass);
+				this.userService.changePassword(
+					submition.oldPass,
+					submition.newPass
+				);
 			});
 	}
 
 	updateThumb(thumb: string | string[]): void {
-		this.us.user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
+		this.userService.user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
 
-		this.us.updateMe();
+		this.userService.updateMe();
 	}
 }
