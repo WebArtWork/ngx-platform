@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpiderComponent } from 'src/app/icons/spider/spider.component';
-import { FormService } from 'src/app/libs/form/form.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/services/form.service';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 import { AlertService, HttpService, UiService } from 'wacom';
-import { FormComponent } from '../../../libs/form/form.component';
+import { FormComponent } from '../../../libs/form/components/form/form.component';
 
 interface RespStatus {
 	email: string;

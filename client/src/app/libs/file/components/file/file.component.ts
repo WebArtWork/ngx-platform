@@ -23,7 +23,6 @@ import { FileService } from './../../services/file.service';
 	selector: 'ngx-file',
 	templateUrl: './file.component.html',
 	styleUrls: ['./file.component.scss'],
-	standalone: true,
 	imports: [CommonModule]
 })
 export class FileComponent implements OnInit, OnChanges {

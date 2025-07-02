@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FormService } from 'src/app/libs/form/form.service';
 import { FormComponentInterface } from 'src/app/libs/form/interfaces/component.interface';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/services/form.service';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService } from 'wacom';
 import { TableComponent } from '../../../../libs/table/table.component';

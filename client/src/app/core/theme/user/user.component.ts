@@ -19,7 +19,7 @@ import { coreAnimation } from '../../animations/core.animations';
 	]
 })
 export class UserComponent {
-	us = inject(UserService);
+	userService = inject(UserService);
 	private _platform = inject(Platform);
 
 	showSidebar = false;

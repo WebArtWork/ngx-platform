@@ -6,7 +6,7 @@ import {
 	ViewChild,
 	inject
 } from '@angular/core';
-import { FormService } from '../../libs/form/form.service';
+import { FormService } from '../../libs/form/services/form.service';
 import { SelectComponent as SelectComponent_1 } from '../../libs/select/select.component';
 
 interface Interface {}

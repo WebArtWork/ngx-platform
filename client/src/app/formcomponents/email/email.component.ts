@@ -6,7 +6,7 @@ import {
 	ViewChild,
 	inject
 } from '@angular/core';
-import { FormService } from '../../libs/form/form.service';
+import { FormService } from '../../libs/form/services/form.service';
 import { InputComponent } from '../../libs/input/input.component';
 
 interface Interface {}

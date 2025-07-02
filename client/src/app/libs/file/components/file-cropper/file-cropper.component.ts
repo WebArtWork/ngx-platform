@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
-import { ButtonModule } from 'src/app/libs/button/button.module';
+import { ButtonComponent } from 'src/app/libs/button/button.component';
 
 @Component({
 	selector: 'app-file-cropper',
 	templateUrl: './file-cropper.component.html',
-	styleUrl: './file-cropper.component.scss',
-	imports: [ImageCropperModule, ButtonModule],
-	standalone: true
+	imports: [ImageCropperModule, ButtonComponent]
 })
 export class FileCropperComponent {
 	close: () => void;

@@ -5,8 +5,8 @@ import {
 	ViewChild,
 	inject
 } from '@angular/core';
-import { FileComponent } from '../../libs/file/file.component';
-import { FormService } from '../../libs/form/form.service';
+import { FileComponent } from 'src/app/libs/file/components/file/file.component';
+import { FormService } from '../../libs/form/services/form.service';
 
 interface Interface {}
 

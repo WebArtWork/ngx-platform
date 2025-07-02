@@ -7,15 +7,14 @@ import {
 	SimpleChanges,
 	inject
 } from '@angular/core';
-import { SelectModule } from 'src/app/libs/select/select.module';
+import { SelectComponent } from 'src/app/libs/select/select.component';
 import { File } from '../../interfaces/file.interface';
 import { FileService } from '../../services/file.service';
 
 @Component({
 	selector: 'file-selector',
 	templateUrl: './file-selector.component.html',
-	styleUrls: ['./file-selector.component.scss'],
-	imports: [SelectModule]
+	imports: [SelectComponent]
 })
 export class FileSelectorComponent implements OnChanges {
 	private _fileService = inject(FileService);

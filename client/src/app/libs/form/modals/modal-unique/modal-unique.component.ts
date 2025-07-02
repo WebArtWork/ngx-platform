@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { HttpService } from 'wacom';
-import { FormComponent } from '../../form.component';
+import { FormComponent } from '../../components/form/form.component';
 import { FormInterface } from '../../interfaces/form.interface';
 
 @Component({

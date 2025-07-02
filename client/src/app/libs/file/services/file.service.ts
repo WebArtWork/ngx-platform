@@ -8,15 +8,15 @@ import { File } from '../interfaces/file.interface';
 export class FileService extends CrudService<File> {
 	private _file = inject(WacomFileService);
 
-	setFile: (dataUrl: string) => void;
+	files = this.getDocs();
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
+	setFile: (dataUrl: string) => void;
 
 	constructor() {
 		super({
 			name: 'file'
 		});
+
 		this._file.add({
 			id: 'formPhoto',
 			// accept: 'image/*',

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TinymceComponent } from 'ngx-tinymce';
-import { FormService } from '../../libs/form/form.service';
+import { FormService } from '../../libs/form/services/form.service';
 
 interface Interface {}
 

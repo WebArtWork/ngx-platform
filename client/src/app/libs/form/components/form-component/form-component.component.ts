@@ -8,9 +8,9 @@ import {
 	TemplateRef,
 	inject
 } from '@angular/core';
-import { FormService } from '../form.service';
-import { FormComponentInterface } from '../interfaces/component.interface';
-import { FormInterface } from '../interfaces/form.interface';
+import { FormComponentInterface } from '../../interfaces/component.interface';
+import { FormInterface } from '../../interfaces/form.interface';
+import { FormService } from '../../services/form.service';
 
 @Component({
 	selector: 'form-component',

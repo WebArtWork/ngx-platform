@@ -2,9 +2,9 @@ import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { CoreService } from 'wacom';
 import { ButtonComponent } from '../../../button/button.component';
-import { FormComponent } from '../../form.component';
-import { FormModalButton } from '../../form.service';
+import { FormComponent } from '../../components/form/form.component';
 import { FormInterface } from '../../interfaces/form.interface';
+import { FormModalButton } from '../../services/form.service';
 
 @Component({
 	templateUrl: './modal-form.component.html',

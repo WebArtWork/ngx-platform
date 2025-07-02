@@ -7,15 +7,13 @@ import {
 	inject
 } from '@angular/core';
 import { CoreService } from 'wacom';
-import { FormComponentInterface } from './interfaces/component.interface';
-import { FormInterface } from './interfaces/form.interface';
-
-import { FormComponentComponent } from './form-component/form-component.component';
+import { FormComponentInterface } from '../../interfaces/component.interface';
+import { FormInterface } from '../../interfaces/form.interface';
+import { FormComponentComponent } from '../form-component/form-component.component';
 
 @Component({
 	selector: 'wform',
 	templateUrl: './form.component.html',
-	styleUrls: ['./form.component.scss'],
 	imports: [FormComponentComponent]
 })
 export class FormComponent implements AfterViewInit {

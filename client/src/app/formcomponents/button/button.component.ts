@@ -6,7 +6,7 @@ import {
 	inject
 } from '@angular/core';
 import { ButtonComponent as LibButtonComponent } from '../../libs/button/button.component';
-import { FormService } from '../../libs/form/form.service';
+import { FormService } from '../../libs/form/services/form.service';
 
 interface Interface {}
 

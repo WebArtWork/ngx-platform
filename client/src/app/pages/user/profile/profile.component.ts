@@ -4,14 +4,14 @@ import {
 	Component,
 	inject
 } from '@angular/core';
-import { FormService } from 'src/app/libs/form/form.service';
+import { FileComponent } from 'src/app/libs/file/components/file/file.component';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/services/form.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 import { CoreService } from 'wacom';
 import { ButtonComponent } from '../../../libs/button/button.component';
-import { FileComponent } from '../../../libs/file/file.component';
-import { FormComponent } from '../../../libs/form/form.component';
+import { FormComponent } from '../../../libs/form/components/form/form.component';
 import { TranslateDirective } from '../../../libs/translate/translate.directive';
 
 interface ChangePassword {

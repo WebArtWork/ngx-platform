@@ -26,15 +26,13 @@
 		<div class="nav__burger _active" [class._active]="showSidebar">
 			<div class="nav__burger-list">
 				<div class="theme-switch">
-					@if (!us.mode) {
-					<span class="material-icons" (click)="us.setMode('dark')">
-						dark_mode
+					<span
+						class="material-icons"
+						(click)="userService.toggleMode()"
+					>
+						@if (userService.mode === 'dark') {dark_mode} @else
+						{light_mode}
 					</span>
-					} @if (us.mode) {
-					<span class="material-icons" (click)="us.setMode()">
-						light_mode
-					</span>
-					}
 				</div>
 				<a
 					class="nav__burger-link nav__burger-user"
@@ -43,14 +41,16 @@
 					<img
 						alt="Profile Picture"
 						class="avatar__img"
-						[src]="us.thumb"
+						[src]="userService.thumb"
 						height="50"
 						width="50"
 					/>
-					<div class="name">{{us.user.name || "Profile"}}</div>
+					<div class="name">
+						{{userService.user.name || "Profile"}}
+					</div>
 				</a>
 				<hr />
-				@if (us.role('admin')) {
+				@if (userService.role('admin')) {
 				<a
 					[routerLinkActiveOptions]="{ exact: true }"
 					routerLinkActive="_activeLink"
@@ -61,7 +61,6 @@
 					<span class="material-icons">people</span>
 					<span translate>Theme.Users</span>
 				</a>
-				} @if (us.role('admin')) {
 				<a
 					[routerLinkActiveOptions]="{ exact: true }"
 					routerLinkActive="_activeLink"
@@ -72,7 +71,6 @@
 					<span class="material-icons">backup_table</span>
 					<span translate>Theme.Forms</span>
 				</a>
-				} @if (us.role('admin')) {
 				<a
 					[routerLinkActiveOptions]="{ exact: true }"
 					routerLinkActive="_activeLink"
@@ -83,7 +81,6 @@
 					<span class="material-icons">translate</span>
 					<span translate>Theme.Translates</span>
 				</a>
-				} @if (us.role('admin')) {
 				<hr />
 				}
 			</div>

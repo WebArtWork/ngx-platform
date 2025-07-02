@@ -9,7 +9,7 @@ import 'brace';
 import 'brace/mode/json';
 import 'brace/theme/monokai';
 import { AceModule } from 'ngx-ace-wrapper';
-import { FormService } from '../../libs/form/form.service';
+import { FormService } from '../../libs/form/services/form.service';
 
 interface Interface {}
 

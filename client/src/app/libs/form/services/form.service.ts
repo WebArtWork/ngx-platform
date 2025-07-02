@@ -9,14 +9,14 @@ import {
 import { CustomformService } from 'src/app/modules/customform/services/customform.service';
 import { environment } from 'src/environments/environment';
 import { CoreService, Modal, ModalService, StoreService } from 'wacom';
-import { TranslateService } from '../translate/translate.service';
+import { TranslateService } from '../../translate/translate.service';
 import {
 	FormComponentInterface,
 	TemplateFieldInterface
-} from './interfaces/component.interface';
-import { FormInterface } from './interfaces/form.interface';
-import { ModalFormComponent } from './modals/modal-form/modal-form.component';
-import { ModalUniqueComponent } from './modals/modal-unique/modal-unique.component';
+} from '../interfaces/component.interface';
+import { FormInterface } from '../interfaces/form.interface';
+import { ModalFormComponent } from '../modals/modal-form/modal-form.component';
+import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.component';
 
 export interface FormModalButton {
 	click: (submition: unknown, close: () => void) => void;

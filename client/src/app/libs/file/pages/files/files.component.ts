@@ -1,8 +1,9 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { FormService } from 'src/app/libs/form/form.service';
+import { firstValueFrom } from 'node_modules/rxjs/dist/types';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/services/form.service';
+import { TableComponent } from 'src/app/libs/table/table.component';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService, CoreService } from 'wacom';
 import { fileFormComponents } from '../../formcomponents/file.formcomponents';
@@ -11,8 +12,7 @@ import { FileService } from '../../services/file.service';
 
 @Component({
 	templateUrl: './files.component.html',
-	styleUrls: ['./files.component.scss'],
-	standalone: false
+	imports: [TableComponent]
 })
 export class FilesComponent {
 	private _translate = inject(TranslateService);
