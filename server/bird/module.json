@@ -1,0 +1,11 @@
+{
+    "name": "Bird",
+    "crud": {
+        "unique": [ "url" ],
+        "update": {
+            "keys": ["name", "description", "data"]
+        },
+        "delete": [""]
+    },
+    "dependencies": {}
+}

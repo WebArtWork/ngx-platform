@@ -35,6 +35,18 @@ export const environment = {
 		image: 'https://ngx.webart.work/assets/logo.png'
 	},
 	defaultLanguageCode: 'en',
+	languages: [
+		{
+			name: 'Ukrainian',
+			origin: 'українська',
+			code: 'uk'
+		},
+		{
+			code: 'en',
+			name: 'English',
+			origin: 'English'
+		}
+	],
 	formcomponent: {
 		Email: EmailComponent,
 		Boolean: BooleanComponent,

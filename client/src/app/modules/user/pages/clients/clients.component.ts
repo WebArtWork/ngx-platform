@@ -16,8 +16,8 @@ import { UserService } from '../../services/user.service';
 })
 export class ClientsComponent {
 	private _translate = inject(TranslateService);
-	private _us = inject(UserService);
-	private _alert = inject(AlertService);
+	private _userService = inject(UserService);
+	private _alertService = inject(AlertService);
 	private _core = inject(CoreService);
 	private _form = inject(FormService);
 
@@ -35,7 +35,7 @@ export class ClientsComponent {
 		this._core.afterWhile(
 			this,
 			() => {
-				this._us.get({ page }).subscribe((users) => {
+				this._userService.get({ page }).subscribe((users) => {
 					this.users.splice(0, this.users.length);
 
 					this.users.push(...users);
@@ -48,14 +48,14 @@ export class ClientsComponent {
 	config = {
 		paginate: this.setUsers.bind(this),
 		perPage: 20,
-		setPerPage: this._us.setPerPage.bind(this._us),
+		setPerPage: this._userService.setPerPage.bind(this._userService),
 		allDocs: false,
 		create: () => {
 			this._form
 				.modal<User>(this.form, {
 					label: 'Create',
 					click: (created: unknown, close: () => void) => {
-						this._us.create(created as User, {
+						this._userService.create(created as User, {
 							alert: this._translate.translate(
 								'User.Client has been created'
 							),
@@ -66,13 +66,13 @@ export class ClientsComponent {
 						});
 					}
 				})
-				.then(this._us.create.bind(this));
+				.then(this._userService.create.bind(this));
 		},
 		update: (doc: User) => {
 			this._form.modal<User>(this.form, [], doc).then((updated: User) => {
 				this._core.copy(updated, doc);
 
-				this._us.update(doc, {
+				this._userService.update(doc, {
 					alert: this._translate.translate(
 						'User.Client has been updated'
 					)
@@ -80,7 +80,7 @@ export class ClientsComponent {
 			});
 		},
 		delete: (user: User) => {
-			this._alert.question({
+			this._alertService.question({
 				text: this._translate.translate(
 					'Common.Are you sure you want to delete this client?'
 				),
@@ -91,7 +91,7 @@ export class ClientsComponent {
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: () => {
-							this._us.delete(user, {
+							this._userService.delete(user, {
 								name: 'admin',
 								alert: this._translate.translate(
 									'User.Client has been deleted'
@@ -107,8 +107,6 @@ export class ClientsComponent {
 		}
 	};
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
 	constructor() {
 		this.setUsers();
 	}

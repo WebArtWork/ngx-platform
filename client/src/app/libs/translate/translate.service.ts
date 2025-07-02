@@ -68,9 +68,6 @@ export class TranslateService {
 					origin: 'English'
 				};
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
 	constructor() {
 		this._store.getJson('translates', (translates) => {
 			if (translates) {
@@ -172,7 +169,7 @@ export class TranslateService {
 	/**
 	 * Switches to the next available language.
 	 */
-	next_language() {
+	nextLanguage() {
 		for (let i = 0; i < this.languages.length; i++) {
 			if (this.languages[i].code === this.language.code) {
 				if (this.languages.length - 1 === i) {

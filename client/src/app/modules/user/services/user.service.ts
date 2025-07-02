@@ -48,9 +48,6 @@ export class UserService extends CrudService<User> {
 
 	usersByRole: Record<string, User[]> = {};
 
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
 	constructor() {
 		super({
 			name: 'user',

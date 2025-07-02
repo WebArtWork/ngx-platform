@@ -15,19 +15,18 @@ import {
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [TableComponent, CellDirective, FormsModule],
-	templateUrl: './customforms.component.html',
-	styleUrls: ['./customforms.component.scss']
+	templateUrl: './customforms.component.html'
 })
 export class CustomformsComponent {
 	private _translate = inject(TranslateService);
-	private _cfs = inject(CustomformService);
+	private _customformService = inject(CustomformService);
 	private _alert = inject(AlertService);
 	private _form = inject(FormService);
 
 	columns = ['formId', 'components', 'active'];
 
-	form: FormInterface = this._form.getForm('form', {
-		formId: 'form',
+	form: FormInterface = this._form.prepareForm({
+		formId: 'customForm',
 		title: 'Custom form',
 		components: [
 			{
@@ -37,7 +36,7 @@ export class CustomformsComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'fill title'
+						value: 'Enter title ...'
 					},
 					{
 						name: 'Label',
@@ -51,7 +50,7 @@ export class CustomformsComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Select form id'
+						value: 'Select form id ...'
 					},
 					{
 						name: 'Label',
@@ -67,6 +66,7 @@ export class CustomformsComponent {
 	});
 
 	components: FormComponentInterface[] = [];
+
 	formComponents: FormInterface = this._form.getForm('formComponents', {
 		formId: 'formComponents',
 		title: 'Custom components',
@@ -80,7 +80,7 @@ export class CustomformsComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Select form componnet'
+						value: 'Select form componnet ...'
 					},
 					{
 						name: 'Label',
@@ -102,16 +102,19 @@ export class CustomformsComponent {
 
 	config = {
 		create: (): void => {
-			this._form
-				.modal<Customform>(this.form, {
-					label: 'Create',
-					click: (created: unknown, close: () => void) => {
-						this._cfs.create(created as Customform, {
-							callback: close.bind(this)
-						});
+			this._form.modal<Customform>(this.form, {
+				label: 'Create',
+				click: (created: unknown, close: () => void) => {
+					if (this._customformService.appId) {
+						(created as Customform).appId =
+							this._customformService.appId;
 					}
-				})
-				.then(this._cfs.create.bind(this));
+
+					this._customformService.create(created as Customform, {
+						callback: close.bind(this)
+					});
+				}
+			});
 		},
 		update: (form: Customform): void => {
 			this._form
@@ -120,14 +123,17 @@ export class CustomformsComponent {
 					{
 						label: 'Update',
 						click: (updated: unknown, close: () => void) => {
-							this._cfs.update(updated as Customform, {
-								callback: close.bind(this)
-							});
+							this._customformService.update(
+								updated as Customform,
+								{
+									callback: close.bind(this)
+								}
+							);
 						}
 					},
 					form
 				)
-				.then(this._cfs.update.bind(this));
+				.then(this._customformService.update.bind(this));
 		},
 		delete: (form: Customform): void => {
 			this._alert.question({
@@ -141,7 +147,7 @@ export class CustomformsComponent {
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: (): void => {
-							this._cfs.delete(form);
+							this._customformService.delete(form);
 						}
 					}
 				]
@@ -195,7 +201,7 @@ export class CustomformsComponent {
 
 						doc.components.splice(i, 1);
 
-						this._cfs.updateAfterWhile(doc);
+						this._customformService.updateAfterWhile(doc);
 					};
 
 					(doc.components || []).forEach((component) => {
@@ -258,7 +264,7 @@ export class CustomformsComponent {
 								}
 							}
 
-							this._cfs.updateAfterWhile(doc);
+							this._customformService.updateAfterWhile(doc);
 						});
 				}
 			}
@@ -266,7 +272,7 @@ export class CustomformsComponent {
 	};
 
 	get rows(): FormInterface[] {
-		return this._cfs.customforms;
+		return this._customformService.customforms;
 	}
 
 	private _addCustomComponent(
@@ -303,7 +309,7 @@ export class CustomformsComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'fill key'
+						value: 'Enter key ...'
 					},
 					{
 						name: 'Label',
@@ -338,7 +344,7 @@ export class CustomformsComponent {
 	changeStatus(form: Customform): void {
 		setTimeout(() => {
 			if (form.active) {
-				for (const customForm of this._cfs.customforms) {
+				for (const customForm of this._customformService.customforms) {
 					if (
 						customForm._id === form._id ||
 						customForm.formId !== form.formId
@@ -348,12 +354,12 @@ export class CustomformsComponent {
 					if (customForm.active) {
 						customForm.active = false;
 
-						this._cfs.updateAfterWhile(customForm);
+						this._customformService.updateAfterWhile(customForm);
 					}
 				}
 			}
 
-			this._cfs.updateAfterWhile(form);
+			this._customformService.updateAfterWhile(form);
 		});
 	}
 }

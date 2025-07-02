@@ -67,6 +67,19 @@ const routes: Routes = [
 					import('./app/pages/user/profile/profile.routes').then(
 						(m) => m.routes
 					)
+			},
+			{
+				path: 'birds',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Sign'
+					}
+				},
+				loadChildren: () =>
+					import('./app/modules/bird/pages/birds/birds.routes').then(
+						(m) => m.routes
+					)
 			}
 		]
 	},
@@ -77,7 +90,6 @@ const routes: Routes = [
 				(m) => m.PublicComponent
 			),
 		children: [
-			/* user */
 			{
 				path: 'document',
 				canActivate: [MetaGuard],

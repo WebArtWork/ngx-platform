@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	inject
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { SpiderComponent } from 'src/app/icons/spider/spider.component';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -22,16 +27,17 @@ interface RespStatus {
 })
 export class SignComponent {
 	userService = inject(UserService);
-	ui = inject(UiService);
+	private _uiService = inject(UiService);
 	private _alert = inject(AlertService);
 	private _http = inject(HttpService);
 	private _router = inject(Router);
 	private _form = inject(FormService);
 	private _translate = inject(TranslateService);
+	private _cdr = inject(ChangeDetectorRef);
 
 	readonly logo = environment.sign.logo;
 
-	form: FormInterface = this._form.getForm('sign', {
+	form: FormInterface = this._form.prepareForm({
 		formId: 'sign',
 		title: 'Sign In / Sign Up',
 		components: [
@@ -118,7 +124,7 @@ export class SignComponent {
 			});
 		}
 
-		if (!this.ui.valid(this.user.email)) {
+		if (!this._uiService.valid(this.user.email)) {
 			this._alert.error({
 				text: this._translate.translate('Sign.Enter proper email')
 			});
@@ -154,6 +160,8 @@ export class SignComponent {
 	reset(): void {
 		this._http.post('/api/user/request', this.user, () => {
 			this.form.components[2].hidden = false;
+
+			this._cdr.detectChanges();
 		});
 
 		this._alert.info({

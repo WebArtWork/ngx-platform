@@ -34,6 +34,12 @@
 						{light_mode}
 					</span>
 				</div>
+				<div
+					(click)="translateService.nextLanguage()"
+					class="translate-switch"
+				>
+					{{translateService.language.code}}
+				</div>
 				<a
 					class="nav__burger-link nav__burger-user"
 					routerLink="/profile"

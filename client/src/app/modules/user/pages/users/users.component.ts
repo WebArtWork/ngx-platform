@@ -3,13 +3,12 @@ import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService, CoreService } from 'wacom';
+import { InputComponent } from '../../../../libs/input/input.component';
 import { TableComponent } from '../../../../libs/table/table.component';
+import { CellDirective } from '../../../../libs/table/table.directive';
 import { userFormComponents } from '../../formcomponents/user.formcomponents';
 import { User } from '../../interfaces/user.interface';
 import { UserService } from '../../services/user.service';
-
-import { InputComponent } from '../../../../libs/input/input.component';
-import { CellDirective } from '../../../../libs/table/table.directive';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,17 +28,15 @@ export class UsersComponent {
 
 	config = {
 		create: (): void => {
-			this._form
-				.modal<User>(this.form, {
-					label: 'Create',
-					click: (created: unknown, close: () => void) => {
-						this._us.create(created as User, {
-							alert: 'User has been created',
-							callback: close.bind(this)
-						});
-					}
-				})
-				.then(this._us.create.bind(this));
+			this._form.modal<User>(this.form, {
+				label: 'Create',
+				click: (created: unknown, close: () => void) => {
+					this._us.create(created as User, {
+						alert: 'User has been created',
+						callback: close.bind(this)
+					});
+				}
+			});
 		},
 		update: (doc: User): void => {
 			this._form.modal<User>(this.form, [], doc).then((updated: User) => {

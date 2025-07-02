@@ -1,6 +1,6 @@
 <!--==== Table Module ====-->
 <wtable [columns]="columns" [config]="config" [rows]="users" title="Users">
-	@for (role of roles; track role) {
+	@for (role of roles; track $index) {
 	<ng-template [cell]="role" let-element>
 		<winput
 			(wChange)="element.is[role] = $event; update(element)"

@@ -53,7 +53,7 @@ export class ProfileComponent {
 
 	formUser: FormInterface = this._form.prepareForm({
 		formId: 'user',
-		title: 'Profile Settings',
+		title: 'My profile',
 		components: [
 			{
 				name: 'Text',
@@ -62,7 +62,7 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your name'
+						value: 'Enter your name ...'
 					},
 					{
 						name: 'Label',
@@ -76,7 +76,7 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your phone'
+						value: 'Enter your phone ...'
 					},
 					{
 						name: 'Label',
@@ -90,11 +90,11 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your bio'
+						value: 'Enter your biography ...'
 					},
 					{
 						name: 'Label',
-						value: 'Bio'
+						value: 'Biography'
 					},
 					{
 						name: 'Textarea',
@@ -107,15 +107,15 @@ export class ProfileComponent {
 
 	user: Record<string, unknown>;
 
-	update(): void {
+	update() {
 		this._core.copy(this.user, this.userService.user);
 
 		this.userService.updateMe();
 	}
 
 	// Update user password
-	formPassword: FormInterface = this._form.getForm('change password', {
-		formId: 'change password',
+	formPassword: FormInterface = this._form.prepareForm({
+		formId: 'changePassword',
 		title: 'Change password',
 		components: [
 			{
@@ -125,7 +125,7 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your old password'
+						value: 'Enter your old password ...'
 					},
 					{
 						name: 'Label',
@@ -139,7 +139,7 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your new password'
+						value: 'Enter your new password ...'
 					},
 					{
 						name: 'Label',
@@ -150,28 +150,21 @@ export class ProfileComponent {
 		]
 	});
 
-	changePassword(): void {
-		this._form
-			.modal<ChangePassword>(this.formPassword, {
-				label: 'Change',
-				click: (submition: unknown, close: () => void) => {
-					this.userService.changePassword(
-						(submition as ChangePassword).oldPass,
-						(submition as ChangePassword).newPass
-					);
-
-					close();
-				}
-			})
-			.then((submition: ChangePassword) => {
+	changePassword() {
+		this._form.modal<ChangePassword>(this.formPassword, {
+			label: 'Change',
+			click: (submition: unknown, close: () => void) => {
 				this.userService.changePassword(
-					submition.oldPass,
-					submition.newPass
+					(submition as ChangePassword).oldPass,
+					(submition as ChangePassword).newPass
 				);
-			});
+
+				close();
+			}
+		});
 	}
 
-	updateThumb(thumb: string | string[]): void {
+	updateThumb(thumb: string | string[]) {
 		this.userService.user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
 
 		this.userService.updateMe();

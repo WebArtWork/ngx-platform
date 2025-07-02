@@ -108,7 +108,7 @@
 		<tbody class="table-body">
 			@for (row of config.allDocs ? (rows | search: filter_filter:
 			(config.searchBy || 'title') | perPage: config: sort_type:
-			filter_filter + now) : rows; track row; let i = $index) {
+			filter_filter + now) : rows; track $index) {
 			<tr>
 				<!-- Row number -->
 				@if (config.num) {

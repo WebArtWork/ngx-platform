@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
-import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { ButtonComponent } from 'src/app/libs/button/button.component';
 
 @Component({
 	selector: 'app-file-cropper',
 	templateUrl: './file-cropper.component.html',
-	imports: [ImageCropperModule, ButtonComponent]
+	imports: [ImageCropperComponent, ButtonComponent]
 })
 export class FileCropperComponent {
 	close: () => void;
+
+	maintainAspectRatio = true;
+
+	aspectRatio = 1;
 
 	croppedDataUrl: string;
 
