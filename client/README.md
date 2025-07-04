@@ -1,4 +1,4 @@
-# Angular 19
+# Angular 20
 
 ## Overview
 
@@ -23,11 +23,13 @@ The project includes two environment configurations:
 ```
 /src
   /app
-    /core          # Shared code between pages
-    /modules       # Shared code between projects
-    /pages         # Role-based pages (guest, user)
-  /assets          # Static assets
-  /environments    # Configuration files
+    /core			# Shared code between pages
+    /modules		# Shared code between projects
+    /pages			# Role-based pages (guest, user)
+  /assets			# Static assets
+  /environments		# Configuration files
+  /fonts			# Fonts
+  /scss				# Styles
 ```
 
 ## Component Structure
