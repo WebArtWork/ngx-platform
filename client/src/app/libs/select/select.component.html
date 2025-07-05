@@ -1,4 +1,7 @@
-@let _showOptions = showOptions(); @let _placeholder = placeholder();
+@let _showOptions = showOptions(); @let _placeholder = placeholder(); @let
+_label = label(); @let _activeValue = activeValue(); @let _activeValues =
+activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
+@let _allItems = allItems();
 
 <div
 	(clickOutside)="toggleOptions(false)"
@@ -6,8 +9,8 @@
 	class="w-select"
 >
 	<!-- Label for the select field -->
-	@if (label) {
-	<div class="w-select__label">{{ 'Select.' + label | translate }}</div>
+	@if (_label) {
+	<div class="w-select__label">{{ 'Select.' + _label | translate }}</div>
 	}
 
 	<!-- Select body containing the selected item(s) and dropdown -->
@@ -25,20 +28,20 @@
 			></ng-container>
 			<ng-template #defaultView>
 				<div class="w-select__text">
-					@if (multiple) {
+					@if (_multiple) {
 					<div class="text-overflow">
-						@if (!_values.length) {
+						@if (!_activeValues.length) {
 						<div>{{'Select.' + _placeholder | translate }}</div>
-						} @for (id of _values; track id; let i = $index) {
+						} @for (id of _activeValues; track id; let i = $index) {
 						<span>
-							@if (i) {
+							@if (i && allItem[id]) {
 							<span>, </span>
-							} @if (_items[id] && _items[id] !== 0) {
+							} @if (allItem[id]) {
 							<span
-								>{{ 'Select.' + _items[id][name] | translate }}
+								>{{ 'Select.' + allItem[id] | translate }}
 								<i
-									(click)="_values.splice(i, 1); modelChange.emit(_values)"
 									class="material-icons avatar__icon"
+									(click)="removeItem(i)"
 									>close</i
 								>
 							</span>
@@ -46,9 +49,10 @@
 						</span>
 						}
 					</div>
-					} @if (!multiple) {
+					} @else {
 					<div class="text-overflow">
-						{{'Select.' + (_selected || _placeholder) | translate }}
+						{{'Select.' + (_activeValue || _placeholder) | translate
+						}}
 					</div>
 					}
 				</div>
@@ -56,7 +60,7 @@
 		</div>
 
 		<!-- Clearable icon -->
-		@if (clearable() && _selected) {
+		@if (clearable() && (_multiple ? _activeValues.length : _activeValue)) {
 		<div
 			class="w-select__arrow material-icons"
 			(click)="clear(); _selected = ''"
@@ -76,46 +80,49 @@
 
 		<!-- Dropdown menu -->
 		@if (_showOptions) {
-		<div [class._search]="searchable" class="w-select__popup">
-			@if (searchable) {
+		<div [class._search]="_searchable" class="w-select__popup">
+			@if (_searchable) {
 			<div>
 				<ng-container
 					[ngTemplateOutlet]="t_search ? t_search : defaultSearch"
 				></ng-container>
 				<ng-template #defaultSearch>
 					<winput
-						(wChange)="search.set($event + '')"
 						placeholder="{{'Select.Enter search text...' | translate}}"
+						(wChange)="search.set($event + '')"
 					/>
 				</ng-template>
 			</div>
 			}
+
 			<!-- Items list -->
 			<div class="popup-block">
-				@for (_item of (items | search: search(): searchableBy + '
-				__search'); track _item) {
+				@for (_item of (_allItems | search: search(): searchableBy + '
+				__search'); track $index) {
 				<ng-container
 					[ngTemplateOutlet]="t_item ? t_item : defaultItem"
 					[ngTemplateOutletContext]="{ item: _item }"
 				></ng-container>
-				} @if (!(items | search: search(): searchableBy + '
+				} @if (!(_allItems | search: search(): searchableBy + '
 				__search')?.length) {
 				<div class="popup-block__empty-search" translate>
 					Select.Nothing was found
 				</div>
 				}
 			</div>
+
+			<!-- Item view -->
 			<ng-template #defaultItem let-item="item">
 				<div
-					[class.disabled]="this._values.indexOf(item.value) !== -1"
-					(click)="item_onclick(item)"
+					[class.disabled]="_activeValues.indexOf(item.id) !== -1"
+					(click)="clicked(item)"
 					class="item"
 				>
 					<div
-						[class.selected]="_values.indexOf(item[value]) !== -1"
+						[class.selected]="_values.indexOf(item[value()]) !== -1"
 						class="item__text"
 					>
-						{{ 'Select.' + item[name] | translate }}
+						{{ 'Select.' + item[name()] | translate }}
 					</div>
 				</div>
 			</ng-template>

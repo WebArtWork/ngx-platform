@@ -3,25 +3,35 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	ElementRef,
-	EventEmitter,
 	Input,
-	OnChanges,
 	OnInit,
-	Output,
-	SimpleChanges,
 	TemplateRef,
 	ViewChild,
-	inject,
+	computed,
+	effect,
 	input,
+	output,
 	signal
 } from '@angular/core';
-import { CoreService } from 'wacom';
 import { InputComponent } from '../input/input.component';
 import { TranslateDirective } from '../translate/translate.directive';
 import { TranslatePipe } from '../translate/translate.pipe';
-import { TranslateService } from '../translate/translate.service';
 import { ClickOutsideDirective } from './clickoutside.directive';
 import { SearchPipe } from './search.pipe';
+
+export type Value =
+	| null
+	| string
+	| number
+	| boolean
+	| string[]
+	| number[]
+	| boolean[];
+
+export interface Item {
+	name: string;
+	id: string | number;
+}
 
 /**
  * The SelectComponent is a customizable select dropdown component that supports
@@ -42,10 +52,7 @@ import { SearchPipe } from './search.pipe';
 	templateUrl: './select.component.html',
 	styleUrls: ['./select.component.scss']
 })
-export class SelectComponent implements OnInit, OnChanges {
-	private _core = inject(CoreService);
-	private _translate = inject(TranslateService);
-
+export class SelectComponent implements OnInit {
 	/** Whether the select input is disabled. */
 	readonly disabled = input(false);
 
@@ -53,57 +60,141 @@ export class SelectComponent implements OnInit, OnChanges {
 	readonly clearable = input(false);
 
 	/** Placeholder text for the select input. */
-	readonly placeholder = input<string>();
-
-	/** List of items to display in the dropdown. */
-	@Input() items: any = [];
-
-	_items: any = {};
-
-	/** Clears the selected values. */
-	clear(): void {
-		if (this.multiple) {
-			this._values = [];
-
-			this.modelChange.emit(this._values);
-		} else {
-			this._selected = '';
-
-			this.modelChange.emit('');
-		}
-	}
-
-	/** The name of the property to display in the dropdown items. */
-	@Input() name = 'name';
-
-	/** The property used as the value for each item. */
-	@Input() value = '_id';
+	readonly placeholder = input('');
 
 	/** Whether multiple items can be selected. */
-	@Input() multiple = false;
+	readonly multiple = input(false);
+
+	/** The name of the property to display in the dropdown items. */
+	readonly bindLabel = input('name');
+
+	/** The property used as the value for each item. */
+	readonly bindValue = input('_id');
+
+	/** The value type used */
+	readonly valueType = input<'string' | 'number' | 'boolean' | 'null'>(
+		'string'
+	);
 
 	/** The label for the select input. */
-	@Input() label = '';
+	readonly label = input('');
 
 	/** Whether the dropdown is searchable. */
-	@Input() searchable = false;
+	readonly searchable = input(false);
 
 	/** The property by which to search items. */
-	@Input() searchableBy = 'name';
+	readonly searchableBy = input('name');
 
-	/** Event emitted when the selected values change. */
-	@Output() modelChange = new EventEmitter();
+	/** List of items to display in the dropdown. */
+	readonly items = input<unknown[]>([]);
 
-	_values: any = [];
+	/** Event emitted when the selected value/values change. */
+	readonly wChange = output<Value>();
 
-	_names: any = [];
+	readonly allItem: Record<string | number, string> = {};
 
-	_selected: string;
+	readonly allItems = computed<Item[]>(() =>
+		this.items().map((item) => {
+			const _item: Item = {} as Item;
+
+			_item.name =
+				typeof item === 'object'
+					? (item as Record<string, string>)[this.bindLabel()]
+					: (item as string);
+
+			_item.id =
+				typeof item === 'object'
+					? (item as Record<string, string>)[this.bindValue()]
+					: (item as string | number);
+
+			this.allItem[_item.id] = _item.name;
+
+			return _item;
+		})
+	);
+
+	/** The selected value(s). */
+	readonly value = input<Value>(null);
+
+	activeValue = signal<string | number | null>(null);
+
+	activeValues = signal<string[] | number[]>([]);
+
+	search = signal('');
 
 	showOptions = signal(false);
 
-	/** The selected value(s). */
-	@Input() select: any;
+	constructor() {
+		effect(() => {
+			if (
+				this.multiple() &&
+				JSON.stringify(this.activeValue()) !==
+					JSON.stringify(this.value())
+			) {
+				this.activeValues.set(this.value() as string[] | number[]);
+			} else if (
+				!this.multiple() &&
+				this.activeValue() !== this.value()
+			) {
+				this.activeValue.set(this.value() as string | number);
+			}
+		});
+	}
+
+	removeItem(index: number) {
+		this.activeValues.set(this.activeValues().splice(index, 1));
+
+		this.wChange.emit(this.activeValues());
+	}
+
+	/** Clears the selected values. */
+	clear(): void {
+		if (this.multiple()) {
+			this.activeValues.set([]);
+
+			this.wChange.emit([]);
+		} else {
+			this.activeValue.set('');
+
+			this.wChange.emit('');
+		}
+	}
+
+	toggleOptions(showOptions = !this.showOptions()) {
+		if (!this.disabled()) {
+			this.showOptions.set(showOptions);
+		}
+	}
+
+	/** Handles click events on items. */
+	clicked(item: any): void {
+		// if (this.multiple()) {
+		// 	if (this._values.indexOf(item[this.value()]) !== -1) {
+		// 		this._values.splice(
+		// 			this._values.indexOf(item[this.value()]),
+		// 			1
+		// 		);
+		// 	} else {
+		// 		this._values.push(item[this.value()]);
+		// 	}
+		// 	if (this._names.indexOf(item[this.name()]) !== -1) {
+		// 		this._names.splice(this._names.indexOf(item[this.name()]), 1);
+		// 	} else {
+		// 		this._names.push(item[this.name()]);
+		// 	}
+		// 	this._selected =
+		// 		this._names.length == 0
+		// 			? this.placeholder
+		// 			: this._names.join(', ');
+		// 	this.modelChange.emit(this._values);
+		// } else {
+		// 	this._selected = item[this.name()];
+		// 	this.showOptions.set(false);
+		// 	this.modelChange.emit(item[this.value()]);
+		// }
+	}
+
+	// above good
 
 	/** Custom template for the view (header) of the select input. */
 	@Input('view') t_view: TemplateRef<any>;
@@ -116,108 +207,9 @@ export class SelectComponent implements OnInit, OnChanges {
 
 	@ViewChild('e_search', { static: false }) e_search: ElementRef;
 
-	search = signal('');
+	_values: any = [];
 
-	ngOnInit(): void {
-		this._prepareItems();
+	_names: any = [];
 
-		this._core.onComplete('translate').then(() => {
-			this._prepareItems();
-		});
-	}
-
-	toggleOptions(showOptions = !this.showOptions()) {
-		if (!this.disabled()) {
-			this.showOptions.set(showOptions);
-
-			this.focus_search();
-		}
-	}
-
-	ngOnChanges(changes: SimpleChanges): void {
-		if (
-			(changes['select'] && !changes['select'].firstChange) ||
-			changes['items']
-		) {
-			this._prepareItems();
-		}
-	}
-
-	/** Handles click events on items. */
-	item_onclick(item: any): void {
-		if (this.multiple) {
-			if (this._values.indexOf(item[this.value]) !== -1) {
-				this._values.splice(this._values.indexOf(item[this.value]), 1);
-			} else {
-				this._values.push(item[this.value]);
-			}
-
-			if (this._names.indexOf(item[this.name]) !== -1) {
-				this._names.splice(this._names.indexOf(item[this.name]), 1);
-			} else {
-				this._names.push(item[this.name]);
-			}
-
-			this._selected =
-				this._names.length == 0
-					? this.placeholder
-					: this._names.join(', ');
-
-			this.modelChange.emit(this._values);
-		} else {
-			this._selected = item[this.name];
-
-			this.showOptions.set(false);
-
-			this.modelChange.emit(item[this.value]);
-		}
-	}
-
-	/** Focuses the search input when the dropdown is opened. */
-	focus_search(): void {
-		this.search.set('');
-
-		if (!this.searchable || this.t_search) return;
-
-		if (this.e_search) {
-			this.e_search.nativeElement.focus();
-		} else {
-			setTimeout(this.focus_search.bind(this), 100);
-		}
-	}
-
-	private _prepareItems() {
-		for (let i = 0; i < this.items.length; i++) {
-			if (typeof this.items[i] === 'string') {
-				this.items[i] = {
-					name: this.items[i]
-				};
-
-				this.items[i][this.value] = this.items[i].name;
-			}
-
-			this.items[i].__search = this.searchableBy
-				.split(' ')
-				.map((field) => {
-					return this._translate.translate(
-						'Select.' + this.items[i][field] || ''
-					);
-				})
-				.join('');
-
-			this._items[this.items[i][this.value]] = this.items[i];
-		}
-
-		if (this.multiple) {
-			this._values = (this.select || []).filter((value: any) => {
-				return !!this.items.find(
-					(item: any) => item[this.value] === value
-				);
-			});
-		} else {
-			this._selected = this._items[this.select]
-				? this._items[this.select][this.name]
-				: this.select;
-		}
-	}
+	_selected: string;
 }
