@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+	ChangeDetectionStrategy,
 	Component,
 	ElementRef,
 	EventEmitter,
@@ -10,13 +11,17 @@ import {
 	SimpleChanges,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
+	input,
+	signal
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CoreService, WacomModule } from 'wacom';
+import { CoreService } from 'wacom';
+import { InputComponent } from '../input/input.component';
 import { TranslateDirective } from '../translate/translate.directive';
 import { TranslatePipe } from '../translate/translate.pipe';
 import { TranslateService } from '../translate/translate.service';
+import { ClickOutsideDirective } from './clickoutside.directive';
+import { SearchPipe } from './search.pipe';
 
 /**
  * The SelectComponent is a customizable select dropdown component that supports
@@ -24,34 +29,36 @@ import { TranslateService } from '../translate/translate.service';
  * and items.
  */
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [
+		NgTemplateOutlet,
+		SearchPipe,
+		TranslateDirective,
+		TranslatePipe,
+		InputComponent,
+		ClickOutsideDirective
+	],
 	selector: 'wselect',
 	templateUrl: './select.component.html',
-	styleUrls: ['./select.component.scss'],
-	imports: [
-		WacomModule,
-		NgTemplateOutlet,
-		FormsModule,
-		TranslateDirective,
-		TranslatePipe
-	]
+	styleUrls: ['./select.component.scss']
 })
 export class SelectComponent implements OnInit, OnChanges {
 	private _core = inject(CoreService);
 	private _translate = inject(TranslateService);
 
+	/** Whether the select input is disabled. */
+	readonly disabled = input(false);
+
+	/** Whether the select input is clearable. */
+	readonly clearable = input(false);
+
 	/** Placeholder text for the select input. */
-	@Input() placeholder = '';
+	readonly placeholder = input<string>();
 
 	/** List of items to display in the dropdown. */
 	@Input() items: any = [];
 
 	_items: any = {};
-
-	/** Whether the select input is disabled. */
-	@Input() disabled = false;
-
-	/** Whether the select input is clearable. */
-	@Input() clearable = false;
 
 	/** Clears the selected values. */
 	clear(): void {
@@ -93,7 +100,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
 	_selected: string;
 
-	selectShow: any;
+	showOptions = signal(false);
 
 	/** The selected value(s). */
 	@Input() select: any;
@@ -109,12 +116,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
 	@ViewChild('e_search', { static: false }) e_search: ElementRef;
 
-	search = '';
-
-	/** Inserted by Angular inject() migration for backwards compatibility */
-	constructor(...args: unknown[]);
-
-	constructor() {}
+	search = signal('');
 
 	ngOnInit(): void {
 		this._prepareItems();
@@ -124,9 +126,9 @@ export class SelectComponent implements OnInit, OnChanges {
 		});
 	}
 
-	showOptions() {
-		if (!this.disabled) {
-			this.selectShow = !this.selectShow;
+	toggleOptions(showOptions = !this.showOptions()) {
+		if (!this.disabled()) {
+			this.showOptions.set(showOptions);
 
 			this.focus_search();
 		}
@@ -138,10 +140,6 @@ export class SelectComponent implements OnInit, OnChanges {
 			changes['items']
 		) {
 			this._prepareItems();
-		}
-
-		if (changes['disabled'] && !changes['disabled'].firstChange) {
-			this.disabled = changes['disabled'].currentValue;
 		}
 	}
 
@@ -169,7 +167,7 @@ export class SelectComponent implements OnInit, OnChanges {
 		} else {
 			this._selected = item[this.name];
 
-			this.selectShow = false;
+			this.showOptions.set(false);
 
 			this.modelChange.emit(item[this.value]);
 		}
@@ -177,7 +175,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
 	/** Focuses the search input when the dropdown is opened. */
 	focus_search(): void {
-		this.search = '';
+		this.search.set('');
 
 		if (!this.searchable || this.t_search) return;
 

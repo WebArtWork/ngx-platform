@@ -1,3 +1,4 @@
 {
-	"repo": "https://github.com/WebArtWork/ngx-input.git"
+	"repo": "https://github.com/WebArtWork/ngx-input.git",
+	"lib": true
 }

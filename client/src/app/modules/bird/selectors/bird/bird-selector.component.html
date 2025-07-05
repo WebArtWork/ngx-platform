@@ -1,6 +1,9 @@
 <wselect
 	(modelChange)="wChange.emit($event)"
+	[searchable]="searchable()"
+	[clearable]="clearable()"
+	[disabled]="disabled()"
 	placeholder="Select bird"
-	[select]="value"
-	[items]="items"
+	[items]="documents"
+	[select]="value()"
 ></wselect>

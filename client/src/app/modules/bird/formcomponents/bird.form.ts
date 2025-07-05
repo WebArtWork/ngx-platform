@@ -1,4 +1,4 @@
-export const birdFormComponents = {
+export const birdForm = {
 	formId: 'bird',
 	title: 'Bird',
 	components: [

@@ -32,25 +32,12 @@
 	}
 
 	&__header {
-		padding-left: 15px;
 		display: flex;
 		align-items: center;
 		width: 100%;
 		overflow: hidden;
 		white-space: nowrap;
-		padding: 14px 10px 14px 40px;
 		position: relative;
-
-		svg {
-			position: absolute;
-			left: 10px;
-			top: 50%;
-			transform: translateY(-50%);
-
-			path {
-				fill: var(--c-primary);
-			}
-		}
 	}
 
 	&__text {
@@ -76,18 +63,17 @@
 		justify-content: center;
 		border-radius: 50%;
 
-		svg {
-			width: 12px;
-			height: 12px;
-
-			path {
-				fill: var(--c-text-primary);
-			}
-		}
-
 		&._active {
 			transform: rotate(180deg);
 		}
+	}
+
+	.material-icons {
+		color: var(--c-text-primary);
+	}
+
+	winput {
+		margin: 100px;
 	}
 
 	.item {

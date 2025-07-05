@@ -1,35 +1,46 @@
 import {
-	SimpleChanges,
-	EventEmitter,
+	ChangeDetectionStrategy,
 	Component,
-	OnChanges,
-	Output,
-	Input,
+	input,
+	output
 } from '@angular/core';
-import { SelectModule } from 'src/app/core/modules/select/select.module';
-import { BirdService } from '../../services/bird.service';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/services/form.service';
+import { SelectComponent } from 'src/app/libs/select/select.component';
+import { TranslateService } from 'src/app/libs/translate/translate.service';
+import { CrudComponent } from 'wacom';
+import { birdForm } from '../../formcomponents/bird.form';
 import { Bird } from '../../interfaces/bird.interface';
+import { BirdService } from '../../services/bird.service';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [SelectComponent],
 	selector: 'bird-selector',
-	templateUrl: './bird-selector.component.html',
-	styleUrls: ['./bird-selector.component.scss'],
-	imports: [SelectModule],
+	templateUrl: './bird-selector.component.html'
 })
-export class BirdSelectorComponent implements OnChanges {
-	@Input() value: string;
+export class BirdSelectorComponent extends CrudComponent<
+	BirdService,
+	Bird,
+	FormInterface
+> {
+	readonly searchable = input<boolean>(true);
 
-	@Output() wChange = new EventEmitter();
+	readonly clearable = input<boolean>(true);
 
-	get items(): Bird[] {
-		return this._birdService.birds;
-	}
+	readonly disabled = input<boolean>(false);
 
-	constructor(private _birdService: BirdService) {}
+	readonly value = input<string>();
 
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['value'] && !changes['value'].firstChange) {
-			this.value = changes['value'].currentValue;
-		}
+	readonly wChange = output<string>();
+
+	constructor(
+		_birdService: BirdService,
+		_translate: TranslateService,
+		_form: FormService
+	) {
+		super(birdForm, _form, _translate, _birdService, 'bird');
+
+		this.setDocuments();
 	}
 }
