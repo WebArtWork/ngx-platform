@@ -7,10 +7,10 @@
 						Common.Select language
 					</div>
 					<wselect
-						value="code"
+						(wChange)="setLanguage($event + '')"
+						[value]="ts.language.code"
 						[items]="ts.languages"
-						[select]="ts.language.code"
-						(modelChange)="set_language($event)"
+						value="code"
 					></wselect>
 				</label>
 				<label class="formboxs" for="">
@@ -18,10 +18,10 @@
 						Common.Select page
 					</div>
 					<wselect
+						(wChange)="setPage($event + '')"
 						style="width: 300px"
 						[items]="pages"
-						[select]="page"
-						(modelChange)="setPage($event)"
+						[value]="page"
 					></wselect>
 				</label>
 			</div>

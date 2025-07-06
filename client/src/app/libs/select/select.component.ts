@@ -4,7 +4,6 @@ import {
 	Component,
 	ElementRef,
 	Input,
-	OnInit,
 	TemplateRef,
 	ViewChild,
 	computed,
@@ -28,9 +27,11 @@ export type Value =
 	| number[]
 	| boolean[];
 
+type Id = string | number;
+
 export interface Item {
 	name: string;
-	id: string | number;
+	id: Id;
 }
 
 /**
@@ -52,7 +53,7 @@ export interface Item {
 	templateUrl: './select.component.html',
 	styleUrls: ['./select.component.scss']
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent {
 	/** Whether the select input is disabled. */
 	readonly disabled = input(false);
 
@@ -91,7 +92,7 @@ export class SelectComponent implements OnInit {
 	/** Event emitted when the selected value/values change. */
 	readonly wChange = output<Value>();
 
-	readonly allItem: Record<string | number, string> = {};
+	readonly allItem: Record<Id, string> = {};
 
 	readonly allItems = computed<Item[]>(() =>
 		this.items().map((item) => {
@@ -105,7 +106,7 @@ export class SelectComponent implements OnInit {
 			_item.id =
 				typeof item === 'object'
 					? (item as Record<string, string>)[this.bindValue()]
-					: (item as string | number);
+					: (item as Id);
 
 			this.allItem[_item.id] = _item.name;
 
@@ -116,9 +117,9 @@ export class SelectComponent implements OnInit {
 	/** The selected value(s). */
 	readonly value = input<Value>(null);
 
-	activeValue = signal<string | number | null>(null);
+	activeValue = signal<Id | null>(null);
 
-	activeValues = signal<string[] | number[]>([]);
+	activeValues = signal<Id[]>([]);
 
 	search = signal('');
 
@@ -144,7 +145,7 @@ export class SelectComponent implements OnInit {
 	removeItem(index: number) {
 		this.activeValues.set(this.activeValues().splice(index, 1));
 
-		this.wChange.emit(this.activeValues());
+		this.wChange.emit(this.activeValues() as Value);
 	}
 
 	/** Clears the selected values. */
@@ -166,35 +167,24 @@ export class SelectComponent implements OnInit {
 		}
 	}
 
-	/** Handles click events on items. */
-	clicked(item: any): void {
-		// if (this.multiple()) {
-		// 	if (this._values.indexOf(item[this.value()]) !== -1) {
-		// 		this._values.splice(
-		// 			this._values.indexOf(item[this.value()]),
-		// 			1
-		// 		);
-		// 	} else {
-		// 		this._values.push(item[this.value()]);
-		// 	}
-		// 	if (this._names.indexOf(item[this.name()]) !== -1) {
-		// 		this._names.splice(this._names.indexOf(item[this.name()]), 1);
-		// 	} else {
-		// 		this._names.push(item[this.name()]);
-		// 	}
-		// 	this._selected =
-		// 		this._names.length == 0
-		// 			? this.placeholder
-		// 			: this._names.join(', ');
-		// 	this.modelChange.emit(this._values);
-		// } else {
-		// 	this._selected = item[this.name()];
-		// 	this.showOptions.set(false);
-		// 	this.modelChange.emit(item[this.value()]);
-		// }
-	}
-
 	// above good
+
+	/** Handles click events on items. */
+	toggleOption(item: Item): void {
+		if (this.multiple()) {
+			this.activeValues.set(
+				this.activeValues().includes(item.id)
+					? this.activeValues().filter((id) => id !== item.id)
+					: [...this.activeValues(), item.id]
+			);
+
+			this.wChange.emit(this.activeValues() as Value);
+		} else {
+			this.activeValue.set(item.id);
+
+			this.wChange.emit(this.activeValue());
+		}
+	}
 
 	/** Custom template for the view (header) of the select input. */
 	@Input('view') t_view: TemplateRef<any>;
@@ -206,10 +196,4 @@ export class SelectComponent implements OnInit {
 	@Input('search') t_search: TemplateRef<any>;
 
 	@ViewChild('e_search', { static: false }) e_search: ElementRef;
-
-	_values: any = [];
-
-	_names: any = [];
-
-	_selected: string;
 }

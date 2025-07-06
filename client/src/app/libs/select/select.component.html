@@ -61,10 +61,7 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 
 		<!-- Clearable icon -->
 		@if (clearable() && (_multiple ? _activeValues.length : _activeValue)) {
-		<div
-			class="w-select__arrow material-icons"
-			(click)="clear(); _selected = ''"
-		>
+		<div class="w-select__arrow material-icons" (click)="clear()">
 			close
 		</div>
 		}
@@ -97,11 +94,11 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 
 			<!-- Items list -->
 			<div class="popup-block">
-				@for (_item of (_allItems | search: search(): searchableBy + '
+				@for (item of (_allItems | search: search(): searchableBy + '
 				__search'); track $index) {
 				<ng-container
 					[ngTemplateOutlet]="t_item ? t_item : defaultItem"
-					[ngTemplateOutletContext]="{ item: _item }"
+					[ngTemplateOutletContext]="{ item: item }"
 				></ng-container>
 				} @if (!(_allItems | search: search(): searchableBy + '
 				__search')?.length) {
@@ -113,16 +110,14 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 
 			<!-- Item view -->
 			<ng-template #defaultItem let-item="item">
-				<div
-					[class.disabled]="_activeValues.indexOf(item.id) !== -1"
-					(click)="clicked(item)"
-					class="item"
-				>
+				<div (click)="toggleOption(item)" class="item">
+					@let id = item.id;
+
 					<div
-						[class.selected]="_values.indexOf(item[value()]) !== -1"
+						[class.selected]="_multiple ? _activeValues.includes(id) : false"
 						class="item__text"
 					>
-						{{ 'Select.' + item[name()] | translate }}
+						{{ 'Select.' + item.name | translate }}
 					</div>
 				</div>
 			</ng-template>
