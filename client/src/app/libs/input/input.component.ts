@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import {
+	ChangeDetectionStrategy,
 	Component,
 	ElementRef,
 	OnChanges,
@@ -11,17 +12,8 @@ import {
 	signal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Value } from '../select/select.component';
 import { TranslatePipe } from '../translate/translate.pipe';
-
-export type Value =
-	| null
-	| string
-	| number
-	| boolean
-	| string[]
-	| number[]
-	| boolean[];
+import { InputType, InputValue } from './input.type';
 
 /**
  * InputComponent is a customizable input component that supports various types of inputs,
@@ -29,24 +21,25 @@ export type Value =
  * custom value replacement, and event handling for changes, submissions, and blur events.
  */
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [FormsModule, NgClass, TranslatePipe],
 	selector: 'winput',
 	templateUrl: './input.component.html',
-	styleUrls: ['./input.component.scss'],
-	imports: [FormsModule, NgClass, TranslatePipe]
+	styleUrl: './input.component.scss'
 })
 export class InputComponent implements OnInit, OnChanges {
 	/**
 	 * The value of the input field.
 	 */
-	readonly value = input<Value>('');
+	readonly value = input<InputValue>('');
 
-	activeValue = signal<Value>(null);
+	activeValue = signal<InputValue>(null);
 
 	readonly clearable = input(false);
 
-	readonly replace = input<(value: Value) => Value>();
+	readonly replace = input<(value: InputValue) => InputValue>();
 
-	readonly valid = input<(value: Value) => boolean>((value) => !!value);
+	readonly valid = input<(value: InputValue) => boolean>((value) => !!value);
 
 	readonly items = input<string[]>([]);
 
@@ -60,26 +53,7 @@ export class InputComponent implements OnInit, OnChanges {
 
 	readonly name = input('name');
 
-	readonly type = input<
-		| 'text'
-		| 'password'
-		| 'email'
-		| 'radio'
-		| 'checkbox'
-		| 'textarea'
-		| 'search'
-		| 'tel'
-		| 'url'
-		| 'number'
-		| 'range'
-		| 'color'
-		| 'date'
-		| 'month'
-		| 'week'
-		| 'time'
-		| 'datetime'
-		| 'datetime-local'
-	>('text');
+	readonly type = input<InputType>('text');
 
 	readonly label = input('');
 
@@ -88,12 +62,12 @@ export class InputComponent implements OnInit, OnChanges {
 	/**
 	 * Event emitted when the input value changes.
 	 */
-	readonly wChange = output<Value>();
+	readonly wChange = output<InputValue>();
 
 	/**
 	 * Event emitted when the form is submitted.
 	 */
-	readonly wSubmit = output<Value>();
+	readonly wSubmit = output<InputValue>();
 
 	/**
 	 * Event emitted when the input field loses focus.

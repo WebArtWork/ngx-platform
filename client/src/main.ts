@@ -1,4 +1,8 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import {
+	enableProdMode,
+	importProvidersFrom,
+	provideZonelessChangeDetection
+} from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
@@ -168,6 +172,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
 	providers: [
+		provideZonelessChangeDetection(),
 		importProvidersFrom(
 			BrowserModule,
 			NgxTinymceModule.forRoot({

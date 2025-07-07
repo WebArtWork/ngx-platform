@@ -14,22 +14,8 @@ import { TranslateDirective } from '../translate/translate.directive';
 import { TranslatePipe } from '../translate/translate.pipe';
 import { ClickOutsideDirective } from './clickoutside.directive';
 import { SearchPipe } from './search.pipe';
-
-export type Value =
-	| null
-	| string
-	| number
-	| boolean
-	| string[]
-	| number[]
-	| boolean[];
-
-type Id = string | number;
-
-export interface Item {
-	name: string;
-	id: Id;
-}
+import { SelectItem } from './select.interface';
+import { SelectId, SelectValue } from './select.type';
 
 /**
  * The SelectComponent is a customizable select dropdown component that supports
@@ -48,7 +34,7 @@ export interface Item {
 	],
 	selector: 'wselect',
 	templateUrl: './select.component.html',
-	styleUrls: ['./select.component.scss']
+	styleUrl: './select.component.scss'
 })
 export class SelectComponent {
 	/** Whether the select input is disabled. */
@@ -87,7 +73,7 @@ export class SelectComponent {
 	readonly items = input<unknown[]>([]);
 
 	/** Event emitted when the selected value/values change. */
-	readonly wChange = output<Value>();
+	readonly wChange = output<SelectValue>();
 
 	/** Custom template for the view (header) of the select input. */
 	readonly t_view = input<TemplateRef<unknown>>();
@@ -98,11 +84,11 @@ export class SelectComponent {
 	/** Custom template for the search input. */
 	readonly t_search = input<TemplateRef<unknown>>();
 
-	readonly allItem: Record<Id, string> = {};
+	readonly allItem: Record<SelectId, string> = {};
 
-	readonly allItems = computed<Item[]>(() =>
+	readonly allItems = computed<SelectItem[]>(() =>
 		this.items().map((item) => {
-			const _item: Item = {} as Item;
+			const _item: SelectItem = {} as SelectItem;
 
 			_item.name =
 				typeof item === 'object'
@@ -112,7 +98,7 @@ export class SelectComponent {
 			_item.id =
 				typeof item === 'object'
 					? (item as Record<string, string>)[this.bindValue()]
-					: (item as Id);
+					: (item as SelectId);
 
 			this.allItem[_item.id] = _item.name;
 
@@ -121,11 +107,11 @@ export class SelectComponent {
 	);
 
 	/** The selected value(s). */
-	readonly value = input<Value>(null);
+	readonly value = input<SelectValue>(null);
 
-	activeValue = signal<Id | null>(null);
+	activeValue = signal<SelectId | null>(null);
 
-	activeValues = signal<Id[]>([]);
+	activeValues = signal<SelectId[]>([]);
 
 	search = signal('');
 
@@ -151,7 +137,7 @@ export class SelectComponent {
 	removeItem(index: number) {
 		this.activeValues.set(this.activeValues().splice(index, 1));
 
-		this.wChange.emit(this.activeValues() as Value);
+		this.wChange.emit(this.activeValues() as SelectValue);
 	}
 
 	/** Clears the selected values. */
@@ -176,7 +162,7 @@ export class SelectComponent {
 	// above good
 
 	/** Handles click events on items. */
-	toggleOption(item: Item): void {
+	toggleOption(item: SelectItem): void {
 		if (this.multiple()) {
 			this.activeValues.set(
 				this.activeValues().includes(item.id)
@@ -184,7 +170,7 @@ export class SelectComponent {
 					: [...this.activeValues(), item.id]
 			);
 
-			this.wChange.emit(this.activeValues() as Value);
+			this.wChange.emit(this.activeValues() as SelectValue);
 		} else {
 			this.activeValue.set(item.id);
 

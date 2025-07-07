@@ -6,8 +6,9 @@ import {
 	ViewChild,
 	inject
 } from '@angular/core';
+import { InputValue } from 'src/app/libs/input/input.type';
 import { FormService } from '../../libs/form/services/form.service';
-import { InputComponent, Value } from '../../libs/input/input.component';
+import { InputComponent } from '../../libs/input/input.component';
 
 interface Interface {}
 
@@ -21,7 +22,7 @@ export class NumberComponent implements OnInit {
 	@ViewChild('templateRef', { static: true })
 	templateRef: TemplateRef<Interface>;
 
-	number(value: Value) {
+	number(value: InputValue) {
 		return Number(value);
 	}
 

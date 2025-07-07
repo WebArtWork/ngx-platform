@@ -6,7 +6,8 @@ import {
 } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
-import { SelectComponent, Value } from 'src/app/libs/select/select.component';
+import { SelectComponent } from 'src/app/libs/select/select.component';
+import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/libs/translate/translate.pipe';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { CrudComponent } from 'wacom';
@@ -31,9 +32,9 @@ export class BirdSelectorComponent extends CrudComponent<
 
 	readonly disabled = input<boolean>(false);
 
-	readonly value = input<Value>('');
+	readonly value = input<SelectValue>('');
 
-	readonly wChange = output<Value>();
+	readonly wChange = output<SelectValue>();
 
 	constructor(
 		_birdService: BirdService,
