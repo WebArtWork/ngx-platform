@@ -1,7 +1,7 @@
 @let _showOptions = showOptions(); @let _placeholder = placeholder(); @let
 _label = label(); @let _activeValue = activeValue(); @let _activeValues =
 activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
-@let _allItems = allItems();
+@let _allItems = allItems(); @let _searchableBy = searchableBy();
 
 <div
 	(clickOutside)="toggleOptions(false)"
@@ -24,7 +24,7 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 			<span class="material-icons">unfold_more</span>
 			<!-- Display the selected items -->
 			<ng-container
-				[ngTemplateOutlet]="t_view ? t_view : defaultView"
+				[ngTemplateOutlet]="t_view() ? t_view() : defaultView"
 			></ng-container>
 			<ng-template #defaultView>
 				<div class="w-select__text">
@@ -81,7 +81,7 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 			@if (_searchable) {
 			<div>
 				<ng-container
-					[ngTemplateOutlet]="t_search ? t_search : defaultSearch"
+					[ngTemplateOutlet]="t_search() ? t_search() : defaultSearch"
 				></ng-container>
 				<ng-template #defaultSearch>
 					<winput
@@ -94,13 +94,13 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 
 			<!-- Items list -->
 			<div class="popup-block">
-				@for (item of (_allItems | search: search(): searchableBy + '
+				@for (item of (_allItems | search: search(): _searchableBy + '
 				__search'); track $index) {
 				<ng-container
-					[ngTemplateOutlet]="t_item ? t_item : defaultItem"
+					[ngTemplateOutlet]="t_item() ? t_item() : defaultItem"
 					[ngTemplateOutletContext]="{ item: item }"
 				></ng-container>
-				} @if (!(_allItems | search: search(): searchableBy + '
+				} @if (!(_allItems | search: search(): _searchableBy + '
 				__search')?.length) {
 				<div class="popup-block__empty-search" translate>
 					Select.Nothing was found

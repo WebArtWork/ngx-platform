@@ -1,22 +1,28 @@
+@let _type = type(); @let _name = name();
+
 <!-- General Input -->
-@if (type !== 'radio' && type !== 'checkbox' && type !== 'textarea') {
-<label class="w-forms" [for]="name">
-	@if (label) {
+@if (_type !== 'radio' && _type !== 'checkbox' && _type !== 'textarea') {
+<label class="w-forms" [for]="_name">
+	@if (label()) {
 	<span class="w-forms__title">{{ 'Input.' + label | translate }}</span>
 	}
 	<div style="position: relative">
 		<input
 			[placeholder]="'Input.' + (placeholder || 'Enter text...') | translate"
-			(ngModelChange)="value = $event; onChange(); error = false"
+			(ngModelChange)="
+				activeValue.set($event);
+				error.set(false);
+				onChange();
+			"
 			(keyup.enter)="onSubmit()"
-			[type]="type || 'text'"
+			[type]="_type || 'text'"
 			class="w-forms__input"
 			(blur)="wBlur.emit()"
-			[class.error]="error"
-			[disabled]="disabled"
+			[class.error]="error()"
+			[disabled]="disabled()"
 			[ngModel]="value"
 			[ngClass]="wClass"
-			[name]="name"
+			[name]="_name"
 			#inputEl
 		/>
 		@if (clearable) {

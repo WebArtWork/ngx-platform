@@ -2,10 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
-	ElementRef,
-	Input,
 	TemplateRef,
-	ViewChild,
 	computed,
 	effect,
 	input,
@@ -91,6 +88,15 @@ export class SelectComponent {
 
 	/** Event emitted when the selected value/values change. */
 	readonly wChange = output<Value>();
+
+	/** Custom template for the view (header) of the select input. */
+	readonly t_view = input<TemplateRef<unknown>>();
+
+	/** Custom template for each item in the dropdown. */
+	readonly t_item = input<TemplateRef<unknown>>();
+
+	/** Custom template for the search input. */
+	readonly t_search = input<TemplateRef<unknown>>();
 
 	readonly allItem: Record<Id, string> = {};
 
@@ -185,15 +191,4 @@ export class SelectComponent {
 			this.wChange.emit(this.activeValue());
 		}
 	}
-
-	/** Custom template for the view (header) of the select input. */
-	@Input('view') t_view: TemplateRef<any>;
-
-	/** Custom template for each item in the dropdown. */
-	@Input('item') t_item: TemplateRef<any>;
-
-	/** Custom template for the search input. */
-	@Input('search') t_search: TemplateRef<any>;
-
-	@ViewChild('e_search', { static: false }) e_search: ElementRef;
 }
