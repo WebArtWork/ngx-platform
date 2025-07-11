@@ -1,4 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	input,
+	output
+} from '@angular/core';
 
 /**
  * ButtonComponent is a reusable Angular component for buttons.
@@ -6,6 +11,7 @@ import { Component, input, output } from '@angular/core';
  * and emits events when clicked.
  */
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	selector: 'wbutton',
 	templateUrl: './button.component.html'
 })
