@@ -1,6 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, inject } from '@angular/core';
-import { firstValueFrom } from 'node_modules/rxjs/dist/types';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
@@ -39,9 +38,7 @@ export class FilesComponent {
 
 					this._preCreate(created as File);
 
-					await firstValueFrom(
-						this._fileService.create(created as File)
-					);
+					this._fileService.create(created as File);
 
 					this.setRows();
 				}
@@ -59,7 +56,7 @@ export class FilesComponent {
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: async (): Promise<void> => {
-							await firstValueFrom(this._fileService.delete(doc));
+							this._fileService.delete(doc);
 
 							this.setRows();
 						}

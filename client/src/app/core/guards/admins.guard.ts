@@ -11,11 +11,11 @@ export class AdminsGuard {
 
 			if (user.is && user.is.admin) return true;
 
-			this.router.navigate(['/profile']);
+			this.router.navigateByUrl('/profile');
 
 			return false;
 		} else {
-			this.router.navigate(['/sign']);
+			this.router.navigateByUrl('/sign');
 
 			return false;
 		}
