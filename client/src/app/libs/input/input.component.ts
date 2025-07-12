@@ -1,24 +1,25 @@
 import { NgClass } from '@angular/common';
 import {
+	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
+	effect,
 	ElementRef,
-	OnChanges,
-	OnInit,
-	SimpleChanges,
-	ViewChild,
+	inject,
 	input,
 	output,
-	signal
+	signal,
+	viewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CoreService } from 'wacom';
 import { TranslatePipe } from '../translate/translate.pipe';
 import { InputType, InputValue } from './input.type';
 
 /**
- * InputComponent is a customizable input component that supports various types of inputs,
- * including text, radio buttons, checkboxes, and textareas. It also provides validation,
- * custom value replacement, and event handling for changes, submissions, and blur events.
+ * InputComponent is a flexible and reactive input control that supports multiple input types
+ * such as text, checkbox, radio, and textarea. It allows for dynamic validation, transformation
+ * of values, and provides reactive outputs for value change, blur, and submit events.
  */
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,138 +28,202 @@ import { InputType, InputValue } from './input.type';
 	templateUrl: './input.component.html',
 	styleUrl: './input.component.scss'
 })
-export class InputComponent implements OnInit, OnChanges {
+export class InputComponent implements AfterViewInit {
 	/**
-	 * The value of the input field.
+	 * Initial value passed from the parent. Can be of string, number, boolean, or array types.
 	 */
 	readonly value = input<InputValue>('');
 
+	/**
+	 * Current value of the input, stored as a writable signal.
+	 * Synchronized with `value` input.
+	 */
 	activeValue = signal<InputValue>(null);
 
+	/**
+	 * If true, shows a clear/reset button next to the input.
+	 */
 	readonly clearable = input(false);
 
+	/**
+	 * Optional function to transform or sanitize the value on change.
+	 */
 	readonly replace = input<(value: InputValue) => InputValue>();
 
+	/**
+	 * Function to validate the input value.
+	 * Defaults to checking if the value is truthy.
+	 */
 	readonly valid = input<(value: InputValue) => boolean>((value) => !!value);
 
+	/**
+	 * List of selectable values, used for checkboxes or radio buttons.
+	 */
 	readonly items = input<string[]>([]);
 
+	/**
+	 * Placeholder text shown inside the input when empty.
+	 */
 	readonly placeholder = input('');
 
+	/**
+	 * If true, disables the input field.
+	 */
 	readonly disabled = input(false);
 
+	/**
+	 * If true, the input field will be automatically focused on init.
+	 */
 	readonly focused = input(false);
 
+	/**
+	 * Additional CSS classes to apply to the input element.
+	 */
 	readonly wClass = input('');
 
+	/**
+	 * The name attribute used for the input field.
+	 */
 	readonly name = input('name');
 
+	/**
+	 * Type of the input: 'text', 'password', 'email', 'checkbox', 'radio', or 'textarea'.
+	 */
 	readonly type = input<InputType>('text');
 
+	/**
+	 * Optional label text to display with the input.
+	 */
 	readonly label = input('');
 
-	readonly setFocus = input<{ focus: () => void }>();
-
 	/**
-	 * Event emitted when the input value changes.
+	 * Event emitted when the input value changes after debouncing (250ms).
 	 */
 	readonly wChange = output<InputValue>();
 
 	/**
-	 * Event emitted when the form is submitted.
+	 * Event emitted when the input is submitted (e.g., Enter key).
 	 */
 	readonly wSubmit = output<InputValue>();
 
 	/**
-	 * Event emitted when the input field loses focus.
+	 * Event emitted when the input loses focus.
 	 */
 	readonly wBlur = output<void>();
 
 	/**
-	 * Reference to the input element in the template.
-	 */
-	@ViewChild('inputEl') inputEl: ElementRef;
-
-	/**
-	 * Error state of the input field, set to true if validation fails.
+	 * Signal to represent validation error state.
 	 */
 	error = signal(false);
 
 	/**
-	 * Initializes the component. Focuses the input field if the focused input is true.
+	 * Constructor sets up a reactive effect to sync incoming `value` with internal `activeValue`.
 	 */
-	ngOnInit(): void {
-		// if (this.focused()) {
-		// 	this.focus();
-		// }
-		// if (this.setFocus) {
-		// 	this.setFocus.focus = this.focus.bind(this);
-		// }
+	constructor() {
+		effect(() => this.activeValue.set(this.value()));
 	}
 
 	/**
-	 * Detect changes.
+	 * Angular lifecycle hook.
+	 * Automatically focuses the input field after view init if `focused` is true.
 	 */
-	ngOnChanges(changes: SimpleChanges): void {
-		// if (changes['disabled']) {
-		// 	this.disabled = changes['disabled'].currentValue;
-		// }
-		// if (changes['value'] && this.value !== changes['value'].currentValue) {
-		// 	this.value = changes['value'].currentValue;
-		// }
+	ngAfterViewInit(): void {
+		if (this.focused()) {
+			this.focus();
+		}
 	}
 
 	/**
-	 * Focuses the input field.
+	 * Programmatically focuses the input element.
 	 */
 	focus(): void {
-		// setTimeout(() => {
-		// 	this.inputEl.nativeElement.focus();
-		// }, 100);
+		this._inputEl().nativeElement.focus();
 	}
 
 	/**
-	 * Handles the change event for the input field.
-	 * Applies the replace function if provided, and emits the new value.
+	 * Triggered on user input change (e.g., typing).
+	 * Applies the optional `replace` function if provided,
+	 * and emits the new value through `wChange`.
+	 * Debounced by 250ms to prevent frequent updates.
 	 */
 	onChange(): void {
-		// this._core.afterWhile(
-		// 	'winput',
-		// 	(): void => {
-		// 		this.value =
-		// 			typeof this.replace === 'function'
-		// 				? this.replace(this.value)
-		// 				: this.value;
-		// 		this.wChange.emit(this.value);
-		// 	},
-		// 	100
-		// );
+		this._core.afterWhile(
+			this,
+			() => {
+				const replaceFn = this.replace();
+				const current = this.activeValue();
+
+				if (typeof replaceFn === 'function') {
+					const next = replaceFn(current);
+					if (next !== current) this.activeValue.set(next);
+				}
+
+				this.wChange.emit(this.activeValue());
+			},
+			250
+		);
 	}
 
 	/**
-	 * Handles the submit event for the input field.
-	 * Validates the input value before emitting the submit event.
+	 * Triggered when the form or input is submitted.
+	 * Validates the current value using the `valid` function and emits through `wSubmit`.
+	 * If validation fails, sets the `error` state.
 	 */
 	onSubmit(): void {
-		// if (this.valid(this.value)) {
-		// 	this.wSubmit.emit(this.value);
-		// } else {
-		// 	this.error = true;
-		// }
+		const current = this.activeValue();
+
+		if (typeof this.valid() === 'function' && this.valid()(current)) {
+			this.wSubmit.emit(current);
+		} else {
+			this.error.set(true);
+		}
 	}
 
+	/**
+	 * Sets or unsets a checkbox item based on index and `add` flag.
+	 * Used for managing multi-select checkbox logic.
+	 * @param add - true to add, false to remove
+	 * @param i - index of the item in `items` array
+	 */
 	setCheckboxValue(add: boolean, i: number): void {
-		// this.value = Array.isArray(this.value) ? this.value : [];
-		// const index = (
-		// 	this.value as Array<string | number | boolean>
-		// ).findIndex((item) => item === this.items[i]);
-		// if (index !== -1) {
-		// 	(this.value as Array<string | number | boolean>).splice(index, 1);
-		// }
-		// if (add) {
-		// 	(this.value as Array<string | number | boolean>).push(
-		// 		this.items[i]
-		// 	);
-		// }
+		const current = (
+			Array.isArray(this.activeValue()) ? this.activeValue() : []
+		) as Array<string | number | boolean>;
+		const value = this.items()[i];
+
+		const updated = add
+			? [...current, value]
+			: current.filter((v) => v !== value);
+
+		this.activeValue.set(updated as InputValue);
 	}
+
+	/**
+	 * Determines whether a given item is currently selected in the active value array.
+	 * Used primarily for checkbox inputs where multiple selections are allowed.
+	 *
+	 * @param item - The item to check for presence in the current value array.
+	 * @returns True if the item is present in the array, false otherwise.
+	 */
+	isChecked(item: string | number | boolean): boolean {
+		const value = this.value();
+
+		if (Array.isArray(value)) {
+			return (value as Array<string | number | boolean>).includes(item);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Reference to the native input element in the template.
+	 * Required viewChild ensures it's always present.
+	 */
+	private _inputEl =
+		viewChild.required<ElementRef<HTMLInputElement>>('inputEl');
+
+	/**
+	 * Injected core service used for debouncing (afterWhile).
+	 */
+	private _core = inject(CoreService);
 }

@@ -89,7 +89,7 @@ export class TranslateService {
 
 		this._store.getJson('language', (language: Language) => {
 			if (language) {
-				this.set_language(language);
+				this.setLanguage(language);
 			}
 		});
 
@@ -151,7 +151,7 @@ export class TranslateService {
 	 * Sets the current language and updates the translations.
 	 * @param language - The language object to set as current.
 	 */
-	set_language(language: Language) {
+	setLanguage(language: Language) {
 		if (language) {
 			this._http.post('/api/translate/set', {
 				appId: this.appId,
@@ -245,7 +245,7 @@ export class TranslateService {
 				.filter((w) => !!w)
 				.indexOf(slug) < 0
 		) {
-			this.create_word(slug);
+			this.createWord(slug);
 		}
 
 		return this._slug2name(slug);
@@ -259,7 +259,7 @@ export class TranslateService {
 	 * Creates a new word in the backend and adds it to the list of words.
 	 * @param slug - The translation key to create.
 	 */
-	create_word(slug: string) {
+	createWord(slug: string) {
 		if (this._created[slug]) {
 			return;
 		}
@@ -284,7 +284,7 @@ export class TranslateService {
 			);
 		} else {
 			setTimeout(() => {
-				this.create_word(slug);
+				this.createWord(slug);
 			}, 500);
 		}
 	}
@@ -295,7 +295,7 @@ export class TranslateService {
 	 * @param languageCode - The language code for the translation.
 	 * @param translate - The translated string.
 	 */
-	update_translate(slug: string, languageCode: string, translate: string) {
+	updateTranslate(slug: string, languageCode: string, translate: string) {
 		this._core.afterWhile(this, () => {
 			this._http.post('/api/translate/create', {
 				appId: this.appId,
@@ -322,7 +322,7 @@ export class TranslateService {
 	/**
 	 * Downloads the translations as a JSON file.
 	 */
-	download_json() {
+	downloadJson() {
 		this._http.get('/api/translate/get_translates', (obj) => {
 			const dataStr =
 				'data:text/json;charset=utf-8,' +

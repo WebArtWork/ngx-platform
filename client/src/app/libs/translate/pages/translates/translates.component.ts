@@ -191,7 +191,7 @@ export class TranslatesComponent {
 	}
 
 	setLanguage(code: string) {
-		this.ts.set_language(
+		this.ts.setLanguage(
 			this.ts.languages.find((l) => l.code === code) as Language
 		);
 	}

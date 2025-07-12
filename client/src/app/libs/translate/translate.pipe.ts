@@ -3,8 +3,6 @@ import { TranslateService } from './translate.service';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipe implements PipeTransform {
-	private _tr = inject(TranslateService);
-
 	/**
 	 * Transforms the given slug into its corresponding translated string.
 	 * @param slug - The translation key to be translated.
@@ -12,6 +10,8 @@ export class TranslatePipe implements PipeTransform {
 	 * @returns The translated string.
 	 */
 	transform(slug: string, refresh?: number): string {
-		return this._tr.translate(slug);
+		return this._translateService.translate(slug);
 	}
+
+	private _translateService = inject(TranslateService);
 }

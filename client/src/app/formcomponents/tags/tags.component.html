@@ -7,7 +7,6 @@
 			[value]="data.field.__name"
 			[label]="data.field.Label"
 			(wSubmit)="addTag(data)"
-			[setFocus]="data.field"
 		></winput>
 
 		@for (tag of data.submition[data.key]; track tag; let i = $index) {

@@ -5,7 +5,7 @@ _placeholder = placeholder();
 
 <!-- General Input -->
 @if (_type !== 'radio' && _type !== 'checkbox' && _type !== 'textarea') {
-<label class="w-forms" [for]="_name">
+<label class="w-forms">
 	@if (_label) {
 	<span class="w-forms__title">{{ 'Input.' + _label | translate }}</span>
 	}
@@ -49,7 +49,7 @@ _placeholder = placeholder();
 
 <!-- Textarea -->
 @if (_type === 'textarea') {
-<label class="w-forms" [for]="_name">
+<label class="w-forms">
 	<span class="w-forms__title">{{ _label }}</span>
 	<textarea
 		[placeholder]="'Input.' + (placeholder || 'Enter text...') | translate"
@@ -59,8 +59,8 @@ _placeholder = placeholder();
 		(blur)="wBlur.emit()"
 		[disabled]="_disabled"
 		[class.error]="_error"
-		[ngModel]="value"
-		[ngClass]="wClass"
+		[ngModel]="_value"
+		[ngClass]="_wClass"
 		[name]="_name"
 		#inputEl
 	></textarea>
@@ -93,7 +93,6 @@ _placeholder = placeholder();
 	<ng-content></ng-content>
 </label>
 } }
-
 <!-- Checkboxes -->
 @if (_type === 'checkbox') { @for (item of _items; track $index; let i = $index)
 {
@@ -101,6 +100,7 @@ _placeholder = placeholder();
 	<span class="form-label">{{'Input.' + item | translate }}</span>
 	<input
 		(ngModelChange)="setCheckboxValue($event, i); onChange()"
+		[ngModel]="isChecked(item)"
 		class="w-input__checkbox"
 		[disabled]="_disabled"
 		[class.error]="_error"
@@ -108,7 +108,6 @@ _placeholder = placeholder();
 		type="checkbox"
 		[name]="_name + i"
 		#inputEl
-		ngModel
 	/>
 	<span class="mark"></span>
 </label>
@@ -121,10 +120,10 @@ _placeholder = placeholder();
 	}
 	<input
 		(ngModelChange)="activeValue.set($event); onChange()"
+		[ngModel]="_value"
 		class="w-input__checkbox"
 		[disabled]="_disabled"
 		[class.error]="_error"
-		[ngModel]="_value"
 		[ngClass]="_wClass"
 		type="checkbox"
 		[name]="_name"

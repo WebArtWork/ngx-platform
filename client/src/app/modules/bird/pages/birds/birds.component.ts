@@ -12,8 +12,7 @@ import { BirdService } from '../../services/bird.service';
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [TableComponent, BirdSelectorComponent],
-	templateUrl: './birds.component.html',
-	styleUrls: ['./birds.component.scss']
+	templateUrl: './birds.component.html'
 })
 export class BirdsComponent extends CrudComponent<
 	BirdService,
