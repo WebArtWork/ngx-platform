@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -17,7 +18,7 @@ import { BirdService } from '../../services/bird.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [SelectComponent, TranslatePipe],
+	imports: [SelectComponent, TranslatePipe, CommonModule],
 	selector: 'bird-selector',
 	templateUrl: './bird-selector.component.html'
 })

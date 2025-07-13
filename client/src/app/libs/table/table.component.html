@@ -106,25 +106,26 @@
 			</tr>
 		</thead>
 		<tbody class="table-body">
-			@for (row of config.allDocs ? (rows | search: filter_filter:
+			@for (row of config.allDocs ? (rows() | search: filter_filter:
 			(config.searchBy || 'title') | perPage: config: sort_type:
-			filter_filter + now) : rows; track $index) {
+			filter_filter + now) : rows(); track row()[bindValue()]) { @let _row
+			= row();
 			<tr>
 				<!-- Row number -->
 				@if (config.num) {
-				<td>{{ row.num }}</td>
+				<td>{{ _row.num }}</td>
 				}
 				<!-- Data rows with custom cells if defined -->
 				@for (column of columns; track column) { @if
 				(custom_cell[column.field]) {
 				<td [attr.data-label]="column.title + ':&nbsp;'">
 					<ng-container
-						*ngTemplateOutlet="custom_cell[column.field]; context: { $implicit: row }"
+						*ngTemplateOutlet="custom_cell[column.field]; context: { $implicit: _row }"
 					></ng-container>
 				</td>
 				} @else {
 				<td [attr.data-label]="column.title + ':&nbsp;'">
-					{{ row[column.field] }}
+					{{ _row[column.field] }}
 				</td>
 				} }
 				<!-- Action buttons for each row -->
@@ -136,7 +137,7 @@
 						@if (button) { @if (!button.ahref && !button.ahrefFunc
 						&& !button.href && !button.hrefFunc) {
 						<i
-							(click)="button.click(row)"
+							(click)="button.click(_row)"
 							class="material-icons"
 							[title]="button.icon"
 						>
@@ -153,7 +154,7 @@
 						</a>
 						} @if (button.ahrefFunc) {
 						<a
-							[href]="button.ahrefFunc(row)"
+							[href]="button.ahrefFunc(_row)"
 							[target]="button.target || '_blank'"
 						>
 							<i class="material-icons" [title]="button.icon">
@@ -167,7 +168,7 @@
 							</i>
 						</a>
 						} @if (button.hrefFunc) {
-						<a [routerLink]="button.hrefFunc(row)">
+						<a [routerLink]="button.hrefFunc(_row)">
 							<i class="material-icons" [title]="button.icon">
 								{{ button.icon }}
 							</i>
@@ -176,7 +177,7 @@
 						<!-- Edit and Delete buttons -->
 						@if (config.update) {
 						<i
-							(click)="config.update(row)"
+							(click)="config.update(_row)"
 							class="material-icons"
 							title="Edit"
 						>
@@ -184,7 +185,7 @@
 						</i>
 						} @if (config.delete) {
 						<i
-							(click)="config.delete(row)"
+							(click)="config.delete(_row)"
 							class="material-icons"
 							title="Delete"
 						>
@@ -243,13 +244,13 @@
 				<div class="item-page__result">
 					<span
 						>{{ ((config.page - 1) * config.perPage) + 1 }} - {{
-						config.page * config.perPage > rows?.length &&
-						rows?.length || config.page * config.perPage }}</span
+						config.page * config.perPage > rows().length &&
+						rows().length || config.page * config.perPage }}</span
 					>
 					<span> of </span>
 					<span
-						>{{ (rows | search: searching_text: (config.searchBy ||
-						'title'))?.length }}</span
+						>{{ (rows() | search: searching_text: (config.searchBy
+						|| 'title'))?.length }}</span
 					>
 				</div>
 				}
@@ -275,7 +276,7 @@
 					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
-					[disabled]="config.page * config.perPage > rows?.length"
+					[disabled]="config.page * config.perPage > rows().length"
 					class="table-footer__arrow _right"
 					(click)="next()"
 				>
@@ -301,7 +302,7 @@
 					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
-					[disabled]="rows.length !== config.perPage"
+					[disabled]="rows().length !== config.perPage"
 					class="table-footer__arrow _right"
 					(click)="next()"
 				>

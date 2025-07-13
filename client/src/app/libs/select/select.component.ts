@@ -2,13 +2,15 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
+	Signal,
 	TemplateRef,
-	computed,
 	effect,
+	inject,
 	input,
 	output,
 	signal
 } from '@angular/core';
+import { CoreService } from 'wacom';
 import { InputComponent } from '../input/input.component';
 import { TranslateDirective } from '../translate/translate.directive';
 import { TranslatePipe } from '../translate/translate.pipe';
@@ -86,30 +88,18 @@ export class SelectComponent {
 
 	readonly allItem: Record<SelectId, string> = {};
 
-	readonly allItems = computed<SelectItem[]>(() =>
-		this.items().map((item) => {
-			const _item: SelectItem = {} as SelectItem;
+	private _core = inject(CoreService);
 
-			_item.name =
-				typeof item === 'object'
-					? (item as Record<string, string>)[this.bindLabel()]
-					: (item as string);
-
-			_item.id =
-				typeof item === 'object'
-					? (item as Record<string, string>)[this.bindValue()]
-					: (item as SelectId);
-
-			this.allItem[_item.id] = _item.name;
-
-			return _item;
-		})
+	readonly allItems = signal<Signal<SelectItem>[]>(
+		this._core.toSignalsArray<SelectItem>([])
 	);
 
 	/** The selected value(s). */
 	readonly value = input<SelectValue>(null);
 
 	activeValue = signal<SelectId | null>(null);
+
+	test = signal<SelectId | null>(null);
 
 	activeValues = signal<SelectId[]>([]);
 
@@ -118,18 +108,50 @@ export class SelectComponent {
 	showOptions = signal(false);
 
 	constructor() {
+		let initialized = false;
+
 		effect(() => {
-			if (
-				this.multiple() &&
-				JSON.stringify(this.activeValue()) !==
-					JSON.stringify(this.value())
-			) {
-				this.activeValues.set(this.value() as string[] | number[]);
-			} else if (
-				!this.multiple() &&
-				this.activeValue() !== this.value()
-			) {
-				this.activeValue.set(this.value() as string | number);
+			this.allItems.update(() =>
+				this.items().map((item) => {
+					const saveItem: SelectItem = {} as SelectItem;
+
+					const inputItem = (item as () => unknown)();
+
+					saveItem.name =
+						typeof inputItem === 'object'
+							? (inputItem as Record<string, string>)[
+									this.bindLabel()
+								]
+							: (inputItem as string);
+
+					saveItem.id =
+						typeof inputItem === 'object'
+							? (inputItem as Record<string, string>)[
+									this.bindValue()
+								]
+							: (inputItem as SelectId);
+
+					this.allItem[saveItem.id] = saveItem.name;
+
+					return this._core.toSignal(saveItem);
+				})
+			);
+
+			if (!initialized) {
+				initialized = true;
+
+				if (
+					this.multiple() &&
+					JSON.stringify(this.activeValue()) !==
+						JSON.stringify(this.value())
+				) {
+					this.activeValues.set(this.value() as string[] | number[]);
+				} else if (
+					!this.multiple() &&
+					this.activeValue() !== this.value()
+				) {
+					this.activeValue.set(this.value() as string | number);
+				}
 			}
 		});
 	}
@@ -159,10 +181,7 @@ export class SelectComponent {
 		}
 	}
 
-	// above good
-
-	/** Handles click events on items. */
-	toggleOption(item: SelectItem): void {
+	selectOption(item: SelectItem): void {
 		if (this.multiple()) {
 			this.activeValues.set(
 				this.activeValues().includes(item.id)
@@ -174,7 +193,11 @@ export class SelectComponent {
 		} else {
 			this.activeValue.set(item.id);
 
+			console.log(item.id, this.activeValue());
+
 			this.wChange.emit(this.activeValue());
+
+			this.showOptions.set(false);
 		}
 	}
 }

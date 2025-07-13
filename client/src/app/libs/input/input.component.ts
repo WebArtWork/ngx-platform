@@ -144,24 +144,23 @@ export class InputComponent implements AfterViewInit {
 	 * Triggered on user input change (e.g., typing).
 	 * Applies the optional `replace` function if provided,
 	 * and emits the new value through `wChange`.
-	 * Debounced by 250ms to prevent frequent updates.
+	 * onChangeAfterWhile debounced by 2s to prevent frequent updates.
 	 */
 	onChange(): void {
-		this._core.afterWhile(
-			this,
-			() => {
-				const replaceFn = this.replace();
-				const current = this.activeValue();
+		const replaceFn = this.replace();
 
-				if (typeof replaceFn === 'function') {
-					const next = replaceFn(current);
-					if (next !== current) this.activeValue.set(next);
-				}
+		const current = this.activeValue();
 
-				this.wChange.emit(this.activeValue());
-			},
-			250
-		);
+		if (typeof replaceFn === 'function') {
+			const next = replaceFn(current);
+
+			if (next !== current) this.activeValue.set(next);
+		}
+
+		this.wChange.emit(this.activeValue());
+	}
+	onChangeAfterWhile(): void {
+		this._core.afterWhile(this, this.onChange.bind(this), 2000);
 	}
 
 	/**
@@ -170,6 +169,8 @@ export class InputComponent implements AfterViewInit {
 	 * If validation fails, sets the `error` state.
 	 */
 	onSubmit(): void {
+		this.onChange();
+
 		const current = this.activeValue();
 
 		if (typeof this.valid() === 'function' && this.valid()(current)) {

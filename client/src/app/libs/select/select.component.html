@@ -1,7 +1,8 @@
 @let _showOptions = showOptions(); @let _placeholder = placeholder(); @let
 _label = label(); @let _activeValue = activeValue(); @let _activeValues =
 activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
-@let _allItems = allItems(); @let _searchableBy = searchableBy();
+@let _allItems = allItems(); @let _searchableBy = searchableBy(); @let _search =
+search();
 
 <div
 	(clickOutside)="toggleOptions(false)"
@@ -51,8 +52,8 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 					</div>
 					} @else {
 					<div class="text-overflow">
-						{{'Select.' + (_activeValue || _placeholder) | translate
-						}}
+						{{'Select.' + (_activeValue ? allItem[_activeValue] :
+						_placeholder) | translate }}
 					</div>
 					}
 				</div>
@@ -87,6 +88,7 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 					<winput
 						placeholder="{{'Select.Enter search text...' | translate}}"
 						(wChange)="search.set($event + '')"
+						[focused]="true"
 					/>
 				</ng-template>
 			</div>
@@ -94,13 +96,13 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 
 			<!-- Items list -->
 			<div class="popup-block">
-				@for (item of (_allItems | search: search(): _searchableBy + '
-				__search'); track $index) {
+				@for (item of (_allItems | search: _search: _searchableBy + '
+				__search'); track item().id) {
 				<ng-container
 					[ngTemplateOutlet]="t_item() ? t_item() : defaultItem"
 					[ngTemplateOutletContext]="{ item: item }"
 				></ng-container>
-				} @if (!(_allItems | search: search(): _searchableBy + '
+				} @if (!(_allItems | search: _search: _searchableBy + '
 				__search')?.length) {
 				<div class="popup-block__empty-search" translate>
 					Select.Nothing was found
@@ -110,14 +112,16 @@ activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
 
 			<!-- Item view -->
 			<ng-template #defaultItem let-item="item">
-				<div (click)="toggleOption(item)" class="item">
-					@let id = item.id;
+				<div (click)="selectOption(item())" class="item">
+					@let id = item().id;
 
 					<div
 						[class.selected]="_multiple ? _activeValues.includes(id) : false"
 						class="item__text"
 					>
-						{{ 'Select.' + item.name | translate }}
+						@if (item()[bindLabel()]) { {{ 'Select.' +
+						item()[bindLabel()] | translate }} } @else {
+						{{'Select.Unknown item' | translate}} }
 					</div>
 				</div>
 			</ng-template>

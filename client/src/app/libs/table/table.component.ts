@@ -6,6 +6,7 @@ import {
 	ContentChildren,
 	EventEmitter,
 	inject,
+	input,
 	Input,
 	OnInit,
 	Output,
@@ -13,8 +14,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { StoreService, WacomModule } from 'wacom';
+import { StoreService } from 'wacom';
 import { ButtonComponent } from '../button/button.component';
+import { SearchPipe } from '../select/search.pipe';
 import { TranslateDirective } from '../translate/translate.directive';
 import { PerPagePipe } from './per-page.pipe';
 import {
@@ -38,13 +40,17 @@ import {
 		TranslateDirective,
 		NgTemplateOutlet,
 		RouterLink,
-		WacomModule,
+		SearchPipe,
 		PerPagePipe
 	]
 })
 export class TableComponent implements OnInit, AfterContentInit {
 	private _router = inject(Router);
 	private _store = inject(StoreService);
+
+	readonly bindValue = input('_id');
+
+	readonly rows = input<unknown[]>([]);
 
 	/** A unique ID for the table based on the current route. */
 	tableId =
@@ -59,9 +65,6 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	/** List of columns to display in the table. */
 	@Input() columns: any = [];
-
-	/** List of rows (data) to display in the table. */
-	@Input() rows: any = [];
 
 	/** The value field used as the key for each row. */
 	@Input() value = '_id';
