@@ -1,6 +1,6 @@
-export const birdForm = {
-	formId: 'bird',
-	title: 'Bird',
+export const phraseForm = {
+	formId: 'phrase',
+	title: 'Phrase',
 	components: [
 		{
 			name: 'Text',
@@ -9,13 +9,13 @@ export const birdForm = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Title'
+					value: 'Title',
 				},
 				{
 					name: 'Placeholder',
-					value: 'Enter bird title ...'
-				}
-			]
+					value: 'fill phrase title',
+				},
+			],
 		},
 		{
 			name: 'Text',
@@ -23,13 +23,17 @@ export const birdForm = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Description'
+					value: 'Description',
 				},
 				{
 					name: 'Placeholder',
-					value: 'Enter bird description ...'
-				}
-			]
-		}
-	]
+					value: 'fill phrase description',
+				},
+				{
+					name: 'Textarea',
+					value: true,
+				},
+			],
+		},
+	],
 };
