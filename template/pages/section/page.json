@@ -1,0 +1,7 @@
+{
+	"layout": "/layouts/full.html",
+	"section": {
+		"src": "/sections/home-one.html",
+		"test": "TEST"
+	}
+}
