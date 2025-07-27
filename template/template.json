@@ -1,4 +1,5 @@
 {
+	"layout": "/layouts/default.html",
 	"title": "Title which will fit on all pages",
 	"description": "Description which will fit on all pages",
 	"keywords": "waw, web art work, server render, template",
