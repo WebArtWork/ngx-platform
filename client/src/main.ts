@@ -154,6 +154,19 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
+						'./app/modules/translate/pages/translates/translates.routes'
+					).then((m) => m.routes)
+			},
+			{
+				path: 'old_translates',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Translates'
+					}
+				},
+				loadChildren: () =>
+					import(
 						'./app/libs/translate/pages/translates/translates.routes'
 					).then((m) => m.routes)
 			}

@@ -3,7 +3,7 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	input,
-	output,
+	output
 } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
@@ -12,7 +12,7 @@ import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/libs/translate/translate.pipe';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { CrudComponent } from 'wacom';
-import { languageForm } from '../../formcomponents/language.form';
+import { LanguageFormcomponent } from '../../form/language/language.formcomponent';
 import { Language } from '../../interfaces/language.interface';
 import { LanguageService } from '../../services/language.service';
 
@@ -20,7 +20,7 @@ import { LanguageService } from '../../services/language.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SelectComponent, TranslatePipe, CommonModule],
 	selector: 'language-selector',
-	templateUrl: './language-selector.component.html',
+	templateUrl: './language-selector.component.html'
 })
 export class LanguageSelectorComponent extends CrudComponent<
 	LanguageService,
@@ -42,7 +42,13 @@ export class LanguageSelectorComponent extends CrudComponent<
 		_translate: TranslateService,
 		_form: FormService
 	) {
-		super(languageForm, _form, _translate, _languageService, 'language');
+		super(
+			LanguageFormcomponent,
+			_form,
+			_translate,
+			_languageService,
+			'language'
+		);
 
 		this.setDocuments();
 	}
