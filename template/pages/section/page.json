@@ -1,7 +1,7 @@
 {
 	"layout": "/layouts/full.html",
 	"section": {
-		"src": "/sections/header-one.html",
+		"src": "/sections/home-one.html",
 		"test": "TEST"
 	}
 }
