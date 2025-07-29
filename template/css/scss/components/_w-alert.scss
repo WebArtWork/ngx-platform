@@ -48,13 +48,13 @@
 		flex-flow: row wrap;
 		align-items: center;
 		justify-content: center;
-		background-color: #363636;
+		background-color: var(--c-alert);
 		border-radius: 4px;
 		padding: 25px 35px;
 		text-align: center;
 		&--white {
-			background: white;
-			color: black;
+			background: var(--c-text-primary);
+			color: var(--c-primary);
 		}
 		&__text {
 			font-weight: 700;
@@ -77,21 +77,21 @@
 				align-items: center;
 				justify-content: center;
 				font-size: 17px;
-				color: #ffffff;
+				color: var(--c-text-primary);
 				cursor: pointer;
 				border-radius: 4px;
 				margin: 0 5px;
 				transition: all 0.3s;
 				&-yes {
-					background-color: #296028;
+					background-color: var(--c-success);
 					&:hover {
-						background: #358834;
+						background: var(--c-successhover);
 					}
 				}
 				&-no {
-					background-color: #8c2d2d;
+					background-color: var(--c-error);
 					&:hover {
-						background: #b13c3c;
+						background: var(--c-error-hover);
 					}
 				}
 			}

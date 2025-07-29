@@ -1,3 +1,4 @@
 {
-	"sections": [{ "src": "/sections/header-one.html", "test": "TEST" }]
+	"sections": [{ "src": "/sections/header-one.html", "test": "TEST" }],
+	"sections": [{ "src": "/sections/intro.html", "test": "TEST" }]
 }
