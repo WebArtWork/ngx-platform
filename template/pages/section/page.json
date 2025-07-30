@@ -1,11 +1,15 @@
 {
 	"layout": "/layouts/full.html",
 	"section": {
-		"src": "/sections/home-one.html",
-		"test": "TEST"
-	},
-	"intro": {
 		"src": "/sections/intro.html",
-		"test": "TEST"
+		"test": "TEST",
+		"img":  "img/spider.svg",
+		"title": "lorem ipsum text"
+	},
+	"hero": {
+		"src": "/sections/hero.html",
+		"test": "TEST",
+		"img":  "img/spider.svg",
+		"title": "lorem ipsum text"
 	}
 }

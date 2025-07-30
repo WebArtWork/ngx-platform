@@ -1,4 +1,15 @@
 {
-	"sections": [{ "src": "/sections/header-one.html", "test": "TEST" }],
-	"sections": [{ "src": "/sections/intro.html", "test": "TEST" }]
+	"sections": [{
+		"src": "/sections/intro.html",
+		"test": "TEST",
+		"img":  "img/spider.svg",
+		"title": "lorem ipsum text"
+	}],
+	"hero": [{
+		"src": "/sections/hero.html",
+		"test": "TEST",
+		"img":  "img/spider.svg",
+		"title": "lorem ipsum text"
+	}]
 }
+	

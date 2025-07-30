@@ -28,6 +28,7 @@
 @use "components/w-stats";
 @use "components/w-slider";
 @use "components/w-file";
+
 // ## ATOM
 @use "atom/display";
 @use "atom/margin";
@@ -38,3 +39,5 @@
 // ## LAYOUT
 @use "layout/base";
 @use "layout/scroll";
+
+@use "sections/w-section";
