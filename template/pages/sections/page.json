@@ -1,15 +1,60 @@
 {
-	"sections": [{
-		"src": "/sections/intro.html",
-		"test": "TEST",
-		"img":  "img/spider.svg",
-		"title": "lorem ipsum text"
-	}],
-	"hero": [{
-		"src": "/sections/hero.html",
-		"test": "TEST",
-		"img":  "img/spider.svg",
-		"title": "lorem ipsum text"
-	}]
+	"sections": [
+		{
+			"src": "/sections/intro.html",
+			"img": "img/spider.svg",
+			"title": "lorem ipsum text"
+		},
+		{
+			"src": "/sections/hero.html",
+			"img": "img/spider.svg",
+			"title": "lorem ipsum text"
+		},
+		{
+			"src": "/sections/horizontal-visual.html",
+			"img": "img/spider.svg",
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg"
+			]
+		},
+		{
+			"src": "/sections/vertical-visual.html",
+			"img": "img/spider.svg",
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg"
+			],
+			"title": "Hello World",
+			"socials": [
+				{
+					"img": "img/spider.svg",
+					"href": "https://www.instagram.com/potiercake/"
+				}
+			]
+		},
+		{
+			"src": "/sections/get-in-touch.html",
+			"map": "img/spider.svg",
+			"title": "Hello World",
+			"socials": [
+				{
+					"img": "img/spider.svg",
+					"href": "https://www.instagram.com/potiercake/"
+				}
+			],
+			"phone": "+380971862487",
+			"address": "Drai-Khmary St, 50, Kam'yanets'-Podil's'kyi, Khmelnytskyi Oblast, 32313"
+		}
+	]
 }
-	
