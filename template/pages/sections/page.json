@@ -8,11 +8,23 @@
 		{
 			"src": "/sections/hero.html",
 			"img": "img/spider.svg",
-			"title": "lorem ipsum text"
+			"title": "lorem ipsum text title section",
+			"description": "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here",
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg"
+			]
+
 		},
 		{
 			"src": "/sections/horizontal-visual.html",
 			"img": "img/spider.svg",
+			"title": "Main title for gallery",
 			"imgs": [
 				"img/spider.svg",
 				"img/spider.svg",
@@ -26,6 +38,7 @@
 		{
 			"src": "/sections/vertical-visual.html",
 			"img": "img/spider.svg",
+			"title": "Title for visual block",
 			"imgs": [
 				"img/spider.svg",
 				"img/spider.svg",
@@ -35,7 +48,7 @@
 				"img/spider.svg",
 				"img/spider.svg"
 			],
-			"title": "Hello World",
+			"subtitle": "text for instagram link",
 			"socials": [
 				{
 					"img": "img/spider.svg",
@@ -46,7 +59,7 @@
 		{
 			"src": "/sections/get-in-touch.html",
 			"map": "img/spider.svg",
-			"title": "Hello World",
+			"title": "Get in touch block",
 			"socials": [
 				{
 					"img": "img/spider.svg",
