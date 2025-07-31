@@ -1,0 +1,27 @@
+{
+	"name": "Translate",
+	"crud": [
+		{
+			"name": "translate",
+			"update": {
+				"keys": ["name"]
+			},
+			"delete": [""]
+		},
+		{
+			"name": "translatephrase",
+			"update": {
+				"keys": ["name"]
+			},
+			"delete": [""]
+		},
+		{
+			"name": "translatelanguage",
+			"update": {
+				"keys": ["name"]
+			},
+			"delete": [""]
+		}
+	],
+	"dependencies": {}
+}

@@ -9,31 +9,13 @@ export const languageForm = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Name'
 				},
 				{
 					name: 'Placeholder',
-					value: 'fill language title',
-				},
-			],
-		},
-		{
-			name: 'Text',
-			key: 'description',
-			fields: [
-				{
-					name: 'Label',
-					value: 'Description',
-				},
-				{
-					name: 'Placeholder',
-					value: 'fill language description',
-				},
-				{
-					name: 'Textarea',
-					value: true,
-				},
-			],
-		},
-	],
+					value: 'fill language name'
+				}
+			]
+		}
+	]
 };

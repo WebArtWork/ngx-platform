@@ -8,6 +8,8 @@ import { Language } from '../interfaces/language.interface';
 export class LanguageService extends CrudService<Language> {
 	language = signal<Language>({} as Language);
 
+	languages = signal<Language[]>(this.getDocs());
+
 	constructor() {
 		super({
 			name: 'translatelanguage'
@@ -17,6 +19,10 @@ export class LanguageService extends CrudService<Language> {
 			if (language) {
 				this.setLanguage(language);
 			}
+		});
+
+		this.get().subscribe(() => {
+			this.languages.set(this.getDocs());
 		});
 	}
 

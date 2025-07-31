@@ -62,6 +62,8 @@ export class TranslatesComponent extends CrudComponent<
 			.then((updated: Language) => {
 				if (current) {
 					this._languageService.language.update((language) => {
+						language = language || {};
+
 						this._coreService.copy(updated, language);
 
 						return language;
