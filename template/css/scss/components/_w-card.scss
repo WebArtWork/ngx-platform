@@ -24,10 +24,10 @@
 			margin: 0 auto 20px;
 		}
 		.card-top {
-			background-color: #fff;
+			background-color: var(--c-text-primary);
 			padding: 8px;
 			border-radius: 4px;
-			color: #1f1c1c;
+			color: var(--c-primary);
 			text-align: center;
 		}
 		.card-center {
@@ -42,7 +42,7 @@
 				display: flex;
 			}
 			&__item {
-				background-color: #8f8f8f;
+				background-color: var(--c-alert);
 				width: 100%;
 				display: flex;
 				align-items: center;

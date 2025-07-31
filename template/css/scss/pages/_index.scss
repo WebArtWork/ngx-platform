@@ -856,7 +856,7 @@ table {
 //conference
 .conference {
 	&-join {
-		background: #f8ec20;
+		background: var(--c-primary-hover);
 		border-radius: 120px;
 		display: flex;
 		justify-content: space-between;

@@ -1,3 +1,76 @@
 {
-	"sections": [{ "src": "/sections/header-one.html", "test": "TEST" }]
+	"sections": [
+		{
+			"src": "/sections/intro.html",
+			"img": "img/spider.svg",
+			"title": "lorem ipsum text"
+		},
+		{
+			"src": "/sections/hero.html",
+			"img": "img/spider.svg",
+			"title": "lorem ipsum text title section",
+			"description": "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here",
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg"
+			]
+
+		},
+		{
+			"src": "/sections/horizontal-visual.html",
+			"img": "img/spider.svg",
+			"title": "Main title for gallery",
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg"
+			]
+		},
+		{
+			"src": "/sections/vertical-visual.html",
+			"img": "img/spider.svg",
+			"title": "Title for visual block",
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg",
+				"img/spider.svg"
+			],
+			"subtitle": "text for instagram link",
+			"socials": [
+				{
+					"img": "img/spider.svg",
+					"href": "https://www.instagram.com/potiercake/"
+				}
+			]
+		},
+		{
+			"src": "/sections/get-in-touch.html",
+			"map": "img/spider.svg",
+			"iloc": "img/spider.svg",
+			"iphone": "img/spider.svg",
+			"title": "Get in touch block",
+			"subtitle": "We are here",
+			"socials": [
+				{
+					"img": "img/spider.svg",
+					"href": "https://www.instagram.com/potiercake/"
+				}
+			],
+			"phone": "+380971862487",
+			"address": "Drai-Khmary St, 50, Kam'yanets'-Podil's'kyi, Khmelnytskyi Oblast, 32313"
+		}
+	]
 }
