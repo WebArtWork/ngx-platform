@@ -21,6 +21,10 @@ export class TranslatesComponent extends CrudComponent<
 > {
 	columns = ['text', 'translation'];
 
+	override allowCreate() {
+		return false;
+	}
+
 	config = this.getConfig();
 
 	constructor(
