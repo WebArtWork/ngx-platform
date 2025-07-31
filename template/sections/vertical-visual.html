@@ -19,12 +19,14 @@
             </div>
         </div>
     </div>
-    <a href="" class="vertical-instagram">
+    {% for social  in section.socials %}
+    <a href="{{{social.href}}}" class="vertical-instagram">
         <div class="vertical-instagram__text">
             text for instagram link
         </div>
         <div class="vertical-instagram__icon">
-            <img src="" alt="">
+            <img src="{{{social.img}}}" alt="">
         </div>
     </a>
+    {% endfor %}   
 </div>

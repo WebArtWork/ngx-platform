@@ -59,7 +59,10 @@
 		{
 			"src": "/sections/get-in-touch.html",
 			"map": "img/spider.svg",
+			"iloc": "img/spider.svg",
+			"iphone": "img/spider.svg",
 			"title": "Get in touch block",
+			"subtitle": "We are here",
 			"socials": [
 				{
 					"img": "img/spider.svg",
