@@ -32,5 +32,21 @@ export class LanguageService extends CrudService<Language> {
 		this._storeService.setJson('language', language);
 	}
 
+	nextLanguage() {
+		const languages = this.languages();
+
+		if (languages.length > 1) {
+			const language = this.language();
+
+			const index = languages.findIndex((_language) => {
+				return _language._id === language._id;
+			});
+
+			this.setLanguage(
+				index === languages.length - 1 ? languages[0] : languages[index]
+			);
+		}
+	}
+
 	private _storeService = inject(StoreService);
 }

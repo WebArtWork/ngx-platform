@@ -7,3 +7,13 @@
 	[items]="documents()"
 	[value]="value()"
 ></wselect>
+
+@if (mutatable()) { @if(languageService.language()){
+<wbutton (click)="mutate()">Edit</wbutton>
+
+<wbutton (click)="delete()">Delete</wbutton>
+
+}
+
+<wbutton (click)="mutate(false)">Add</wbutton>
+}

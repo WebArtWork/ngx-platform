@@ -1,6 +1,4 @@
-<language-selector />
-<wbutton (click)="mutateLanguage()">Edit</wbutton>
-<wbutton (click)="mutateLanguage(false)">Add</wbutton>
+<language-selector [mutatable]="true" />
 
 <wtable
 	[rows]="documents()"
