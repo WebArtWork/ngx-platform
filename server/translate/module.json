@@ -1,4 +1,5 @@
 {
+	"repo": "https://github.com/WebArtWork/waw-translate.git",
 	"name": "Translate",
 	"crud": [
 		{
