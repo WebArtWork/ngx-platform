@@ -1,0 +1,14 @@
+<div class="timelone">
+    <ul class="timelone__list">
+        {% for item in section.items %}
+        <li class="timelone__item">
+            {% if item.title %}
+            <div class="timelone__title">{{{item.title}}}</div>
+            {% endif %}
+            {% if item.description %}
+            <div class="timelone__description">{{{item.description}}}</div>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
