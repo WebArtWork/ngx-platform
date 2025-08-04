@@ -1,37 +1,37 @@
 // hero section
 
-.hero-section{
+.hero-section {
 	padding-bottom: 50px;
-	&-wrapper{
+	&-wrapper {
 		display: flex;
 		flex-flow: row wrap;
 		align-items: center;
 	}
-	&-text{
-		flex:1 0;
+	&-text {
+		flex: 1 0;
 		padding-right: 230px;
-		&__title{
+		&__title {
 			font-size: 38px;
 			font-weight: 700;
 			padding-bottom: 30px;
 			line-height: 1.2;
 		}
 	}
-	&-imgs{
+	&-imgs {
 		flex: 0 0 300px;
 		position: relative;
-		img{
+		img {
 			width: 100%;
 		}
-		&__img{
+		&__img {
 			max-width: 100px;
 			width: 100%;
 			bottom: 0;
 			position: absolute;
-			&--first{
+			&--first {
 				left: 0;
 			}
-			&--second{
+			&--second {
 				right: 0;
 			}
 		}
@@ -65,12 +65,12 @@
 		align-items: unset;
 	}
 	.hero-section-imgs {
-        flex: 0 0 100%;
-        max-width: 290px;
-        width: 100%;
-    }
+		flex: 0 0 100%;
+		max-width: 290px;
+		width: 100%;
+	}
 	.hero-section-text {
-        padding-right: 20px;
+		padding-right: 20px;
 		margin-bottom: 20px;
-    }
+	}
 }
