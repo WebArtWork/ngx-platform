@@ -1,7 +1,7 @@
 {
 	"layout": "/layouts/full.html",
 	"section": {
-		"src": "/sections/intro.html",
+		"src": "/sections/content/intro/intro.html",
 		"img": "img/spider.svg",
 		"title": "lorem ipsum text"
 	}

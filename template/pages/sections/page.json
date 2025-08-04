@@ -1,7 +1,7 @@
 {
 	"sections": [
 		{
-			"src": "/sections/intro.html",
+			"src": "/sections/content/intro/intro.html",
 			"img": "img/spider.svg",
 			"title": "lorem ipsum text"
 		},
@@ -19,7 +19,6 @@
 				"img/spider.svg",
 				"img/spider.svg"
 			]
-
 		},
 		{
 			"src": "/sections/horizontal-visual.html",
