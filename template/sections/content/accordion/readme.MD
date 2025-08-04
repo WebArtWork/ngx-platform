@@ -17,11 +17,15 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/content/accordion/accordion.html",
-        "items": [
-                { "title": "First item", "content": "<p>Item text</p>" },
-                { "title": "Second item", "content": "<p>Item text</p>", "active": true }
-        ]
+	"src": "/sections/content/accordion/accordion.html",
+	"items": [
+		{ "title": "First item", "content": "<p>Item text</p>" },
+		{
+			"title": "Second item",
+			"content": "<p>Item text</p>",
+			"active": true
+		}
+	]
 }
 ```
 
@@ -29,17 +33,27 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="accordion">
-        {% for item in section.items %}
-        <div class="accordion-item">
-                <button class="accordion-button{% if item.active %} active{% endif %}">
-                        <div class="accordion-button__text">{{{item.title}}}</div>
-                        <div class="accordion-button__arrow">...</div>
-                </button>
-                <div class="accordion-content"{% if item.active %} style="max-height: fit-content"{% endif %}>
-                        {{{item.content}}}
-                </div>
-        </div>
-        {% endfor %}
+	{% for item in section.items %}
+	<div class="accordion-item">
+		<button class="accordion-button{% if item.active %} active{% endif %}">
+			<div class="accordion-button__text">{{{item.title}}}</div>
+			<div class="accordion-button__arrow">...</div>
+		</button>
+		<div
+			class="accordion-content"
+			{%
+			if
+			item.active
+			%}
+			style="max-height: fit-content"
+			{%
+			endif
+			%}
+		>
+			{{{item.content}}}
+		</div>
+	</div>
+	{% endfor %}
 </div>
 ```
 
@@ -54,8 +68,11 @@ This section expects the following data structure passed via `section`:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable            | Description                   |
-| ------------------- | ----------------------------- |
-| `--c-primary-hover` | Border and divider color      |
-| `--b-radius`        | Border radius for accordion   |
+| Variable            | Description                 |
+| ------------------- | --------------------------- |
+| `--c-primary-hover` | Border and divider color    |
+| `--b-radius`        | Border radius for accordion |
+
+```
+
 ```
