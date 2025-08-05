@@ -18,9 +18,9 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/content/text-block/text-block.html",
-        "title": "Optional block title",
-        "description": "Supporting paragraph of text"
+	"src": "/sections/content/text-block/text-block.html",
+	"title": "Optional block title",
+	"description": "Supporting paragraph of text"
 }
 ```
 
@@ -28,12 +28,11 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="text-block">
-        {% if section.title %}
-        <div class="text-block__title">{{{section.title}}}</div>
-        {% endif %}
-        {% if section.description %}
-        <div class="text-block__description">{{{section.description}}}</div>
-        {% endif %}
+	{% if section.title %}
+	<div class="text-block__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="text-block__description">{{{section.description}}}</div>
+	{% endif %}
 </div>
 ```
 
@@ -50,17 +49,17 @@ This section expects the following data structure passed via `section`:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                  | Description                                        |
-| ------------------------- | -------------------------------------------------- |
-| `--padding-scale`         | Scales bottom padding                               |
-| `--margin-scale`          | Controls margin spacing for title                  |
-| `--font-size`             | Base font size for description                     |
-| `--line-height`           | Line height for title and description              |
-| `--letter-spacing`        | Letter spacing for text                            |
-| `--ff-base`               | Font for description text                          |
-| `--ff-title`              | Font for title text                                |
-| `--c-text-primary`        | Title text color                                   |
-| `--c-text-body-secondary` | Description text color                             |
+| Variable                        | Description                                   |
+| ------------------------------- | --------------------------------------------- |
+| `--padding-scale`               | Scales bottom padding                         |
+| `--margin-scale`                | Controls margin spacing for title             |
+| `--font-size`                   | Base font size for description                |
+| `--line-height`                 | Line height for title and description         |
+| `--letter-spacing`              | Letter spacing for text                       |
+| `--ff-base`                     | Font for description text                     |
+| `--ff-title`                    | Font for title text                           |
+| `--c-text-primary`              | Title text color                              |
+| `--c-text-body-secondary`       | Description text color                        |
 | `--bp-lg`, `--bp-md`, `--bp-sm` | Media query breakpoints for responsive sizing |
 
 ---

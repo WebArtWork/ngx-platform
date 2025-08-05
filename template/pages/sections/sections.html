@@ -1,1 +1,7 @@
-{% for section in sections %} {% include section.src %} {% endfor %}
+{% for section in sections %}
+<hr />
+{% if section.sections.length %}
+<h2>Readme</h2>
+{% for section in section.sections %} {% include section.src %} {% endfor %}
+<hr />
+{% endif %} {% include section.src %} {% endfor %}

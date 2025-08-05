@@ -1,5 +1,7 @@
 {
 	"layout": "/layouts/topbar.html",
+	"title": "Develop and Demo Sections which we can quickly use | Web Art Work",
+	"description": "This page contains all the reusable sections available in the project. Each section is a self-contained block of content (e.g., hero, features, testimonials) that can be inserted into any layout. Use them to quickly build consistent, modular pages across your website.",
 	"sections": [
 		{
 			"src": "/sections/content/accordion/accordion.html",
@@ -9,6 +11,12 @@
 					"title": "Second item",
 					"content": "<p>Item text</p>",
 					"active": true
+				}
+			],
+			"sections": [
+				{
+					"src": "/sections/content/markdown/markdown.html",
+					"content": "/sections/content/markdown/readme.MD"
 				}
 			]
 		},
@@ -54,7 +62,7 @@
 		},
 		{
 			"src": "/sections/content/markdown/markdown.html",
-			"content": "<h2>Getting Started</h2><p>This is a paragraph from markdown.</p>"
+			"content": "##Getting Started\nThis is a paragraph from markdown"
 		},
 		{
 			"src": "/sections/content/media-text/media-text.html",

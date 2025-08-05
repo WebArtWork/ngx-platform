@@ -17,11 +17,11 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/content/hero/hero.html",
-        "title": "Hero title",
-        "description": "Optional descriptive text",
-        "img": "/img/hero-main.png",
-        "imgs": ["/img/hero-second.png", "/img/hero-first.png"]
+	"src": "/sections/content/hero/hero.html",
+	"title": "Hero title",
+	"description": "Optional descriptive text",
+	"img": "/img/hero-main.png",
+	"imgs": ["/img/hero-second.png", "/img/hero-first.png"]
 }
 ```
 
@@ -29,33 +29,29 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="hero">
-        <div class="hero__wrapper">
-                <div class="hero__text">
-                        {% if section.title %}
-                        <div class="hero__title">{{{section.title}}}</div>
-                        {% endif %}
-                        {% if section.description %}
-                        <div class="hero__description">{{{section.description}}}</div>
-                        {% endif %}
-                </div>
-                {% if section.img %}
-                <div class="hero__imgs">
-                        <img src="{{{section.img}}}" alt="" />
-                        {% if section.imgs %}
-                        {% if section.imgs[1] %}
-                        <div class="hero__img hero__img--first">
-                                <img src="{{{section.imgs[1]}}}" alt="" />
-                        </div>
-                        {% endif %}
-                        {% if section.imgs[0] %}
-                        <div class="hero__img hero__img--second">
-                                <img src="{{{section.imgs[0]}}}" alt="" />
-                        </div>
-                        {% endif %}
-                        {% endif %}
-                </div>
-                {% endif %}
-        </div>
+	<div class="hero__wrapper">
+		<div class="hero__text">
+			{% if section.title %}
+			<div class="hero__title">{{{section.title}}}</div>
+			{% endif %} {% if section.description %}
+			<div class="hero__description">{{{section.description}}}</div>
+			{% endif %}
+		</div>
+		{% if section.img %}
+		<div class="hero__imgs">
+			<img src="{{{section.img}}}" alt="" />
+			{% if section.imgs %} {% if section.imgs[1] %}
+			<div class="hero__img hero__img--first">
+				<img src="{{{section.imgs[1]}}}" alt="" />
+			</div>
+			{% endif %} {% if section.imgs[0] %}
+			<div class="hero__img hero__img--second">
+				<img src="{{{section.imgs[0]}}}" alt="" />
+			</div>
+			{% endif %} {% endif %}
+		</div>
+		{% endif %}
+	</div>
 </div>
 ```
 

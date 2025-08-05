@@ -17,10 +17,10 @@ This section expects the following data structure:
 
 ```json
 {
-        "src": "/sections/content/media-text/media-text.html",
-        "img": "/img/sample.jpg",
-        "title": "Optional section title",
-        "text": "Optional descriptive text that accompanies the media"
+	"src": "/sections/content/media-text/media-text.html",
+	"img": "/img/sample.jpg",
+	"title": "Optional section title",
+	"text": "Optional descriptive text that accompanies the media"
 }
 ```
 
@@ -28,17 +28,16 @@ This section expects the following data structure:
 
 ```html
 <div class="media-text">
-        <div class="media-text__media">
-                <img src="{{{section.img}}}" alt="" />
-        </div>
-        <div class="media-text__content">
-                {% if section.title %}
-                <div class="media-text__title">{{{section.title}}}</div>
-                {% endif %}
-                {% if section.text %}
-                <div class="media-text__text">{{{section.text}}}</div>
-                {% endif %}
-        </div>
+	<div class="media-text__media">
+		<img src="{{{section.img}}}" alt="" />
+	</div>
+	<div class="media-text__content">
+		{% if section.title %}
+		<div class="media-text__title">{{{section.title}}}</div>
+		{% endif %} {% if section.text %}
+		<div class="media-text__text">{{{section.text}}}</div>
+		{% endif %}
+	</div>
 </div>
 ```
 
@@ -54,19 +53,19 @@ This section expects the following data structure:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                        | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--padding-scale`               | Scales gap and padding within the section          |
-| `--margin-scale`                | Controls top margin for text block                 |
-| `--font-size`                   | Base font size for text content                    |
-| `--line-height`                 | Line height for title and text                     |
-| `--letter-spacing`              | Applied to title and text                          |
-| `--b-radius`                    | Rounds media container                             |
-| `--transition`                  | Transition for text color changes                  |
-| `--ff-base`                     | Font for text                                      |
-| `--ff-title`                    | Font for title                                     |
-| `--c-text-primary`              | Title text color                                   |
-| `--c-text-body-secondary`       | Body text color                                    |
-| `--bp-lg`, `--bp-md`, `--bp-sm` | Media query breakpoints for responsive behavior    |
+| Variable                        | Description                                     |
+| ------------------------------- | ----------------------------------------------- |
+| `--padding-scale`               | Scales gap and padding within the section       |
+| `--margin-scale`                | Controls top margin for text block              |
+| `--font-size`                   | Base font size for text content                 |
+| `--line-height`                 | Line height for title and text                  |
+| `--letter-spacing`              | Applied to title and text                       |
+| `--b-radius`                    | Rounds media container                          |
+| `--transition`                  | Transition for text color changes               |
+| `--ff-base`                     | Font for text                                   |
+| `--ff-title`                    | Font for title                                  |
+| `--c-text-primary`              | Title text color                                |
+| `--c-text-body-secondary`       | Body text color                                 |
+| `--bp-lg`, `--bp-md`, `--bp-sm` | Media query breakpoints for responsive behavior |
 
 ---
