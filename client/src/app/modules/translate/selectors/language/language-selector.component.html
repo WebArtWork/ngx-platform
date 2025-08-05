@@ -1,5 +1,5 @@
+<!-- placeholder="{{'Select language...' | translate}}" -->
 <wselect
-	placeholder="{{'Language.Select language...' | translate}}"
 	(wChange)="wChange.emit($event)"
 	[searchable]="searchable()"
 	[clearable]="clearable()"
@@ -10,10 +10,7 @@
 
 @if (mutatable()) { @if(languageService.language()){
 <wbutton (click)="mutate()">Edit</wbutton>
-
 <wbutton (click)="delete()">Delete</wbutton>
-
 }
-
 <wbutton (click)="mutate(false)">Add</wbutton>
 }
