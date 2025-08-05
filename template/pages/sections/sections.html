@@ -1,7 +1,37 @@
+<button onclick="toggleVisibility('readme-section')">Toggle readme</button>
+<button onclick="toggleVisibility('hrs')">Toggle horizontal lines</button>
+<button onclick="toggleVisibility('controllers')">Toggle controllers</button>
+<script>
+	console.log(JSON.parse("{sections: {{{sections|json}}} }"));
+
+	function toggleVisibility(className) {
+		const elements = document.querySelectorAll(`.${className}`);
+		elements.forEach((el) => {
+			el.style.display = el.style.display === "none" ? "" : "none";
+		});
+	}
+	function removeElements(className) {
+		const elements = document.querySelectorAll(`.${className}`);
+		elements.forEach((el) => el.remove());
+	}
+</script>
+
 {% for section in sections %}
-<hr />
-{% if section.sections.length %}
-<h2>Readme</h2>
-{% for section in section.sections %} {% include section.src %} {% endfor %}
-<hr />
-{% endif %} {% include section.src %} {% endfor %}
+<div class="sectionId{{{loop.index}}}">
+	<hr class="hrs" />
+	{% if section.sections.length %}
+	<div class="readme-section" style="display: none">
+		<h2>Readme</h2>
+		{% for section in section.sections %} {% include section.src %} {%
+		endfor %}
+		<hr />
+	</div>
+	{% endif %}
+	<div class="controllers" style="display: none">
+		<button onclick="removeElements('sectionId{{{loop.index}}}')">
+			Remove section
+		</button>
+	</div>
+	{% include section.src %}
+</div>
+{% endfor %}
