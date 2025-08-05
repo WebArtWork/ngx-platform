@@ -1,23 +1,113 @@
 {
+	"layout": "/layouts/topbar.html",
 	"sections": [
+		{
+			"src": "/sections/content/accordion/accordion.html",
+			"items": [
+				{ "title": "First item", "content": "<p>Item text</p>" },
+				{
+					"title": "Second item",
+					"content": "<p>Item text</p>",
+					"active": true
+				}
+			]
+		},
+		{
+			"src": "/sections/content/callout-box/callout-box.html",
+			"title": "Callout title",
+			"description": "Important information or message"
+		},
+		{
+			"src": "/sections/content/code-block/code-block.html",
+			"title": "Console Output",
+			"code": "console.log('Hello, world!');"
+		},
+		{
+			"src": "/sections/content/feature-list/feature-list.html",
+			"title": "Features",
+			"description": "What makes us great",
+			"items": [
+				{
+					"icon": "/img/icon.svg",
+					"title": "Fast",
+					"text": "Speedy performance with low latency"
+				},
+				{
+					"icon": "/img/icon.svg",
+					"title": "Reliable",
+					"text": "Trusted by thousands"
+				}
+			]
+		},
+		{
+			"src": "/sections/content/hero/hero.html",
+			"title": "Welcome to Our Platform",
+			"description": "We help you build better websites",
+			"img": "img/spider.svg",
+			"imgs": ["img/spider.svg", "img/spider.svg"]
+		},
 		{
 			"src": "/sections/content/intro/intro.html",
 			"img": "img/spider.svg",
-			"title": "lorem ipsum text"
+			"title": "Get Started",
+			"description": "This is an introduction to the page"
 		},
 		{
-			"src": "/sections/hero.html",
+			"src": "/sections/content/markdown/markdown.html",
+			"content": "<h2>Getting Started</h2><p>This is a paragraph from markdown.</p>"
+		},
+		{
+			"src": "/sections/content/media-text/media-text.html",
 			"img": "img/spider.svg",
-			"title": "lorem ipsum text title section",
-			"description": "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here",
-			"imgs": [
-				"img/spider.svg",
-				"img/spider.svg",
-				"img/spider.svg",
-				"img/spider.svg",
-				"img/spider.svg",
-				"img/spider.svg",
-				"img/spider.svg"
+			"title": "Powerful Tools",
+			"text": "Integrate with your existing workflow easily."
+		},
+		{
+			"src": "/sections/content/statistics/statistics.html",
+			"title": "Our Impact",
+			"description": "Metrics that matter",
+			"items": [
+				{ "value": "98%", "label": "Customer Satisfaction" },
+				{ "value": "2M+", "label": "Downloads" }
+			]
+		},
+		{
+			"src": "/sections/content/testimonial/testimonial.html",
+			"img": "img/spider.svg",
+			"quote": "This product changed my life!",
+			"author": "Jane Doe"
+		},
+		{
+			"src": "/sections/content/text-block/text-block.html",
+			"title": "About Us",
+			"description": "We are committed to delivering the best digital experience."
+		},
+		{
+			"src": "/sections/content/timeline/timeline.html",
+			"title": "Our Journey",
+			"description": "Milestones and growth",
+			"items": [
+				{
+					"time": "2021",
+					"label": "Founded",
+					"text": "Our story begins"
+				},
+				{
+					"time": "2023",
+					"label": "Expansion",
+					"text": "Reached new markets"
+				}
+			]
+		},
+		{
+			"src": "/sections/content/two-column-text/two-column-text.html",
+			"title": "Compare Plans",
+			"columns": [
+				{ "title": "Free Plan", "text": "Basic features included" },
+				{
+					"title": "Pro Plan",
+					"text": "Advanced features for power users"
+				}
 			]
 		},
 		{
