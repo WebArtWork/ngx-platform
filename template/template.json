@@ -12,6 +12,9 @@
 	"scss": "scss/index.scss",
 
 	"theme": {
+		"bp-lg": "991px",
+		"bp-md": "767px",
+		"bp-sm": "479px",
 		"fs": "16px",
 		"fontSize": "16px",
 		"lineHeight": "1.5",

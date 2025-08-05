@@ -2,6 +2,10 @@
 	<div class="intro__img">
 		<img src="{{{section.img}}}" alt="" />
 	</div>
+
+	{% if section.title %}
 	<div class="intro__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="intro__description">{{{section.description}}}</div>
+	{% endif %}
 </div>
-555
