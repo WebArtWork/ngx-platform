@@ -114,3 +114,39 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        const timers = document.querySelectorAll('[data-countdown]');
+        timers.forEach((timer) => {
+                const target = new Date(timer.getAttribute('data-countdown'));
+                const daysEl = timer.querySelector('.countdown__days');
+                const hoursEl = timer.querySelector('.countdown__hours');
+                const minutesEl = timer.querySelector('.countdown__minutes');
+                const secondsEl = timer.querySelector('.countdown__seconds');
+
+                const update = () => {
+                        const now = new Date();
+                        const diff = target - now;
+                        if (diff <= 0) {
+                                daysEl.textContent = '00';
+                                hoursEl.textContent = '00';
+                                minutesEl.textContent = '00';
+                                secondsEl.textContent = '00';
+                                clearInterval(interval);
+                                return;
+                        }
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                        const seconds = Math.floor((diff / 1000) % 60);
+
+                        daysEl.textContent = String(days).padStart(2, '0');
+                        hoursEl.textContent = String(hours).padStart(2, '0');
+                        minutesEl.textContent = String(minutes).padStart(2, '0');
+                        secondsEl.textContent = String(seconds).padStart(2, '0');
+                };
+
+                update();
+                const interval = setInterval(update, 1000);
+        });
+});
