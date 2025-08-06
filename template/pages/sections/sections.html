@@ -1,8 +1,43 @@
 <button onclick="toggleVisibility('readme-section')">Toggle readme</button>
 <button onclick="toggleVisibility('hrs')">Toggle horizontal lines</button>
 <button onclick="toggleVisibility('controllers')">Toggle controllers</button>
+<select id="addSection"></select>
+<button onclick="addSection()">Add</button>
+
 <script>
-	console.log(JSON.parse("{sections: {{{sections|json}}} }"));
+	const sections = JSON.parse(`{{{sections|json|safe}}}`);
+
+	const struture = JSON.parse(`{{{sections|json|safe}}}`);
+
+	const select = document.getElementById("addSection");
+
+	for (let i = 0; i < struture.length; i++) {
+		struture[i].__id = sections[i].__id = "sectionId" + i;
+
+		sections[i].__name = struture[i].src
+			.split("/")
+			.pop()
+			.replace(".html", "");
+
+		const option = document.createElement("option");
+		option.value = sections[i].__name;
+		option.textContent = sections[i].__name;
+		select.appendChild(option);
+	}
+
+	function addSection() {
+		const name = document.getElementById("addSection").value;
+		const section = JSON.parse(
+			JSON.stringify(sections.find((s) => s.__name === name))
+		);
+		section.id = "sectionId" + Date.now();
+		const target = document.getElementById("start");
+		const container = document.createElement("div");
+		container.innerHTML = section.__html;
+
+		container.id = container.className = section.id;
+		target.parentNode.insertBefore(container, target.nextSibling);
+	}
 
 	function toggleVisibility(className) {
 		const elements = document.querySelectorAll(`.${className}`);
@@ -16,8 +51,10 @@
 	}
 </script>
 
+<div id="start"></div>
+
 {% for section in sections %}
-<div class="sectionId{{{loop.index}}}">
+<div id="sectionId{{{loop.index}}}" class="sectionId{{{loop.index}}}">
 	<hr class="hrs" />
 	{% if section.sections.length %}
 	<div class="readme-section" style="display: none">
@@ -35,3 +72,14 @@
 	{% include section.src %}
 </div>
 {% endfor %}
+
+<textarea id="structure"></textarea>
+<script>
+	document.getElementById("structure").value = JSON.stringify(struture);
+
+	for (const section of sections) {
+		if (document.getElementById(section.__id)) {
+			section.__html = document.getElementById(section.__id).innerHTML;
+		}
+	}
+</script>

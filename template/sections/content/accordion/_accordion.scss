@@ -8,9 +8,9 @@
 	transform: rotate(-180deg); /* Rotate 90 degrees */
 }
 .accordion {
-	max-width: 600px;
-	margin: 20px auto;
-	border: 1px solid #ccc;
+	max-width: 100%;
+	margin: 0;
+	//border: 1px solid #ccc;
 	border-radius: 5px;
 	overflow: hidden;
 }

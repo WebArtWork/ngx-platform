@@ -6,9 +6,9 @@
 	transform: rotate(-180deg); /* Rotate 90 degrees */
 }
 .accordion {
-	max-width: 600px;
-	margin: 20px auto;
-	border: 1px solid #ccc;
+	max-width: 90%;
+	margin: 0;
+	border: unset;
 	border-radius: 5px;
 	overflow: hidden;
 }
@@ -16,6 +16,7 @@
 .accordion-item {
 	border: 2px solid var(--c-primary-hover);
 	border-radius: var(--b-radius);
+	margin-bottom: 20px;
 }
 
 .accordion-button {

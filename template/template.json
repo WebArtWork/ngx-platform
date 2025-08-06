@@ -52,6 +52,7 @@
 			"bgItem": "#1c1c1c",
 			"textBodySecondary": "#6c757d",
 			"codeHover": "#007eff",
+			"fontTitle": "#ffffff",
 			"tablePrimary": "#cfe2ff",
 			"tableSecondary": "#e2e3e5",
 			"tableSuccess": "#d1e7dd",

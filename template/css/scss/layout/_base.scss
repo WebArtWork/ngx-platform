@@ -76,6 +76,7 @@ ul {
 	position: fixed;
 	width: 100%;
 	z-index: 12;
+	padding: 10px;
 	@media (max-width: 768px) {
 		background: var(--c-primary);
 		position: fixed;
@@ -117,6 +118,7 @@ ul {
 			&--github {
 				display: flex;
 				align-items: center;
+				margin-left: 10px;
 			}
 		}
 	}
@@ -133,6 +135,7 @@ ul {
 
 	&__title {
 		font-size: 1.5em;
+		margin-left: 10px;
 	}
 
 	&__menu-icon {
@@ -145,9 +148,12 @@ ul {
 		}
 	}
 }
-
+.main-content:has(.main-content__nav) .main-content__section {
+    padding: 20px 20px 20px 270px; 
+}
 .main-content {
 	display: flex;
+	flex-flow: row wrap;
 	padding-top: 85px;
 	&__nav {
 		border-right: 1px solid var(--c-secondary);
@@ -249,7 +255,7 @@ ul {
 		flex-flow: column wrap;
 		min-height: 100vh;
 		width: 100%;
-		padding: 20px 20px 20px 270px;
+		padding: 20px;
 		display: block;
 		@media (max-width: 768px) {
 			padding: 15px;

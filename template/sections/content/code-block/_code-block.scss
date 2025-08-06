@@ -4,7 +4,7 @@
 	padding: calc(20px * var(--padding-scale));
 	background-color: var(--c-bg-item);
 	border-radius: var(--b-radius);
-	color: var(--c-text-primary);
+	color: var(--c-primary-hover);
 	font-family: var(--ff-base);
 }
 
@@ -24,7 +24,6 @@
 	font-family: var(--ff-second);
 	font-size: calc(var(--font-size) * 0.875);
 	line-height: var(--line-height);
-	color: var(--c-text-secondary);
 	transition: color var(--transition);
 }
 
