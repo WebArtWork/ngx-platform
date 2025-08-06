@@ -1,0 +1,38 @@
+<div class="team">
+        {% if section.title %}
+        <div class="team__title">{{{section.title}}}</div>
+        {% endif %}
+        {% if section.description %}
+        <div class="team__description">{{{section.description}}}</div>
+        {% endif %}
+
+        {% for group in section.teams %}
+        <div class="team__group">
+                {% if group.name %}
+                <div class="team__group-name">{{{group.name}}}</div>
+                {% endif %}
+                <div class="team__members">
+                        {% for user in group.users %}
+                        <div class="team__member">
+                                <div class="team__avatar">
+                                        <img src="{{{user.img}}}" alt="{{{user.name}}}" />
+                                </div>
+                                <div class="team__name">{{{user.name}}}</div>
+                                {% if user.username %}
+                                <div class="team__username">@{{{user.username}}}</div>
+                                {% endif %}
+                                {% if user.socials %}
+                                <div class="team__socials">
+                                        {% for social in user.socials %}
+                                        <a href="{{{social.href}}}" target="_blank">
+                                                <img src="{{{social.img}}}" alt="" />
+                                        </a>
+                                        {% endfor %}
+                                </div>
+                                {% endif %}
+                        </div>
+                        {% endfor %}
+                </div>
+        </div>
+        {% endfor %}
+</div>
