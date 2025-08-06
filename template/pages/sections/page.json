@@ -168,6 +168,34 @@
 			],
 			"phone": "+380971862487",
 			"address": "Drai-Khmary St, 50, Kam'yanets'-Podil's'kyi, Khmelnytskyi Oblast, 32313"
-		}
+		},
+                {
+                        "src": "/sections/business/team/team.html",
+                        "title": "Team",
+                        "description": "Meet our amazing team",
+                        "teams": [
+                                {
+                                        "name": "Leadership",
+                                        "users": [
+                                                {
+                                                        "img": "img/avatar.png",
+                                                        "name": "Jane Doe",
+                                                        "username": "jdoe",
+                                                        "socials": [
+                                                                {
+                                                                        "href": "https://github.com/jdoe",
+                                                                        "img": "img/git.svg"
+                                                                }
+                                                        ]
+                                                },
+                                                {
+                                                        "img": "img/avatar.png",
+                                                        "name": "John Smith",
+                                                        "username": "jsmith"
+                                                }
+                                        ]
+                                }
+                        ]
+                }
 	]
 }
