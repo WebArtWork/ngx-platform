@@ -62,7 +62,7 @@
 		},
 		{
 			"src": "/sections/content/markdown/markdown.html",
-			"content": "##Getting Started\nThis is a paragraph from markdown"
+			"content": "##Getting Started\\nThis is a paragraph from markdown"
 		},
 		{
 			"src": "/sections/content/media-text/media-text.html",
