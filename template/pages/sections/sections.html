@@ -7,14 +7,14 @@
 <script>
 	const sections = JSON.parse(`{{{sections|json|safe}}}`);
 
-	const struture = JSON.parse(`{{{sections|json|safe}}}`);
+	let structure = JSON.parse(`{{{sections|json|safe}}}`);
 
 	const select = document.getElementById("addSection");
 
-	for (let i = 0; i < struture.length; i++) {
-		struture[i].__id = sections[i].__id = "sectionId" + i;
+	for (let i = 0; i < structure.length; i++) {
+		structure[i].__id = sections[i].__id = "sectionId" + (i + 1);
 
-		sections[i].__name = struture[i].src
+		sections[i].__name = structure[i].src
 			.split("/")
 			.pop()
 			.replace(".html", "");
@@ -30,12 +30,18 @@
 		const section = JSON.parse(
 			JSON.stringify(sections.find((s) => s.__name === name))
 		);
-		section.id = "sectionId" + Date.now();
+		const oldId = section.__id;
+		section.__id = "sectionId" + Date.now();
 		const target = document.getElementById("start");
 		const container = document.createElement("div");
-		container.innerHTML = section.__html;
+		container.setAttribute("id", section.__id);
+		container.setAttribute("class", section.__id);
+		container.innerHTML = section.__html.split(oldId).join(section.__id);
 
-		container.id = container.className = section.id;
+		delete section.__html;
+		structure.unshift(section);
+		document.getElementById("structure").value = JSON.stringify(structure);
+
 		target.parentNode.insertBefore(container, target.nextSibling);
 	}
 
@@ -45,9 +51,45 @@
 			el.style.display = el.style.display === "none" ? "" : "none";
 		});
 	}
-	function removeElements(className) {
-		const elements = document.querySelectorAll(`.${className}`);
+
+	function removeElements(id) {
+		const elements = document.querySelectorAll(`.${id}`);
+
 		elements.forEach((el) => el.remove());
+
+		structure = structure.filter((s) => s.__id !== id);
+		console.log(structure, id);
+
+		document.getElementById("structure").value = JSON.stringify(structure);
+	}
+
+	function upElement(id) {
+		const current = document.getElementById(id);
+
+		let upId = "";
+
+		for (const section of structure) {
+			if (section.__id === id) {
+				break;
+			}
+
+			upId = section.__id;
+		}
+
+		const index = structure.findIndex((item) => item.__id === id);
+
+		if (index > 0) {
+			[structure[index - 1], structure[index]] = [
+				structure[index],
+				structure[index - 1],
+			];
+		}
+
+		const target = document.getElementById(upId);
+
+		if (current && target && target.parentNode) {
+			target.parentNode.insertBefore(current, target);
+		}
 	}
 </script>
 
@@ -68,6 +110,9 @@
 		<button onclick="removeElements('sectionId{{{loop.index}}}')">
 			Remove section
 		</button>
+		<button onclick="upElement('sectionId{{{loop.index}}}')">
+			Move section up
+		</button>
 	</div>
 	{% include section.src %}
 </div>
@@ -75,7 +120,7 @@
 
 <textarea id="structure"></textarea>
 <script>
-	document.getElementById("structure").value = JSON.stringify(struture);
+	document.getElementById("structure").value = JSON.stringify(structure);
 
 	for (const section of sections) {
 		if (document.getElementById(section.__id)) {
