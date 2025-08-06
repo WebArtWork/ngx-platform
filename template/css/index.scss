@@ -1,5 +1,8 @@
 @use "scss";
 @use "../sections/blog/post-grid/post-grid";
+@use "../sections/blog/meta/meta";
+@use "../sections/blog/categories/categories";
+@use "../sections/blog/author/author";
 @use "../sections/content/text-block/text-block";
 @use "../sections/content/testimonial/testimonial";
 @use "../sections/content/statistics/statistics";
