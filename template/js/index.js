@@ -150,3 +150,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 const interval = setInterval(update, 1000);
         });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll('.add-to-cart');
+        if (!sections.length) {
+                return;
+        }
+
+        let cartCount = 0;
+        const cartCounter = document.querySelector('[data-cart-count]');
+
+        sections.forEach((section) => {
+                const qtyInput = section.querySelector('.add-to-cart__quantity');
+                const decBtn = section.querySelector('.add-to-cart__btn--decrease');
+                const incBtn = section.querySelector('.add-to-cart__btn--increase');
+                const submitBtn = section.querySelector('.add-to-cart__submit');
+
+                const updateQty = (delta) => {
+                        const current = parseInt(qtyInput.value, 10) || 1;
+                        const next = Math.max(1, current + delta);
+                        qtyInput.value = next;
+                };
+
+                decBtn.addEventListener('click', () => updateQty(-1));
+                incBtn.addEventListener('click', () => updateQty(1));
+
+                submitBtn.addEventListener('click', () => {
+                        const qty = parseInt(qtyInput.value, 10) || 1;
+                        cartCount += qty;
+                        if (cartCounter) {
+                                cartCounter.textContent = cartCount;
+                        }
+                });
+        });
+});
