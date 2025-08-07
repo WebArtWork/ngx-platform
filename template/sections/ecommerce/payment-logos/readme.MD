@@ -14,11 +14,11 @@ Displays a row of accepted payment method logos. Useful in checkout pages or foo
 
 ```json
 {
-        "src": "/sections/ecommerce/payment-logos/payment-logos.html",
-        "logos": [
-                { "img": "/img/payments/visa.svg", "alt": "Visa" },
-                { "img": "/img/payments/mastercard.svg", "alt": "Mastercard" }
-        ]
+	"src": "/sections/ecommerce/payment-logos/payment-logos.html",
+	"logos": [
+		{ "img": "/img/payments/visa.svg", "alt": "Visa" },
+		{ "img": "/img/payments/mastercard.svg", "alt": "Mastercard" }
+	]
 }
 ```
 
@@ -26,11 +26,11 @@ Displays a row of accepted payment method logos. Useful in checkout pages or foo
 
 ```html
 <div class="payment-logos">
-        {% for logo in section.logos %}
-        <div class="payment-logos__item">
-                <img src="{{{logo.img}}}" alt="{{logo.alt}}" />
-        </div>
-        {% endfor %}
+	{% for logo in section.logos %}
+	<div class="payment-logos__item">
+		<img src="{{{logo.img}}}" alt="{{logo.alt}}" />
+	</div>
+	{% endfor %}
 </div>
 ```
 
@@ -47,14 +47,14 @@ Displays a row of accepted payment method logos. Useful in checkout pages or foo
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                        | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--margin-scale`                | Controls gap between logos                        |
-| `--padding-scale`               | Padding around each logo                          |
-| `--c-border`                    | Border color of logo container                    |
-| `--c-bg-item`                   | Background color for logo container               |
-| `--b-radius`                    | Rounds the logo container corners                 |
-| `--icon-size`                   | Base size used for logo height                    |
-| `--bp-md`, `--bp-sm`            | Breakpoints adjusting responsive spacing          |
+| Variable             | Description                              |
+| -------------------- | ---------------------------------------- |
+| `--margin-scale`     | Controls gap between logos               |
+| `--padding-scale`    | Padding around each logo                 |
+| `--c-border`         | Border color of logo container           |
+| `--c-bg-item`        | Background color for logo container      |
+| `--b-radius`         | Rounds the logo container corners        |
+| `--icon-size`        | Base size used for logo height           |
+| `--bp-md`, `--bp-sm` | Breakpoints adjusting responsive spacing |
 
 ---

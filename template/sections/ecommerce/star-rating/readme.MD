@@ -15,9 +15,9 @@ A flexible star-based rating display for product reviews. Shows up to five stars
 
 ```json
 {
-        "src": "/sections/ecommerce/star-rating/star-rating.html",
-        "rating": 4.5,
-        "text": "4.5/5"
+	"src": "/sections/ecommerce/star-rating/star-rating.html",
+	"rating": 4.5,
+	"text": "4.5/5"
 }
 ```
 
@@ -25,25 +25,25 @@ A flexible star-based rating display for product reviews. Shows up to five stars
 
 ```html
 <div class="star-rating" style="--rating: {{{section.rating}}};">
-        <div class="star-rating__stars">
-                <div class="star-rating__base">
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                </div>
-                <div class="star-rating__fill">
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                        <span class="material-icons">star</span>
-                </div>
-        </div>
-        {% if section.text %}
-        <div class="star-rating__text">{{{section.text}}}</div>
-        {% endif %}
+	<div class="star-rating__stars">
+		<div class="star-rating__base">
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+		</div>
+		<div class="star-rating__fill">
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+			<span class="material-icons">star</span>
+		</div>
+	</div>
+	{% if section.text %}
+	<div class="star-rating__text">{{{section.text}}}</div>
+	{% endif %}
 </div>
 ```
 
@@ -60,14 +60,14 @@ A flexible star-based rating display for product reviews. Shows up to five stars
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                  | Description                                 |
-| ------------------------- | ------------------------------------------- |
-| `--icon-size`             | Base icon size for calculating star size    |
-| `--c-yellow`              | Color for filled stars                      |
-| `--c-text-body-secondary` | Color for empty stars and rating text       |
-| `--margin-scale`          | Controls spacing next to the rating text    |
-| `--font-size`             | Base font size for the rating text          |
-| `--line-height`           | Line height for text alignment              |
-| `--bp-md`, `--bp-sm`      | Breakpoints used to adjust star size/text   |
+| Variable                  | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `--icon-size`             | Base icon size for calculating star size  |
+| `--c-yellow`              | Color for filled stars                    |
+| `--c-text-body-secondary` | Color for empty stars and rating text     |
+| `--margin-scale`          | Controls spacing next to the rating text  |
+| `--font-size`             | Base font size for the rating text        |
+| `--line-height`           | Line height for text alignment            |
+| `--bp-md`, `--bp-sm`      | Breakpoints used to adjust star size/text |
 
 ---

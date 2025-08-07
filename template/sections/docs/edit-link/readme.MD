@@ -14,10 +14,10 @@ Display a contextual "Edit this page" link for documentation pages. Useful for e
 
 ```json
 {
-        "src": "/sections/docs/edit-link/edit-link.html",
-        "href": "https://github.com/owner/repo/edit/main/docs/page.md",
-        "text": "Edit on GitHub",
-        "icon": "/img/git.svg"
+	"src": "/sections/docs/edit-link/edit-link.html",
+	"href": "https://github.com/owner/repo/edit/main/docs/page.md",
+	"text": "Edit on GitHub",
+	"icon": "/img/git.svg"
 }
 ```
 
@@ -28,14 +28,18 @@ Display a contextual "Edit this page" link for documentation pages. Useful for e
 ```html
 {% if section.href %}
 <div class="edit-link">
-        <a class="edit-link__link" href="{{{section.href}}}" target="_blank" rel="noopener">
-                {% if section.icon %}
-                <img src="{{{section.icon}}}" alt="" class="edit-link__icon" />
-                {% endif %}
-                {% if section.text %}
-                <span class="edit-link__text">{{{section.text}}}</span>
-                {% endif %}
-        </a>
+	<a
+		class="edit-link__link"
+		href="{{{section.href}}}"
+		target="_blank"
+		rel="noopener"
+	>
+		{% if section.icon %}
+		<img src="{{{section.icon}}}" alt="" class="edit-link__icon" />
+		{% endif %} {% if section.text %}
+		<span class="edit-link__text">{{{section.text}}}</span>
+		{% endif %}
+	</a>
 </div>
 {% endif %}
 ```
@@ -53,16 +57,16 @@ Display a contextual "Edit this page" link for documentation pages. Useful for e
 
 ## 🤎 Theme Variables Used (from `template.json`)
 
-| Variable            | Description                       |
-| ------------------- | --------------------------------- |
-| `--ff-base`         | Font for link text                |
-| `--font-size`       | Base font size                    |
-| `--line-height`     | Line height                       |
-| `--letter-spacing`  | Letter spacing                    |
-| `--c-primary`       | Link color                        |
-| `--c-primary-hover` | Hover color                       |
-| `--icon-size`       | Size for optional icon            |
-| `--margin-scale`    | Controls outer spacing            |
-| `--transition`      | Link color transition             |
+| Variable            | Description            |
+| ------------------- | ---------------------- |
+| `--ff-base`         | Font for link text     |
+| `--font-size`       | Base font size         |
+| `--line-height`     | Line height            |
+| `--letter-spacing`  | Letter spacing         |
+| `--c-primary`       | Link color             |
+| `--c-primary-hover` | Hover color            |
+| `--icon-size`       | Size for optional icon |
+| `--margin-scale`    | Controls outer spacing |
+| `--transition`      | Link color transition  |
 
 ---

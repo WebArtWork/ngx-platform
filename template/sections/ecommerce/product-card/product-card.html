@@ -1,17 +1,14 @@
 <div class="product-card">
-  <div class="product-card__img">
-    <img src="{{{section.img}}}" alt="{{section.title}}" />
-  </div>
-  {% if section.title %}
-  <div class="product-card__title">{{{section.title}}}</div>
-  {% endif %}
-  {% if section.price %}
-  <div class="product-card__price">{{{section.price}}}</div>
-  {% endif %}
-  {% if section.rating %}
-  <div class="product-card__rating">{{{section.rating}}}</div>
-  {% endif %}
-  {% if section.btnText %}
-  <button class="product-card__btn">{{{section.btnText}}}</button>
-  {% endif %}
+	<div class="product-card__img">
+		<img src="{{{section.img}}}" alt="{{section.title}}" />
+	</div>
+	{% if section.title %}
+	<div class="product-card__title">{{{section.title}}}</div>
+	{% endif %} {% if section.price %}
+	<div class="product-card__price">{{{section.price}}}</div>
+	{% endif %} {% if section.rating %}
+	<div class="product-card__rating">{{{section.rating}}}</div>
+	{% endif %} {% if section.btnText %}
+	<button class="product-card__btn">{{{section.btnText}}}</button>
+	{% endif %}
 </div>
