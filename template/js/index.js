@@ -150,3 +150,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 const interval = setInterval(update, 1000);
         });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".variant-selector").forEach((selector) => {
+                const options = selector.querySelectorAll(
+                        ".variant-selector__option"
+                );
+                const img = selector.querySelector(
+                        ".variant-selector__image"
+                );
+                const price = selector.querySelector(
+                        ".variant-selector__price"
+                );
+
+                const setActive = (option) => {
+                        options.forEach((o) =>
+                                o.classList.remove(
+                                        "variant-selector__option--active"
+                                )
+                        );
+                        option.classList.add(
+                                "variant-selector__option--active"
+                        );
+                        if (img && option.dataset.img) {
+                                img.src = option.dataset.img;
+                        }
+                        if (price && option.dataset.price) {
+                                price.textContent = option.dataset.price;
+                        }
+                };
+
+                options.forEach((option, index) => {
+                        option.addEventListener("click", () => setActive(option));
+                        if (index === 0) {
+                                setActive(option);
+                        }
+                });
+        });
+});
