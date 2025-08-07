@@ -6,7 +6,10 @@
 		{
 			"src": "/sections/content/accordion/accordion.html",
 			"items": [
-				{ "title": "First item", "content": "<p>Item text</p>" },
+				{
+					"title": "First item",
+					"content": "<p>Item text</p>"
+				},
 				{
 					"title": "Second item",
 					"content": "<p>Item text</p>",
@@ -52,7 +55,10 @@
 			"title": "Welcome to Our Platform",
 			"description": "We help you build better websites",
 			"img": "img/spider.svg",
-			"imgs": ["img/spider.svg", "img/spider.svg"]
+			"imgs": [
+				"img/spider.svg",
+				"img/spider.svg"
+			]
 		},
 		{
 			"src": "/sections/content/intro/intro.html",
@@ -75,8 +81,14 @@
 			"title": "Our Impact",
 			"description": "Metrics that matter",
 			"items": [
-				{ "value": "98%", "label": "Customer Satisfaction" },
-				{ "value": "2M+", "label": "Downloads" }
+				{
+					"value": "98%",
+					"label": "Customer Satisfaction"
+				},
+				{
+					"value": "2M+",
+					"label": "Downloads"
+				}
 			]
 		},
 		{
@@ -111,7 +123,10 @@
 			"src": "/sections/content/two-column-text/two-column-text.html",
 			"title": "Compare Plans",
 			"columns": [
-				{ "title": "Free Plan", "text": "Basic features included" },
+				{
+					"title": "Free Plan",
+					"text": "Basic features included"
+				},
 				{
 					"title": "Pro Plan",
 					"text": "Advanced features for power users"
@@ -169,33 +184,480 @@
 			"phone": "+380971862487",
 			"address": "Drai-Khmary St, 50, Kam'yanets'-Podil's'kyi, Khmelnytskyi Oblast, 32313"
 		},
-                {
-                        "src": "/sections/business/team/team.html",
-                        "title": "Team",
-                        "description": "Meet our amazing team",
-                        "teams": [
-                                {
-                                        "name": "Leadership",
-                                        "users": [
-                                                {
-                                                        "img": "img/avatar.png",
-                                                        "name": "Jane Doe",
-                                                        "username": "jdoe",
-                                                        "socials": [
-                                                                {
-                                                                        "href": "https://github.com/jdoe",
-                                                                        "img": "img/git.svg"
-                                                                }
-                                                        ]
-                                                },
-                                                {
-                                                        "img": "img/avatar.png",
-                                                        "name": "John Smith",
-                                                        "username": "jsmith"
-                                                }
-                                        ]
-                                }
-                        ]
-                }
+		{
+			"src": "/sections/business/team/team.html",
+			"title": "Team",
+			"description": "Meet our amazing team",
+			"teams": [
+				{
+					"name": "Leadership",
+					"users": [
+						{
+							"img": "img/avatar.png",
+							"name": "Jane Doe",
+							"username": "jdoe",
+							"socials": [
+								{
+									"href": "https://github.com/jdoe",
+									"img": "img/git.svg"
+								}
+							]
+						},
+						{
+							"img": "img/avatar.png",
+							"name": "John Smith",
+							"username": "jsmith"
+						}
+					]
+				}
+			]
+		},
+		{
+			"src": "/sections/blog/meta/meta.html",
+			"date": "2024-05-01",
+			"author": "John Doe",
+			"readTime": "5 min read",
+			"categories": [
+				{
+					"name": "Tech",
+					"url": "/category/tech"
+				},
+				{
+					"name": "AI",
+					"url": "/category/ai"
+				}
+			]
+		},
+		{
+			"src": "/sections/blog/post-card/post-card.html",
+			"img": "/img/post.jpg",
+			"category": "Tech",
+			"title": "Blog post title",
+			"excerpt": "Optional short preview of the article content.",
+			"author": "John Doe",
+			"date": "2024-01-01"
+		},
+		{
+			"src": "/sections/blog/post-grid/post-grid.html",
+			"items": [
+				{
+					"img": "/img/post.jpg",
+					"title": "Post title",
+					"description": "Short summary",
+					"url": "/post-url"
+				}
+			]
+		},
+		{
+			"src": "/sections/blog/author/author.html",
+			"avatar": "/img/avatar.png",
+			"name": "Author name",
+			"bio": "Short author description or tagline"
+		},
+		{
+			"src": "/sections/blog/categories/categories.html",
+			"title": "Browse by category",
+			"description": "Optional helper text",
+			"categories": [
+				{
+					"title": "News",
+					"url": "/blog/news",
+					"count": 3
+				},
+				{
+					"title": "Events",
+					"url": "/blog/events"
+				},
+				{
+					"title": "Tutorials",
+					"url": "/blog/tutorials",
+					"count": 12
+				}
+			]
+		},
+		{
+			"src": "/sections/blog/comments/comments.html",
+			"title": "Comments",
+			"items": [
+				{
+					"avatar": "/img/avatar.png",
+					"author": "Jane Doe",
+					"date": "2024-08-30",
+					"text": "This is a comment",
+					"replies": [
+						{
+							"avatar": "/img/avatar2.png",
+							"author": "John Doe",
+							"date": "2024-08-31",
+							"text": "A reply"
+						}
+					]
+				}
+			]
+		},
+		{
+			"src": "/sections/blog/related-posts/related-posts.html",
+			"title": "Related posts",
+			"posts": [
+				{
+					"href": "/blog/post-1",
+					"img": "/img/post-1.jpg",
+					"title": "First post",
+					"date": "Jan 1, 2024"
+				},
+				{
+					"href": "/blog/post-2",
+					"img": "/img/post-2.jpg",
+					"title": "Second post"
+				}
+			]
+		},
+		{
+			"src": "/sections/business/about/about.html",
+			"img": "/img/about.svg",
+			"title": "Optional section title",
+			"description": "Optional paragraph describing the business"
+		},
+		{
+			"src": "/sections/business/awards/awards.html",
+			"title": "Awards",
+			"description": "Highlights of our achievements",
+			"items": [
+				{
+					"img": "/img/trophy.svg",
+					"title": "Best Startup",
+					"year": "2023",
+					"description": "Awarded by Example Organization"
+				}
+			]
+		},
+		{
+			"src": "/sections/business/careers/careers.html",
+			"title": "Join our team",
+			"description": "We are hiring across multiple roles",
+			"positions": [
+				{
+					"title": "Frontend Developer",
+					"location": "Remote",
+					"type": "Full-Time",
+					"link": "/careers/frontend",
+					"linkLabel": "Apply now"
+				}
+			]
+		},
+		{
+			"src": "/sections/business/contact/contact.html",
+			"title": "Get in touch",
+			"description": "We would love to hear from you.",
+			"address": "123 Main St, Anytown",
+			"phone": "+1 (555) 123-4567",
+			"email": "info@example.com"
+		},
+		{
+			"src": "/sections/business/map/map.html",
+			"lat": 50.4501,
+			"lng": 30.5234,
+			"zoom": 14,
+			"apiKey": "GOOGLE_MAPS_API_KEY",
+			"title": "Our Location",
+			"description": "Find us on the map"
+		},
+		{
+			"src": "/sections/business/milestones/milestones.html",
+			"title": "Company milestones",
+			"description": "Our journey so far",
+			"items": [
+				{
+					"year": "2019",
+					"title": "Founded",
+					"text": "Company started"
+				},
+				{
+					"year": "2020",
+					"title": "First product",
+					"text": "Released v1"
+				}
+			]
+		},
+		{
+			"src": "/sections/business/mission/mission.html",
+			"title": "Our Mission",
+			"statement": "Short mission statement here.",
+			"items": [
+				{
+					"icon": "/img/target.svg",
+					"title": "Value title",
+					"text": "Supporting text for this mission point"
+				}
+			]
+		},
+		{
+			"src": "/sections/business/partners/partners.html",
+			"title": "Our Partners",
+			"items": [
+				{
+					"img": "/img/partner1.svg",
+					"alt": "Partner 1",
+					"url": "https://partner1.com"
+				},
+				{
+					"img": "/img/partner2.svg",
+					"alt": "Partner 2"
+				}
+			]
+		},
+		{
+			"src": "/sections/cta/banner/banner.html",
+			"title": "Ready to get started?",
+			"description": "Sign up today and enjoy all the benefits.",
+			"button": {
+				"url": "/signup",
+				"label": "Get Started"
+			}
+		},
+		{
+			"src": "/sections/cta/button-group/button-group.html",
+			"title": "Optional heading",
+			"description": "Optional supporting text",
+			"buttons": [
+				{
+					"text": "Primary action",
+					"href": "#",
+					"modifier": "btn--success"
+				},
+				{
+					"text": "Secondary",
+					"href": "#",
+					"modifier": "btn--second"
+				}
+			]
+		},
+		{
+			"src": "/sections/cta/countdown/countdown.html",
+			"title": "Event starts soon",
+			"description": "Join us before time runs out!",
+			"endDate": "2024-12-31T23:59:59",
+			"buttonText": "Register now",
+			"buttonUrl": "/register"
+		},
+		{
+			"src": "/sections/cta/exit-modal/exit-modal.html",
+			"title": "Wait, before you go!",
+			"description": "Sign up to stay updated",
+			"button": {
+				"label": "Subscribe",
+				"url": "/signup"
+			}
+		},
+		{
+			"src": "/sections/cta/promo/promo.html",
+			"img": "/img/promo.png",
+			"title": "Special Offer",
+			"description": "Short promo or marketing message",
+			"button": {
+				"text": "Get started",
+				"href": "/signup"
+			}
+		},
+		{
+			"src": "/sections/cta/sticky-footer/sticky-footer.html",
+			"text": "Promotional message",
+			"button": {
+				"url": "/signup",
+				"label": "Sign Up"
+			}
+		},
+		{
+			"src": "/sections/docs/search-bar/search-bar.html",
+			"placeholder": "Search docs...",
+			"index": "/search-index.json"
+		},
+		{
+			"src": "/sections/docs/version-switcher/version-switcher.html",
+			"label": "Version",
+			"versions": [
+				{
+					"label": "v1.0",
+					"url": "/docs/v1"
+				},
+				{
+					"label": "v2.0",
+					"url": "/docs/v2",
+					"current": true
+				}
+			]
+		},
+		{
+			"src": "/sections/docs/glossary/glossary.html",
+			"title": "Glossary",
+			"items": [
+				{
+					"term": "API",
+					"definition": "Application Programming Interface"
+				},
+				{
+					"term": "CLI",
+					"definition": "Command Line Interface"
+				}
+			]
+		},
+		{
+			"src": "/sections/docs/page-layout/page-layout.html",
+			"sidebar": "<nav>...</nav>",
+			"content": "<article>...</article>",
+			"toc": "<nav>...</nav>"
+		},
+		{
+			"src": "/sections/docs/code-snippet/code-snippet.html",
+			"label": "Optional file name",
+			"code": "npm install ngx"
+		},
+		{
+			"src": "/sections/docs/sidebar/sidebar.html",
+			"items": [
+				{
+					"name": "Guide",
+					"url": "/guide",
+					"items": [
+						{
+							"name": "Intro",
+							"url": "/guide#intro"
+						}
+					]
+				}
+			]
+		},
+		{
+			"src": "/sections/docs/api-layout/api-layout.html",
+			"title": "API Reference",
+			"description": "Endpoints and methods",
+			"endpoints": [
+				{
+					"method": "GET",
+					"path": "/items",
+					"description": "List items"
+				},
+				{
+					"method": "POST",
+					"path": "/items",
+					"description": "Create item"
+				}
+			]
+		},
+		{
+			"src": "/sections/docs/edit-link/edit-link.html",
+			"href": "https://github.com/owner/repo/edit/main/docs/page.md",
+			"text": "Edit on GitHub",
+			"icon": "/img/git.svg"
+		},
+		{
+			"src": "/sections/ecommerce/product-details/product-details.html",
+			"img": "/img/product.jpg",
+			"title": "Sample product title",
+			"description": "Optional detailed description of the product",
+			"price": "$99.99",
+			"rating": "⭐️⭐️⭐️⭐️☆",
+			"cta": {
+				"text": "Add to cart",
+				"href": "#add-to-cart"
+			}
+		},
+		{
+			"src": "/sections/ecommerce/price/price.html",
+			"currency": "$",
+			"current": "19.99",
+			"original": "24.99",
+			"note": "per item"
+		},
+		{
+			"src": "/sections/ecommerce/add-to-cart/add-to-cart.html",
+			"id": "sku-1",
+			"price": "$19.99",
+			"button": "Add to cart"
+		},
+		{
+			"src": "/sections/ecommerce/variant-selector/variant-selector.html",
+			"title": "Choose a variant",
+			"options": [
+				{
+					"label": "Red",
+					"color": "#ff0000",
+					"img": "/img/red.jpg",
+					"price": "$19.99"
+				},
+				{
+					"label": "Blue",
+					"color": "#0000ff",
+					"img": "/img/blue.jpg",
+					"price": "$21.99"
+				}
+			]
+		},
+		{
+			"src": "/sections/ecommerce/stock-indicator/stock-indicator.html",
+			"quantity": 42,
+			"max": 100,
+			"low": 10,
+			"labels": {
+				"in": "In stock",
+				"low": "Low stock",
+				"out": "Out of stock"
+			}
+		},
+		{
+			"src": "/sections/ecommerce/payment-logos/payment-logos.html",
+			"logos": [
+				{
+					"img": "/img/payments/visa.svg",
+					"alt": "Visa"
+				},
+				{
+					"img": "/img/payments/mastercard.svg",
+					"alt": "Mastercard"
+				}
+			]
+		},
+		{
+			"src": "/sections/ecommerce/review-section/review-section.html",
+			"title": "Customer Reviews",
+			"reviews": [
+				{
+					"avatar": "/img/user.jpg",
+					"name": "Jane Doe",
+					"rating": "5",
+					"comment": "Great product!"
+				}
+			]
+		},
+		{
+			"src": "/sections/ecommerce/star-rating/star-rating.html",
+			"rating": 4.5,
+			"text": "4.5/5"
+		},
+		{
+			"src": "/sections/ecommerce/product-grid/product-grid.html",
+			"items": [
+				{
+					"img": "/img/product.png",
+					"title": "Product name",
+					"url": "/product-url",
+					"price": "$49",
+					"rating": "★★★★☆"
+				}
+			]
+		},
+		{
+			"src": "/sections/ecommerce/product-card/product-card.html",
+			"img": "/img/product.jpg",
+			"title": "Product name",
+			"price": "$19.99",
+			"rating": "4.5/5",
+			"btnText": "Add to cart"
+		},
+		{
+			"src": "/sections/ecommerce/discount-badge/discount-badge.html",
+			"discount": 20,
+			"label": "OFF"
+		}
 	]
 }
