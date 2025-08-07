@@ -14,13 +14,13 @@ Responsive block for highlighting key company milestones. Renders an optional ti
 
 ```json
 {
-        "src": "/sections/business/milestones/milestones.html",
-        "title": "Company milestones",
-        "description": "Our journey so far",
-        "items": [
-                { "year": "2019", "title": "Founded", "text": "Company started" },
-                { "year": "2020", "title": "First product", "text": "Released v1" }
-        ]
+	"src": "/sections/business/milestones/milestones.html",
+	"title": "Company milestones",
+	"description": "Our journey so far",
+	"items": [
+		{ "year": "2019", "title": "Founded", "text": "Company started" },
+		{ "year": "2020", "title": "First product", "text": "Released v1" }
+	]
 }
 ```
 
@@ -28,15 +28,15 @@ Responsive block for highlighting key company milestones. Renders an optional ti
 
 ```html
 <div class="milestones">
-        <div class="milestones__title">...</div>
-        <div class="milestones__description">...</div>
-        <ul class="milestones__items">
-                <li class="milestones__item">
-                        <div class="milestones__year">...</div>
-                        <div class="milestones__label">...</div>
-                        <div class="milestones__text">...</div>
-                </li>
-        </ul>
+	<div class="milestones__title">...</div>
+	<div class="milestones__description">...</div>
+	<ul class="milestones__items">
+		<li class="milestones__item">
+			<div class="milestones__year">...</div>
+			<div class="milestones__label">...</div>
+			<div class="milestones__text">...</div>
+		</li>
+	</ul>
 </div>
 ```
 
@@ -44,19 +44,19 @@ Responsive block for highlighting key company milestones. Renders an optional ti
 
 ## 🎨 Theme Variables Used
 
-| Variable | Description |
-| --- | --- |
-| `--ff-base` | Base font family |
-| `--ff-title` | Title font family |
-| `--font-size` | Base font size |
-| `--line-height` | Line height |
-| `--letter-spacing` | Letter spacing |
-| `--padding-scale` | Controls item and grid spacing |
-| `--margin-scale` | Controls margins |
-| `--b-radius` | Border radius for items |
-| `--c-text-primary` | Title and year color |
-| `--c-text-secondary` | Label color |
-| `--c-text-body-secondary` | Description and text color |
-| `--c-bg-item` | Background color for milestone items |
-| `--transition` | Transition for text color |
-| `--bp-md`, `--bp-sm` | Breakpoints for responsive typography |
+| Variable                  | Description                           |
+| ------------------------- | ------------------------------------- |
+| `--ff-base`               | Base font family                      |
+| `--ff-title`              | Title font family                     |
+| `--font-size`             | Base font size                        |
+| `--line-height`           | Line height                           |
+| `--letter-spacing`        | Letter spacing                        |
+| `--padding-scale`         | Controls item and grid spacing        |
+| `--margin-scale`          | Controls margins                      |
+| `--b-radius`              | Border radius for items               |
+| `--c-text-primary`        | Title and year color                  |
+| `--c-text-secondary`      | Label color                           |
+| `--c-text-body-secondary` | Description and text color            |
+| `--c-bg-item`             | Background color for milestone items  |
+| `--transition`            | Transition for text color             |
+| `--bp-md`, `--bp-sm`      | Breakpoints for responsive typography |

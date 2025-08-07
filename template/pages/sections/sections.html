@@ -58,7 +58,6 @@
 		elements.forEach((el) => el.remove());
 
 		structure = structure.filter((s) => s.__id !== id);
-		console.log(structure, id);
 
 		document.getElementById("structure").value = JSON.stringify(structure);
 	}

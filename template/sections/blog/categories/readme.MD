@@ -4,10 +4,10 @@ Section for displaying a list of blog categories as links with optional counts. 
 
 ## ✅ Features
 
-- Optional title and description
-- List of categories rendered dynamically
-- Each category can have a URL and optional post count
-- Responsive styling using global design tokens
+-   Optional title and description
+-   List of categories rendered dynamically
+-   Each category can have a URL and optional post count
+-   Responsive styling using global design tokens
 
 ---
 
@@ -15,14 +15,14 @@ Section for displaying a list of blog categories as links with optional counts. 
 
 ```json
 {
-        "src": "/sections/blog/categories/categories.html",
-        "title": "Browse by category",
-        "description": "Optional helper text",
-        "categories": [
-                { "title": "News", "url": "/blog/news", "count": 3 },
-                { "title": "Events", "url": "/blog/events" },
-                { "title": "Tutorials", "url": "/blog/tutorials", "count": 12 }
-        ]
+	"src": "/sections/blog/categories/categories.html",
+	"title": "Browse by category",
+	"description": "Optional helper text",
+	"categories": [
+		{ "title": "News", "url": "/blog/news", "count": 3 },
+		{ "title": "Events", "url": "/blog/events" },
+		{ "title": "Tutorials", "url": "/blog/tutorials", "count": 12 }
+	]
 }
 ```
 
@@ -30,33 +30,31 @@ Section for displaying a list of blog categories as links with optional counts. 
 
 ```html
 <div class="categories">
-        {% if section.title %}
-        <div class="categories__title">{{{section.title}}}</div>
-        {% endif %} {% if section.description %}
-        <div class="categories__description">{{{section.description}}}</div>
-        {% endif %} {% if section.categories %}
-        <ul class="categories__list">
-                {% for category in section.categories %}
-                <li class="categories__item">
-                        {% if category.url %}
-                        <a href="{{{category.url}}}" class="categories__link">
-                                {{{category.title}}}
-                                {% if category.count %}
-                                <span class="categories__count">{{{category.count}}}</span>
-                                {% endif %}
-                        </a>
-                        {% else %}
-                        <span class="categories__link">
-                                {{{category.title}}}
-                                {% if category.count %}
-                                <span class="categories__count">{{{category.count}}}</span>
-                                {% endif %}
-                        </span>
-                        {% endif %}
-                </li>
-                {% endfor %}
-        </ul>
-        {% endif %}
+	{% if section.title %}
+	<div class="categories__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="categories__description">{{{section.description}}}</div>
+	{% endif %} {% if section.categories %}
+	<ul class="categories__list">
+		{% for category in section.categories %}
+		<li class="categories__item">
+			{% if category.url %}
+			<a href="{{{category.url}}}" class="categories__link">
+				{{{category.title}}} {% if category.count %}
+				<span class="categories__count">{{{category.count}}}</span>
+				{% endif %}
+			</a>
+			{% else %}
+			<span class="categories__link">
+				{{{category.title}}} {% if category.count %}
+				<span class="categories__count">{{{category.count}}}</span>
+				{% endif %}
+			</span>
+			{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 </div>
 ```
 

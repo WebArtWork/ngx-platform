@@ -14,10 +14,10 @@ About section for presenting company or project information. Displays a title, d
 
 ```json
 {
-        "src": "/sections/business/about/about.html",
-        "img": "/img/about.svg",
-        "title": "Optional section title",
-        "description": "Optional paragraph describing the business"
+	"src": "/sections/business/about/about.html",
+	"img": "/img/about.svg",
+	"title": "Optional section title",
+	"description": "Optional paragraph describing the business"
 }
 ```
 
@@ -25,19 +25,18 @@ About section for presenting company or project information. Displays a title, d
 
 ```html
 <div class="about">
-    <div class="about__text">
-        {% if section.title %}
-        <div class="about__title">{{{section.title}}}</div>
-        {% endif %}
-        {% if section.description %}
-        <div class="about__description">{{{section.description}}}</div>
-        {% endif %}
-    </div>
-    {% if section.img %}
-    <div class="about__img">
-        <img src="{{{section.img}}}" alt="" />
-    </div>
-    {% endif %}
+	<div class="about__text">
+		{% if section.title %}
+		<div class="about__title">{{{section.title}}}</div>
+		{% endif %} {% if section.description %}
+		<div class="about__description">{{{section.description}}}</div>
+		{% endif %}
+	</div>
+	{% if section.img %}
+	<div class="about__img">
+		<img src="{{{section.img}}}" alt="" />
+	</div>
+	{% endif %}
 </div>
 ```
 
@@ -59,4 +58,3 @@ About section for presenting company or project information. Displays a title, d
 | `--c-text-primary`              | Title text color                                   |
 | `--c-text-body-secondary`       | Description text color                             |
 | `--bp-lg`, `--bp-md`, `--bp-sm` | Used in media queries to adjust sizes responsively |
-

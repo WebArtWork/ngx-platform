@@ -17,13 +17,13 @@ Optional title and description allow contextual messaging above the map.
 
 ```json
 {
-        "src": "/sections/business/map/map.html",
-        "lat": 50.4501,
-        "lng": 30.5234,
-        "zoom": 14,
-        "apiKey": "GOOGLE_MAPS_API_KEY",
-        "title": "Our Location",
-        "description": "Find us on the map"
+	"src": "/sections/business/map/map.html",
+	"lat": 50.4501,
+	"lng": 30.5234,
+	"zoom": 14,
+	"apiKey": "GOOGLE_MAPS_API_KEY",
+	"title": "Our Location",
+	"description": "Find us on the map"
 }
 ```
 
@@ -33,26 +33,29 @@ Optional title and description allow contextual messaging above the map.
 
 ```html
 <div class="map">
-        <div id="map" class="map__container"></div>
+	<div id="map" class="map__container"></div>
 
-        {% if section.title %}
-        <div class="map__title">{{{section.title}}}</div>
-        {% endif %}
-        {% if section.description %}
-        <div class="map__description">{{{section.description}}}</div>
-        {% endif %}
+	{% if section.title %}
+	<div class="map__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="map__description">{{{section.description}}}</div>
+	{% endif %}
 </div>
 <script>
-        function initMap() {
-                const position = { lat: {{{section.lat}}}, lng: {{{section.lng}}} };
-                const map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: {{{section.zoom}}},
-                        center: position,
-                });
-                new google.maps.Marker({ position, map });
-        }
+	function initMap() {
+	        const position = { lat: {{{section.lat}}}, lng: {{{section.lng}}} };
+	        const map = new google.maps.Map(document.getElementById('map'), {
+	                zoom: {{{section.zoom}}},
+	                center: position,
+	        });
+	        new google.maps.Marker({ position, map });
+	}
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{{section.apiKey}}}&callback=initMap" async defer></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key={{{section.apiKey}}}&callback=initMap"
+	async
+	defer
+></script>
 ```
 
 ---
@@ -68,18 +71,18 @@ Optional title and description allow contextual messaging above the map.
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable | Description |
-| -------- | ----------- |
-| `--padding-scale` | Scales section padding and map height |
-| `--margin-scale` | Controls spacing above/below text |
-| `--font-size` | Base font size for description |
-| `--line-height` | Line height for text elements |
-| `--letter-spacing` | Letter spacing for title/description |
-| `--b-radius` | Rounds the map container corners |
-| `--ff-base` | Font for description text |
-| `--ff-title` | Font for title text |
-| `--c-text-primary` | Title text color |
-| `--c-text-body-secondary` | Description text color |
+| Variable                        | Description                            |
+| ------------------------------- | -------------------------------------- |
+| `--padding-scale`               | Scales section padding and map height  |
+| `--margin-scale`                | Controls spacing above/below text      |
+| `--font-size`                   | Base font size for description         |
+| `--line-height`                 | Line height for text elements          |
+| `--letter-spacing`              | Letter spacing for title/description   |
+| `--b-radius`                    | Rounds the map container corners       |
+| `--ff-base`                     | Font for description text              |
+| `--ff-title`                    | Font for title text                    |
+| `--c-text-primary`              | Title text color                       |
+| `--c-text-body-secondary`       | Description text color                 |
 | `--bp-lg`, `--bp-md`, `--bp-sm` | Breakpoints for responsive adjustments |
 
 ---
