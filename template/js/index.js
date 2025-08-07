@@ -116,108 +116,97 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-        const timers = document.querySelectorAll('[data-countdown]');
-        timers.forEach((timer) => {
-                const target = new Date(timer.getAttribute('data-countdown'));
-                const daysEl = timer.querySelector('.countdown__days');
-                const hoursEl = timer.querySelector('.countdown__hours');
-                const minutesEl = timer.querySelector('.countdown__minutes');
-                const secondsEl = timer.querySelector('.countdown__seconds');
+	const timers = document.querySelectorAll("[data-countdown]");
+	timers.forEach((timer) => {
+		const target = new Date(timer.getAttribute("data-countdown"));
+		const daysEl = timer.querySelector(".countdown__days");
+		const hoursEl = timer.querySelector(".countdown__hours");
+		const minutesEl = timer.querySelector(".countdown__minutes");
+		const secondsEl = timer.querySelector(".countdown__seconds");
 
-                const update = () => {
-                        const now = new Date();
-                        const diff = target - now;
-                        if (diff <= 0) {
-                                daysEl.textContent = '00';
-                                hoursEl.textContent = '00';
-                                minutesEl.textContent = '00';
-                                secondsEl.textContent = '00';
-                                clearInterval(interval);
-                                return;
-                        }
-                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                        const seconds = Math.floor((diff / 1000) % 60);
+		const update = () => {
+			const now = new Date();
+			const diff = target - now;
+			if (diff <= 0) {
+				daysEl.textContent = "00";
+				hoursEl.textContent = "00";
+				minutesEl.textContent = "00";
+				secondsEl.textContent = "00";
+				clearInterval(interval);
+				return;
+			}
+			const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+			const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+			const minutes = Math.floor((diff / (1000 * 60)) % 60);
+			const seconds = Math.floor((diff / 1000) % 60);
 
-                        daysEl.textContent = String(days).padStart(2, '0');
-                        hoursEl.textContent = String(hours).padStart(2, '0');
-                        minutesEl.textContent = String(minutes).padStart(2, '0');
-                        secondsEl.textContent = String(seconds).padStart(2, '0');
-                };
+			daysEl.textContent = String(days).padStart(2, "0");
+			hoursEl.textContent = String(hours).padStart(2, "0");
+			minutesEl.textContent = String(minutes).padStart(2, "0");
+			secondsEl.textContent = String(seconds).padStart(2, "0");
+		};
 
-                update();
-                const interval = setInterval(update, 1000);
-        });
+		update();
+		const interval = setInterval(update, 1000);
+	});
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".variant-selector").forEach((selector) => {
-                const options = selector.querySelectorAll(
-                        ".variant-selector__option"
-                );
-                const img = selector.querySelector(
-                        ".variant-selector__image"
-                );
-                const price = selector.querySelector(
-                        ".variant-selector__price"
-                );
+	document.querySelectorAll(".variant-selector").forEach((selector) => {
+		const options = selector.querySelectorAll(".variant-selector__option");
+		const img = selector.querySelector(".variant-selector__image");
+		const price = selector.querySelector(".variant-selector__price");
 
-                const setActive = (option) => {
-                        options.forEach((o) =>
-                                o.classList.remove(
-                                        "variant-selector__option--active"
-                                )
-                        );
-                        option.classList.add(
-                                "variant-selector__option--active"
-                        );
-                        if (img && option.dataset.img) {
-                                img.src = option.dataset.img;
-                        }
-                        if (price && option.dataset.price) {
-                                price.textContent = option.dataset.price;
-                        }
-                };
+		const setActive = (option) => {
+			options.forEach((o) =>
+				o.classList.remove("variant-selector__option--active")
+			);
+			option.classList.add("variant-selector__option--active");
+			if (img && option.dataset.img) {
+				img.src = option.dataset.img;
+			}
+			if (price && option.dataset.price) {
+				price.textContent = option.dataset.price;
+			}
+		};
 
-                options.forEach((option, index) => {
-                        option.addEventListener("click", () => setActive(option));
-                        if (index === 0) {
-                                setActive(option);
-                          
-                        }
-                });
-        });
-  
-        const sections = document.querySelectorAll('.add-to-cart');
-        if (!sections.length) {
-                return;
-        }
+		options.forEach((option, index) => {
+			option.addEventListener("click", () => setActive(option));
+			if (index === 0) {
+				setActive(option);
+			}
+		});
+	});
 
-        let cartCount = 0;
-        const cartCounter = document.querySelector('[data-cart-count]');
+	const sections = document.querySelectorAll(".add-to-cart");
+	if (!sections.length) {
+		return;
+	}
 
-        sections.forEach((section) => {
-                const qtyInput = section.querySelector('.add-to-cart__quantity');
-                const decBtn = section.querySelector('.add-to-cart__btn--decrease');
-                const incBtn = section.querySelector('.add-to-cart__btn--increase');
-                const submitBtn = section.querySelector('.add-to-cart__submit');
+	let cartCount = 0;
+	const cartCounter = document.querySelector("[data-cart-count]");
 
-                const updateQty = (delta) => {
-                        const current = parseInt(qtyInput.value, 10) || 1;
-                        const next = Math.max(1, current + delta);
-                        qtyInput.value = next;
-                };
+	sections.forEach((section) => {
+		const qtyInput = section.querySelector(".add-to-cart__quantity");
+		const decBtn = section.querySelector(".add-to-cart__btn--decrease");
+		const incBtn = section.querySelector(".add-to-cart__btn--increase");
+		const submitBtn = section.querySelector(".add-to-cart__submit");
 
-                decBtn.addEventListener('click', () => updateQty(-1));
-                incBtn.addEventListener('click', () => updateQty(1));
+		const updateQty = (delta) => {
+			const current = parseInt(qtyInput.value, 10) || 1;
+			const next = Math.max(1, current + delta);
+			qtyInput.value = next;
+		};
 
-                submitBtn.addEventListener('click', () => {
-                        const qty = parseInt(qtyInput.value, 10) || 1;
-                        cartCount += qty;
-                        if (cartCounter) {
-                                cartCounter.textContent = cartCount;
-                        }
-                });
-        });
+		decBtn.addEventListener("click", () => updateQty(-1));
+		incBtn.addEventListener("click", () => updateQty(1));
+
+		submitBtn.addEventListener("click", () => {
+			const qty = parseInt(qtyInput.value, 10) || 1;
+			cartCount += qty;
+			if (cartCounter) {
+				cartCounter.textContent = cartCount;
+			}
+		});
+	});
 });
