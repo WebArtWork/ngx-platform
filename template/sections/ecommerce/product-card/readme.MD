@@ -31,7 +31,7 @@ This section expects the following data structure passed via `section`:
 ```html
 <div class="product-card">
 	<div class="product-card__img">
-		<img src="{{{section.img}}}" alt="{{section.title}}" />
+                <img src="{{{section.img}}}" alt="{{{section.title}}}" />
 	</div>
 	{% if section.title %}
 	<div class="product-card__title">{{{section.title}}}</div>

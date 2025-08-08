@@ -10,7 +10,7 @@
                 {% if letter != currentLetter %}
                 {% if not loop.first %}</div>{% endif %}
                 <div class="glossary__group">
-                        <div class="glossary__letter">{{ letter }}</div>
+                        <div class="glossary__letter">{{{letter}}}</div>
                 {% set currentLetter = letter %}
                 {% endif %}
                 <div class="glossary__entry">
