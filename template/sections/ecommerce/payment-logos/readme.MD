@@ -28,7 +28,7 @@ Displays a row of accepted payment method logos. Useful in checkout pages or foo
 <div class="payment-logos">
 	{% for logo in section.logos %}
 	<div class="payment-logos__item">
-		<img src="{{{logo.img}}}" alt="{{logo.alt}}" />
+                <img src="{{{logo.img}}}" alt="{{{logo.alt}}}" />
 	</div>
 	{% endfor %}
 </div>

@@ -4,7 +4,7 @@ low = section.low or 10 %} {% set percent = (qty / max) * 100 %}
 	<div class="stock-indicator__bar">
 		<div
 			class="stock-indicator__progress{% if qty <= 0 %} stock-indicator__progress--out{% elseif qty <= low %} stock-indicator__progress--low{% else %} stock-indicator__progress--in{% endif %}"
-			style="width: {{ percent }}%"
+                        style="width: {{{percent}}}%"
 		></div>
 	</div>
 	{% if qty <= 0 %}
