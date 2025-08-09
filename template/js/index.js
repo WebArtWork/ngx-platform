@@ -260,3 +260,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
         });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".tabs").forEach((tabs) => {
+                const buttons = tabs.querySelectorAll(".tabs__nav-button");
+                const panes = tabs.querySelectorAll(".tabs__pane");
+
+                buttons.forEach((button, index) => {
+                        button.addEventListener("click", () => {
+                                buttons.forEach((b) => b.classList.remove("active"));
+                                panes.forEach((p) => p.classList.remove("active"));
+                                button.classList.add("active");
+                                const pane = panes[index];
+                                if (pane) {
+                                        pane.classList.add("active");
+                                }
+                        });
+                });
+        });
+});
