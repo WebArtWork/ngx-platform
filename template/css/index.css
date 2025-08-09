@@ -4522,6 +4522,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .application {
         max-width: 600px;
@@ -5597,3 +5598,9 @@ ul {
         }
 }
 >>>>>>> 1fc2e4ec064de271de1401a64f2d5617571bda65
+=======
+.spacer {
+        width: 100%;
+        height: calc(var(--spacer-size, 40px) * var(--margin-scale));
+}
+>>>>>>> cc284decb51334138b9fd37303b3bb86cc71d1cc
