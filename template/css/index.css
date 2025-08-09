@@ -4507,3 +4507,36 @@ ul {
 		margin-top: calc(8px * var(--margin-scale));
 	}
 }
+.tabs {
+        font-family: var(--ff-base);
+}
+.tabs__nav {
+        display: flex;
+        border-bottom: 2px solid var(--c-border);
+}
+.tabs__nav-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: calc(10px * var(--padding-scale)) calc(20px * var(--padding-scale));
+        font-size: var(--font-size);
+        color: var(--c-text-primary);
+        border-bottom: 2px solid transparent;
+        transition: color var(--transition), border-color var(--transition);
+}
+.tabs__nav-button.active {
+        border-color: var(--c-primary);
+        color: var(--c-primary);
+}
+.tabs__nav-button:hover {
+        color: var(--c-primary-hover);
+}
+.tabs__content {
+        padding-top: calc(20px * var(--padding-scale));
+}
+.tabs__pane {
+        display: none;
+}
+.tabs__pane.active {
+        display: block;
+}
