@@ -41,6 +41,25 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	});
 
+        /* COLLAPSE CODE */
+        const collapseHeaders = document.querySelectorAll(".collapse__header");
+        collapseHeaders.forEach((header) => {
+                const body = header.nextElementSibling;
+                if (header.classList.contains("collapse__header--open") && body) {
+                        body.style.maxHeight = body.scrollHeight + "px";
+                }
+                header.addEventListener("click", () => {
+                        if (!body) return;
+                        if (body.style.maxHeight) {
+                                body.style.maxHeight = null;
+                                header.classList.remove("collapse__header--open");
+                        } else {
+                                body.style.maxHeight = body.scrollHeight + "px";
+                                header.classList.add("collapse__header--open");
+                        }
+                });
+        });
+
 	/* Sidebar active menu, hide menu items */
 	const items = document.querySelectorAll(".main-content__nav-item");
 	const _subitem = {};
