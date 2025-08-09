@@ -4519,6 +4519,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .application {
         max-width: 600px;
@@ -5462,3 +5463,47 @@ ul {
         }
 }
 >>>>>>> c3f377ecd11dfa7b4fd1d58d18eb57310f85232b
+=======
+.alert {
+  position: relative;
+  padding: calc(16px * var(--padding-scale)) calc(20px * var(--padding-scale));
+  margin: calc(16px * var(--margin-scale)) 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--b-radius);
+  background-color: var(--c-bg-item);
+  color: var(--c-text-primary);
+  font-family: var(--ff-base);
+  line-height: var(--line-height);
+}
+.alert__title {
+  font-family: var(--ff-title);
+  font-weight: 600;
+  margin-bottom: calc(8px * var(--margin-scale));
+}
+.alert__close {
+  position: absolute;
+  top: calc(8px * var(--padding-scale));
+  right: calc(8px * var(--padding-scale));
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: calc(var(--font-size) * 1.25);
+  cursor: pointer;
+}
+.alert--success {
+  border-color: var(--c-success-border);
+  background-color: var(--c-success);
+}
+.alert--danger {
+  border-color: var(--c-danger-border);
+  background-color: var(--c-error);
+}
+.alert--warning {
+  border-color: var(--c-warning-border);
+  background-color: var(--c-alert);
+}
+.alert--info {
+  border-color: var(--c-info-border);
+  background-color: var(--c-blue);
+}
+>>>>>>> 9027411b93d609b966676d1f09d1f68b7b340970
