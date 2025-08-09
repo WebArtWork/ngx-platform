@@ -8,10 +8,18 @@ const toggleClass = (id, className) => {
 };
 
 const toTop = () => {
-	window.scrollTo({
-		top: 0,
-		behavior: "smooth",
-	});
+        window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+        });
+};
+
+const acceptCookies = () => {
+        document.cookie = "cookiesAccepted=true; max-age=31536000; path=/";
+        const banner = document.getElementById("cookieBanner");
+        if (banner) {
+                banner.classList.add("hidden");
+        }
 };
 
 const sidebar = {};
@@ -171,10 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-	document.querySelectorAll(".variant-selector").forEach((selector) => {
-		const options = selector.querySelectorAll(".variant-selector__option");
-		const img = selector.querySelector(".variant-selector__image");
-		const price = selector.querySelector(".variant-selector__price");
+        document.querySelectorAll(".variant-selector").forEach((selector) => {
+                const options = selector.querySelectorAll(".variant-selector__option");
+                const img = selector.querySelector(".variant-selector__image");
+                const price = selector.querySelector(".variant-selector__price");
 
 		const setActive = (option) => {
 			options.forEach((o) =>
@@ -197,35 +205,44 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
-	const sections = document.querySelectorAll(".add-to-cart");
-	if (!sections.length) {
-		return;
-	}
+        const sections = document.querySelectorAll(".add-to-cart");
+        if (!sections.length) {
+                return;
+        }
 
-	let cartCount = 0;
-	const cartCounter = document.querySelector("[data-cart-count]");
+        let cartCount = 0;
+        const cartCounter = document.querySelector("[data-cart-count]");
 
-	sections.forEach((section) => {
-		const qtyInput = section.querySelector(".add-to-cart__quantity");
-		const decBtn = section.querySelector(".add-to-cart__btn--decrease");
-		const incBtn = section.querySelector(".add-to-cart__btn--increase");
-		const submitBtn = section.querySelector(".add-to-cart__submit");
+        sections.forEach((section) => {
+                const qtyInput = section.querySelector(".add-to-cart__quantity");
+                const decBtn = section.querySelector(".add-to-cart__btn--decrease");
+                const incBtn = section.querySelector(".add-to-cart__btn--increase");
+                const submitBtn = section.querySelector(".add-to-cart__submit");
 
-		const updateQty = (delta) => {
-			const current = parseInt(qtyInput.value, 10) || 1;
-			const next = Math.max(1, current + delta);
-			qtyInput.value = next;
-		};
+                const updateQty = (delta) => {
+                        const current = parseInt(qtyInput.value, 10) || 1;
+                        const next = Math.max(1, current + delta);
+                        qtyInput.value = next;
+                };
 
-		decBtn.addEventListener("click", () => updateQty(-1));
-		incBtn.addEventListener("click", () => updateQty(1));
+                decBtn.addEventListener("click", () => updateQty(-1));
+                incBtn.addEventListener("click", () => updateQty(1));
 
-		submitBtn.addEventListener("click", () => {
-			const qty = parseInt(qtyInput.value, 10) || 1;
-			cartCount += qty;
-			if (cartCounter) {
-				cartCounter.textContent = cartCount;
-			}
-		});
-	});
+                submitBtn.addEventListener("click", () => {
+                        const qty = parseInt(qtyInput.value, 10) || 1;
+                        cartCount += qty;
+                        if (cartCounter) {
+                                cartCounter.textContent = cartCount;
+                        }
+                });
+        });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+        if (document.cookie.includes("cookiesAccepted=true")) {
+                const banner = document.getElementById("cookieBanner");
+                if (banner) {
+                        banner.classList.add("hidden");
+                }
+        }
 });
