@@ -15,6 +15,18 @@ const toTop = () => {
 };
 
 const sidebar = {};
+
+document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".navbar").forEach((nav) => {
+                const toggle = nav.querySelector(".navbar__toggle");
+                if (toggle) {
+                        toggle.addEventListener("click", () => {
+                                nav.classList.toggle("navbar--open");
+                        });
+                }
+        });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
 	/* ACCARDION CODE */
 	const accordionButtons = document.querySelectorAll(".accordion-button");
