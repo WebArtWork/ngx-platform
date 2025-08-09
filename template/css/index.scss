@@ -53,6 +53,7 @@
 @use "../sections/ecommerce/payment-logos/payment-logos";
 @use "../sections/ecommerce/discount-badge/discount-badge";
 @use "../sections/ecommerce/add-to-cart/add-to-cart";
+<<<<<<< HEAD
 @use "../sections/layout/divider/divider";
 @use "../sections/layout/grid/grid";
 @use "../sections/layout/responsive-visibility/responsive-visibility";
@@ -79,3 +80,6 @@
 @use "../sections/education/instructor/instructor";
 @use "../sections/education/comparison-table/comparison-table";
 @use "../sections/education/certificate/certificate";
+=======
+@use "../sections/navigation/pagination/pagination";
+>>>>>>> 3e838c200a202e60345743390a1791d80a7352b0
