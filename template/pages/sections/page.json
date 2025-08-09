@@ -661,6 +661,478 @@
 			"src": "/sections/ecommerce/discount-badge/discount-badge.html",
 			"discount": 20,
 			"label": "OFF"
-		}
-	]
+		},
+                {
+                        "src": "/sections/media/video-embed/video-embed.html",
+                        "video": "https://www.w3schools.com/html/mov_bbb.mp4",
+                        "poster": "img/spider.svg",
+                        "title": "Embedded Video",
+                        "description": "Example of the video embed section",
+                        "autoplay": false,
+                        "loop": false,
+                        "muted": false
+                },
+                {
+                        "src": "/sections/education/certificate/certificate.html",
+                        "title": "Certificate of Completion",
+                        "recipient": "Jane Doe",
+                        "course": "Intro to AI",
+                        "issuer": "Web Academy",
+                        "date": "2024-01-01",
+                        "id": "CERT-12345"
+                },
+                {
+                        "src": "/sections/education/comparison-table/comparison-table.html",
+                        "headers": ["Basic", "Pro"],
+                        "rows": [
+                                { "feature": "Lessons", "values": ["10", "20"] },
+                                { "feature": "Support", "values": ["Email", "24/7"] }
+                        ]
+                },
+                {
+                        "src": "/sections/education/instructor/instructor.html",
+                        "img": "/img/instructor.jpg",
+                        "name": "Dr. Smith",
+                        "role": "Professor",
+                        "bio": "Expert in web technologies.",
+                        "socials": [
+                                { "href": "https://twitter.com", "img": "/img/twitter.svg", "name": "Twitter" }
+                        ]
+                },
+                {
+                        "src": "/sections/education/lesson-list/lesson-list.html",
+                        "title": "Course Lessons",
+                        "lessons": [
+                                { "name": "Introduction", "duration": "5m" },
+                                { "name": "Advanced Topics", "duration": "15m", "completed": true }
+                        ]
+                },
+                {
+                        "src": "/sections/education/progress/progress.html",
+                        "title": "Course Progress",
+                        "description": "Track completion",
+                        "items": [
+                                { "label": "Module 1", "value": 40 },
+                                { "label": "Module 2", "value": 80 }
+                        ]
+                },
+                {
+                        "src": "/sections/education/quiz/quiz.html",
+                        "question": "What is 2 + 2?",
+                        "options": ["3", "4", "5"],
+                        "answer": 1
+                },
+                {
+                        "src": "/sections/education/syllabus/syllabus.html",
+                        "title": "Syllabus",
+                        "modules": [
+                                {
+                                        "title": "Module 1",
+                                        "duration": "1h",
+                                        "description": "Overview",
+                                        "lessons": [
+                                                { "title": "Lesson 1", "duration": "10m" },
+                                                { "title": "Lesson 2", "duration": "20m" }
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "src": "/sections/education/timeline/timeline.html",
+                        "title": "Timeline",
+                        "description": "Learning path",
+                        "items": [
+                                { "time": "Week 1", "label": "Start", "text": "Basics" },
+                                { "time": "Week 2", "label": "Practice", "text": "Exercises" }
+                        ]
+                },
+                {
+                        "src": "/sections/feedback/press-logos/press-logos.html",
+                        "title": "As Seen In",
+                        "logos": [
+                                { "img": "/img/logo1.png", "alt": "Logo 1" },
+                                { "img": "/img/logo2.png", "alt": "Logo 2" }
+                        ]
+                },
+                {
+                        "src": "/sections/feedback/review-carousel/review-carousel.html",
+                        "title": "Reviews",
+                        "reviews": [
+                                { "text": "Great course!", "author": "Alice" },
+                                { "text": "Loved it!", "author": "Bob" }
+                        ]
+                },
+                {
+                        "src": "/sections/feedback/testimonial-block/testimonial-block.html",
+                        "title": "Testimonials",
+                        "items": [
+                                { "img": "/img/user1.jpg", "quote": "Fantastic!", "author": "Carol", "role": "Designer" },
+                                { "img": "/img/user2.jpg", "quote": "Very useful", "author": "Dave", "role": "Developer" }
+                        ]
+                },
+                {
+                        "src": "/sections/feedback/trust-badges/trust-badges.html",
+                        "badges": [
+                                { "img": "/img/badge1.png", "alt": "Badge 1", "href": "#" },
+                                { "img": "/img/badge2.png", "alt": "Badge 2" }
+                        ]
+                },
+                {
+                        "src": "/sections/forms/application/application.html",
+                        "title": "Job Application",
+                        "description": "Apply for position",
+                        "submit": "Send Application"
+                },
+                {
+                        "src": "/sections/forms/contact/contact.html",
+                        "title": "Contact Us",
+                        "description": "We'd love to hear from you",
+                        "action": "/contact",
+                        "namePlaceholder": "Your name",
+                        "emailPlaceholder": "you@example.com",
+                        "messagePlaceholder": "Your message",
+                        "buttonText": "Send"
+                },
+                {
+                        "src": "/sections/forms/multistep/multistep.html"
+                },
+                {
+                        "src": "/sections/forms/newsletter/newsletter.html",
+                        "title": "Newsletter",
+                        "description": "Get updates",
+                        "action": "/subscribe",
+                        "placeholder": "Email address",
+                        "button": "Subscribe"
+                },
+                {
+                        "src": "/sections/forms/rsvp/rsvp.html",
+                        "title": "RSVP",
+                        "description": "Let us know",
+                        "action": "/rsvp",
+                        "buttonText": "Submit"
+                },
+                {
+                        "src": "/sections/forms/survey/survey.html",
+                        "title": "Survey",
+                        "description": "Tell us more",
+                        "questions": [
+                                { "name": "name", "label": "Your Name", "type": "text", "placeholder": "Name" },
+                                { "name": "feedback", "label": "Feedback", "type": "textarea", "placeholder": "Comment" },
+                                {
+                                        "name": "rating",
+                                        "label": "Rate",
+                                        "type": "select",
+                                        "options": [
+                                                { "value": "1", "label": "1" },
+                                                { "value": "2", "label": "2" }
+                                        ]
+                                }
+                        ],
+                        "submitText": "Send"
+                },
+                {
+                        "src": "/sections/forms/upload/upload.html",
+                        "action": "/upload",
+                        "buttonLabel": "Upload File"
+                },
+                {
+                        "src": "/sections/hero.html",
+                        "title": "Welcome",
+                        "description": "Start your journey",
+                        "img": "/img/hero-main.jpg",
+                        "imgs": ["/img/hero-1.jpg", "/img/hero-2.jpg"]
+                },
+                {
+                        "src": "/sections/layout/background/background.html",
+                        "color": "#f0f0f0",
+                        "image": "/img/bg.png",
+                        "size": "cover",
+                        "position": "center",
+                        "content": "<p>Background content</p>"
+                },
+                {
+                        "src": "/sections/layout/collapse/collapse.html",
+                        "title": "Details",
+                        "content": "<p>Hidden text</p>",
+                        "open": false
+                },
+                {
+                        "src": "/sections/layout/container/container.html",
+                        "size": "md",
+                        "content": "<p>Contained content</p>"
+                },
+                {
+                        "src": "/sections/layout/divider/divider.html",
+                        "text": "OR"
+                },
+                {
+                        "src": "/sections/layout/grid/grid.html",
+                        "min": "200px",
+                        "items": [
+                                { "content": "<p>Item 1</p>" },
+                                { "content": "<p>Item 2</p>" }
+                        ]
+                },
+                {
+                        "src": "/sections/layout/responsive-visibility/responsive-visibility.html"
+                },
+                {
+                        "src": "/sections/layout/scroll-area/scroll-area.html",
+                        "height": "200px",
+                        "content": "<p>Scrollable content</p>"
+                },
+                {
+                        "src": "/sections/layout/spacer/spacer.html",
+                        "size": "60px"
+                },
+                {
+                        "src": "/sections/layout/sticky/sticky.html",
+                        "id": "sticky-1",
+                        "content": "<p>Sticky content</p>"
+                },
+                {
+                        "src": "/sections/layout/tabs/tabs.html",
+                        "tabs": [
+                                { "label": "Tab 1", "content": "<p>Content 1</p>" },
+                                { "label": "Tab 2", "content": "<p>Content 2</p>" }
+                        ]
+                },
+                {
+                        "src": "/sections/media/animated-banner/animated-banner.html",
+                        "img": "/img/banner.jpg",
+                        "title": "Banner Title",
+                        "subtitle": "Subheading"
+                },
+                {
+                        "src": "/sections/media/audio-player/audio-player.html",
+                        "audio": "/media/sample.mp3",
+                        "title": "Sample Audio",
+                        "description": "Listen to this clip",
+                        "autoplay": false,
+                        "loop": false
+                },
+                {
+                        "src": "/sections/media/gallery/gallery.html",
+                        "items": [
+                                { "img": "/img/photo1.jpg", "alt": "Photo 1" },
+                                { "img": "/img/photo2.jpg", "alt": "Photo 2" }
+                        ],
+                        "caption": "Gallery caption"
+                },
+                {
+                        "src": "/sections/media/image-caption/image-caption.html",
+                        "img": "/img/pic.jpg",
+                        "caption": "Image caption"
+                },
+                {
+                        "src": "/sections/media/image/image.html",
+                        "img": "/img/pic.jpg",
+                        "alt": "Sample image",
+                        "caption": "Caption"
+                },
+                {
+                        "src": "/sections/media/lightbox/lightbox.html",
+                        "thumbnail": "/img/thumb.jpg",
+                        "image": "/img/full.jpg",
+                        "alt": "Lightbox image",
+                        "caption": "Click to enlarge"
+                },
+                {
+                        "src": "/sections/media/slider/slider.html",
+                        "slides": [
+                                { "img": "/img/slide1.jpg", "alt": "Slide 1" },
+                                { "img": "/img/slide2.jpg", "alt": "Slide 2" }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/anchor-links/anchor-links.html",
+                        "links": [
+                                { "href": "#section1", "label": "Section 1" },
+                                { "href": "#section2", "label": "Section 2" }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/breadcrumbs/breadcrumbs.html",
+                        "items": [
+                                { "url": "/", "label": "Home" },
+                                { "url": "/blog", "label": "Blog" },
+                                { "label": "Post" }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/mega-menu/mega-menu.html",
+                        "items": [
+                                {
+                                        "url": "/products",
+                                        "title": "Products",
+                                        "columns": [
+                                                {
+                                                        "title": "Category",
+                                                        "links": [
+                                                                { "url": "/products/a", "title": "Product A" },
+                                                                { "url": "/products/b", "title": "Product B" }
+                                                        ]
+                                                }
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/navbar/navbar.html",
+                        "logo": "/img/logo.png",
+                        "logoUrl": "/",
+                        "logoAlt": "Logo",
+                        "items": [
+                                { "url": "/about", "label": "About" },
+                                { "url": "/contact", "label": "Contact" }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/pagination/pagination.html",
+                        "prev": "/page/1",
+                        "next": "/page/3",
+                        "pages": [
+                                { "url": "/page/1", "label": "1" },
+                                { "url": "/page/2", "label": "2", "current": true },
+                                { "label": "3" }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/scroll-to-top/scroll-to-top.html"
+                },
+                {
+                        "src": "/sections/navigation/sidebar/sidebar.html",
+                        "items": [
+                                { "url": "/dashboard", "name": "Dashboard", "active": true },
+                                {
+                                        "url": "/settings",
+                                        "name": "Settings",
+                                        "items": [
+                                                { "url": "/settings/profile", "name": "Profile" },
+                                                { "url": "/settings/billing", "name": "Billing", "active": true }
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "src": "/sections/navigation/table-of-contents/table-of-contents.html",
+                        "title": "Contents",
+                        "items": [
+                                { "id": "intro", "text": "Introduction" },
+                                { "id": "usage", "text": "Usage", "children": [ { "id": "install", "text": "Install" } ] }
+                        ]
+                },
+                {
+                        "src": "/sections/seo/article-schema/article-schema.html",
+                        "headline": "Sample Article",
+                        "image": "/img/article.jpg",
+                        "datePublished": "2024-01-01",
+                        "dateModified": "2024-01-02",
+                        "author": "Author Name",
+                        "publisherName": "Publisher",
+                        "publisherLogo": "/img/logo.png",
+                        "url": "https://example.com/article"
+                },
+                {
+                        "src": "/sections/seo/breadcrumb-schema/breadcrumb-schema.html",
+                        "items": [
+                                { "name": "Home", "url": "/" },
+                                { "name": "Blog", "url": "/blog" },
+                                { "name": "Post" }
+                        ]
+                },
+                {
+                        "src": "/sections/seo/faq-schema/faq-schema.html",
+                        "items": [
+                                { "question": "Q1?", "answer": "A1" },
+                                { "question": "Q2?", "answer": "A2" }
+                        ]
+                },
+                {
+                        "src": "/sections/seo/meta-preview/meta-preview.html",
+                        "image": "/img/meta.png",
+                        "title": "Meta Title",
+                        "url": "https://example.com",
+                        "description": "Meta description"
+                },
+                {
+                        "src": "/sections/seo/og-preview/og-preview.html",
+                        "image": "/img/og.png",
+                        "url": "https://example.com",
+                        "title": "OG Title",
+                        "description": "OG description"
+                },
+                {
+                        "src": "/sections/seo/product-schema/product-schema.html",
+                        "name": "Product",
+                        "description": "Product description",
+                        "image": "/img/product.png",
+                        "sku": "SKU123",
+                        "brand": "Brand",
+                        "url": "https://example.com/product",
+                        "price": "99.99",
+                        "priceCurrency": "USD",
+                        "availability": "InStock"
+                },
+                {
+                        "src": "/sections/seo/structured-data/structured-data.html",
+                        "data": "{\"@context\":\"https://schema.org\",\"@type\":\"Thing\",\"name\":\"Example\"}"
+                },
+                {
+                        "src": "/sections/utility/alert/alert.html",
+                        "type": "info",
+                        "close": true,
+                        "title": "Notice",
+                        "message": "This is an alert"
+                },
+                {
+                        "src": "/sections/utility/cookie-banner/cookie-banner.html",
+                        "text": "We use cookies",
+                        "link": { "url": "/privacy", "label": "Learn more" },
+                        "button": "Accept"
+                },
+                {
+                        "src": "/sections/utility/countdown/countdown.html",
+                        "title": "Countdown",
+                        "description": "Event starts in",
+                        "endDate": "2024-12-31T23:59:59Z"
+                },
+                {
+                        "src": "/sections/utility/embed/embed.html",
+                        "title": "Embedded Content",
+                        "embed": "<iframe src='https://example.com'></iframe>",
+                        "caption": "Embedded iframe"
+                },
+                {
+                        "src": "/sections/utility/language-switcher/language-switcher.html",
+                        "label": "Language",
+                        "languages": [
+                                { "url": "/en", "label": "EN", "current": true },
+                                { "url": "/es", "label": "ES" }
+                        ]
+                },
+                {
+                        "src": "/sections/utility/notification/notification.html",
+                        "type": "success",
+                        "message": "Saved successfully"
+                },
+                {
+                        "src": "/sections/utility/progress-bar/progress-bar.html",
+                        "value": 30,
+                        "max": 100,
+                        "label": "30% Complete"
+                },
+                {
+                        "src": "/sections/utility/social-feed/social-feed.html",
+                        "items": [
+                                { "avatar": "/img/user1.jpg", "name": "Alice", "handle": "@alice", "time": "1h", "text": "Hello world" },
+                                { "avatar": "/img/user2.jpg", "name": "Bob", "text": "Nice post" }
+                        ]
+                },
+                {
+                        "src": "/sections/utility/social-share/social-share.html",
+                        "url": "https://example.com",
+                        "networks": ["facebook", "linkedin", "telegram"]
+                }
+        ]
 }
