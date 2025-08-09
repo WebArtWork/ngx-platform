@@ -4530,6 +4530,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .application {
         max-width: 600px;
@@ -5982,3 +5983,78 @@ ul {
         }
 }
 >>>>>>> 292730add9dcdf7e46873331ca5d340eb0c52b7b
+=======
+.mega-menu {
+        font-family: var(--ff-base);
+        background-color: var(--c-body);
+}
+.mega-menu__list {
+        display: flex;
+        gap: calc(20px * var(--margin-scale));
+        list-style: none;
+        margin: 0;
+        padding: 0;
+}
+.mega-menu__item {
+        position: relative;
+}
+.mega-menu__toggle {
+        display: block;
+        padding: calc(10px * var(--padding-scale)) calc(15px * var(--padding-scale));
+        color: var(--c-text-primary);
+        text-decoration: none;
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+}
+.mega-menu__content {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
+        background-color: var(--c-bg-item);
+        box-shadow: 0 4px 8px var(--c-shadow);
+        padding: calc(20px * var(--padding-scale));
+}
+.mega-menu__item--open .mega-menu__content {
+        display: flex;
+}
+.mega-menu__column {
+        flex: 1;
+        padding: 0 calc(15px * var(--padding-scale));
+}
+.mega-menu__column-title {
+        font-family: var(--ff-title);
+        font-weight: 600;
+        color: var(--c-text-primary);
+        margin-bottom: calc(10px * var(--margin-scale));
+}
+.mega-menu__links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+}
+.mega-menu__link {
+        display: block;
+        padding: calc(4px * var(--padding-scale)) 0;
+        color: var(--c-text-body-secondary);
+        text-decoration: none;
+        font-size: var(--font-size);
+        transition: color var(--transition);
+}
+.mega-menu__link:hover {
+        color: var(--c-primary-hover);
+}
+@media screen and (max-width: var(--bp-md)) {
+        .mega-menu__list {
+                flex-direction: column;
+        }
+        .mega-menu__item--open .mega-menu__content {
+                position: static;
+        }
+        .mega-menu__content {
+                box-shadow: none;
+                padding: calc(10px * var(--padding-scale));
+        }
+}
+>>>>>>> ad42c23376cfb1b26fb46463761599d10eb750e7
