@@ -15,28 +15,28 @@ Reusable survey form section that renders dynamic questions with multiple input 
 
 ```json
 {
-        "src": "/sections/forms/survey/survey.html",
-        "title": "Survey title",
-        "description": "Short optional description",
-        "submitText": "Send",
-        "questions": [
-                {
-                        "type": "radio",
-                        "name": "experience",
-                        "label": "How was your experience?",
-                        "options": [
-                                { "label": "Great", "value": "great" },
-                                { "label": "Average", "value": "average" },
-                                { "label": "Poor", "value": "poor" }
-                        ]
-                },
-                {
-                        "type": "text",
-                        "name": "email",
-                        "label": "Email address",
-                        "placeholder": "you@example.com"
-                }
-        ]
+	"src": "/sections/forms/survey/survey.html",
+	"title": "Survey title",
+	"description": "Short optional description",
+	"submitText": "Send",
+	"questions": [
+		{
+			"type": "radio",
+			"name": "experience",
+			"label": "How was your experience?",
+			"options": [
+				{ "label": "Great", "value": "great" },
+				{ "label": "Average", "value": "average" },
+				{ "label": "Poor", "value": "poor" }
+			]
+		},
+		{
+			"type": "text",
+			"name": "email",
+			"label": "Email address",
+			"placeholder": "you@example.com"
+		}
+	]
 }
 ```
 
@@ -44,60 +44,74 @@ Reusable survey form section that renders dynamic questions with multiple input 
 
 ```html
 <form class="survey">
-        {% if section.title %}
-        <div class="survey__title">{{{section.title}}}</div>
-        {% endif %}
-        {% if section.description %}
-        <div class="survey__description">{{{section.description}}}</div>
-        {% endif %}
+	{% if section.title %}
+	<div class="survey__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="survey__description">{{{section.description}}}</div>
+	{% endif %} {% if section.questions %}
+	<div class="survey__questions">
+		{% for question in section.questions %}
+		<div class="survey__question">
+			{% if question.label %}
+			<label class="survey__label" for="{{question.name}}"
+				>{{{question.label}}}</label
+			>
+			{% endif %} {% if question.type == 'text' %}
+			<input
+				class="survey__input"
+				type="text"
+				id="{{question.name}}"
+				name="{{question.name}}"
+				placeholder="{{question.placeholder}}"
+			/>
+			{% endif %} {% if question.type == 'textarea' %}
+			<textarea
+				class="survey__textarea"
+				id="{{question.name}}"
+				name="{{question.name}}"
+				placeholder="{{question.placeholder}}"
+			></textarea>
+			{% endif %} {% if question.type == 'select' %}
+			<select
+				class="survey__select"
+				id="{{question.name}}"
+				name="{{question.name}}"
+			>
+				{% for option in question.options %}
+				<option value="{{option.value}}">{{{option.label}}}</option>
+				{% endfor %}
+			</select>
+			{% endif %} {% if question.type == 'radio' %} {% for option in
+			question.options %}
+			<label class="survey__option">
+				<input
+					class="survey__radio"
+					type="radio"
+					name="{{question.name}}"
+					value="{{option.value}}"
+				/>
+				<span>{{{option.label}}}</span>
+			</label>
+			{% endfor %} {% endif %} {% if question.type == 'checkbox' %} {% for
+			option in question.options %}
+			<label class="survey__option">
+				<input
+					class="survey__checkbox"
+					type="checkbox"
+					name="{{question.name}}"
+					value="{{option.value}}"
+				/>
+				<span>{{{option.label}}}</span>
+			</label>
+			{% endfor %} {% endif %}
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
 
-        {% if section.questions %}
-        <div class="survey__questions">
-                {% for question in section.questions %}
-                <div class="survey__question">
-                        {% if question.label %}
-                        <label class="survey__label" for="{{question.name}}">{{{question.label}}}</label>
-                        {% endif %}
-
-                        {% if question.type == 'text' %}
-                        <input class="survey__input" type="text" id="{{question.name}}" name="{{question.name}}" placeholder="{{question.placeholder}}" />
-                        {% endif %}
-
-                        {% if question.type == 'textarea' %}
-                        <textarea class="survey__textarea" id="{{question.name}}" name="{{question.name}}" placeholder="{{question.placeholder}}"></textarea>
-                        {% endif %}
-
-                        {% if question.type == 'select' %}
-                        <select class="survey__select" id="{{question.name}}" name="{{question.name}}">
-                                {% for option in question.options %}
-                                <option value="{{option.value}}">{{{option.label}}}</option>
-                                {% endfor %}
-                        </select>
-                        {% endif %}
-
-                        {% if question.type == 'radio' %}
-                        {% for option in question.options %}
-                        <label class="survey__option">
-                                <input class="survey__radio" type="radio" name="{{question.name}}" value="{{option.value}}" />
-                                <span>{{{option.label}}}</span>
-                        </label>
-                        {% endfor %}
-                        {% endif %}
-
-                        {% if question.type == 'checkbox' %}
-                        {% for option in question.options %}
-                        <label class="survey__option">
-                                <input class="survey__checkbox" type="checkbox" name="{{question.name}}" value="{{option.value}}" />
-                                <span>{{{option.label}}}</span>
-                        </label>
-                        {% endfor %}
-                        {% endif %}
-                </div>
-                {% endfor %}
-        </div>
-        {% endif %}
-
-        <button class="survey__submit" type="submit">{{{section.submitText || 'Submit'}}}</button>
+	<button class="survey__submit" type="submit">
+		{{{section.submitText || 'Submit'}}}
+	</button>
 </form>
 ```
 
@@ -114,8 +128,8 @@ Reusable survey form section that renders dynamic questions with multiple input 
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                  | Description                                      |
-| ------------------------- | ------------------------------------------------ |
+| Variable                  | Description                                     |
+| ------------------------- | ----------------------------------------------- |
 | `--padding-scale`         | Scales padding in container and inputs          |
 | `--margin-scale`          | Controls vertical spacing between elements      |
 | `--ff-base`               | Base font for form elements                     |

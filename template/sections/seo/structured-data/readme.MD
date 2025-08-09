@@ -16,8 +16,8 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/seo/structured-data/structured-data.html",
-        "data": "{ \"@context\": \"https://schema.org\", \"@type\": \"WebSite\" }"
+	"src": "/sections/seo/structured-data/structured-data.html",
+	"data": "{ \"@context\": \"https://schema.org\", \"@type\": \"WebSite\" }"
 }
 ```
 
@@ -26,7 +26,7 @@ This section expects the following data structure passed via `section`:
 ```html
 {% if section.data %}
 <script type="application/ld+json">
-{{{section.data}}}
+	{{{section.data}}}
 </script>
 {% endif %}
 ```

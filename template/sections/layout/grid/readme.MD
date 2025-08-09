@@ -15,12 +15,12 @@ Responsive multi-column layout utility built with CSS Grid. Renders an array of 
 
 ```json
 {
-  "src": "/sections/layout/grid/grid.html",
-  "min": "200px",
-  "items": [
-    { "content": "<div>First item</div>" },
-    { "content": "<div>Second item</div>" }
-  ]
+	"src": "/sections/layout/grid/grid.html",
+	"min": "200px",
+	"items": [
+		{ "content": "<div>First item</div>" },
+		{ "content": "<div>Second item</div>" }
+	]
 }
 ```
 
@@ -28,9 +28,9 @@ Responsive multi-column layout utility built with CSS Grid. Renders an array of 
 
 ```html
 <div class="grid" style="--grid-min: {{{section.min}}};">
-        {% for item in section.items %}
-        <div class="grid__item">{{{item.content}}}</div>
-        {% endfor %}
+	{% for item in section.items %}
+	<div class="grid__item">{{{item.content}}}</div>
+	{% endfor %}
 </div>
 ```
 
@@ -46,8 +46,8 @@ Responsive multi-column layout utility built with CSS Grid. Renders an array of 
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable          | Description                                       |
-| ----------------- | ------------------------------------------------- |
-| `--padding-scale` | Controls bottom padding                           |
-| `--margin-scale`  | Gap between grid items                            |
-| `--bp-sm`         | Breakpoint at which grid becomes a single column  |
+| Variable          | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `--padding-scale` | Controls bottom padding                          |
+| `--margin-scale`  | Gap between grid items                           |
+| `--bp-sm`         | Breakpoint at which grid becomes a single column |

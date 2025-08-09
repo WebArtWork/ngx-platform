@@ -16,9 +16,9 @@ File upload form with progress indicator and status messaging.
 
 ```json
 {
-  "src": "/sections/forms/upload/upload.html",
-  "action": "/api/upload",
-  "buttonLabel": "Upload"
+	"src": "/sections/forms/upload/upload.html",
+	"action": "/api/upload",
+	"buttonLabel": "Upload"
 }
 ```
 
@@ -26,15 +26,17 @@ File upload form with progress indicator and status messaging.
 
 ```html
 <div class="upload">
-    <input class="upload__input" type="file" id="uploadInput" />
-    <button class="upload__button" id="uploadButton">{{{section.buttonLabel || 'Upload'}}}</button>
-    <div class="upload__progress" id="uploadProgress"></div>
-    <div class="upload__status" id="uploadStatus"></div>
+	<input class="upload__input" type="file" id="uploadInput" />
+	<button class="upload__button" id="uploadButton">
+		{{{section.buttonLabel || 'Upload'}}}
+	</button>
+	<div class="upload__progress" id="uploadProgress"></div>
+	<div class="upload__status" id="uploadStatus"></div>
 </div>
 <script>
-    (function () {
-        // upload logic...
-    })();
+	(function () {
+		// upload logic...
+	})();
 </script>
 ```
 
@@ -51,20 +53,20 @@ File upload form with progress indicator and status messaging.
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable | Description |
-| --- | --- |
-| `--ff-base` | Base font family |
-| `--padding-scale` | Vertical padding units |
-| `--margin-scale` | Spacing between elements |
-| `--c-border` | Input border color |
-| `--c-bg-item` | Input background color |
-| `--c-text-primary` | Input text color |
-| `--c-primary` | Button and progress background |
-| `--c-primary-hover` | Button hover color |
-| `--b-radius` | Rounding for inputs and bars |
-| `--transition` | Transition for interactions |
-| `--c-text-secondary` | Status default color |
-| `--c-success` | Success status color |
-| `--c-error` | Error status color |
-| `--font-size` | Base font size for status |
-| `--line-height` | Line height for status |
+| Variable             | Description                    |
+| -------------------- | ------------------------------ |
+| `--ff-base`          | Base font family               |
+| `--padding-scale`    | Vertical padding units         |
+| `--margin-scale`     | Spacing between elements       |
+| `--c-border`         | Input border color             |
+| `--c-bg-item`        | Input background color         |
+| `--c-text-primary`   | Input text color               |
+| `--c-primary`        | Button and progress background |
+| `--c-primary-hover`  | Button hover color             |
+| `--b-radius`         | Rounding for inputs and bars   |
+| `--transition`       | Transition for interactions    |
+| `--c-text-secondary` | Status default color           |
+| `--c-success`        | Success status color           |
+| `--c-error`          | Error status color             |
+| `--font-size`        | Base font size for status      |
+| `--line-height`      | Line height for status         |

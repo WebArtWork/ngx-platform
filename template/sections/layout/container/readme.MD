@@ -15,9 +15,9 @@ Responsive layout container that centers page content and constrains its width.
 
 ```json
 {
-        "src": "/sections/layout/container/container.html",
-        "size": "sm", // optional: sm, md, lg, fluid (default lg)
-        "content": "<p>Inner HTML content</p>"
+	"src": "/sections/layout/container/container.html",
+	"size": "sm", // optional: sm, md, lg, fluid (default lg)
+	"content": "<p>Inner HTML content</p>"
 }
 ```
 
@@ -26,9 +26,7 @@ Responsive layout container that centers page content and constrains its width.
 ```html
 {% set size = section.size or 'lg' %}
 <div class="container container--{{{size}}}">
-        {% if section.content %}
-        {{{section.content}}}
-        {% endif %}
+	{% if section.content %} {{{section.content}}} {% endif %}
 </div>
 ```
 
@@ -44,9 +42,9 @@ Responsive layout container that centers page content and constrains its width.
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable          | Description                                    |
-| ----------------- | ---------------------------------------------- |
-| `--padding-scale` | Scales horizontal padding                      |
-| `--bp-sm`         | Max width for small containers                 |
-| `--bp-md`         | Max width for medium containers                |
-| `--bp-lg`         | Max width for large containers                 |
+| Variable          | Description                     |
+| ----------------- | ------------------------------- |
+| `--padding-scale` | Scales horizontal padding       |
+| `--bp-sm`         | Max width for small containers  |
+| `--bp-md`         | Max width for medium containers |
+| `--bp-lg`         | Max width for large containers  |

@@ -17,11 +17,11 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/media/slider/slider.html",
-        "slides": [
-                { "img": "/img/slide1.jpg", "alt": "First slide" },
-                { "img": "/img/slide2.jpg", "alt": "Second slide" }
-        ]
+	"src": "/sections/media/slider/slider.html",
+	"slides": [
+		{ "img": "/img/slide1.jpg", "alt": "First slide" },
+		{ "img": "/img/slide2.jpg", "alt": "Second slide" }
+	]
 }
 ```
 
@@ -29,19 +29,19 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="slider">
-        <div class="slider__container">
-                {% for slide in section.slides %}
-                <div class="slider__slide">
-                        <img src="{{{slide.img}}}" alt="{{{slide.alt}}}" />
-                </div>
-                {% endfor %}
-        </div>
-        <button class="slider__button slider__button--prev">&#10094;</button>
-        <button class="slider__button slider__button--next">&#10095;</button>
-        <div class="slider__dots"></div>
+	<div class="slider__container">
+		{% for slide in section.slides %}
+		<div class="slider__slide">
+			<img src="{{{slide.img}}}" alt="{{{slide.alt}}}" />
+		</div>
+		{% endfor %}
+	</div>
+	<button class="slider__button slider__button--prev">&#10094;</button>
+	<button class="slider__button slider__button--next">&#10095;</button>
+	<div class="slider__dots"></div>
 </div>
 <script>
-// Slider logic omitted for brevity
+	// Slider logic omitted for brevity
 </script>
 ```
 
@@ -49,12 +49,15 @@ This section expects the following data structure passed via `section`:
 
 ## 🎨 Theme Variables Used (from `template.json`)
 
-| Variable              | Description                             |
-| --------------------- | --------------------------------------- |
-| `--padding-scale`     | Controls spacing and slide height       |
-| `--transition`        | Transition for sliding animation        |
-| `--b-radius`          | Rounds slider container corners         |
-| `--c-bg-item`         | Background color of slider container    |
-| `--c-white`           | Base color for controls and dots        |
-| `--c-text-primary`    | Hover color for navigation buttons      |
+| Variable           | Description                          |
+| ------------------ | ------------------------------------ |
+| `--padding-scale`  | Controls spacing and slide height    |
+| `--transition`     | Transition for sliding animation     |
+| `--b-radius`       | Rounds slider container corners      |
+| `--c-bg-item`      | Background color of slider container |
+| `--c-white`        | Base color for controls and dots     |
+| `--c-text-primary` | Hover color for navigation buttons   |
+
+```
+
 ```

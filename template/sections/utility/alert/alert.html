@@ -1,13 +1,9 @@
 <div class="alert alert--{{section.type}}">
-        {% if section.close %}
-        <button class="alert__close" type="button">&times;</button>
-        {% endif %}
-
-        {% if section.title %}
-        <div class="alert__title">{{{section.title}}}</div>
-        {% endif %}
-
-        {% if section.message %}
-        <div class="alert__message">{{{section.message}}}</div>
-        {% endif %}
+	{% if section.close %}
+	<button class="alert__close" type="button">&times;</button>
+	{% endif %} {% if section.title %}
+	<div class="alert__title">{{{section.title}}}</div>
+	{% endif %} {% if section.message %}
+	<div class="alert__message">{{{section.message}}}</div>
+	{% endif %}
 </div>

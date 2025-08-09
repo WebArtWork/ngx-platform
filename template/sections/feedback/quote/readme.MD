@@ -15,10 +15,10 @@ Simple quote block for highlighting user feedback or testimonials. Supports opti
 
 ```json
 {
-        "src": "/sections/feedback/quote/quote.html",
-        "img": "/img/avatar.jpg",
-        "quote": "An inspiring message goes here.",
-        "author": "Name, Company"
+	"src": "/sections/feedback/quote/quote.html",
+	"img": "/img/avatar.jpg",
+	"quote": "An inspiring message goes here.",
+	"author": "Name, Company"
 }
 ```
 
@@ -26,15 +26,15 @@ Simple quote block for highlighting user feedback or testimonials. Supports opti
 
 ```html
 <div class="quote">
-        {% if section.img %}
-        <div class="quote__img">
-                <img src="{{{section.img}}}" alt="" />
-        </div>
-        {% endif %} {% if section.quote %}
-        <div class="quote__text">{{{section.quote}}}</div>
-        {% endif %} {% if section.author %}
-        <div class="quote__author">{{{section.author}}}</div>
-        {% endif %}
+	{% if section.img %}
+	<div class="quote__img">
+		<img src="{{{section.img}}}" alt="" />
+	</div>
+	{% endif %} {% if section.quote %}
+	<div class="quote__text">{{{section.quote}}}</div>
+	{% endif %} {% if section.author %}
+	<div class="quote__author">{{{section.author}}}</div>
+	{% endif %}
 </div>
 ```
 
@@ -51,16 +51,16 @@ Simple quote block for highlighting user feedback or testimonials. Supports opti
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                        | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--padding-scale`               | Scales padding values in section                   |
-| `--margin-scale`                | Controls margin spacing                            |
-| `--font-size`                   | Base font size for quote                           |
-| `--line-height`                 | Line height for quote                              |
-| `--letter-spacing`              | Letter spacing for quote                           |
-| `--b-radius`                    | Rounds the avatar image                            |
-| `--ff-base`                     | Font for quote text                                |
-| `--ff-title`                    | Font for author name                               |
-| `--c-text-primary`              | Quote text color                                   |
-| `--c-text-body-secondary`       | Author text color                                  |
-| `--bp-md`, `--bp-sm`            | Used in media queries for responsive typography    |
+| Variable                  | Description                                     |
+| ------------------------- | ----------------------------------------------- |
+| `--padding-scale`         | Scales padding values in section                |
+| `--margin-scale`          | Controls margin spacing                         |
+| `--font-size`             | Base font size for quote                        |
+| `--line-height`           | Line height for quote                           |
+| `--letter-spacing`        | Letter spacing for quote                        |
+| `--b-radius`              | Rounds the avatar image                         |
+| `--ff-base`               | Font for quote text                             |
+| `--ff-title`              | Font for author name                            |
+| `--c-text-primary`        | Quote text color                                |
+| `--c-text-body-secondary` | Author text color                               |
+| `--bp-md`, `--bp-sm`      | Used in media queries for responsive typography |

@@ -17,12 +17,12 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/utility/language-switcher/language-switcher.html",
-        "label": "Language",
-        "languages": [
-                { "label": "English", "url": "/en", "current": true },
-                { "label": "Español", "url": "/es" }
-        ]
+	"src": "/sections/utility/language-switcher/language-switcher.html",
+	"label": "Language",
+	"languages": [
+		{ "label": "English", "url": "/en", "current": true },
+		{ "label": "Español", "url": "/es" }
+	]
 }
 ```
 
@@ -30,24 +30,23 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="language-switcher">
-        {% if section.label %}
-        <label for="language-switcher__select" class="language-switcher__label">
-                {{{section.label}}}
-        </label>
-        {% endif %}
-        {% if section.languages %}
-        <select
-                id="language-switcher__select"
-                class="language-switcher__select"
-                onchange="if(this.value){window.location.href=this.value}"
-        >
-                {% for l in section.languages %}
-                <option value="{{{l.url}}}" {% if l.current %}selected{% endif %}>
-                        {{{l.label}}}
-                </option>
-                {% endfor %}
-        </select>
-        {% endif %}
+	{% if section.label %}
+	<label for="language-switcher__select" class="language-switcher__label">
+		{{{section.label}}}
+	</label>
+	{% endif %} {% if section.languages %}
+	<select
+		id="language-switcher__select"
+		class="language-switcher__select"
+		onchange="if(this.value){window.location.href=this.value}"
+	>
+		{% for l in section.languages %}
+		<option value="{{{l.url}}}" {% if l.current %}selected{% endif %}>
+			{{{l.label}}}
+		</option>
+		{% endfor %}
+	</select>
+	{% endif %}
 </div>
 ```
 

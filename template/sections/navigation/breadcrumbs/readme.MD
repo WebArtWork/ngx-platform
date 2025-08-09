@@ -17,12 +17,12 @@ This section expects the following data structure:
 
 ```json
 {
-        "src": "/sections/navigation/breadcrumbs/breadcrumbs.html",
-        "items": [
-                { "label": "Home", "url": "/" },
-                { "label": "Docs", "url": "/docs" },
-                { "label": "API" }
-        ]
+	"src": "/sections/navigation/breadcrumbs/breadcrumbs.html",
+	"items": [
+		{ "label": "Home", "url": "/" },
+		{ "label": "Docs", "url": "/docs" },
+		{ "label": "API" }
+	]
 }
 ```
 
@@ -30,14 +30,16 @@ This section expects the following data structure:
 
 ```html
 <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol class="breadcrumbs__list">
-                <li class="breadcrumbs__item">
-                        <a href="{{{item.url}}}" class="breadcrumbs__link">{{{item.label}}}</a>
-                </li>
-                <li class="breadcrumbs__item">
-                        <span class="breadcrumbs__current">{{{item.label}}}</span>
-                </li>
-        </ol>
+	<ol class="breadcrumbs__list">
+		<li class="breadcrumbs__item">
+			<a href="{{{item.url}}}" class="breadcrumbs__link"
+				>{{{item.label}}}</a
+			>
+		</li>
+		<li class="breadcrumbs__item">
+			<span class="breadcrumbs__current">{{{item.label}}}</span>
+		</li>
+	</ol>
 </nav>
 ```
 
@@ -55,16 +57,16 @@ This section expects the following data structure:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                  | Description                                      |
-| ------------------------- | ------------------------------------------------ |
+| Variable                  | Description                                     |
+| ------------------------- | ----------------------------------------------- |
 | `--padding-scale`         | Vertical padding around breadcrumb bar          |
-| `--margin-scale`          | Space around separators                          |
-| `--font-size`             | Base font size                                   |
-| `--line-height`           | Line height                                      |
-| `--letter-spacing`        | Letter spacing                                   |
-| `--ff-base`               | Font family                                      |
-| `--c-text-secondary`      | Link text color                                  |
-| `--c-text-primary`        | Current item and hover text color                |
-| `--c-text-body-secondary` | Separator color                                  |
-| `--transition`            | Transition for hover states                      |
-| `--bp-sm`                 | Breakpoint for responsive font size adjustments  |
+| `--margin-scale`          | Space around separators                         |
+| `--font-size`             | Base font size                                  |
+| `--line-height`           | Line height                                     |
+| `--letter-spacing`        | Letter spacing                                  |
+| `--ff-base`               | Font family                                     |
+| `--c-text-secondary`      | Link text color                                 |
+| `--c-text-primary`        | Current item and hover text color               |
+| `--c-text-body-secondary` | Separator color                                 |
+| `--transition`            | Transition for hover states                     |
+| `--bp-sm`                 | Breakpoint for responsive font size adjustments |

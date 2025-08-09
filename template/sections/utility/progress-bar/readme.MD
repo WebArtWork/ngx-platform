@@ -15,24 +15,25 @@ Displays a simple progress bar to represent completion or loading state. Support
 
 ```json
 {
-        "src": "/sections/utility/progress-bar/progress-bar.html",
-        "value": 40,
-        "max": 100,
-        "label": "Uploading..."
+	"src": "/sections/utility/progress-bar/progress-bar.html",
+	"value": 40,
+	"max": 100,
+	"label": "Uploading..."
 }
 ```
 
 ## 🧱 HTML Structure
 
 ```html
-{% set value = section.value or 0 %} {% set max = section.max or 100 %} {% set percent = (value / max) * 100 %}
+{% set value = section.value or 0 %} {% set max = section.max or 100 %} {% set
+percent = (value / max) * 100 %}
 <div class="progress-bar">
-        <div class="progress-bar__bar">
-                <div class="progress-bar__progress" style="width: {{{percent}}}%"></div>
-        </div>
-        {% if section.label %}
-        <div class="progress-bar__label">{{{section.label}}}</div>
-        {% endif %}
+	<div class="progress-bar__bar">
+		<div class="progress-bar__progress" style="width: {{{percent}}}%"></div>
+	</div>
+	{% if section.label %}
+	<div class="progress-bar__label">{{{section.label}}}</div>
+	{% endif %}
 </div>
 ```
 

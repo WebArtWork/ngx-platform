@@ -15,12 +15,12 @@ Responsive image gallery section that displays a grid of images with an optional
 
 ```json
 {
-        "src": "/sections/media/gallery/gallery.html",
-        "items": [
-                { "img": "/img/pic1.jpg", "alt": "First image" },
-                { "img": "/img/pic2.jpg", "alt": "Second image" }
-        ],
-        "caption": "Optional gallery caption"
+	"src": "/sections/media/gallery/gallery.html",
+	"items": [
+		{ "img": "/img/pic1.jpg", "alt": "First image" },
+		{ "img": "/img/pic2.jpg", "alt": "Second image" }
+	],
+	"caption": "Optional gallery caption"
 }
 ```
 
@@ -28,11 +28,11 @@ Responsive image gallery section that displays a grid of images with an optional
 
 ```html
 <div class="gallery">
-        <div class="gallery__item">
-                <img src="{{{item.img}}}" alt="{{{item.alt}}}" />
-        </div>
-        ...
-        <div class="gallery__caption">{{{section.caption}}}</div>
+	<div class="gallery__item">
+		<img src="{{{item.img}}}" alt="{{{item.alt}}}" />
+	</div>
+	...
+	<div class="gallery__caption">{{{section.caption}}}</div>
 </div>
 ```
 
@@ -48,18 +48,18 @@ Responsive image gallery section that displays a grid of images with an optional
 
 ## 🤖 Theme Variables Used (from `template.json`)
 
-| Variable                        | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--padding-scale`               | Controls bottom padding                            |
-| `--margin-scale`                | Gap between items and caption spacing             |
-| `--font-size`                   | Caption font size                                  |
-| `--line-height`                 | Caption line height                                |
-| `--letter-spacing`              | Caption letter spacing                             |
-| `--b-radius`                    | Rounds gallery items                               |
-| `--transition`                  | Image hover animation                              |
-| `--ff-base`                     | Font for caption                                   |
-| `--c-bg-item`                   | Background of gallery items                        |
-| `--c-text-body-secondary`       | Caption text color                                 |
-| `--bp-md`, `--bp-sm`            | Responsive breakpoints                             |
+| Variable                  | Description                           |
+| ------------------------- | ------------------------------------- |
+| `--padding-scale`         | Controls bottom padding               |
+| `--margin-scale`          | Gap between items and caption spacing |
+| `--font-size`             | Caption font size                     |
+| `--line-height`           | Caption line height                   |
+| `--letter-spacing`        | Caption letter spacing                |
+| `--b-radius`              | Rounds gallery items                  |
+| `--transition`            | Image hover animation                 |
+| `--ff-base`               | Font for caption                      |
+| `--c-bg-item`             | Background of gallery items           |
+| `--c-text-body-secondary` | Caption text color                    |
+| `--bp-md`, `--bp-sm`      | Responsive breakpoints                |
 
 ---

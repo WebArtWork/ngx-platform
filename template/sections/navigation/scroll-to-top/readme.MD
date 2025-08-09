@@ -17,7 +17,7 @@ This section requires only its source path:
 
 ```json
 {
-        "src": "/sections/navigation/scroll-to-top/scroll-to-top.html"
+	"src": "/sections/navigation/scroll-to-top/scroll-to-top.html"
 }
 ```
 
@@ -25,23 +25,23 @@ This section requires only its source path:
 
 ```html
 <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
-        <span class="material-icons">expand_less</span>
+	<span class="material-icons">expand_less</span>
 </button>
 <script>
-        (function () {
-                var btn = document.getElementById("scrollToTop");
-                if (!btn) return;
-                window.addEventListener("scroll", function () {
-                        if (window.scrollY > window.innerHeight) {
-                                btn.classList.add("scroll-to-top--visible");
-                        } else {
-                                btn.classList.remove("scroll-to-top--visible");
-                        }
-                });
-                btn.addEventListener("click", function () {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                });
-        })();
+	(function () {
+		var btn = document.getElementById("scrollToTop");
+		if (!btn) return;
+		window.addEventListener("scroll", function () {
+			if (window.scrollY > window.innerHeight) {
+				btn.classList.add("scroll-to-top--visible");
+			} else {
+				btn.classList.remove("scroll-to-top--visible");
+			}
+		});
+		btn.addEventListener("click", function () {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		});
+	})();
 </script>
 ```
 
@@ -57,13 +57,13 @@ This section requires only its source path:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable          | Description                                  |
-| ----------------- | -------------------------------------------- |
-| `--padding-scale` | Controls distance from page edges            |
-| `--icon-size`     | Sets the icon size                           |
-| `--b-radius`      | Rounds the button                            |
-| `--c-primary`     | Button background color                      |
-| `--c-primary-hover` | Hover background color                      |
-| `--c-body`        | Icon color                                   |
-| `--transition`    | Fade animation for show/hide                 |
-| `--bp-md`         | Adjusts spacing on medium screens            |
+| Variable            | Description                       |
+| ------------------- | --------------------------------- |
+| `--padding-scale`   | Controls distance from page edges |
+| `--icon-size`       | Sets the icon size                |
+| `--b-radius`        | Rounds the button                 |
+| `--c-primary`       | Button background color           |
+| `--c-primary-hover` | Hover background color            |
+| `--c-body`          | Icon color                        |
+| `--transition`      | Fade animation for show/hide      |
+| `--bp-md`           | Adjusts spacing on medium screens |

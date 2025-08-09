@@ -17,9 +17,9 @@ This section expects the following data structure:
 
 ```json
 {
-        "src": "/sections/layout/scroll-area/scroll-area.html",
-        "height": "200px",
-        "content": "<p>Your scrollable content</p>"
+	"src": "/sections/layout/scroll-area/scroll-area.html",
+	"height": "200px",
+	"content": "<p>Your scrollable content</p>"
 }
 ```
 
@@ -29,9 +29,7 @@ This section expects the following data structure:
 
 ```html
 <div class="scroll-area">
-        <div class="scroll-area__viewport">
-                {{content}}
-        </div>
+	<div class="scroll-area__viewport">{{content}}</div>
 </div>
 ```
 
@@ -47,15 +45,14 @@ This section expects the following data structure:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable           | Description               |
-| ------------------ | ------------------------- |
-| `--padding-scale`  | Controls padding          |
-| `--b-radius`       | Border radius             |
-| `--c-bg-item`      | Background color          |
-| `--c-border`       | Border color              |
-| `--c-primary`      | Scrollbar thumb color     |
-| `--ff-base`        | Base font family          |
-| `--font-size`      | Base font size            |
-| `--line-height`    | Base line height          |
-| `--c-text-primary` | Text color                |
-
+| Variable           | Description           |
+| ------------------ | --------------------- |
+| `--padding-scale`  | Controls padding      |
+| `--b-radius`       | Border radius         |
+| `--c-bg-item`      | Background color      |
+| `--c-border`       | Border color          |
+| `--c-primary`      | Scrollbar thumb color |
+| `--ff-base`        | Base font family      |
+| `--font-size`      | Base font size        |
+| `--line-height`    | Base line height      |
+| `--c-text-primary` | Text color            |

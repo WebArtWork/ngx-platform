@@ -16,10 +16,10 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/layout/collapse/collapse.html",
-        "title": "Header text",
-        "content": "<p>Collapsible content</p>",
-        "open": false
+	"src": "/sections/layout/collapse/collapse.html",
+	"title": "Header text",
+	"content": "<p>Collapsible content</p>",
+	"open": false
 }
 ```
 
@@ -27,13 +27,25 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="collapse">
-        <button class="collapse__header{% if section.open %} collapse__header--open{% endif %}">
-                <div class="collapse__title">{{{section.title}}}</div>
-                <div class="collapse__arrow">...</div>
-        </button>
-        <div class="collapse__body"{% if section.open %} style="max-height: fit-content"{% endif %}>
-                {{{section.content}}}
-        </div>
+	<button
+		class="collapse__header{% if section.open %} collapse__header--open{% endif %}"
+	>
+		<div class="collapse__title">{{{section.title}}}</div>
+		<div class="collapse__arrow">...</div>
+	</button>
+	<div
+		class="collapse__body"
+		{%
+		if
+		section.open
+		%}
+		style="max-height: fit-content"
+		{%
+		endif
+		%}
+	>
+		{{{section.content}}}
+	</div>
 </div>
 ```
 
@@ -49,14 +61,14 @@ This section expects the following data structure passed via `section`:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable            | Description                       |
-| ------------------- | --------------------------------- |
-| `--c-primary-hover` | Border and arrow color            |
-| `--c-bg-item`       | Background for header and body    |
-| `--c-text-primary`  | Text color                        |
-| `--padding-scale`   | Adjusts section padding           |
-| `--margin-scale`    | Adjusts paragraph margins         |
-| `--b-radius`        | Rounds container corners          |
-| `--ff-base`         | Body font family                  |
-| `--ff-title`        | Header font family                |
-| `--transition`      | Animation duration and easing     |
+| Variable            | Description                    |
+| ------------------- | ------------------------------ |
+| `--c-primary-hover` | Border and arrow color         |
+| `--c-bg-item`       | Background for header and body |
+| `--c-text-primary`  | Text color                     |
+| `--padding-scale`   | Adjusts section padding        |
+| `--margin-scale`    | Adjusts paragraph margins      |
+| `--b-radius`        | Rounds container corners       |
+| `--ff-base`         | Body font family               |
+| `--ff-title`        | Header font family             |
+| `--transition`      | Animation duration and easing  |

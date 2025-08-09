@@ -15,9 +15,9 @@ Each button links to the respective network's share endpoint.
 
 ```json
 {
-        "src": "/sections/utility/social-share/social-share.html",
-        "url": "https://example.com/page",
-        "networks": ["facebook", "linkedin", "telegram"]
+	"src": "/sections/utility/social-share/social-share.html",
+	"url": "https://example.com/page",
+	"networks": ["facebook", "linkedin", "telegram"]
 }
 ```
 
@@ -25,9 +25,9 @@ Each button links to the respective network's share endpoint.
 
 ```html
 <div class="social-share">
-        {% for network in section.networks %}
-        <!-- Conditional anchors rendered per network -->
-        {% endfor %}
+	{% for network in section.networks %}
+	<!-- Conditional anchors rendered per network -->
+	{% endfor %}
 </div>
 ```
 
@@ -43,9 +43,9 @@ Each button links to the respective network's share endpoint.
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable            | Description                              |
-| ------------------- | ---------------------------------------- |
-| `--icon-size`       | Base size for share icons                 |
-| `--margin-scale`    | Controls spacing between icons            |
-| `--transition`      | Hover animation timing                   |
-| `--bp-md`, `--bp-sm`| Responsive breakpoints for layout tweaks |
+| Variable             | Description                              |
+| -------------------- | ---------------------------------------- |
+| `--icon-size`        | Base size for share icons                |
+| `--margin-scale`     | Controls spacing between icons           |
+| `--transition`       | Hover animation timing                   |
+| `--bp-md`, `--bp-sm` | Responsive breakpoints for layout tweaks |

@@ -15,25 +15,36 @@ Utility section to wrap content with a customizable background color or image.
 
 ```json
 {
-        "src": "/sections/layout/background/background.html",
-        "color": "#000000", // optional background color
-        "image": "/img/bg.jpg", // optional background image
-        "size": "cover", // optional background-size value
-        "position": "center", // optional background-position value
-        "content": "<h2>Wrapped Content</h2>" // optional inner HTML
+	"src": "/sections/layout/background/background.html",
+	"color": "#000000", // optional background color
+	"image": "/img/bg.jpg", // optional background image
+	"size": "cover", // optional background-size value
+	"position": "center", // optional background-position value
+	"content": "<h2>Wrapped Content</h2>" // optional inner HTML
 }
 ```
 
 ## 🧱 HTML Structure
 
 ```html
-<div class="background"
-        {% if section.color or section.image or section.size or section.position %}
-        style="{% if section.color %}background-color: {{{section.color}}};{% endif %}{% if section.image %} background-image: url('{{{section.image}}}');{% endif %}{% if section.size %} background-size: {{{section.size}}};{% endif %}{% if section.position %} background-position: {{{section.position}}};{% endif %}"
-        {% endif %}>
-        {% if section.content %}
-        {{{section.content}}}
-        {% endif %}
+<div
+	class="background"
+	{%
+	if
+	section.color
+	or
+	section.image
+	or
+	section.size
+	or
+	section.position
+	%}
+	style="{% if section.color %}background-color: {{{section.color}}};{% endif %}{% if section.image %} background-image: url('{{{section.image}}}');{% endif %}{% if section.size %} background-size: {{{section.size}}};{% endif %}{% if section.position %} background-position: {{{section.position}}};{% endif %}"
+	{%
+	endif
+	%}
+>
+	{% if section.content %} {{{section.content}}} {% endif %}
 </div>
 ```
 
@@ -50,11 +61,11 @@ Utility section to wrap content with a customizable background color or image.
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable             | Description                        |
-| -------------------- | ---------------------------------- |
-| `--padding-scale`    | Controls section padding           |
-| `--c-text-primary`   | Text color inside background block |
-| `--c-body`           | Default background color           |
-| `--transition`       | Background color transition        |
+| Variable           | Description                        |
+| ------------------ | ---------------------------------- |
+| `--padding-scale`  | Controls section padding           |
+| `--c-text-primary` | Text color inside background block |
+| `--c-body`         | Default background color           |
+| `--transition`     | Background color transition        |
 
 ---

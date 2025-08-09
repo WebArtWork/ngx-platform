@@ -15,7 +15,7 @@ Multi-step form with progress indicators and navigation buttons. Useful for coll
 
 ```json
 {
-        "src": "/sections/forms/multistep/multistep.html"
+	"src": "/sections/forms/multistep/multistep.html"
 }
 ```
 
@@ -23,12 +23,12 @@ Multi-step form with progress indicators and navigation buttons. Useful for coll
 
 ```html
 <form class="multistep" id="multistep-form">
-        <!-- progress dots -->
-        <div class="multistep__progress">...</div>
-        <!-- steps -->
-        <div class="multistep__step multistep__step--active">...</div>
-        <!-- navigation buttons -->
-        <div class="multistep__buttons">...</div>
+	<!-- progress dots -->
+	<div class="multistep__progress">...</div>
+	<!-- steps -->
+	<div class="multistep__step multistep__step--active">...</div>
+	<!-- navigation buttons -->
+	<div class="multistep__buttons">...</div>
 </form>
 ```
 
@@ -44,19 +44,19 @@ Multi-step form with progress indicators and navigation buttons. Useful for coll
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable          | Description                                   |
-| ----------------- | --------------------------------------------- |
-| `--c-bg-item`     | Form container background                     |
-| `--padding-scale` | Scales internal padding                       |
-| `--b-radius`      | Rounds container, buttons and inputs          |
-| `--ff-base`       | Font family for text                          |
-| `--c-text-primary`| Base text color                               |
-| `--margin-scale`  | Controls spacing between elements             |
-| `--c-border`      | Input border color                            |
-| `--c-primary`     | Primary button color and active dot           |
-| `--c-primary-hover`| Hover color for buttons                      |
-| `--c-secondary`   | Previous button background                    |
-| `--c-text-secondary` | Input text color                           |
-| `--c-body`        | Input background                              |
-| `--transition`    | Transition timing                             |
-| `--bp-md`         | Media query breakpoint for responsive padding |
+| Variable             | Description                                   |
+| -------------------- | --------------------------------------------- |
+| `--c-bg-item`        | Form container background                     |
+| `--padding-scale`    | Scales internal padding                       |
+| `--b-radius`         | Rounds container, buttons and inputs          |
+| `--ff-base`          | Font family for text                          |
+| `--c-text-primary`   | Base text color                               |
+| `--margin-scale`     | Controls spacing between elements             |
+| `--c-border`         | Input border color                            |
+| `--c-primary`        | Primary button color and active dot           |
+| `--c-primary-hover`  | Hover color for buttons                       |
+| `--c-secondary`      | Previous button background                    |
+| `--c-text-secondary` | Input text color                              |
+| `--c-body`           | Input background                              |
+| `--transition`       | Transition timing                             |
+| `--bp-md`            | Media query breakpoint for responsive padding |

@@ -15,10 +15,10 @@ Utility section providing a live countdown timer with optional title and descrip
 
 ```json
 {
-        "src": "/sections/utility/countdown/countdown.html",
-        "title": "Event starts soon",
-        "description": "Don't miss out!",
-        "endDate": "2024-12-31T23:59:59"
+	"src": "/sections/utility/countdown/countdown.html",
+	"title": "Event starts soon",
+	"description": "Don't miss out!",
+	"endDate": "2024-12-31T23:59:59"
 }
 ```
 
@@ -26,29 +26,29 @@ Utility section providing a live countdown timer with optional title and descrip
 
 ```html
 <div class="countdown">
-        {% if section.title %}
-        <div class="countdown__title">{{{section.title}}}</div>
-        {% endif %} {% if section.description %}
-        <div class="countdown__description">{{{section.description}}}</div>
-        {% endif %}
-        <div class="countdown__timer" data-countdown="{{{section.endDate}}}">
-                <div class="countdown__unit">
-                        <div class="countdown__value countdown__days">00</div>
-                        <div class="countdown__label">Days</div>
-                </div>
-                <div class="countdown__unit">
-                        <div class="countdown__value countdown__hours">00</div>
-                        <div class="countdown__label">Hours</div>
-                </div>
-                <div class="countdown__unit">
-                        <div class="countdown__value countdown__minutes">00</div>
-                        <div class="countdown__label">Minutes</div>
-                </div>
-                <div class="countdown__unit">
-                        <div class="countdown__value countdown__seconds">00</div>
-                        <div class="countdown__label">Seconds</div>
-                </div>
-        </div>
+	{% if section.title %}
+	<div class="countdown__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="countdown__description">{{{section.description}}}</div>
+	{% endif %}
+	<div class="countdown__timer" data-countdown="{{{section.endDate}}}">
+		<div class="countdown__unit">
+			<div class="countdown__value countdown__days">00</div>
+			<div class="countdown__label">Days</div>
+		</div>
+		<div class="countdown__unit">
+			<div class="countdown__value countdown__hours">00</div>
+			<div class="countdown__label">Hours</div>
+		</div>
+		<div class="countdown__unit">
+			<div class="countdown__value countdown__minutes">00</div>
+			<div class="countdown__label">Minutes</div>
+		</div>
+		<div class="countdown__unit">
+			<div class="countdown__value countdown__seconds">00</div>
+			<div class="countdown__label">Seconds</div>
+		</div>
+	</div>
 </div>
 ```
 
@@ -64,7 +64,7 @@ Utility section providing a live countdown timer with optional title and descrip
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable | Description |
+| Variable                  | Description                               |
 | ------------------------- | ----------------------------------------- |
 | `--padding-scale`         | Scales padding values                     |
 | `--margin-scale`          | Controls margin spacing                   |

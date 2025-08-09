@@ -17,17 +17,17 @@ This section expects the following structure passed via `section`:
 
 ```json
 {
-  "src": "/sections/seo/faq-schema/faq-schema.html",
-  "items": [
-    {
-      "question": "What is your return policy?",
-      "answer": "You can return any item within 30 days of purchase."
-    },
-    {
-      "question": "Do you ship internationally?",
-      "answer": "Yes, we ship to most countries worldwide."
-    }
-  ]
+	"src": "/sections/seo/faq-schema/faq-schema.html",
+	"items": [
+		{
+			"question": "What is your return policy?",
+			"answer": "You can return any item within 30 days of purchase."
+		},
+		{
+			"question": "Do you ship internationally?",
+			"answer": "Yes, we ship to most countries worldwide."
+		}
+	]
 }
 ```
 
@@ -36,22 +36,22 @@ This section expects the following structure passed via `section`:
 ```html
 {% if section.items %}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {% for item in section.items %}
-    {
-      "@type": "Question",
-      "name": "{{{item.question}}}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{{item.answer}}}"
-      }
-    }{% if not loop.last %},{% endif %}
-    {% endfor %}
-  ]
-}
+	{
+	  "@context": "https://schema.org",
+	  "@type": "FAQPage",
+	  "mainEntity": [
+	    {% for item in section.items %}
+	    {
+	      "@type": "Question",
+	      "name": "{{{item.question}}}",
+	      "acceptedAnswer": {
+	        "@type": "Answer",
+	        "text": "{{{item.answer}}}"
+	      }
+	    }{% if not loop.last %},{% endif %}
+	    {% endfor %}
+	  ]
+	}
 </script>
 {% endif %}
 ```

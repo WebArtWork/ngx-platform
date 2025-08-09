@@ -4,9 +4,9 @@ Simple spacer section to insert adjustable empty space between blocks.
 
 ## ✅ Features
 
-- Adjustable height via `size` property
-- Scales height with global `--margin-scale`
-- Uses CSS variables for easy theming
+-   Adjustable height via `size` property
+-   Scales height with global `--margin-scale`
+-   Uses CSS variables for easy theming
 
 ---
 
@@ -14,8 +14,8 @@ Simple spacer section to insert adjustable empty space between blocks.
 
 ```json
 {
-        "src": "/sections/layout/spacer/spacer.html",
-        "size": "60px"
+	"src": "/sections/layout/spacer/spacer.html",
+	"size": "60px"
 }
 ```
 
@@ -29,13 +29,13 @@ Simple spacer section to insert adjustable empty space between blocks.
 
 ## 🎨 Styling Notes
 
-- Default height is `40px` multiplied by `--margin-scale`
-- Custom `size` overrides default via CSS variable
+-   Default height is `40px` multiplied by `--margin-scale`
+-   Custom `size` overrides default via CSS variable
 
 ---
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable         | Description                  |
-| ---------------- | ---------------------------- |
-| `--margin-scale` | Scales the spacer height     |
+| Variable         | Description              |
+| ---------------- | ------------------------ |
+| `--margin-scale` | Scales the spacer height |

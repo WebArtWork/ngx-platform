@@ -17,12 +17,12 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/navigation/anchor-links/anchor-links.html",
-        "links": [
-                { "href": "#intro", "label": "Introduction" },
-                { "href": "#setup", "label": "Setup" },
-                { "href": "#usage", "label": "Usage" }
-        ]
+	"src": "/sections/navigation/anchor-links/anchor-links.html",
+	"links": [
+		{ "href": "#intro", "label": "Introduction" },
+		{ "href": "#setup", "label": "Setup" },
+		{ "href": "#usage", "label": "Usage" }
+	]
 }
 ```
 
@@ -30,11 +30,9 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <nav class="anchor-links">
-        {% if section.links %}
-        {% for link in section.links %}
-        <a class="anchor-links__link" href="{{{link.href}}}">{{{link.label}}}</a>
-        {% endfor %}
-        {% endif %}
+	{% if section.links %} {% for link in section.links %}
+	<a class="anchor-links__link" href="{{{link.href}}}">{{{link.label}}}</a>
+	{% endfor %} {% endif %}
 </nav>
 ```
 
@@ -50,15 +48,15 @@ This section expects the following data structure passed via `section`:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable              | Description                                 |
-| --------------------- | ------------------------------------------- |
-| `--margin-scale`      | Controls spacing between links              |
-| `--padding-scale`     | Vertical padding around the link group      |
-| `--ff-base`           | Base font family for links                  |
-| `--font-size`         | Font size of each link                      |
-| `--line-height`       | Line height for links                       |
-| `--letter-spacing`    | Letter spacing for links                    |
-| `--c-primary`         | Default link color                          |
-| `--c-primary-hover`   | Hover color for links                       |
-| `--transition`        | Transition for hover state                  |
-| `--bp-md`             | Breakpoint where layout becomes vertical    |
+| Variable            | Description                              |
+| ------------------- | ---------------------------------------- |
+| `--margin-scale`    | Controls spacing between links           |
+| `--padding-scale`   | Vertical padding around the link group   |
+| `--ff-base`         | Base font family for links               |
+| `--font-size`       | Font size of each link                   |
+| `--line-height`     | Line height for links                    |
+| `--letter-spacing`  | Letter spacing for links                 |
+| `--c-primary`       | Default link color                       |
+| `--c-primary-hover` | Hover color for links                    |
+| `--transition`      | Transition for hover state               |
+| `--bp-md`           | Breakpoint where layout becomes vertical |

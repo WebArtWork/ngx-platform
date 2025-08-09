@@ -15,12 +15,12 @@ Displays media or press logos, optionally with a section title. Useful for showc
 
 ```json
 {
-        "src": "/sections/feedback/press-logos/press-logos.html",
-        "title": "As seen in",
-        "logos": [
-                { "img": "/img/press/nyt.svg", "alt": "New York Times" },
-                { "img": "/img/press/forbes.svg", "alt": "Forbes" }
-        ]
+	"src": "/sections/feedback/press-logos/press-logos.html",
+	"title": "As seen in",
+	"logos": [
+		{ "img": "/img/press/nyt.svg", "alt": "New York Times" },
+		{ "img": "/img/press/forbes.svg", "alt": "Forbes" }
+	]
 }
 ```
 
@@ -28,16 +28,16 @@ Displays media or press logos, optionally with a section title. Useful for showc
 
 ```html
 <div class="press-logos">
-        {% if section.title %}
-        <div class="press-logos__title">{{{section.title}}}</div>
-        {% endif %}
-        <div class="press-logos__list">
-                {% for logo in section.logos %}
-                <div class="press-logos__item">
-                        <img src="{{{logo.img}}}" alt="{{{logo.alt}}}" />
-                </div>
-                {% endfor %}
-        </div>
+	{% if section.title %}
+	<div class="press-logos__title">{{{section.title}}}</div>
+	{% endif %}
+	<div class="press-logos__list">
+		{% for logo in section.logos %}
+		<div class="press-logos__item">
+			<img src="{{{logo.img}}}" alt="{{{logo.alt}}}" />
+		</div>
+		{% endfor %}
+	</div>
 </div>
 ```
 

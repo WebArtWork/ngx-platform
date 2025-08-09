@@ -18,12 +18,12 @@ This section expects the following data structure passed via section
 
 ```json
 {
-        "src": "/sections/media/audio-player/audio-player.html",
-        "audio": "/audio/sample.mp3",
-        "title": "Optional audio title",
-        "description": "Optional supporting text",
-        "autoplay": false,
-        "loop": false
+	"src": "/sections/media/audio-player/audio-player.html",
+	"audio": "/audio/sample.mp3",
+	"title": "Optional audio title",
+	"description": "Optional supporting text",
+	"autoplay": false,
+	"loop": false
 }
 ```
 
@@ -31,22 +31,31 @@ This section expects the following data structure passed via section
 
 ```html
 <div class="audio-player">
-        <audio
-                class="audio-player__audio"
-                controls
-                {% if section.autoplay %}autoplay{% endif %}
-                {% if section.loop %}loop{% endif %}
-        >
-                <source src="{{{section.audio}}}" />
-                Your browser does not support the audio element.
-        </audio>
+	<audio
+		class="audio-player__audio"
+		controls
+		{%
+		if
+		section.autoplay
+		%}autoplay{%
+		endif
+		%}
+		{%
+		if
+		section.loop
+		%}loop{%
+		endif
+		%}
+	>
+		<source src="{{{section.audio}}}" />
+		Your browser does not support the audio element.
+	</audio>
 
-        {% if section.title %}
-        <div class="audio-player__title">{{{section.title}}}</div>
-        {% endif %}
-        {% if section.description %}
-        <div class="audio-player__description">{{{section.description}}}</div>
-        {% endif %}
+	{% if section.title %}
+	<div class="audio-player__title">{{{section.title}}}</div>
+	{% endif %} {% if section.description %}
+	<div class="audio-player__description">{{{section.description}}}</div>
+	{% endif %}
 </div>
 ```
 

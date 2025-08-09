@@ -18,14 +18,18 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-  "src": "/sections/education/instructor/instructor.html",
-  "img": "/img/avatar.png",
-  "name": "Instructor name",
-  "role": "Instructor role or title",
-  "bio": "Optional biography text",
-  "socials": [
-    { "href": "https://example.com", "img": "/img/icon.svg", "name": "social name" }
-  ]
+	"src": "/sections/education/instructor/instructor.html",
+	"img": "/img/avatar.png",
+	"name": "Instructor name",
+	"role": "Instructor role or title",
+	"bio": "Optional biography text",
+	"socials": [
+		{
+			"href": "https://example.com",
+			"img": "/img/icon.svg",
+			"name": "social name"
+		}
+	]
 }
 ```
 
@@ -33,31 +37,25 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="instructor">
-  <div class="instructor__img">
-    <img src="{{{section.img}}}" alt="{{{section.name}}}" />
-  </div>
+	<div class="instructor__img">
+		<img src="{{{section.img}}}" alt="{{{section.name}}}" />
+	</div>
 
-  {% if section.name %}
-  <div class="instructor__name">{{{section.name}}}</div>
-  {% endif %}
-
-  {% if section.role %}
-  <div class="instructor__role">{{{section.role}}}</div>
-  {% endif %}
-
-  {% if section.bio %}
-  <div class="instructor__bio">{{{section.bio}}}</div>
-  {% endif %}
-
-  {% if section.socials %}
-  <div class="instructor__socials">
-    {% for social in section.socials %}
-    <a href="{{{social.href}}}">
-      <img src="{{{social.img}}}" alt="{{{social.name}}}" />
-    </a>
-    {% endfor %}
-  </div>
-  {% endif %}
+	{% if section.name %}
+	<div class="instructor__name">{{{section.name}}}</div>
+	{% endif %} {% if section.role %}
+	<div class="instructor__role">{{{section.role}}}</div>
+	{% endif %} {% if section.bio %}
+	<div class="instructor__bio">{{{section.bio}}}</div>
+	{% endif %} {% if section.socials %}
+	<div class="instructor__socials">
+		{% for social in section.socials %}
+		<a href="{{{social.href}}}">
+			<img src="{{{social.img}}}" alt="{{{social.name}}}" />
+		</a>
+		{% endfor %}
+	</div>
+	{% endif %}
 </div>
 ```
 

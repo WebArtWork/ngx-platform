@@ -16,8 +16,8 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/layout/divider/divider.html",
-        "text": "Optional divider text"
+	"src": "/sections/layout/divider/divider.html",
+	"text": "Optional divider text"
 }
 ```
 
@@ -25,9 +25,9 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="divider">
-        {% if section.text %}
-        <span class="divider__text">{{{section.text}}}</span>
-        {% endif %}
+	{% if section.text %}
+	<span class="divider__text">{{{section.text}}}</span>
+	{% endif %}
 </div>
 ```
 
@@ -44,12 +44,12 @@ This section expects the following data structure passed via `section`:
 
 ## \ud83e\udde9 Theme Variables Used (from `template.json`)
 
-| Variable              | Description                 |
-| --------------------- | --------------------------- |
-| `--c-border`          | Divider line color          |
-| `--c-text-secondary`  | Divider text color          |
-| `--ff-base`           | Base font family            |
-| `--font-size`         | Base font size              |
-| `--line-height`       | Default line height         |
-| `--letter-spacing`    | Default letter spacing      |
-| `--margin-scale`      | Controls divider spacing    |
+| Variable             | Description              |
+| -------------------- | ------------------------ |
+| `--c-border`         | Divider line color       |
+| `--c-text-secondary` | Divider text color       |
+| `--ff-base`          | Base font family         |
+| `--font-size`        | Base font size           |
+| `--line-height`      | Default line height      |
+| `--letter-spacing`   | Default letter spacing   |
+| `--margin-scale`     | Controls divider spacing |

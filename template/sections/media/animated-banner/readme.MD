@@ -17,10 +17,10 @@ This section expects the following data structure passed via section
 
 ```json
 {
-        "src": "/sections/media/animated-banner/animated-banner.html",
-        "img": "/img/sample.jpg",
-        "title": "Banner title",
-        "subtitle": "Optional subtitle text"
+	"src": "/sections/media/animated-banner/animated-banner.html",
+	"img": "/img/sample.jpg",
+	"title": "Banner title",
+	"subtitle": "Optional subtitle text"
 }
 ```
 
@@ -28,16 +28,16 @@ This section expects the following data structure passed via section
 
 ```html
 <div class="animated-banner">
-        <div class="animated-banner__media">
-                <img src="{{{section.img}}}" alt="" />
-        </div>
-        <div class="animated-banner__content">
-                {% if section.title %}
-                <div class="animated-banner__title">{{{section.title}}}</div>
-                {% endif %} {% if section.subtitle %}
-                <div class="animated-banner__subtitle">{{{section.subtitle}}}</div>
-                {% endif %}
-        </div>
+	<div class="animated-banner__media">
+		<img src="{{{section.img}}}" alt="" />
+	</div>
+	<div class="animated-banner__content">
+		{% if section.title %}
+		<div class="animated-banner__title">{{{section.title}}}</div>
+		{% endif %} {% if section.subtitle %}
+		<div class="animated-banner__subtitle">{{{section.subtitle}}}</div>
+		{% endif %}
+	</div>
 </div>
 ```
 
@@ -54,20 +54,20 @@ This section expects the following data structure passed via section
 
 ## 🧹 Theme Variables Used (from `template.json`)
 
-| Variable                        | Description                                        |
-| --------------------------------| -------------------------------------------------- |
-| `--padding-scale`               | Scales banner padding                              |
-| `--margin-scale`                | Controls spacing above subtitle                    |
-| `--b-radius`                    | Rounds banner corners                              |
-| `--ff-base`                     | Base font for banner                               |
-| `--ff-title`                    | Title font                                         |
-| `--font-size`                   | Subtitle font size                                 |
-| `--line-height`                 | Line height for text                               |
-| `--letter-spacing`              | Title letter spacing                               |
-| `--c-text-primary`              | Text color                                         |
-| `--c-primary`                   | Overlay background color                           |
-| `--c-primary-hover`             | Title hover color                                  |
-| `--transition`                  | Hover transition duration                          |
-| `--bp-lg`, `--bp-md`, `--bp-sm` | Responsive breakpoints                             |
+| Variable                        | Description                     |
+| ------------------------------- | ------------------------------- |
+| `--padding-scale`               | Scales banner padding           |
+| `--margin-scale`                | Controls spacing above subtitle |
+| `--b-radius`                    | Rounds banner corners           |
+| `--ff-base`                     | Base font for banner            |
+| `--ff-title`                    | Title font                      |
+| `--font-size`                   | Subtitle font size              |
+| `--line-height`                 | Line height for text            |
+| `--letter-spacing`              | Title letter spacing            |
+| `--c-text-primary`              | Text color                      |
+| `--c-primary`                   | Overlay background color        |
+| `--c-primary-hover`             | Title hover color               |
+| `--transition`                  | Hover transition duration       |
+| `--bp-lg`, `--bp-md`, `--bp-sm` | Responsive breakpoints          |
 
 ---

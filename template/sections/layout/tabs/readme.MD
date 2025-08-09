@@ -17,11 +17,11 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/layout/tabs/tabs.html",
-        "tabs": [
-                { "label": "Tab 1", "content": "<p>First tab content</p>" },
-                { "label": "Tab 2", "content": "<p>Second tab content</p>" }
-        ]
+	"src": "/sections/layout/tabs/tabs.html",
+	"tabs": [
+		{ "label": "Tab 1", "content": "<p>First tab content</p>" },
+		{ "label": "Tab 2", "content": "<p>Second tab content</p>" }
+	]
 }
 ```
 
@@ -29,18 +29,26 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div class="tabs">
-        <div class="tabs__nav">
-                {% for tab in section.tabs %}
-                <button class="tabs__nav-button{% if loop.index0 == 0 %} active{% endif %}" data-tab="{{ loop.index0 }}">{{{tab.label}}}</button>
-                {% endfor %}
-        </div>
-        <div class="tabs__content">
-                {% for tab in section.tabs %}
-                <div class="tabs__pane{% if loop.index0 == 0 %} active{% endif %}" data-pane="{{ loop.index0 }}">
-                        {{{tab.content}}}
-                </div>
-                {% endfor %}
-        </div>
+	<div class="tabs__nav">
+		{% for tab in section.tabs %}
+		<button
+			class="tabs__nav-button{% if loop.index0 == 0 %} active{% endif %}"
+			data-tab="{{ loop.index0 }}"
+		>
+			{{{tab.label}}}
+		</button>
+		{% endfor %}
+	</div>
+	<div class="tabs__content">
+		{% for tab in section.tabs %}
+		<div
+			class="tabs__pane{% if loop.index0 == 0 %} active{% endif %}"
+			data-pane="{{ loop.index0 }}"
+		>
+			{{{tab.content}}}
+		</div>
+		{% endfor %}
+	</div>
 </div>
 ```
 
@@ -57,15 +65,15 @@ This section expects the following data structure passed via `section`:
 
 ## \ud83e\udde9 Theme Variables Used (from `template.json`)
 
-| Variable | Description |
-| --- | --- |
-| `--ff-base` | Base font for the component |
-| `--padding-scale` | Scales padding for tabs and content |
-| `--font-size` | Base font size for tab labels |
-| `--c-border` | Border color for navigation |
-| `--c-primary` | Color for active tab |
-| `--c-primary-hover` | Hover color for tabs |
-| `--c-text-primary` | Default tab text color |
-| `--transition` | Transition effect for color and border |
+| Variable            | Description                            |
+| ------------------- | -------------------------------------- |
+| `--ff-base`         | Base font for the component            |
+| `--padding-scale`   | Scales padding for tabs and content    |
+| `--font-size`       | Base font size for tab labels          |
+| `--c-border`        | Border color for navigation            |
+| `--c-primary`       | Color for active tab                   |
+| `--c-primary-hover` | Hover color for tabs                   |
+| `--c-text-primary`  | Default tab text color                 |
+| `--transition`      | Transition effect for color and border |
 
 ---

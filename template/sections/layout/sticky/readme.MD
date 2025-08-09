@@ -16,9 +16,9 @@ This section expects the following data structure passed via `section`:
 
 ```json
 {
-        "src": "/sections/layout/sticky/sticky.html",
-        "id": "mySticky",
-        "content": "Any HTML content that should remain visible while scrolling"
+	"src": "/sections/layout/sticky/sticky.html",
+	"id": "mySticky",
+	"content": "Any HTML content that should remain visible while scrolling"
 }
 ```
 
@@ -26,7 +26,7 @@ This section expects the following data structure passed via `section`:
 
 ```html
 <div id="{{{section.id}}}" class="sticky" data-sticky>
-        <div class="sticky__content">{{{section.content}}}</div>
+	<div class="sticky__content">{{{section.content}}}</div>
 </div>
 ```
 
@@ -42,18 +42,18 @@ This section expects the following data structure passed via `section`:
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable            | Description                              |
-| ------------------- | ---------------------------------------- |
-| `--padding-scale`   | Scales padding values                     |
-| `--font-size`       | Base font size for content                |
-| `--line-height`     | Line height for content                   |
-| `--letter-spacing`  | Letter spacing for content                |
-| `--b-radius`        | Rounds sticky container                   |
-| `--c-bg-item`       | Background color of sticky block          |
-| `--c-secondary`     | Background color when stuck               |
-| `--c-text-primary`  | Text color                                |
-| `--c-shadow`        | Shadow used when stuck                    |
-| `--transition`      | Transition for background and shadow      |
-| `--bp-md`           | Breakpoint for mobile padding adjustments |
+| Variable           | Description                               |
+| ------------------ | ----------------------------------------- |
+| `--padding-scale`  | Scales padding values                     |
+| `--font-size`      | Base font size for content                |
+| `--line-height`    | Line height for content                   |
+| `--letter-spacing` | Letter spacing for content                |
+| `--b-radius`       | Rounds sticky container                   |
+| `--c-bg-item`      | Background color of sticky block          |
+| `--c-secondary`    | Background color when stuck               |
+| `--c-text-primary` | Text color                                |
+| `--c-shadow`       | Shadow used when stuck                    |
+| `--transition`     | Transition for background and shadow      |
+| `--bp-md`          | Breakpoint for mobile padding adjustments |
 
 ---

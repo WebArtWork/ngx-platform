@@ -16,11 +16,11 @@ This section expects the following data structure passed via section
 
 ```json
 {
-        "src": "/sections/seo/meta-preview/meta-preview.html",
-        "image": "/img/og-image.jpg",
-        "title": "Page title used for preview",
-        "url": "https://example.com/page",
-        "description": "Optional meta description for preview"
+	"src": "/sections/seo/meta-preview/meta-preview.html",
+	"image": "/img/og-image.jpg",
+	"title": "Page title used for preview",
+	"url": "https://example.com/page",
+	"description": "Optional meta description for preview"
 }
 ```
 
@@ -28,22 +28,20 @@ This section expects the following data structure passed via section
 
 ```html
 <div class="meta-preview">
-        {% if section.image %}
-        <div class="meta-preview__image">
-                <img src="{{{section.image}}}" alt="" />
-        </div>
-        {% endif %}
-        <div class="meta-preview__body">
-                {% if section.title %}
-                <div class="meta-preview__title">{{{section.title}}}</div>
-                {% endif %}
-                {% if section.url %}
-                <div class="meta-preview__url">{{{section.url}}}</div>
-                {% endif %}
-                {% if section.description %}
-                <div class="meta-preview__description">{{{section.description}}}</div>
-                {% endif %}
-        </div>
+	{% if section.image %}
+	<div class="meta-preview__image">
+		<img src="{{{section.image}}}" alt="" />
+	</div>
+	{% endif %}
+	<div class="meta-preview__body">
+		{% if section.title %}
+		<div class="meta-preview__title">{{{section.title}}}</div>
+		{% endif %} {% if section.url %}
+		<div class="meta-preview__url">{{{section.url}}}</div>
+		{% endif %} {% if section.description %}
+		<div class="meta-preview__description">{{{section.description}}}</div>
+		{% endif %}
+	</div>
 </div>
 ```
 
@@ -59,17 +57,17 @@ This section expects the following data structure passed via section
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable                        | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--margin-scale`                | Controls spacing between elements                  |
-| `--font-size`                   | Base font size for description                     |
-| `--line-height`                 | Line height for text                               |
-| `--b-radius`                    | Rounds preview image                               |
-| `--ff-base`                     | Font for URL and description                       |
-| `--ff-title`                    | Font for preview title                             |
-| `--c-blue`                      | Title color                                        |
-| `--c-green`                     | URL color                                          |
-| `--c-text-body-secondary`       | Description text color                             |
-| `--bp-lg`, `--bp-md`, `--bp-sm` | Used in media queries for responsiveness           |
+| Variable                        | Description                              |
+| ------------------------------- | ---------------------------------------- |
+| `--margin-scale`                | Controls spacing between elements        |
+| `--font-size`                   | Base font size for description           |
+| `--line-height`                 | Line height for text                     |
+| `--b-radius`                    | Rounds preview image                     |
+| `--ff-base`                     | Font for URL and description             |
+| `--ff-title`                    | Font for preview title                   |
+| `--c-blue`                      | Title color                              |
+| `--c-green`                     | URL color                                |
+| `--c-text-body-secondary`       | Description text color                   |
+| `--bp-lg`, `--bp-md`, `--bp-sm` | Used in media queries for responsiveness |
 
 ---

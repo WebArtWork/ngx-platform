@@ -16,7 +16,7 @@ This section does not require any data. Include it via:
 
 ```json
 {
-        "src": "/sections/layout/responsive-visibility/responsive-visibility.html"
+	"src": "/sections/layout/responsive-visibility/responsive-visibility.html"
 }
 ```
 
@@ -24,10 +24,10 @@ This section does not require any data. Include it via:
 
 ```html
 <div class="responsive-visibility">
-        <div class="responsive-visibility__lg">Visible on large screens</div>
-        <div class="responsive-visibility__md">Visible on medium screens</div>
-        <div class="responsive-visibility__sm">Visible on small screens</div>
-        <div class="responsive-visibility__xs">Visible on extra small screens</div>
+	<div class="responsive-visibility__lg">Visible on large screens</div>
+	<div class="responsive-visibility__md">Visible on medium screens</div>
+	<div class="responsive-visibility__sm">Visible on small screens</div>
+	<div class="responsive-visibility__xs">Visible on extra small screens</div>
 </div>
 ```
 
@@ -35,18 +35,18 @@ This section does not require any data. Include it via:
 
 ## 🎨 Theme Variables Used (from `template.json`)
 
-| Variable                  | Description                                    |
-| ------------------------- | ---------------------------------------------- |
-| `--ff-base`               | Font family for block text                     |
-| `--font-size`             | Base font size                                 |
-| `--line-height`           | Base line height                               |
-| `--letter-spacing`        | Default letter spacing                         |
-| `--padding-scale`         | Multiplier for block padding                   |
-| `--margin-scale`          | Multiplier for block margin                    |
-| `--c-border`              | Border color for blocks                        |
-| `--b-radius`              | Border radius for blocks                       |
-| `--c-bg-item`             | Background color of blocks                     |
-| `--c-text-primary`        | Text color                                     |
-| `--bp-lg`, `--bp-md`, `--bp-sm` | Breakpoints controlling visibility  |
+| Variable                        | Description                        |
+| ------------------------------- | ---------------------------------- |
+| `--ff-base`                     | Font family for block text         |
+| `--font-size`                   | Base font size                     |
+| `--line-height`                 | Base line height                   |
+| `--letter-spacing`              | Default letter spacing             |
+| `--padding-scale`               | Multiplier for block padding       |
+| `--margin-scale`                | Multiplier for block margin        |
+| `--c-border`                    | Border color for blocks            |
+| `--b-radius`                    | Border radius for blocks           |
+| `--c-bg-item`                   | Background color of blocks         |
+| `--c-text-primary`              | Text color                         |
+| `--bp-lg`, `--bp-md`, `--bp-sm` | Breakpoints controlling visibility |
 
 ---

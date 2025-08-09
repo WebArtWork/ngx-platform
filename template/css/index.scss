@@ -9,7 +9,7 @@
 @use "../sections/business/about/about";
 @use "../sections/business/awards/awards";
 @use "../sections/business/careers/careers";
-@use "../sections/business/contact/contact" as contactContact;
+@use "../sections/business/contact/contact" as businessContact;
 @use "../sections/business/map/map";
 @use "../sections/business/milestones/milestones";
 @use "../sections/business/mission/mission";
@@ -40,7 +40,7 @@
 @use "../sections/docs/glossary/glossary";
 @use "../sections/docs/page-layout/page-layout";
 @use "../sections/docs/search-bar/search-bar";
-@use "../sections/docs/sidebar/sidebar" as sidebarSiderbar;
+@use "../sections/docs/sidebar/sidebar" as docsSiderbar;
 @use "../sections/docs/version-switcher/version-switcher";
 @use "../sections/ecommerce/add-to-cart/add-to-cart";
 @use "../sections/ecommerce/discount-badge/discount-badge";

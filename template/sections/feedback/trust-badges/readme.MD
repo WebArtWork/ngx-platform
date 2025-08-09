@@ -15,11 +15,15 @@ Displays a row of trust badges or certifications to build credibility. Each badg
 
 ```json
 {
-        "src": "/sections/feedback/trust-badges/trust-badges.html",
-        "badges": [
-                { "img": "/img/badges/secure.svg", "alt": "Secure" },
-                { "href": "https://example.com", "img": "/img/badges/ssl.svg", "alt": "SSL" }
-        ]
+	"src": "/sections/feedback/trust-badges/trust-badges.html",
+	"badges": [
+		{ "img": "/img/badges/secure.svg", "alt": "Secure" },
+		{
+			"href": "https://example.com",
+			"img": "/img/badges/ssl.svg",
+			"alt": "SSL"
+		}
+	]
 }
 ```
 
@@ -27,15 +31,17 @@ Displays a row of trust badges or certifications to build credibility. Each badg
 
 ```html
 <div class="trust-badges">
-        {% for badge in section.badges %}
-        <div class="trust-badges__item">
-                {% if badge.href %}
-                <a href="{{{badge.href}}}"><img src="{{{badge.img}}}" alt="{{{badge.alt}}}" /></a>
-                {% else %}
-                <img src="{{{badge.img}}}" alt="{{{badge.alt}}}" />
-                {% endif %}
-        </div>
-        {% endfor %}
+	{% for badge in section.badges %}
+	<div class="trust-badges__item">
+		{% if badge.href %}
+		<a href="{{{badge.href}}}"
+			><img src="{{{badge.img}}}" alt="{{{badge.alt}}}"
+		/></a>
+		{% else %}
+		<img src="{{{badge.img}}}" alt="{{{badge.alt}}}" />
+		{% endif %}
+	</div>
+	{% endfor %}
 </div>
 ```
 

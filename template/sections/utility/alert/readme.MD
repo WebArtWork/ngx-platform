@@ -15,11 +15,11 @@ Reusable alert/notification component with optional title, message and dismiss b
 
 ```json
 {
-        "src": "/sections/utility/alert/alert.html",
-        "type": "success",
-        "title": "Alert title",
-        "message": "Alert message goes here",
-        "close": true
+	"src": "/sections/utility/alert/alert.html",
+	"type": "success",
+	"title": "Alert title",
+	"message": "Alert message goes here",
+	"close": true
 }
 ```
 
@@ -27,17 +27,13 @@ Reusable alert/notification component with optional title, message and dismiss b
 
 ```html
 <div class="alert alert--{{section.type}}">
-        {% if section.close %}
-        <button class="alert__close" type="button">&times;</button>
-        {% endif %}
-
-        {% if section.title %}
-        <div class="alert__title">{{{section.title}}}</div>
-        {% endif %}
-
-        {% if section.message %}
-        <div class="alert__message">{{{section.message}}}</div>
-        {% endif %}
+	{% if section.close %}
+	<button class="alert__close" type="button">&times;</button>
+	{% endif %} {% if section.title %}
+	<div class="alert__title">{{{section.title}}}</div>
+	{% endif %} {% if section.message %}
+	<div class="alert__message">{{{section.message}}}</div>
+	{% endif %}
 </div>
 ```
 
@@ -54,19 +50,19 @@ Reusable alert/notification component with optional title, message and dismiss b
 
 ## 🧩 Theme Variables Used (from `template.json`)
 
-| Variable | Description |
-| --- | --- |
-| `--padding-scale` | Controls padding |
-| `--margin-scale` | Controls margin spacing |
-| `--b-radius` | Rounds alert container |
-| `--c-border` | Default border color |
-| `--c-bg-item` | Default background |
-| `--c-text-primary` | Text color |
-| `--c-success`, `--c-error`, `--c-alert`, `--c-blue` | Variant backgrounds |
-| `--c-success-border`, `--c-danger-border`, `--c-warning-border`, `--c-info-border` | Variant borders |
-| `--font-size` | Base font size |
-| `--ff-base` | Font for message |
-| `--ff-title` | Font for title |
-| `--line-height` | Line height for text |
+| Variable                                                                           | Description             |
+| ---------------------------------------------------------------------------------- | ----------------------- |
+| `--padding-scale`                                                                  | Controls padding        |
+| `--margin-scale`                                                                   | Controls margin spacing |
+| `--b-radius`                                                                       | Rounds alert container  |
+| `--c-border`                                                                       | Default border color    |
+| `--c-bg-item`                                                                      | Default background      |
+| `--c-text-primary`                                                                 | Text color              |
+| `--c-success`, `--c-error`, `--c-alert`, `--c-blue`                                | Variant backgrounds     |
+| `--c-success-border`, `--c-danger-border`, `--c-warning-border`, `--c-info-border` | Variant borders         |
+| `--font-size`                                                                      | Base font size          |
+| `--ff-base`                                                                        | Font for message        |
+| `--ff-title`                                                                       | Font for title          |
+| `--line-height`                                                                    | Line height for text    |
 
 ---
