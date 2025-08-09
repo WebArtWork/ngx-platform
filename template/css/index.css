@@ -4507,3 +4507,7 @@ ul {
 		margin-top: calc(8px * var(--margin-scale));
 	}
 }
+.spacer {
+        width: 100%;
+        height: calc(var(--spacer-size, 40px) * var(--margin-scale));
+}
