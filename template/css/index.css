@@ -4513,6 +4513,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* container section */
 .container {
         width: 100%;
@@ -4709,3 +4710,14 @@ ul {
         }
 }
 >>>>>>> a0c3445512c6a1573cbce285afcb2a0b80601219
+=======
+.background {
+        padding: calc(40px * var(--padding-scale)) calc(20px * var(--padding-scale));
+        color: var(--c-text-primary);
+        background-color: var(--c-body);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        transition: background-color var(--transition);
+}
+>>>>>>> 87414143d91bae6ad5c069575d6e8a3d9246ccd5
