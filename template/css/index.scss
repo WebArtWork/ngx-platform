@@ -53,24 +53,6 @@
 @use "../sections/ecommerce/payment-logos/payment-logos";
 @use "../sections/ecommerce/discount-badge/discount-badge";
 @use "../sections/ecommerce/add-to-cart/add-to-cart";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 @use "../sections/layout/divider/divider";
 @use "../sections/layout/grid/grid";
 @use "../sections/layout/responsive-visibility/responsive-visibility";
@@ -97,57 +79,22 @@
 @use "../sections/education/instructor/instructor";
 @use "../sections/education/comparison-table/comparison-table";
 @use "../sections/education/certificate/certificate";
-=======
 @use "../sections/navigation/pagination/pagination";
->>>>>>> 3e838c200a202e60345743390a1791d80a7352b0
-=======
 @use "../sections/navigation/scroll-to-top/scroll-to-top";
->>>>>>> 468d6566956307f9832803b42259ee5d9d790f5a
-=======
 @use "../sections/navigation/sidebar/sidebar";
->>>>>>> 3d9660948380e94508304188905de0253a3ff91c
-=======
 @use "../sections/navigation/table-of-contents/table-of-contents";
->>>>>>> 40edf57f0178ec1f225dc74e8ce47d3b034b10bd
-=======
 @use "../sections/seo/article-schema/article-schema";
->>>>>>> dceadeddc643ca2ca94c1c563b156fa23cfca21a
-=======
 @use "../sections/seo/breadcrumb-schema/breadcrumb-schema";
->>>>>>> f83be26feb3b81aeafb9fda89455b139a6a887b8
-=======
 @use "../sections/seo/faq-schema/faq-schema";
->>>>>>> 80dc548a957152bcab66d7d9b225453c66524ad1
-=======
 @use "../sections/seo/meta-preview/meta-preview";
->>>>>>> c3f377ecd11dfa7b4fd1d58d18eb57310f85232b
-=======
 @use "../sections/seo/og-preview/og-preview";
->>>>>>> db21744d244192bcb61ce2f9e61f1c22125527e6
-=======
 @use "../sections/seo/product-schema/product-schema";
->>>>>>> b7a006370a8537c03b632fb0b4d77e93a45c11f8
-=======
 @use "../sections/utility/alert/alert";
->>>>>>> 9027411b93d609b966676d1f09d1f68b7b340970
-=======
 @use "../sections/seo/structured-data/structured-data";
->>>>>>> 3f774f2f5fd85e2759994864ef62e446540117f6
-=======
 @use "../sections/utility/cookie-banner/cookie-banner";
->>>>>>> 26ee97e578ddd72ca24b6876cff13e742256887c
-=======
 @use "../sections/utility/countdown/countdown";
->>>>>>> 1726f86081a3cc6f4da7e34455f049ca02c7f762
-=======
 @use "../sections/utility/embed/embed";
->>>>>>> d31480385097c041004e91fa35923c01c4fe9ce0
-=======
 @use "../sections/utility/language-switcher/language-switcher";
->>>>>>> 5f26e736b7a56accdaa721806c9e2c0588a0ce4d
-=======
 @use "../sections/utility/notification/notification";
->>>>>>> 6969ddd49424a8d1f8a6ffe1dde01997595daf7c
-=======
 @use "../sections/utility/progress-bar/progress-bar";
->>>>>>> 1fc2e4ec064de271de1401a64f2d5617571bda65
+@use "../sections/utility/social-feed/social-feed";
