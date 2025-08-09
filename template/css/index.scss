@@ -9,7 +9,7 @@
 @use "../sections/business/about/about";
 @use "../sections/business/awards/awards";
 @use "../sections/business/careers/careers";
-@use "../sections/business/contact/contact";
+@use "../sections/business/contact/contact" as contactContact;
 @use "../sections/business/map/map";
 @use "../sections/business/milestones/milestones";
 @use "../sections/business/mission/mission";
@@ -26,11 +26,11 @@
 @use "../sections/content/statistics/statistics";
 @use "../sections/content/testimonial/testimonial";
 @use "../sections/content/text-block/text-block";
-@use "../sections/content/timeline/timeline";
+@use "../sections/content/timeline/timeline" as contentTimeline;
 @use "../sections/content/two-column-text/two-column-text";
 @use "../sections/cta/banner/banner";
 @use "../sections/cta/button-group/button-group";
-@use "../sections/cta/countdown/countdown";
+@use "../sections/cta/countdown/countdown" as ctaCountdown;
 @use "../sections/cta/exit-modal/exit-modal";
 @use "../sections/cta/promo/promo";
 @use "../sections/cta/sticky-footer/sticky-footer";
@@ -40,7 +40,7 @@
 @use "../sections/docs/glossary/glossary";
 @use "../sections/docs/page-layout/page-layout";
 @use "../sections/docs/search-bar/search-bar";
-@use "../sections/docs/sidebar/sidebar";
+@use "../sections/docs/sidebar/sidebar" as sidebarSiderbar;
 @use "../sections/docs/version-switcher/version-switcher";
 @use "../sections/ecommerce/add-to-cart/add-to-cart";
 @use "../sections/ecommerce/discount-badge/discount-badge";
