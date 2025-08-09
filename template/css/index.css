@@ -4527,6 +4527,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .application {
         max-width: 600px;
@@ -5804,3 +5805,67 @@ ul {
         }
 }
 >>>>>>> 43d45e3bedb739f548e8cd9b10f0dd6807cc9f8e
+=======
+.lightbox {
+        font-family: var(--ff-base);
+}
+.lightbox__thumb {
+        cursor: pointer;
+}
+.lightbox__thumb img {
+        display: block;
+        width: 100%;
+        border-radius: var(--b-radius);
+}
+.lightbox__overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition);
+}
+.lightbox__overlay--active {
+        opacity: 1;
+        pointer-events: auto;
+}
+.lightbox__dialog {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+}
+.lightbox__image {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: var(--b-radius);
+}
+.lightbox__caption {
+        margin-top: calc(8px * var(--margin-scale));
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+        letter-spacing: var(--letter-spacing);
+        color: var(--c-text-primary);
+        text-align: center;
+}
+.lightbox__close {
+        position: absolute;
+        top: calc(8px * var(--padding-scale));
+        right: calc(8px * var(--padding-scale));
+        background: var(--c-primary);
+        color: var(--c-white);
+        border: none;
+        border-radius: var(--b-radius);
+        cursor: pointer;
+        padding: calc(4px * var(--padding-scale)) calc(8px * var(--padding-scale));
+        font-size: calc(var(--font-size) * 1.2);
+}
+@media screen and (max-width: var(--bp-sm)) {
+        .lightbox__dialog {
+                max-width: 95%;
+        }
+}
+>>>>>>> 58008edd0f89275cfe9f446dc7848bb3c7f76c3a

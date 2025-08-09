@@ -279,3 +279,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
         });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".lightbox").forEach((box) => {
+                const thumb = box.querySelector(".lightbox__thumb");
+                const overlay = box.querySelector(".lightbox__overlay");
+                const closeBtn = box.querySelector(".lightbox__close");
+                if (!thumb || !overlay || !closeBtn) {
+                        return;
+                }
+                const open = () => overlay.classList.add("lightbox__overlay--active");
+                const close = () => overlay.classList.remove("lightbox__overlay--active");
+                thumb.addEventListener("click", open);
+                closeBtn.addEventListener("click", close);
+                overlay.addEventListener("click", (e) => {
+                        if (e.target === overlay) {
+                                close();
+                        }
+                });
+        });
+});
