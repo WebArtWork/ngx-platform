@@ -4521,6 +4521,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .application {
         max-width: 600px;
@@ -5566,3 +5567,33 @@ ul {
         }
 }
 >>>>>>> d31480385097c041004e91fa35923c01c4fe9ce0
+=======
+.progress-bar {
+        font-family: var(--ff-base);
+}
+.progress-bar__bar {
+        width: 100%;
+        height: 8px;
+        background: var(--c-bg-item);
+        border-radius: var(--b-radius);
+        overflow: hidden;
+}
+.progress-bar__progress {
+        height: 100%;
+        background: var(--c-primary);
+        transition: width var(--transition);
+}
+.progress-bar__label {
+        margin-top: calc(8px * var(--margin-scale));
+        font-size: calc(var(--font-size) * 0.875);
+        line-height: var(--line-height);
+        letter-spacing: var(--letter-spacing);
+        color: var(--c-text-primary);
+        text-align: center;
+}
+@media screen and (max-width: var(--bp-md)) {
+        .progress-bar__label {
+                font-size: calc(var(--font-size) * 0.75);
+        }
+}
+>>>>>>> 1fc2e4ec064de271de1401a64f2d5617571bda65
