@@ -246,3 +246,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
         }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        const sticks = document.querySelectorAll("[data-sticky]");
+        sticks.forEach((el) => {
+                const start = el.offsetTop;
+                window.addEventListener("scroll", () => {
+                        if (window.scrollY > start) {
+                                el.classList.add("sticky--stuck");
+                        } else {
+                                el.classList.remove("sticky--stuck");
+                        }
+                });
+        });
+});
