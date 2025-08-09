@@ -95,6 +95,12 @@
 			"author": "Jane Doe"
 		},
 		{
+			"src": "/sections/feedback/quote/quote.html",
+			"img": "img/spider.svg",
+			"quote": "Design is thinking made visual.",
+			"author": "Saul Bass"
+		},
+		{
 			"src": "/sections/content/text-block/text-block.html",
 			"title": "About Us",
 			"description": "We are committed to delivering the best digital experience."
