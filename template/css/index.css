@@ -4507,3 +4507,31 @@ ul {
 		margin-top: calc(8px * var(--margin-scale));
 	}
 }
+.image-caption {
+        text-align: center;
+        padding-bottom: calc(50px * var(--padding-scale));
+        font-family: var(--ff-base);
+}
+.image-caption__img {
+        width: 100%;
+        display: block;
+        border-radius: var(--b-radius);
+}
+.image-caption__caption {
+        margin-top: calc(8px * var(--margin-scale));
+        font-size: calc(var(--font-size) * 0.9);
+        line-height: var(--line-height);
+        letter-spacing: var(--letter-spacing);
+        color: var(--c-text-body-secondary);
+        transition: color var(--transition);
+}
+@media screen and (max-width: var(--bp-md)) {
+        .image-caption__caption {
+                font-size: calc(var(--font-size) * 0.85);
+        }
+}
+@media screen and (max-width: var(--bp-sm)) {
+        .image-caption__caption {
+                font-size: calc(var(--font-size) * 0.8);
+        }
+}
