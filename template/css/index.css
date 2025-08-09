@@ -4516,6 +4516,7 @@ ul {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .application {
         max-width: 600px;
@@ -5341,3 +5342,44 @@ ul {
         }
 }
 >>>>>>> 4701679845e3678644fcf8846b3744003b75fedc
+=======
+.table-of-contents {
+        padding-bottom: calc(50px * var(--padding-scale));
+        font-family: var(--ff-base);
+}
+.table-of-contents__title {
+        font-family: var(--ff-title);
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--c-text-primary);
+        margin-bottom: calc(12px * var(--margin-scale));
+}
+.table-of-contents__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+}
+.table-of-contents__item {
+        margin-bottom: calc(8px * var(--margin-scale));
+}
+.table-of-contents__link {
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+        letter-spacing: var(--letter-spacing);
+        color: var(--c-primary);
+        text-decoration: none;
+        transition: color var(--transition);
+}
+.table-of-contents__link:hover {
+        color: var(--c-primary-hover);
+}
+.table-of-contents__sublist {
+        list-style: none;
+        padding-left: calc(16px * var(--padding-scale));
+        margin-top: calc(4px * var(--margin-scale));
+}
+.table-of-contents__subitem {
+        margin-bottom: calc(4px * var(--margin-scale));
+}
+
+>>>>>>> 40edf57f0178ec1f225dc74e8ce47d3b034b10bd
