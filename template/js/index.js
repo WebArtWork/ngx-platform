@@ -210,3 +210,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".mega-menu__toggle").forEach((toggle) => {
+                toggle.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        const item = toggle.closest(".mega-menu__item");
+                        if (item) {
+                                item.classList.toggle("mega-menu__item--open");
+                        }
+                });
+        });
+});
