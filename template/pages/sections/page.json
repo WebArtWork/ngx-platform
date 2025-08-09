@@ -662,15 +662,198 @@
 			"discount": 20,
 			"label": "OFF"
 		},
-		{
-			"src": "/sections/media/video-embed/video-embed.html",
-			"video": "https://www.w3schools.com/html/mov_bbb.mp4",
-			"poster": "img/spider.svg",
-			"title": "Embedded Video",
-			"description": "Example of the video embed section",
-			"autoplay": false,
-			"loop": false,
-			"muted": false
-		}
-	]
+                {
+                        "src": "/sections/media/video-embed/video-embed.html",
+                        "video": "https://www.w3schools.com/html/mov_bbb.mp4",
+                        "poster": "img/spider.svg",
+                        "title": "Embedded Video",
+                        "description": "Example of the video embed section",
+                        "autoplay": false,
+                        "loop": false,
+                        "muted": false
+                },
+                {
+                        "src": "/sections/education/certificate/certificate.html"
+                },
+                {
+                        "src": "/sections/education/comparison-table/comparison-table.html"
+                },
+                {
+                        "src": "/sections/education/instructor/instructor.html"
+                },
+                {
+                        "src": "/sections/education/lesson-list/lesson-list.html"
+                },
+                {
+                        "src": "/sections/education/progress/progress.html"
+                },
+                {
+                        "src": "/sections/education/quiz/quiz.html"
+                },
+                {
+                        "src": "/sections/education/syllabus/syllabus.html"
+                },
+                {
+                        "src": "/sections/education/timeline/timeline.html"
+                },
+                {
+                        "src": "/sections/feedback/press-logos/press-logos.html"
+                },
+                {
+                        "src": "/sections/feedback/review-carousel/review-carousel.html"
+                },
+                {
+                        "src": "/sections/feedback/testimonial-block/testimonial-block.html"
+                },
+                {
+                        "src": "/sections/feedback/trust-badges/trust-badges.html"
+                },
+                {
+                        "src": "/sections/forms/application/application.html"
+                },
+                {
+                        "src": "/sections/forms/contact/contact.html"
+                },
+                {
+                        "src": "/sections/forms/multistep/multistep.html"
+                },
+                {
+                        "src": "/sections/forms/newsletter/newsletter.html"
+                },
+                {
+                        "src": "/sections/forms/rsvp/rsvp.html"
+                },
+                {
+                        "src": "/sections/forms/survey/survey.html"
+                },
+                {
+                        "src": "/sections/forms/upload/upload.html"
+                },
+                {
+                        "src": "/sections/hero.html"
+                },
+                {
+                        "src": "/sections/layout/background/background.html"
+                },
+                {
+                        "src": "/sections/layout/collapse/collapse.html"
+                },
+                {
+                        "src": "/sections/layout/container/container.html"
+                },
+                {
+                        "src": "/sections/layout/divider/divider.html"
+                },
+                {
+                        "src": "/sections/layout/grid/grid.html"
+                },
+                {
+                        "src": "/sections/layout/responsive-visibility/responsive-visibility.html"
+                },
+                {
+                        "src": "/sections/layout/scroll-area/scroll-area.html"
+                },
+                {
+                        "src": "/sections/layout/spacer/spacer.html"
+                },
+                {
+                        "src": "/sections/layout/sticky/sticky.html"
+                },
+                {
+                        "src": "/sections/layout/tabs/tabs.html"
+                },
+                {
+                        "src": "/sections/media/animated-banner/animated-banner.html"
+                },
+                {
+                        "src": "/sections/media/audio-player/audio-player.html"
+                },
+                {
+                        "src": "/sections/media/gallery/gallery.html"
+                },
+                {
+                        "src": "/sections/media/image-caption/image-caption.html"
+                },
+                {
+                        "src": "/sections/media/image/image.html"
+                },
+                {
+                        "src": "/sections/media/lightbox/lightbox.html"
+                },
+                {
+                        "src": "/sections/media/slider/slider.html"
+                },
+                {
+                        "src": "/sections/navigation/anchor-links/anchor-links.html"
+                },
+                {
+                        "src": "/sections/navigation/breadcrumbs/breadcrumbs.html"
+                },
+                {
+                        "src": "/sections/navigation/mega-menu/mega-menu.html"
+                },
+                {
+                        "src": "/sections/navigation/navbar/navbar.html"
+                },
+                {
+                        "src": "/sections/navigation/pagination/pagination.html"
+                },
+                {
+                        "src": "/sections/navigation/scroll-to-top/scroll-to-top.html"
+                },
+                {
+                        "src": "/sections/navigation/sidebar/sidebar.html"
+                },
+                {
+                        "src": "/sections/navigation/table-of-contents/table-of-contents.html"
+                },
+                {
+                        "src": "/sections/seo/article-schema/article-schema.html"
+                },
+                {
+                        "src": "/sections/seo/breadcrumb-schema/breadcrumb-schema.html"
+                },
+                {
+                        "src": "/sections/seo/faq-schema/faq-schema.html"
+                },
+                {
+                        "src": "/sections/seo/meta-preview/meta-preview.html"
+                },
+                {
+                        "src": "/sections/seo/og-preview/og-preview.html"
+                },
+                {
+                        "src": "/sections/seo/product-schema/product-schema.html"
+                },
+                {
+                        "src": "/sections/seo/structured-data/structured-data.html"
+                },
+                {
+                        "src": "/sections/utility/alert/alert.html"
+                },
+                {
+                        "src": "/sections/utility/cookie-banner/cookie-banner.html"
+                },
+                {
+                        "src": "/sections/utility/countdown/countdown.html"
+                },
+                {
+                        "src": "/sections/utility/embed/embed.html"
+                },
+                {
+                        "src": "/sections/utility/language-switcher/language-switcher.html"
+                },
+                {
+                        "src": "/sections/utility/notification/notification.html"
+                },
+                {
+                        "src": "/sections/utility/progress-bar/progress-bar.html"
+                },
+                {
+                        "src": "/sections/utility/social-feed/social-feed.html"
+                },
+                {
+                        "src": "/sections/utility/social-share/social-share.html"
+                }
+        ]
 }
