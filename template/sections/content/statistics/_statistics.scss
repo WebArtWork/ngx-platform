@@ -37,6 +37,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		align-items: flex-start;
+		gap: calc(16px * var(--margin-scale));
+		background: var(--c-bg-item);
+		padding: calc(20px * var(--padding-scale));
+		border-radius: var(--b-radius);
+		box-shadow: 0 2px 4px var(--c-shadow);
+
 	}
 
 	&__value {
@@ -45,14 +52,14 @@
 		font-weight: 600;
 		line-height: var(--line-height);
 		letter-spacing: var(--letter-spacing);
-		color: var(--c-text-primary);
+		color: var(--c-primary-hover);
 	}
 
 	&__label {
 		font-size: var(--font-size);
 		line-height: var(--line-height);
 		letter-spacing: var(--letter-spacing);
-		color: var(--c-text-body-secondary);
+		color: var(--c-text-primary);
 		margin-top: calc(4px * var(--margin-scale));
 	}
 }
