@@ -57,6 +57,11 @@ export class LanguageSelectorComponent extends CrudComponent<
 		);
 
 		this.setDocuments();
+		// console.log(this.languageService.language());
+		// console.log(this.languageService.languages());
+
+		// if (this.languageService.language()) {
+		// }
 	}
 
 	mutate(current = true) {
