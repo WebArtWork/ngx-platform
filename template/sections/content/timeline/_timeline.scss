@@ -9,6 +9,7 @@
 		font-size: 36px;
 		font-weight: 600;
 		text-transform: uppercase;
+		
 		letter-spacing: var(--letter-spacing);
 		line-height: var(--line-height);
 		color: var(--c-text-primary);
@@ -60,14 +61,14 @@
 	&__time {
 		font-family: var(--ff-title);
 		font-weight: 600;
-		color: var(--c-text-primary);
+		color: var(--c-primary-hover);
 		margin-bottom: calc(4px * var(--margin-scale));
 	}
 
 	&__label {
 		font-size: var(--font-size);
 		line-height: var(--line-height);
-		color: var(--c-text-secondary);
+		color: var(--c-text-primary);
 	}
 
 	&__text {

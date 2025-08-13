@@ -1,10 +1,12 @@
-<!-- placeholder="{{'Select language...' | translate}}" -->
+@let _documents = documents();
+
 <wselect
+	placeholder="{{'Language.' + (_documents.length ? 'Select language' : 'Create new language') + '...' | translate}}"
+	[disabled]="disabled() || !_documents.length"
 	(wChange)="wChange.emit($event)"
 	[searchable]="searchable()"
 	[clearable]="clearable()"
-	[disabled]="disabled()"
-	[items]="documents()"
+	[items]="_documents"
 	[value]="value()"
 ></wselect>
 

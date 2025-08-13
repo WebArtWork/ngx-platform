@@ -16,7 +16,7 @@ import { TimeComponent } from 'src/app/formcomponents/time/time.component';
 export const environment = {
 	roles: [],
 	production: true,
-	appId: 'test',
+	appId: 'appId',
 	url: 'https://api.webart.work',
 	sign: {
 		logo: '',
