@@ -26,10 +26,14 @@ export class LanguageService extends CrudService<Language> {
 		});
 	}
 
-	setLanguage(language: Language) {
-		this.language.set(language);
+	setLanguage(_id: string) {
+		const language = this.languages().find((l) => l._id === _id);
 
-		this._storeService.setJson('language', language);
+		if (language) {
+			this.language.set(language);
+
+			this._storeService.setJson('language', language._id);
+		}
 	}
 
 	nextLanguage() {
@@ -43,7 +47,9 @@ export class LanguageService extends CrudService<Language> {
 			});
 
 			this.setLanguage(
-				index === languages.length - 1 ? languages[0] : languages[index]
+				index === languages.length - 1
+					? languages[0]._id
+					: languages[index]._id
 			);
 		}
 	}

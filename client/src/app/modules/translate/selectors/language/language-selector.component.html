@@ -3,7 +3,7 @@
 <wselect
 	placeholder="{{'Language.' + (_documents.length ? 'Select language' : 'Create new language') + '...' | translate}}"
 	[disabled]="disabled() || !_documents.length"
-	(wChange)="wChange.emit($event)"
+	(wChange)="wChange.emit($event); selected = $event"
 	[searchable]="searchable()"
 	[clearable]="clearable()"
 	[items]="_documents"

@@ -43,6 +43,8 @@ export class LanguageSelectorComponent extends CrudComponent<
 
 	languageService = inject(LanguageService);
 
+	selected: SelectValue;
+
 	constructor(
 		_languageService: LanguageService,
 		_translate: TranslateService,
@@ -57,20 +59,17 @@ export class LanguageSelectorComponent extends CrudComponent<
 		);
 
 		this.setDocuments();
-		// console.log(this.languageService.language());
-		// console.log(this.languageService.languages());
-
-		// if (this.languageService.language()) {
-		// }
 	}
 
 	mutate(current = true) {
+		const doc = current
+			? this.documents().find(
+					(d) => d()._id === (this.selected || this.value())
+				) || {}
+			: {};
+
 		this._formService
-			.modal<Language>(
-				languageForm,
-				[],
-				current ? this.languageService.language() || {} : {}
-			)
+			.modal<Language>(languageForm, [], doc)
 			.then((updated: Language) => {
 				if (current) {
 					this.languageService.language.update((language) => {
@@ -88,7 +87,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 					this.languageService
 						.create(updated)
 						.subscribe((language) => {
-							this.languageService.setLanguage(language);
+							this.languageService.setLanguage(language._id);
 						});
 				}
 			});

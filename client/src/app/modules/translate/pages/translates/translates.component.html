@@ -1,4 +1,9 @@
-<language-selector [mutatable]="true" />
+<language-selector
+	(wChange)="languageService.setLanguage($event + '')"
+	[value]="languageService.language()._id"
+	[clearable]="false"
+	[mutatable]="true"
+/>
 
 <wtable
 	[rows]="documents()"
