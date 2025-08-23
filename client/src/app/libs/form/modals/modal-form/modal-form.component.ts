@@ -8,7 +8,7 @@ import { FormModalButton } from '../../services/form.service';
 
 @Component({
 	templateUrl: './modal-form.component.html',
-	styleUrls: ['./modal-form.component.scss'],
+	styleUrl: './modal-form.component.scss',
 	imports: [FormComponent, ButtonComponent, NgClass]
 })
 export class ModalFormComponent {
@@ -30,5 +30,5 @@ export class ModalFormComponent {
 	// eslint-disable-next-line
 	change: (form: any) => void = (form: any) => {};
 
-	buttons: FormModalButton[];
+	modalButtons: FormModalButton[];
 }

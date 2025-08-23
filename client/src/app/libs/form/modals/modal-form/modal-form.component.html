@@ -7,7 +7,7 @@
 />
 
 <div class="btn-action btn-action_w95p">
-	@for (button of buttons; track button) {
+	@for (button of modalButtons; track button) {
 	<wbutton
 		(click)="button.click(submition, close)"
 		[ngClass]="button.class"

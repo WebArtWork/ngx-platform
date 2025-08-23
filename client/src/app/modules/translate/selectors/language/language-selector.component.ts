@@ -93,26 +93,26 @@ export class LanguageSelectorComponent extends CrudComponent<
 			});
 	}
 
-	delete() {
-		this._alertService.question({
-			text: this._translateService.translate(
-				`Are you sure you want to delete this language?`
-			),
-			buttons: [
-				{ text: this._translateService.translate('No') },
-				{
-					text: this._translateService.translate('Yes'),
-					callback: async (): Promise<void> => {
-						this.languageService.nextLanguage();
+	// delete() {
+	// 	this._alertService.question({
+	// 		text: this._translateService.translate(
+	// 			`Are you sure you want to delete this language?`
+	// 		),
+	// 		buttons: [
+	// 			{ text: this._translateService.translate('No') },
+	// 			{
+	// 				text: this._translateService.translate('Yes'),
+	// 				callback: async (): Promise<void> => {
+	// 					this.languageService.nextLanguage();
 
-						this.languageService.delete(
-							this.languageService.language()
-						);
-					}
-				}
-			]
-		});
-	}
+	// 					this.languageService.delete(
+	// 						this.languageService.language()
+	// 					);
+	// 				}
+	// 			}
+	// 		]
+	// 	});
+	// }
 
 	private _coreService = inject(CoreService);
 

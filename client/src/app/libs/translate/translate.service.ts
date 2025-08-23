@@ -81,15 +81,15 @@ export class TranslateService {
 			this.languages = languages;
 		});
 
-		this._store.getJson('words', (words) => {
+		this._store.getJson('words', (words: unknown) => {
 			if (words) {
-				this.words = words;
+				this.words = words as Word[];
 			}
 		});
 
-		this._store.getJson('language', (language: Language) => {
+		this._store.getJson('language', (language: unknown) => {
 			if (language) {
-				this.setLanguage(language);
+				this.setLanguage(language as Language);
 			}
 		});
 

@@ -12,7 +12,7 @@ import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
-import { AlertService, HttpService, UiService } from 'wacom';
+import { AlertService, HttpService, UtilService } from 'wacom';
 import { FormComponent } from '../../../libs/form/components/form/form.component';
 
 interface RespStatus {
@@ -27,7 +27,7 @@ interface RespStatus {
 })
 export class SignComponent {
 	userService = inject(UserService);
-	private _uiService = inject(UiService);
+	private _utilService = inject(UtilService);
 	private _alert = inject(AlertService);
 	private _http = inject(HttpService);
 	private _router = inject(Router);
@@ -124,7 +124,7 @@ export class SignComponent {
 			});
 		}
 
-		if (!this._uiService.valid(this.user.email)) {
+		if (!this._utilService.valid(this.user.email)) {
 			this._alert.error({
 				text: this._translate.translate('Sign.Enter proper email')
 			});

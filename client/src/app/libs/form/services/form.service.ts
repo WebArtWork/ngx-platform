@@ -42,7 +42,7 @@ export class FormService {
 
 	constructor() {
 		/** Load form IDs from the store */
-		this._store.getJson('formIds', (formIds: string[]) => {
+		this._store.getJson('formIds', (formIds: unknown) => {
 			if (Array.isArray(formIds)) {
 				this.formIds.push(...formIds);
 			}
@@ -238,19 +238,19 @@ export class FormService {
 		change: (update: T) => void | Promise<(update: T) => void> = (
 			update: T
 		): void => {},
-		modalOptions: Modal = {}
+		modalOptions: unknown = {}
 	): Promise<T> {
 		return new Promise((resolve) => {
 			this._modal.show({
-				...modalOptions,
+				...(modalOptions as Modal),
 				component: ModalFormComponent,
 				class: 'forms_modal',
 				size: 'big',
 				form,
-				buttons: Array.isArray(buttons) ? buttons : [buttons],
+				modalButtons: Array.isArray(buttons) ? buttons : [buttons],
 				submition,
 				onClose: function () {
-					resolve(this.submition as T);
+					resolve(submition as T);
 				},
 				submit: (update: T) => {
 					resolve(update);
