@@ -41,7 +41,7 @@ export class PerPagePipe implements PipeTransform {
 		// Paginate the array by slicing it according to the current page and items per page
 		return arr.slice(
 			(config.page - 1) * config.perPage,
-			config.page * config.perPage
+			config.page * config.perPage,
 		);
 	}
 }

@@ -4,6 +4,6 @@ export const routes: Routes = [
 	{
 		path: '',
 		loadComponent: () =>
-			import('./translates.component').then((m) => m.TranslatesComponent)
-	}
+			import('./translates.component').then((m) => m.TranslatesComponent),
+	},
 ];

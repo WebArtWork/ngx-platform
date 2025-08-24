@@ -5,7 +5,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent as LibSelectComponent } from 'src/app/libs/select/select.component';
@@ -16,7 +16,7 @@ interface Interface {}
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './bird.formcomponent.html',
 	styleUrls: ['./bird.formcomponent.scss'],
-	imports: [LibSelectComponent, NgClass]
+	imports: [LibSelectComponent, NgClass],
 })
 export class BirdFormcomponent implements OnInit {
 	private _form = inject(FormService);

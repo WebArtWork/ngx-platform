@@ -3,7 +3,7 @@ import {
 	state,
 	style,
 	transition,
-	trigger
+	trigger,
 } from '@angular/animations';
 
 export const coreAnimation = [
@@ -13,9 +13,9 @@ export const coreAnimation = [
 			style({
 				transform: 'translateY(-10px)',
 				opacity: 0,
-				height: '0'
+				height: '0',
 			}),
-			animate(400)
+			animate(400),
 		]),
 		transition('* => void', [
 			animate(
@@ -23,19 +23,19 @@ export const coreAnimation = [
 				style({
 					opacity: 0,
 					height: '0',
-					transform: 'translateY(-10px)'
-				})
-			)
-		])
+					transform: 'translateY(-10px)',
+				}),
+			),
+		]),
 	]),
 	trigger('tabInOut', [
 		state('in', style({ transform: 'translateX(0)' })),
 		transition('void => *', [
 			style({
 				transform: 'translateX(10px)',
-				opacity: 0
+				opacity: 0,
 			}),
-			animate(300)
+			animate(300),
 		]),
 		transition('* => void', [
 			animate(
@@ -43,28 +43,28 @@ export const coreAnimation = [
 				style({
 					opacity: 0,
 					// height: '50px'
-					transform: 'translateX(10px)'
-				})
-			)
-		])
+					transform: 'translateX(10px)',
+				}),
+			),
+		]),
 	]),
 	trigger('showInOut', [
 		state('in', style({})),
 		transition('void => *', [
 			style({
-				opacity: 0
+				opacity: 0,
 			}),
-			animate(300)
+			animate(300),
 		]),
 		transition('* => void', [
 			animate(
 				300,
 				style({
-					opacity: 0
-				})
-			)
-		])
-	])
+					opacity: 0,
+				}),
+			),
+		]),
+	]),
 ];
 
 // Readme

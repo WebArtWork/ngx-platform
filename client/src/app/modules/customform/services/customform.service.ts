@@ -26,7 +26,7 @@ export interface Customform extends CrudDocument {
 }
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class CustomformService extends CrudService<Customform> {
 	private _core = inject(CoreService);
@@ -40,13 +40,13 @@ export class CustomformService extends CrudService<Customform> {
 
 	constructor() {
 		super({
-			name: 'form'
+			name: 'form',
 		});
 
 		this.get({
-			query: this.appId ? 'appId=' + this.appId : ''
+			query: this.appId ? 'appId=' + this.appId : '',
 		}).subscribe((customforms: Customform[]) =>
-			this.customforms.push(...customforms)
+			this.customforms.push(...customforms),
 		);
 
 		this._core
@@ -60,7 +60,7 @@ export class CustomformService extends CrudService<Customform> {
 			.subscribe((customform: Customform) => {
 				this.customforms.splice(
 					this.customforms.findIndex((o) => o._id === customform._id),
-					1
+					1,
 				);
 			});
 	}

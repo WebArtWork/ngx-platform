@@ -4,7 +4,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { UtilService } from 'wacom';
 import { FormService } from '../../libs/form/services/form.service';
@@ -13,7 +13,7 @@ interface Interface {}
 @Component({
 	templateUrl: './password.component.html',
 	styleUrls: ['./password.component.scss'],
-	imports: [InputComponent, NgClass]
+	imports: [InputComponent, NgClass],
 })
 export class PasswordComponent implements OnInit {
 	private _form = inject(FormService);
@@ -26,7 +26,7 @@ export class PasswordComponent implements OnInit {
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>(
 			'Password',
-			this.templateRef
+			this.templateRef,
 		);
 	}
 }

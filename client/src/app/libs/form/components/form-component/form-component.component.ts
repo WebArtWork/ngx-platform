@@ -6,7 +6,7 @@ import {
 	OnInit,
 	Output,
 	TemplateRef,
-	inject
+	inject,
 } from '@angular/core';
 import { FormComponentInterface } from '../../interfaces/component.interface';
 import { FormInterface } from '../../interfaces/form.interface';
@@ -16,7 +16,7 @@ import { FormService } from '../../services/form.service';
 	selector: 'form-component',
 	templateUrl: './form-component.component.html',
 	styleUrls: ['./form-component.component.scss'],
-	imports: [NgTemplateOutlet]
+	imports: [NgTemplateOutlet],
 })
 export class FormComponentComponent implements OnInit {
 	private _form = inject(FormService);
@@ -53,7 +53,7 @@ export class FormComponentComponent implements OnInit {
 
 	get template(): TemplateRef<unknown> {
 		return this._form.getTemplateComponent(
-			this.component.name as string
+			this.component.name as string,
 		) as TemplateRef<unknown>;
 	}
 
@@ -123,11 +123,11 @@ export class FormComponentComponent implements OnInit {
 
 				if (
 					component?.components?.indexOf(
-						this.component as unknown as any
+						this.component as unknown as any,
 					) >= 0
 				) {
 					return component.components.indexOf(
-						this.component as unknown as any
+						this.component as unknown as any,
 					);
 				}
 			}

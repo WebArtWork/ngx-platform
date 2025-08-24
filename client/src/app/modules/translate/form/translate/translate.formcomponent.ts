@@ -25,7 +25,10 @@ export class TranslateFormcomponent implements OnInit {
 	templateRef: TemplateRef<Interface>;
 
 	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Translate', this.templateRef);
+		this._form.addTemplateComponent<Interface>(
+			'Translate',
+			this.templateRef,
+		);
 	}
 
 	select(data: any): string {

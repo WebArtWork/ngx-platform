@@ -2,681 +2,681 @@ export const languages = [
 	{
 		name: 'Afrikaans',
 		origin: 'Afrikaans',
-		code: 'af'
+		code: 'af',
 	},
 	{
 		name: 'Albanian',
 		origin: 'shqiptare',
-		code: 'sq'
+		code: 'sq',
 	},
 	{
 		name: 'Amharic',
 		origin: 'አማርኛ',
-		code: 'am'
+		code: 'am',
 	},
 	{
 		name: 'Arabic',
 		origin: 'عربي',
-		code: 'ar'
+		code: 'ar',
 	},
 	{
 		name: 'Armenian',
 		origin: 'հայերեն',
-		code: 'hy'
+		code: 'hy',
 	},
 	{
 		name: 'Assamese',
 		origin: 'অসমীয়া',
-		code: 'as'
+		code: 'as',
 	},
 	{
 		name: 'Aymara',
 		origin: 'Aymara',
-		code: 'ay'
+		code: 'ay',
 	},
 	{
 		name: 'Azerbaijani',
 		origin: 'Azərbaycan',
-		code: 'az'
+		code: 'az',
 	},
 	{
 		name: 'Bambara',
 		origin: "U b'a don",
-		code: 'bm'
+		code: 'bm',
 	},
 	{
 		name: 'Basque',
 		origin: 'euskara',
-		code: 'eu'
+		code: 'eu',
 	},
 	{
 		name: 'Belarusian',
 		origin: 'беларускі',
-		code: 'be'
+		code: 'be',
 	},
 	{
 		name: 'Bengali',
 		origin: 'বাংলা',
-		code: 'bn'
+		code: 'bn',
 	},
 	{
 		name: 'Bhojpuri',
 		origin: 'भोजपुरी',
-		code: 'bho'
+		code: 'bho',
 	},
 	{
 		name: 'Bosnian',
 		origin: 'bosanski',
-		code: 'bs'
+		code: 'bs',
 	},
 	{
 		name: 'Bulgarian',
 		origin: 'български',
-		code: 'bg'
+		code: 'bg',
 	},
 	{
 		name: 'Catalan',
 		origin: 'català',
-		code: 'ca'
+		code: 'ca',
 	},
 	{
 		name: 'Cebuano',
 		origin: 'Cebuano',
-		code: 'ceb'
+		code: 'ceb',
 	},
 	{
 		name: 'Chinese (Simplified)',
 		origin: '简体中文）',
-		code: 'zh-CN'
+		code: 'zh-CN',
 	},
 	{
 		name: 'Chinese (Traditional)',
 		origin: '中國傳統的）',
-		code: 'zh-TW'
+		code: 'zh-TW',
 	},
 	{
 		name: 'Corsican',
 		origin: 'Corsu',
-		code: 'co'
+		code: 'co',
 	},
 	{
 		name: 'Croatian',
 		origin: 'Hrvatski',
-		code: 'hr'
+		code: 'hr',
 	},
 	{
 		name: 'Czech',
 		origin: 'čeština',
-		code: 'cs'
+		code: 'cs',
 	},
 	{
 		name: 'Danish',
 		origin: 'dansk',
-		code: 'da'
+		code: 'da',
 	},
 	{
 		name: 'Dhivehi',
 		origin: 'ދިވެހި',
-		code: 'dv'
+		code: 'dv',
 	},
 	{
 		name: 'Dogri',
 		origin: 'डोगरी',
-		code: 'doi'
+		code: 'doi',
 	},
 	{
 		name: 'Dutch',
 		origin: 'Nederlands',
-		code: 'nl'
+		code: 'nl',
 	},
 	{
 		name: 'English',
 		origin: 'English',
-		code: 'en'
+		code: 'en',
 	},
 	{
 		name: 'English (British)',
 		origin: 'English (British)',
-		code: 'en-GB'
+		code: 'en-GB',
 	},
 	{
 		name: 'English (Australian)',
 		origin: 'English (Australian)',
-		code: 'en-AU'
+		code: 'en-AU',
 	},
 	{
 		name: 'Esperanto',
 		origin: 'Esperanto',
-		code: 'eo'
+		code: 'eo',
 	},
 	{
 		name: 'Estonian',
 		origin: 'eesti keel',
-		code: 'et'
+		code: 'et',
 	},
 	{
 		name: 'Ewe',
 		origin: 'Aŋgba',
-		code: 'ee'
+		code: 'ee',
 	},
 	{
 		name: 'Filipino (Tagalog)',
 		origin: 'Filipino (Tagalog)',
-		code: 'fil'
+		code: 'fil',
 	},
 	{
 		name: 'Finnish',
 		origin: 'Suomalainen',
-		code: 'fi'
+		code: 'fi',
 	},
 	{
 		name: 'French',
 		origin: 'Français',
-		code: 'fr'
+		code: 'fr',
 	},
 	{
 		name: 'Frisian',
 		origin: 'Frysk',
-		code: 'fy'
+		code: 'fy',
 	},
 	{
 		name: 'Galician',
 		origin: 'galego',
-		code: 'gl'
+		code: 'gl',
 	},
 	{
 		name: 'Georgian',
 		origin: 'ქართული',
-		code: 'ka'
+		code: 'ka',
 	},
 	{
 		name: 'German',
 		origin: 'Deutsch',
-		code: 'de'
+		code: 'de',
 	},
 	{
 		name: 'Greek',
 		origin: 'Ελληνικά',
-		code: 'el'
+		code: 'el',
 	},
 	{
 		name: 'Guarani',
 		origin: 'guarani',
-		code: 'gn'
+		code: 'gn',
 	},
 	{
 		name: 'Gujarati',
 		origin: 'ગુજરાતી',
-		code: 'gu'
+		code: 'gu',
 	},
 	{
 		name: 'Haitian Creole',
 		origin: 'Kreyòl ayisyen',
-		code: 'ht'
+		code: 'ht',
 	},
 	{
 		name: 'Hausa',
 		origin: 'Hausa',
-		code: 'ha'
+		code: 'ha',
 	},
 	{
 		name: 'Hawaiian',
 		origin: 'ʻŌlelo Hawaiʻi',
-		code: 'haw'
+		code: 'haw',
 	},
 	{
 		name: 'Hebrew',
 		origin: 'עִברִית',
-		code: 'he'
+		code: 'he',
 	},
 	{
 		name: 'Hindi',
 		origin: 'नहीं',
-		code: 'hi'
+		code: 'hi',
 	},
 	{
 		name: 'Hmong',
 		origin: 'Hmong',
-		code: 'hmn'
+		code: 'hmn',
 	},
 	{
 		name: 'Hungarian',
 		origin: 'Magyar',
-		code: 'hu'
+		code: 'hu',
 	},
 	{
 		name: 'Icelandic',
 		origin: 'íslenskur',
-		code: 'is'
+		code: 'is',
 	},
 	{
 		name: 'Igbo',
 		origin: 'Igbo',
-		code: 'ig'
+		code: 'ig',
 	},
 	{
 		name: 'Ilocano',
 		origin: 'Ilocano',
-		code: 'ilo'
+		code: 'ilo',
 	},
 	{
 		name: 'Indonesian',
 		origin: 'bahasa Indonesia',
-		code: 'id'
+		code: 'id',
 	},
 	{
 		name: 'Irish',
 		origin: 'Gaeilge',
-		code: 'ga'
+		code: 'ga',
 	},
 	{
 		name: 'Italian',
 		origin: 'Italiano',
-		code: 'it'
+		code: 'it',
 	},
 	{
 		name: 'Japanese',
 		origin: '日本',
-		code: 'ja'
+		code: 'ja',
 	},
 	{
 		name: 'Javanese',
 		origin: 'basa jawa',
-		code: 'jv'
+		code: 'jv',
 	},
 	{
 		name: 'Kannada',
 		origin: 'ಕನ್ನಡ',
-		code: 'kn'
+		code: 'kn',
 	},
 	{
 		name: 'Kazakh',
 		origin: 'қазақ',
-		code: 'kk'
+		code: 'kk',
 	},
 	{
 		name: 'Khmer',
 		origin: 'ខ្មែរ',
-		code: 'km'
+		code: 'km',
 	},
 	{
 		name: 'Kinyarwanda',
 		origin: 'Kinyarwanda',
-		code: 'rw'
+		code: 'rw',
 	},
 	{
 		name: 'Konkani',
 		origin: 'कोंकणी',
-		code: 'gom'
+		code: 'gom',
 	},
 	{
 		name: 'Korean',
 		origin: '한국인',
-		code: 'ko'
+		code: 'ko',
 	},
 	{
 		name: 'Krio',
 		origin: 'Kryo we de na di wɔl',
-		code: 'kri'
+		code: 'kri',
 	},
 	{
 		name: 'Kurdish',
 		origin: 'Kurdî',
-		code: 'ku'
+		code: 'ku',
 	},
 	{
 		name: 'Kurdish (Sorani)',
 		origin: 'کوردی (سۆرانی)',
-		code: 'ckb'
+		code: 'ckb',
 	},
 	{
 		name: 'Kyrgyz',
 		origin: 'Кыргызча',
-		code: 'ky'
+		code: 'ky',
 	},
 	{
 		name: 'Lao',
 		origin: 'ແຮງ​ງານ',
-		code: 'lo'
+		code: 'lo',
 	},
 	{
 		name: 'Latin',
 		origin: 'Latinus',
-		code: 'la'
+		code: 'la',
 	},
 	{
 		name: 'Latvian',
 		origin: 'latviski',
-		code: 'lv'
+		code: 'lv',
 	},
 	{
 		name: 'Lingala',
 		origin: 'Lingala',
-		code: 'ln'
+		code: 'ln',
 	},
 	{
 		name: 'Lithuanian',
 		origin: 'lietuvių',
-		code: 'lt'
+		code: 'lt',
 	},
 	{
 		name: 'Luganda',
 		origin: 'Luganda',
-		code: 'lg'
+		code: 'lg',
 	},
 	{
 		name: 'Luxembourgish',
 		origin: 'lëtzebuergesch',
-		code: 'lb'
+		code: 'lb',
 	},
 	{
 		name: 'Macedonian',
 		origin: 'македонски',
-		code: 'mk'
+		code: 'mk',
 	},
 	{
 		name: 'Maithili',
 		origin: 'मैथिली',
-		code: 'mai'
+		code: 'mai',
 	},
 	{
 		name: 'Malagasy',
 		origin: 'Malagasy',
-		code: 'mg'
+		code: 'mg',
 	},
 	{
 		name: 'Malay',
 		origin: 'Melayu',
-		code: 'ms'
+		code: 'ms',
 	},
 	{
 		name: 'Malayalam',
 		origin: 'മലയാളം',
-		code: 'ml'
+		code: 'ml',
 	},
 	{
 		name: 'Maltese',
 		origin: 'Malti',
-		code: 'mt'
+		code: 'mt',
 	},
 	{
 		name: 'Maori',
 		origin: 'Maori',
-		code: 'mi'
+		code: 'mi',
 	},
 	{
 		name: 'Marathi',
 		origin: 'मराठी',
-		code: 'mr'
+		code: 'mr',
 	},
 	{
 		name: 'Meiteilon (Manipuri)',
 		origin: 'ꯃꯦꯏꯇꯦꯏꯂꯣꯟ (ꯃꯅꯤꯄꯨꯔꯤ) ꯴.',
-		code: 'mni-Mtei'
+		code: 'mni-Mtei',
 	},
 	{
 		name: 'Mizo',
 		origin: 'Mizo',
-		code: 'lus'
+		code: 'lus',
 	},
 	{
 		name: 'Mongolian',
 		origin: 'Монгол',
-		code: 'mn'
+		code: 'mn',
 	},
 	{
 		name: 'Myanmar (Burmese)',
 		origin: 'မြန်မာ (ဗမာ)၊',
-		code: 'my'
+		code: 'my',
 	},
 	{
 		name: 'Nepali',
 		origin: 'नेपाली',
-		code: 'ne'
+		code: 'ne',
 	},
 	{
 		name: 'Norwegian',
 		origin: 'norsk',
-		code: 'no'
+		code: 'no',
 	},
 	{
 		name: 'Nyanja (Chichewa)',
 		origin: 'Nyanja (Chichewa)',
-		code: 'ny'
+		code: 'ny',
 	},
 	{
 		name: 'Odia (Oriya)',
 		origin: 'ଓଡିଆ (ଓଡିଆ)',
-		code: 'or'
+		code: 'or',
 	},
 	{
 		name: 'Oromo',
 		origin: 'Oromo',
-		code: 'om'
+		code: 'om',
 	},
 	{
 		name: 'Pashto',
 		origin: 'پښتو',
-		code: 'ps'
+		code: 'ps',
 	},
 	{
 		name: 'Persian',
 		origin: 'فارسی',
-		code: 'fa'
+		code: 'fa',
 	},
 	{
 		name: 'Polish',
 		origin: 'Polski',
-		code: 'pl'
+		code: 'pl',
 	},
 	{
 		name: 'Portuguese (Portugal, Brazil)',
 		origin: 'Português (Portugal, Brasil)',
-		code: 'pt'
+		code: 'pt',
 	},
 	{
 		name: 'Punjabi',
 		origin: 'ਪੰਜਾਬੀ',
-		code: 'pa'
+		code: 'pa',
 	},
 	{
 		name: 'Quechua',
 		origin: 'Runasimi',
-		code: 'qu'
+		code: 'qu',
 	},
 	{
 		name: 'Romanian',
 		origin: 'Română',
-		code: 'ro'
+		code: 'ro',
 	},
 	{
 		name: 'Russian',
 		origin: 'Русский',
-		code: 'ru'
+		code: 'ru',
 	},
 	{
 		name: 'Samoan',
 		origin: 'Samoa',
-		code: 'sm'
+		code: 'sm',
 	},
 	{
 		name: 'Sanskrit',
 		origin: 'संस्कृत',
-		code: 'sa'
+		code: 'sa',
 	},
 	{
 		name: 'Scots Gaelic',
 		origin: 'Gàidhlig na h-Alba',
-		code: 'gd'
+		code: 'gd',
 	},
 	{
 		name: 'Sepedi',
 		origin: 'Sepedi',
-		code: 'nso'
+		code: 'nso',
 	},
 	{
 		name: 'Serbian',
 		origin: 'Српски',
-		code: 'sr'
+		code: 'sr',
 	},
 	{
 		name: 'Sesotho',
 		origin: 'Senyesemane',
-		code: 'st'
+		code: 'st',
 	},
 	{
 		name: 'Shona',
 		origin: 'Shona',
-		code: 'sn'
+		code: 'sn',
 	},
 	{
 		name: 'Sindhi',
 		origin: 'سنڌي',
-		code: 'sd'
+		code: 'sd',
 	},
 	{
 		name: 'Sinhala (Sinhalese)',
 		origin: 'සිංහල (සිංහල)',
-		code: 'si'
+		code: 'si',
 	},
 	{
 		name: 'Slovak',
 		origin: 'slovenský',
-		code: 'sk'
+		code: 'sk',
 	},
 	{
 		name: 'Slovenian',
 		origin: 'Slovenščina',
-		code: 'sl'
+		code: 'sl',
 	},
 	{
 		name: 'Somali',
 		origin: 'Somali',
-		code: 'so'
+		code: 'so',
 	},
 	{
 		name: 'Spanish',
 		origin: 'español',
-		code: 'es'
+		code: 'es',
 	},
 	{
 		name: 'Sundanese',
 		origin: 'Sundanese',
-		code: 'su'
+		code: 'su',
 	},
 	{
 		name: 'Swahili',
 		origin: 'kiswahili',
-		code: 'sw'
+		code: 'sw',
 	},
 	{
 		name: 'Swedish',
 		origin: 'svenska',
-		code: 'sv'
+		code: 'sv',
 	},
 	{
 		name: 'Tagalog (Filipino)',
 		origin: 'Tagalog (Filipino)',
-		code: 'tl'
+		code: 'tl',
 	},
 	{
 		name: 'Tajik',
 		origin: 'тоҷикӣ',
-		code: 'tg'
+		code: 'tg',
 	},
 	{
 		name: 'Tamil',
 		origin: 'தமிழ்',
-		code: 'ta'
+		code: 'ta',
 	},
 	{
 		name: 'Tatar',
 		origin: 'Татар',
-		code: 'tt'
+		code: 'tt',
 	},
 	{
 		name: 'Telugu',
 		origin: 'తెలుగు',
-		code: 'te'
+		code: 'te',
 	},
 	{
 		name: 'Thai',
 		origin: 'แบบไทย',
-		code: 'th'
+		code: 'th',
 	},
 	{
 		name: 'Tigrinya',
 		origin: 'ትግሪኛ',
-		code: 'ti'
+		code: 'ti',
 	},
 	{
 		name: 'Tsonga',
 		origin: 'Tsonga',
-		code: 'ts'
+		code: 'ts',
 	},
 	{
 		name: 'Turkish',
 		origin: 'Türk',
-		code: 'tr'
+		code: 'tr',
 	},
 	{
 		name: 'Turkmen',
 		origin: 'Türkmenler',
-		code: 'tk'
+		code: 'tk',
 	},
 	{
 		name: 'Twi (Akan)',
 		origin: 'Twi (Will) .',
-		code: 'ak'
+		code: 'ak',
 	},
 	{
 		name: 'Ukrainian',
 		origin: 'українська',
-		code: 'uk'
+		code: 'uk',
 	},
 	{
 		name: 'Urdu',
 		origin: 'اردو',
-		code: 'ur'
+		code: 'ur',
 	},
 	{
 		name: 'Uyghur',
 		origin: 'ئۇيغۇر',
-		code: 'ug'
+		code: 'ug',
 	},
 	{
 		name: 'Uzbek',
 		origin: "o'zbek",
-		code: 'uz'
+		code: 'uz',
 	},
 	{
 		name: 'Vietnamese',
 		origin: 'Tiếng Việt',
-		code: 'vi'
+		code: 'vi',
 	},
 	{
 		name: 'Welsh',
 		origin: 'Cymraeg',
-		code: 'cy'
+		code: 'cy',
 	},
 	{
 		name: 'Xhosa',
 		origin: 'isiXhosa',
-		code: 'xh'
+		code: 'xh',
 	},
 	{
 		name: 'Yiddish',
 		origin: 'יידיש',
-		code: 'yi'
+		code: 'yi',
 	},
 	{
 		name: 'Yoruba',
 		origin: 'Yoruba',
-		code: 'yo'
+		code: 'yo',
 	},
 	{
 		name: 'Zulu',
 		origin: 'Zulu',
-		code: 'zu'
-	}
+		code: 'zu',
+	},
 ];

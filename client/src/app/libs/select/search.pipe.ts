@@ -20,7 +20,7 @@ export class SearchPipe implements PipeTransform {
 		fields?: Field,
 		limit?: number,
 		ignore = false,
-		_reload?: unknown
+		_reload?: unknown,
 	): T[] {
 		/* unwrap signals */
 		const q = isSignal(query) ? query() : query;
@@ -63,7 +63,7 @@ export class SearchPipe implements PipeTransform {
 			const next = obj[head];
 			if (Array.isArray(next))
 				return next.some((v) =>
-					rest.length ? walk(v, rest) : txtMatches(v)
+					rest.length ? walk(v, rest) : txtMatches(v),
 				);
 			return rest.length ? walk(next, rest) : txtMatches(next);
 		};

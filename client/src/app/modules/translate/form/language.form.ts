@@ -9,13 +9,13 @@ export const languageForm = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Name'
+					value: 'Name',
 				},
 				{
 					name: 'Placeholder',
-					value: 'fill language name'
-				}
-			]
-		}
-	]
+					value: 'fill language name',
+				},
+			],
+		},
+	],
 };

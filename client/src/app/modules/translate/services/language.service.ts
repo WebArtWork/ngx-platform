@@ -3,7 +3,7 @@ import { CrudService, StoreService } from 'wacom';
 import { Language } from '../interfaces/language.interface';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class LanguageService extends CrudService<Language> {
 	language = signal<Language>({} as Language);
@@ -12,7 +12,7 @@ export class LanguageService extends CrudService<Language> {
 
 	constructor() {
 		super({
-			name: 'translatelanguage'
+			name: 'translatelanguage',
 		});
 
 		this._storeService.getJson('language', (language) => {
@@ -49,7 +49,7 @@ export class LanguageService extends CrudService<Language> {
 			this.setLanguage(
 				index === languages.length - 1
 					? languages[0]._id
-					: languages[index]._id
+					: languages[index]._id,
 			);
 		}
 	}

@@ -4,6 +4,6 @@ import { BirdsComponent } from './birds.component';
 export const routes: Routes = [
 	{
 		path: '',
-		component: BirdsComponent
-	}
+		component: BirdsComponent,
+	},
 ];

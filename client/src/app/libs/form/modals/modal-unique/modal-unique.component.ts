@@ -7,7 +7,7 @@ import { FormInterface } from '../../interfaces/form.interface';
 	selector: 'app-modal-unique',
 	templateUrl: './modal-unique.component.html',
 	styleUrls: ['./modal-unique.component.scss'],
-	imports: [FormComponent]
+	imports: [FormComponent],
 })
 export class ModalUniqueComponent {
 	private _http = inject(HttpService);
@@ -24,7 +24,7 @@ export class ModalUniqueComponent {
 		this._http
 			.post(
 				'/api/' + this.module + '/unique' + (this.field || ''),
-				this.doc
+				this.doc,
 			)
 			.subscribe((resp: string) => {
 				if (this.doc[this.field] !== resp) {

@@ -12,13 +12,13 @@ export const userFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'Enter your name'
+					value: 'Enter your name',
 				},
 				{
 					name: 'Label',
-					value: 'Name'
-				}
-			]
+					value: 'Name',
+				},
+			],
 		},
 		{
 			name: 'Text',
@@ -26,13 +26,13 @@ export const userFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'Enter your phone'
+					value: 'Enter your phone',
 				},
 				{
 					name: 'Label',
-					value: 'Phone'
-				}
-			]
+					value: 'Phone',
+				},
+			],
 		},
 		{
 			name: 'Text',
@@ -40,22 +40,22 @@ export const userFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'Enter your bio'
+					value: 'Enter your bio',
 				},
 				{
 					name: 'Label',
-					value: 'Bio'
+					value: 'Bio',
 				},
 				{
 					name: 'Textarea',
-					value: true
-				}
-			]
+					value: true,
+				},
+			],
 		},
 		...((
 			environment as unknown as {
 				userForm?: FormComponentInterface[];
 			}
-		).userForm || [])
-	]
+		).userForm || []),
+	],
 };

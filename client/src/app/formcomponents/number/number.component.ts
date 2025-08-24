@@ -4,7 +4,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { InputValue } from 'src/app/libs/input/input.type';
 import { FormService } from '../../libs/form/services/form.service';
@@ -14,7 +14,7 @@ interface Interface {}
 
 @Component({
 	templateUrl: './number.component.html',
-	imports: [InputComponent, NgClass]
+	imports: [InputComponent, NgClass],
 })
 export class NumberComponent implements OnInit {
 	private _form = inject(FormService);

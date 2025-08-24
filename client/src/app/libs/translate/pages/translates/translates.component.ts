@@ -31,8 +31,8 @@ interface TranslateAll {
 		ButtonComponent,
 		TableComponent,
 		CellDirective,
-		TranslatePipe
-	]
+		TranslatePipe,
+	],
 })
 export class TranslatesComponent {
 	ts = inject(TranslateService);
@@ -51,19 +51,19 @@ export class TranslatesComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'fill Translate'
+						value: 'fill Translate',
 					},
 					{
 						name: 'Label',
-						value: 'Translate'
+						value: 'Translate',
 					},
 					{
 						name: 'Textarea',
-						value: true
-					}
-				]
-			}
-		]
+						value: true,
+					},
+				],
+			},
+		],
 	});
 	formAll: FormInterface = this._form.prepareForm({
 		formId: 'translateAll',
@@ -75,17 +75,17 @@ export class TranslatesComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'fill Translate'
+						value: 'fill Translate',
 					},
 					{
 						name: 'Label',
-						value: 'Translate'
+						value: 'Translate',
 					},
 					{
 						name: 'Textarea',
-						value: true
-					}
-				]
+						value: true,
+					},
+				],
 			},
 			{
 				name: 'Text',
@@ -94,51 +94,51 @@ export class TranslatesComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'fill Translate'
+						value: 'fill Translate',
 					},
 					{
 						name: 'Label',
-						value: 'Translate'
+						value: 'Translate',
 					},
 					{
 						name: 'Textarea',
-						value: true
-					}
-				]
-			}
-		]
+						value: true,
+					},
+				],
+			},
+		],
 	});
 	config = {
 		update: (doc: Translate) => {
 			this._form
 				.modal<Translate>(this.form, [], {
-					translate: this.ts.translate(doc.slug)
+					translate: this.ts.translate(doc.slug),
 				})
 				.then((updated: Translate) => {
 					this._http.post('/api/translate/create', {
 						appId: this.ts.appId,
 						slug: doc.slug,
 						lang: this.ts.language.code,
-						translate: updated.translate
+						translate: updated.translate,
 					});
 					this.ts.translates[this.ts.language.code][doc.slug] =
 						updated.translate;
 					this.ts.reset();
 				});
-		}
+		},
 	};
 	pages = [
 		{
 			name: this.ts.translate('Common.All'),
-			_id: ''
-		}
+			_id: '',
+		},
 	].concat(
 		this.ts.pages.map((p: string) => {
 			return {
 				name: p,
-				_id: p
+				_id: p,
 			};
-		})
+		}),
 	);
 	page = localStorage.getItem('page') || '';
 	setPage(page: string) {
@@ -157,18 +157,18 @@ export class TranslatesComponent {
 	translateAll(missed = false): void {
 		const rows = missed
 			? this.rows.filter(
-					(r) => !this.ts.translates[this.ts.language.code][r.slug]
+					(r) => !this.ts.translates[this.ts.language.code][r.slug],
 				)
 			: this.rows;
 		const words = JSON.stringify(rows.map((r) => r.word));
 		const slugs = rows.map((r) => r.slug);
 		const translates = JSON.stringify(
-			rows.map((r) => this.ts.translate(r.slug))
+			rows.map((r) => this.ts.translate(r.slug)),
 		);
 		this._form
 			.modal<TranslateAll>(this.formAll, [], {
 				words,
-				translates
+				translates,
 			})
 			.then((updated: TranslateAll) => {
 				if (translates === updated.translates) {
@@ -180,7 +180,7 @@ export class TranslatesComponent {
 						appId: this.ts.appId,
 						slug: slugs[i],
 						lang: this.ts.language.code,
-						translate: translated[i]
+						translate: translated[i],
 					});
 
 					this.ts.translates[this.ts.language.code][slugs[i]] =
@@ -192,7 +192,7 @@ export class TranslatesComponent {
 
 	setLanguage(code: string) {
 		this.ts.setLanguage(
-			this.ts.languages.find((l) => l.code === code) as Language
+			this.ts.languages.find((l) => l.code === code) as Language,
 		);
 	}
 }

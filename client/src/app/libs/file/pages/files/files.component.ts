@@ -11,7 +11,7 @@ import { FileService } from '../../services/file.service';
 
 @Component({
 	templateUrl: './files.component.html',
-	imports: [TableComponent]
+	imports: [TableComponent],
 })
 export class FilesComponent {
 	private _translate = inject(TranslateService);
@@ -41,17 +41,17 @@ export class FilesComponent {
 					this._fileService.create(created as File);
 
 					this.setRows();
-				}
+				},
 			});
 		},
 		delete: (doc: File): void => {
 			this._alert.question({
 				text: this._translate.translate(
-					'Common.Are you sure you want to delete this file?'
+					'Common.Are you sure you want to delete this file?',
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No')
+						text: this._translate.translate('Common.No'),
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
@@ -59,11 +59,11 @@ export class FilesComponent {
 							this._fileService.delete(doc);
 
 							this.setRows();
-						}
-					}
-				]
+						},
+					},
+				],
 			});
-		}
+		},
 	};
 
 	rows: File[] = [];
@@ -79,7 +79,7 @@ export class FilesComponent {
 		this._clipboard.copy(text);
 
 		this._alert.info({
-			text: 'Url has been copied'
+			text: 'Url has been copied',
 		});
 	}
 
@@ -95,7 +95,7 @@ export class FilesComponent {
 					this.rows.push(...rows);
 				});
 			},
-			250
+			250,
 		);
 	}
 

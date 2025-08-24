@@ -2,7 +2,7 @@ import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
-	inject
+	inject,
 } from '@angular/core';
 import { FileComponent } from 'src/app/libs/file/components/file/file.component';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -25,11 +25,11 @@ interface ChangePassword {
 		TranslateDirective,
 		ButtonComponent,
 		FileComponent,
-		FormComponent
+		FormComponent,
 	],
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
-	styleUrls: ['./profile.component.scss']
+	styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
 	private _form = inject(FormService);
@@ -62,13 +62,13 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your name ...'
+						value: 'Enter your name ...',
 					},
 					{
 						name: 'Label',
-						value: 'Name'
-					}
-				]
+						value: 'Name',
+					},
+				],
 			},
 			{
 				name: 'Text',
@@ -76,13 +76,13 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your phone ...'
+						value: 'Enter your phone ...',
 					},
 					{
 						name: 'Label',
-						value: 'Phone'
-					}
-				]
+						value: 'Phone',
+					},
+				],
 			},
 			{
 				name: 'Text',
@@ -90,19 +90,19 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your biography ...'
+						value: 'Enter your biography ...',
 					},
 					{
 						name: 'Label',
-						value: 'Biography'
+						value: 'Biography',
 					},
 					{
 						name: 'Textarea',
-						value: true
-					}
-				]
-			}
-		]
+						value: true,
+					},
+				],
+			},
+		],
 	});
 
 	user: Record<string, unknown>;
@@ -125,13 +125,13 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your old password ...'
+						value: 'Enter your old password ...',
 					},
 					{
 						name: 'Label',
-						value: 'Old Password'
-					}
-				]
+						value: 'Old Password',
+					},
+				],
 			},
 			{
 				name: 'Password',
@@ -139,15 +139,15 @@ export class ProfileComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your new password ...'
+						value: 'Enter your new password ...',
 					},
 					{
 						name: 'Label',
-						value: 'New Password'
-					}
-				]
-			}
-		]
+						value: 'New Password',
+					},
+				],
+			},
+		],
 	});
 
 	changePassword() {
@@ -156,11 +156,11 @@ export class ProfileComponent {
 			click: (submition: unknown, close: () => void) => {
 				this.userService.changePassword(
 					(submition as ChangePassword).oldPass,
-					(submition as ChangePassword).newPass
+					(submition as ChangePassword).newPass,
 				);
 
 				close();
-			}
+			},
 		});
 	}
 

@@ -8,17 +8,17 @@ export const fileFormComponents = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Image'
+					value: 'Image',
 				},
 				{
 					name: 'Wdith',
-					value: 1920
+					value: 1920,
 				},
 				{
 					name: 'Height',
-					value: 1080
-				}
-			]
-		}
-	]
+					value: 1080,
+				},
+			],
+		},
+	],
 };

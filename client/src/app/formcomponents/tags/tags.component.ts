@@ -3,7 +3,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
 import { InputComponent } from '../../libs/input/input.component';
@@ -14,7 +14,7 @@ interface Interface {}
 
 @Component({
 	templateUrl: './tags.component.html',
-	imports: [InputComponent, ButtonComponent]
+	imports: [InputComponent, ButtonComponent],
 })
 export class TagsComponent implements OnInit {
 	private _form = inject(FormService);

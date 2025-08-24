@@ -4,7 +4,7 @@ import {
 	Directive,
 	ElementRef,
 	inject,
-	output
+	output,
 } from '@angular/core';
 
 /**
@@ -14,7 +14,7 @@ import {
  * <div (clickOutside)="close()">…</div>
  */
 @Directive({
-	selector: '[clickOutside]'
+	selector: '[clickOutside]',
 })
 export class ClickOutsideDirective {
 	readonly clickOutside = output<MouseEvent>();
@@ -35,7 +35,7 @@ export class ClickOutsideDirective {
 
 		// cleanup
 		this._dref.onDestroy(() =>
-			document.removeEventListener('pointerdown', this.handler, true)
+			document.removeEventListener('pointerdown', this.handler, true),
 		);
 	}
 }

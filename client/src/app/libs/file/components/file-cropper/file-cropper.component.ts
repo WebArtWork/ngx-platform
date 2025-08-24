@@ -5,7 +5,7 @@ import { ButtonComponent } from 'src/app/libs/button/button.component';
 @Component({
 	selector: 'app-file-cropper',
 	templateUrl: './file-cropper.component.html',
-	imports: [ImageCropperComponent, ButtonComponent]
+	imports: [ImageCropperComponent, ButtonComponent],
 })
 export class FileCropperComponent {
 	close: () => void;

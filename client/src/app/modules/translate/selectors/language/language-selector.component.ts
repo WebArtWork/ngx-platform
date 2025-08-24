@@ -3,7 +3,7 @@ import {
 	Component,
 	inject,
 	input,
-	output
+	output,
 } from '@angular/core';
 import { ButtonComponent } from 'src/app/libs/button/button.component';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -22,7 +22,7 @@ import { TranslateService } from '../../services/translate.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SelectComponent, TranslatePipe, ButtonComponent],
 	selector: 'language-selector',
-	templateUrl: './language-selector.component.html'
+	templateUrl: './language-selector.component.html',
 })
 export class LanguageSelectorComponent extends CrudComponent<
 	LanguageService,
@@ -48,14 +48,14 @@ export class LanguageSelectorComponent extends CrudComponent<
 	constructor(
 		_languageService: LanguageService,
 		_translate: TranslateService,
-		_form: FormService
+		_form: FormService,
 	) {
 		super(
 			LanguageFormcomponent,
 			_form,
 			_translate,
 			_languageService,
-			'language'
+			'language',
 		);
 
 		this.setDocuments();
@@ -64,7 +64,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	mutate(current = true) {
 		const doc = current
 			? this.documents().find(
-					(d) => d()._id === (this.selected || this.value())
+					(d) => d()._id === (this.selected || this.value()),
 				) || {}
 			: {};
 
@@ -81,7 +81,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 					});
 
 					this.languageService.update(
-						this.languageService.language()
+						this.languageService.language(),
 					);
 				} else {
 					this.languageService

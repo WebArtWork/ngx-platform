@@ -9,7 +9,7 @@ import {
 	input,
 	output,
 	signal,
-	viewChild
+	viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CoreService } from 'wacom';
@@ -26,7 +26,7 @@ import { InputType, InputValue } from './input.type';
 	imports: [FormsModule, NgClass, TranslatePipe],
 	selector: 'winput',
 	templateUrl: './input.component.html',
-	styleUrl: './input.component.scss'
+	styleUrl: './input.component.scss',
 })
 export class InputComponent implements AfterViewInit {
 	/**

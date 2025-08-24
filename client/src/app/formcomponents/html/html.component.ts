@@ -3,7 +3,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TinymceComponent } from 'ngx-tinymce';
@@ -13,7 +13,7 @@ interface Interface {}
 
 @Component({
 	templateUrl: './html.component.html',
-	imports: [TinymceComponent, FormsModule]
+	imports: [TinymceComponent, FormsModule],
 })
 export class HtmlComponent implements OnInit {
 	private _form = inject(FormService);
@@ -27,12 +27,12 @@ export class HtmlComponent implements OnInit {
 		plugins: [
 			'advlist autolink lists link image charmap print preview anchor',
 			'searchreplace visualblocks code fullscreen',
-			'insertdatetime media table paste code help wordcount'
+			'insertdatetime media table paste code help wordcount',
 		],
 		toolbar:
 			'undo redo | formatselect | bold italic backcolor | \
     alignleft aligncenter alignright alignjustify | \
-    bullist numlist outdent indent | removeformat | help'
+    bullist numlist outdent indent | removeformat | help',
 	};
 
 	ngOnInit(): void {

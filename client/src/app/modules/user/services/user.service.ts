@@ -6,11 +6,11 @@ import {
 	CoreService,
 	CrudService,
 	HttpService,
-	StoreService
+	StoreService,
 } from 'wacom';
 import { User } from '../interfaces/user.interface';
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class UserService extends CrudService<User> {
 	readonly url = environment.url;
@@ -63,7 +63,7 @@ export class UserService extends CrudService<User> {
 				}
 
 				return user;
-			}
+			},
 		});
 
 		this.filteredDocuments(this.usersByRole, 'roles');
@@ -93,7 +93,7 @@ export class UserService extends CrudService<User> {
 			});
 
 			this.get({
-				query: environment.appId ? 'appId=' + environment.appId : ''
+				query: environment.appId ? 'appId=' + environment.appId : '',
 			});
 		}
 	}
@@ -108,7 +108,7 @@ export class UserService extends CrudService<User> {
 
 			for (const localtheme of this.themes) {
 				(document.body.parentNode as HTMLElement).classList.remove(
-					localtheme
+					localtheme,
 				);
 			}
 		} else {
@@ -153,21 +153,21 @@ export class UserService extends CrudService<User> {
 			'/api/user/changePassword',
 			{
 				newPass: newPass,
-				oldPass: oldPass
+				oldPass: oldPass,
 			},
 			(resp: boolean) => {
 				this._changingPassword = false;
 
 				if (resp) {
 					this._alert.info({
-						text: 'Successfully changed password'
+						text: 'Successfully changed password',
 					});
 				} else {
 					this._alert.error({
-						text: 'Incorrect current password'
+						text: 'Incorrect current password',
 					});
 				}
-			}
+			},
 		);
 	}
 
@@ -189,13 +189,13 @@ export class UserService extends CrudService<User> {
 
 	updateAdmin(user: User): void {
 		this.update(user, {
-			name: 'admin'
+			name: 'admin',
 		});
 	}
 
 	deleteAdmin(user: User): void {
 		this.delete(user, {
-			name: 'admin'
+			name: 'admin',
 		});
 	}
 

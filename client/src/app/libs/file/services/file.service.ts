@@ -3,7 +3,7 @@ import { CrudService, FileService as WacomFileService } from 'wacom';
 import { File } from '../interfaces/file.interface';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class FileService extends CrudService<File> {
 	private _file = inject(WacomFileService);
@@ -14,7 +14,7 @@ export class FileService extends CrudService<File> {
 
 	constructor() {
 		super({
-			name: 'file'
+			name: 'file',
 		});
 
 		this._file.add({
@@ -28,7 +28,7 @@ export class FileService extends CrudService<File> {
 				) {
 					this.setFile(file);
 				}
-			}
+			},
 		});
 
 		this._file.add({
@@ -43,7 +43,7 @@ export class FileService extends CrudService<File> {
 				) {
 					this.setFile(file);
 				}
-			}
+			},
 		});
 	}
 }

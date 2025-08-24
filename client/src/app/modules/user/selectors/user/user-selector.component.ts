@@ -6,7 +6,7 @@ import {
 	OnChanges,
 	Output,
 	SimpleChanges,
-	inject
+	inject,
 } from '@angular/core';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { UserService } from 'src/app/modules/user/services/user.service';
@@ -16,7 +16,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 	imports: [SelectComponent],
 	selector: 'user-selector',
 	templateUrl: './user-selector.component.html',
-	styleUrls: ['./user-selector.component.scss']
+	styleUrls: ['./user-selector.component.scss'],
 })
 export class UserSelectorComponent implements OnChanges {
 	us = inject(UserService);

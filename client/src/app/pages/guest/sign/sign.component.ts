@@ -2,13 +2,12 @@ import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
-	inject
+	inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpiderComponent } from 'src/app/icons/spider/spider.component';
-import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
-import { TranslateService } from 'src/app/libs/translate/translate.service';
+import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
@@ -24,7 +23,7 @@ interface RespStatus {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SpiderComponent, FormComponent],
 	templateUrl: './sign.component.html',
-	styleUrl: './sign.component.scss'
+	styleUrl: './sign.component.scss',
 })
 export class SignComponent {
 	userService = inject(UserService);
@@ -33,7 +32,7 @@ export class SignComponent {
 
 	private _form = inject(FormService);
 
-	form: FormInterface = this._form.prepareForm({
+	form = this._form.prepareForm({
 		formId: 'sign',
 		title: 'Sign In / Sign Up',
 		components: [
@@ -45,13 +44,13 @@ export class SignComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your email'
+						value: 'Enter your email',
 					},
 					{
 						name: 'Label',
-						value: 'Email'
-					}
-				]
+						value: 'Email',
+					},
+				],
 			},
 			{
 				name: 'Password',
@@ -60,13 +59,13 @@ export class SignComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter your password'
+						value: 'Enter your password',
 					},
 					{
 						name: 'Label',
-						value: 'Password'
-					}
-				]
+						value: 'Password',
+					},
+				],
 			},
 			{
 				name: 'Number',
@@ -74,59 +73,59 @@ export class SignComponent {
 				fields: [
 					{
 						name: 'Placeholder',
-						value: 'Enter code from email'
+						value: 'Enter code from email',
 					},
 					{
 						name: 'Label',
-						value: 'code'
-					}
+						value: 'code',
+					},
 				],
-				hidden: true
+				hidden: true,
 			},
 			{
 				name: 'Button',
 				fields: [
 					{
 						name: 'Label',
-						value: "Let's go"
+						value: "Let's go",
 					},
 					{
 						name: 'Submit',
-						value: true
+						value: true,
 					},
 					{
 						name: 'Click',
-						value: (): void => {
+						value: () => {
 							this.submit();
-						}
-					}
-				]
-			}
-		]
+						},
+					},
+				],
+			},
+		],
 	});
 
 	user = {
 		email: environment.sign.email,
 		password: environment.sign.password,
-		resetPin: null
+		resetPin: null,
 	};
 
-	submit(): void {
+	submit() {
 		if (!this.form.components[2].hidden && this.user.resetPin) {
 			this.save();
 		} else if (!this.user.email) {
 			this._alert.error({
-				text: this._translate.translate('Sign.Enter your email')
+				text: this._translate.translate('Sign.Enter your email'),
 			});
 		}
 
 		if (!this._utilService.valid(this.user.email)) {
 			this._alert.error({
-				text: this._translate.translate('Sign.Enter proper email')
+				text: this._translate.translate('Sign.Enter proper email'),
 			});
 		} else if (!this.user.password) {
 			this._alert.error({
-				text: this._translate.translate('Sign.Enter your password')
+				text: this._translate.translate('Sign.Enter your password'),
 			});
 		} else {
 			this._http.post(
@@ -140,20 +139,20 @@ export class SignComponent {
 					} else {
 						this.sign();
 					}
-				}
+				},
 			);
 		}
 	}
 
-	login(): void {
+	login() {
 		this._http.post('/api/user/login', this.user, this._set.bind(this));
 	}
 
-	sign(): void {
+	sign() {
 		this._http.post('/api/user/sign', this.user, this._set.bind(this));
 	}
 
-	reset(): void {
+	reset() {
 		this._http.post('/api/user/request', this.user, () => {
 			this.form.components[2].hidden = false;
 
@@ -161,19 +160,19 @@ export class SignComponent {
 		});
 
 		this._alert.info({
-			text: 'Mail will sent to your email'
+			text: 'Mail will sent to your email',
 		});
 	}
 
-	save(): void {
+	save() {
 		this._http.post('/api/user/change', this.user, (resp: boolean) => {
 			if (resp) {
 				this._alert.info({
-					text: 'Password successfully changed'
+					text: 'Password successfully changed',
 				});
 			} else {
 				this._alert.error({
-					text: 'Wrong Code'
+					text: 'Wrong Code',
 				});
 			}
 
@@ -181,7 +180,19 @@ export class SignComponent {
 		});
 	}
 
-	private _set = (user: User): void => {
+	private _utilService = inject(UtilService);
+
+	private _alert = inject(AlertService);
+
+	private _http = inject(HttpService);
+
+	private _router = inject(Router);
+
+	private _translate = inject(TranslateService);
+
+	private _cdr = inject(ChangeDetectorRef);
+
+	private _set(user: User) {
 		if (user) {
 			const token = (user as unknown as { token: string }).token || '';
 
@@ -198,20 +209,8 @@ export class SignComponent {
 			this._router.navigateByUrl('/profile');
 		} else {
 			this._alert.error({
-				text: 'Something went wrong'
+				text: 'Something went wrong',
 			});
 		}
-	};
-
-	private _utilService = inject(UtilService);
-
-	private _alert = inject(AlertService);
-
-	private _http = inject(HttpService);
-
-	private _router = inject(Router);
-
-	private _translate = inject(TranslateService);
-
-	private _cdr = inject(ChangeDetectorRef);
+	}
 }

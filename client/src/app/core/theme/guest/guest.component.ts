@@ -3,6 +3,6 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
 	templateUrl: './guest.component.html',
-	imports: [RouterOutlet]
+	imports: [RouterOutlet],
 })
 export class GuestComponent {}

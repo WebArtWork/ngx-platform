@@ -3,7 +3,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { FileComponent } from 'src/app/libs/file/components/file/file.component';
 import { FormService } from '../../libs/form/services/form.service';
@@ -12,7 +12,7 @@ interface Interface {}
 
 @Component({
 	templateUrl: './photos.component.html',
-	imports: [FileComponent]
+	imports: [FileComponent],
 })
 export class PhotosComponent implements OnInit {
 	private _form = inject(FormService);

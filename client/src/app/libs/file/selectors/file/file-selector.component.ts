@@ -5,7 +5,7 @@ import {
 	OnChanges,
 	Output,
 	SimpleChanges,
-	inject
+	inject,
 } from '@angular/core';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { File } from '../../interfaces/file.interface';
@@ -14,7 +14,7 @@ import { FileService } from '../../services/file.service';
 @Component({
 	selector: 'file-selector',
 	templateUrl: './file-selector.component.html',
-	imports: [SelectComponent]
+	imports: [SelectComponent],
 })
 export class FileSelectorComponent implements OnChanges {
 	private _fileService = inject(FileService);

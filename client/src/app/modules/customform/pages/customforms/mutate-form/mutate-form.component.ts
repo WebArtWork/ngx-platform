@@ -5,7 +5,7 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 @Component({
 	selector: 'app-mutate-form',
 	templateUrl: './mutate-form.component.html',
-	styleUrls: ['./mutate-form.component.scss']
+	styleUrls: ['./mutate-form.component.scss'],
 })
 export class MutateFormComponent {
 	fs = inject(FormService);
@@ -18,7 +18,7 @@ export class MutateFormComponent {
 
 	addField() {
 		const component = this.fs.components.filter(
-			(c) => c.name === this.addComponent
+			(c) => c.name === this.addComponent,
 		)[0];
 
 		this.form.components.push({
@@ -26,9 +26,9 @@ export class MutateFormComponent {
 			fields: (component.fields || []).map((f) => {
 				return {
 					name: f,
-					value: ''
+					value: '',
 				};
-			})
+			}),
 		});
 	}
 }

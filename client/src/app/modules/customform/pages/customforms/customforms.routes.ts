@@ -5,7 +5,7 @@ export const routes: Routes = [
 		path: '',
 		loadComponent: () =>
 			import('./customforms.component').then(
-				(m) => m.CustomformsComponent
-			)
-	}
+				(m) => m.CustomformsComponent,
+			),
+	},
 ];

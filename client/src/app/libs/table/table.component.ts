@@ -10,7 +10,7 @@ import {
 	Input,
 	OnInit,
 	Output,
-	QueryList
+	QueryList,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -23,7 +23,7 @@ import {
 	ActionsDirective,
 	CellDirective,
 	CustomEditDirective,
-	SortDirective
+	SortDirective,
 } from './table.directive';
 
 /**
@@ -41,8 +41,8 @@ import {
 		NgTemplateOutlet,
 		RouterLink,
 		SearchPipe,
-		PerPagePipe
-	]
+		PerPagePipe,
+	],
 })
 export class TableComponent implements OnInit, AfterContentInit {
 	private _router = inject(Router);
@@ -118,7 +118,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 			if (typeof this.columns[i] === 'string') {
 				this.columns[i] = {
 					title: this.columns[i],
-					field: this.columns[i]
+					field: this.columns[i],
 				};
 			}
 		}
@@ -287,7 +287,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 				direction:
 					(typeof this.sort_type.direction != 'string' && 'asc') ||
 					(this.sort_type.direction == 'asc' && 'desc') ||
-					undefined
+					undefined,
 			};
 		}
 	}

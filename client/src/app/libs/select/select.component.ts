@@ -8,7 +8,7 @@ import {
 	inject,
 	input,
 	output,
-	signal
+	signal,
 } from '@angular/core';
 import { CoreService } from 'wacom';
 import { InputComponent } from '../input/input.component';
@@ -32,11 +32,11 @@ import { SelectId, SelectValue } from './select.type';
 		TranslateDirective,
 		TranslatePipe,
 		InputComponent,
-		ClickOutsideDirective
+		ClickOutsideDirective,
 	],
 	selector: 'wselect',
 	templateUrl: './select.component.html',
-	styleUrl: './select.component.scss'
+	styleUrl: './select.component.scss',
 })
 export class SelectComponent {
 	/** Whether the select input is disabled. */
@@ -59,7 +59,7 @@ export class SelectComponent {
 
 	/** The value type used */
 	readonly valueType = input<'string' | 'number' | 'boolean' | 'null'>(
-		'string'
+		'string',
 	);
 
 	/** The label for the select input. */
@@ -91,7 +91,7 @@ export class SelectComponent {
 	private _core = inject(CoreService);
 
 	readonly allItems = signal<Signal<SelectItem>[]>(
-		this._core.toSignalsArray<SelectItem>([])
+		this._core.toSignalsArray<SelectItem>([]),
 	);
 
 	/** The selected value(s). */
@@ -134,7 +134,7 @@ export class SelectComponent {
 					this.allItem[saveItem.id] = saveItem.name;
 
 					return this._core.toSignal(saveItem);
-				})
+				}),
 			);
 
 			if (!initialized) {
@@ -186,7 +186,7 @@ export class SelectComponent {
 			this.activeValues.set(
 				this.activeValues().includes(item.id)
 					? this.activeValues().filter((id) => id !== item.id)
-					: [...this.activeValues(), item.id]
+					: [...this.activeValues(), item.id],
 			);
 
 			this.wChange.emit(this.activeValues() as SelectValue);

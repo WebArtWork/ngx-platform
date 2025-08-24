@@ -25,7 +25,10 @@ export class LanguageFormcomponent implements OnInit {
 	templateRef: TemplateRef<Interface>;
 
 	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Language', this.templateRef);
+		this._form.addTemplateComponent<Interface>(
+			'Language',
+			this.templateRef,
+		);
 	}
 
 	select(data: any): string {

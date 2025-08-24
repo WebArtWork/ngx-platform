@@ -4,6 +4,6 @@ export const routes: Routes = [
 	{
 		path: '',
 		loadComponent: () =>
-			import('./sign.component').then((m) => m.SignComponent)
-	}
+			import('./sign.component').then((m) => m.SignComponent),
+	},
 ];

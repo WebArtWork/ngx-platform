@@ -4,7 +4,7 @@ import {
 	TemplateRef,
 	Type,
 	createComponent,
-	inject
+	inject,
 } from '@angular/core';
 import { CustomformService } from 'src/app/modules/customform/services/customform.service';
 import { environment } from 'src/environments/environment';
@@ -12,7 +12,7 @@ import { CoreService, Modal, ModalService, StoreService } from 'wacom';
 import { TranslateService } from '../../translate/translate.service';
 import {
 	FormComponentInterface,
-	TemplateFieldInterface
+	TemplateFieldInterface,
 } from '../interfaces/component.interface';
 import { FormInterface } from '../interfaces/form.interface';
 import { ModalFormComponent } from '../modals/modal-form/modal-form.component';
@@ -27,7 +27,7 @@ export interface FormModalButton {
 }
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class FormService {
 	private _translate = inject(TranslateService);
@@ -58,13 +58,13 @@ export class FormService {
 	setTemplateFields(
 		name: string,
 		fields: string[],
-		customFields: Record<string, string> = {}
+		customFields: Record<string, string> = {},
 	): void {
 		this.templateFields[name] = fields;
 
 		this.customTemplateFields[name] = {
 			...(this.customTemplateFields[name] || {}),
-			...customFields
+			...customFields,
 		};
 	}
 
@@ -103,7 +103,7 @@ export class FormService {
 				`Form_${form.formId}.${form.title}`,
 				(title: string) => {
 					form.title = title;
-				}
+				},
 			);
 
 			for (const component of form.components) {
@@ -117,7 +117,7 @@ export class FormService {
 	/** Translates individual form components' fields */
 	translateFormComponent(
 		form: FormInterface,
-		field: TemplateFieldInterface
+		field: TemplateFieldInterface,
 	): void {
 		const fieldValue = field.value;
 
@@ -126,7 +126,7 @@ export class FormService {
 				`Form_${form.formId}.${fieldValue}`,
 				(value: string) => {
 					field.value = value;
-				}
+				},
 			);
 		}
 	}
@@ -140,7 +140,7 @@ export class FormService {
 	/** Creates a default form with specified components */
 	getDefaultForm(
 		formIds: string,
-		components = ['name', 'description']
+		components = ['name', 'description'],
 	): FormInterface {
 		if (this.formIds.indexOf(formIds) === -1) {
 			this.formIds.push(formIds);
@@ -160,15 +160,15 @@ export class FormService {
 					fields: [
 						{
 							name: 'Placeholder',
-							value: 'Enter your ' + key.split('.')[0]
+							value: 'Enter your ' + key.split('.')[0],
 						},
 						{
 							name: 'Label',
-							value: key.split('.')[0].capitalize()
-						}
-					]
+							value: key.split('.')[0].capitalize(),
+						},
+					],
 				};
-			})
+			}),
 		};
 
 		return form;
@@ -190,7 +190,7 @@ export class FormService {
 
 		this._core.onComplete('form_loaded').then(() => {
 			const customForms = this._cfs.customforms.filter(
-				(f) => f.active && f.formId === form.formId
+				(f) => f.active && f.formId === form.formId,
 			);
 
 			for (const customForm of customForms) {
@@ -223,7 +223,7 @@ export class FormService {
 		this.prepareForm(
 			form ||
 				this.forms.find((f) => f.formId === formId) ||
-				this.getDefaultForm(formId)
+				this.getDefaultForm(formId),
 		);
 
 		return form as FormInterface;
@@ -236,9 +236,9 @@ export class FormService {
 		submition: unknown = { data: {} },
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		change: (update: T) => void | Promise<(update: T) => void> = (
-			update: T
+			update: T,
 		): void => {},
-		modalOptions: unknown = {}
+		modalOptions: unknown = {},
 	): Promise<T> {
 		return new Promise((resolve) => {
 			this._modal.show({
@@ -259,7 +259,7 @@ export class FormService {
 					if (typeof change === 'function') {
 						change(update);
 					}
-				}
+				},
 			});
 		});
 	}
@@ -268,7 +268,7 @@ export class FormService {
 	modalDocs<T>(docs: T[]): Promise<T[]> {
 		return new Promise((resolve) => {
 			const submition = {
-				docs: JSON.stringify(docs.length ? docs : [], null, 4)
+				docs: JSON.stringify(docs.length ? docs : [], null, 4),
 			};
 
 			this._modal.show({
@@ -285,11 +285,11 @@ export class FormService {
 							fields: [
 								{
 									name: 'Placeholder',
-									value: 'fill content of documents'
-								}
-							]
-						}
-					]
+									value: 'fill content of documents',
+								},
+							],
+						},
+					],
 				},
 				onClose: function () {
 					const docs: T[] = submition.docs
@@ -304,7 +304,7 @@ export class FormService {
 						: [];
 
 					resolve(docs);
-				}
+				},
 			});
 		});
 	}
@@ -315,18 +315,18 @@ export class FormService {
 		field: string,
 		doc: T,
 		component: string = '',
-		onClose: () => void | Promise<() => void> = (): void => {}
+		onClose: () => void | Promise<() => void> = (): void => {},
 	): void {
 		this._modal.show({
 			component: ModalUniqueComponent,
 			form: this.getDefaultForm('unique', [
-				field + (component ? '.' + component : '')
+				field + (component ? '.' + component : ''),
 			]),
 			module,
 			field,
 			doc,
 			class: 'forms_modal',
-			onClose
+			onClose,
 		});
 	}
 
@@ -340,7 +340,7 @@ export class FormService {
 	getField(
 		form: FormInterface,
 		key: string,
-		name: string
+		name: string,
 	): TemplateFieldInterface | null {
 		const component = this.getComponent(form, key);
 
@@ -361,7 +361,7 @@ export class FormService {
 		form: FormInterface,
 		key: string,
 		name: string,
-		value: unknown
+		value: unknown,
 	): void {
 		const field = this.getField(form, key, name);
 
@@ -376,7 +376,7 @@ export class FormService {
 
 	private _getComponent(
 		components: FormComponentInterface[],
-		key: string
+		key: string,
 	): FormComponentInterface | null {
 		for (const component of components) {
 			if (component.key === key) {
@@ -410,7 +410,7 @@ export class FormService {
 			this._addedFormComponent[name] = true;
 
 			const compRef = createComponent(component, {
-				environmentInjector: this.appRef.injector
+				environmentInjector: this.appRef.injector,
 			});
 
 			this.appRef.attachView(compRef.hostView);

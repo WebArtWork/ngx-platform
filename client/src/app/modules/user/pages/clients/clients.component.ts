@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [TableComponent],
 	templateUrl: './clients.component.html',
-	styleUrls: ['./clients.component.scss']
+	styleUrls: ['./clients.component.scss'],
 })
 export class ClientsComponent {
 	private _translate = inject(TranslateService);
@@ -41,7 +41,7 @@ export class ClientsComponent {
 					this.users.push(...users);
 				});
 			},
-			250
+			250,
 		);
 	}
 
@@ -57,14 +57,14 @@ export class ClientsComponent {
 					click: (created: unknown, close: () => void) => {
 						this._userService.create(created as User, {
 							alert: this._translate.translate(
-								'User.Client has been created'
+								'User.Client has been created',
 							),
 							callback: () => {
 								this.setUsers();
 								close();
-							}
+							},
 						});
-					}
+					},
 				})
 				.then(this._userService.create.bind(this));
 		},
@@ -74,19 +74,19 @@ export class ClientsComponent {
 
 				this._userService.update(doc, {
 					alert: this._translate.translate(
-						'User.Client has been updated'
-					)
+						'User.Client has been updated',
+					),
 				});
 			});
 		},
 		delete: (user: User) => {
 			this._alertService.question({
 				text: this._translate.translate(
-					'Common.Are you sure you want to delete this client?'
+					'Common.Are you sure you want to delete this client?',
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No')
+						text: this._translate.translate('Common.No'),
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
@@ -94,17 +94,17 @@ export class ClientsComponent {
 							this._userService.delete(user, {
 								name: 'admin',
 								alert: this._translate.translate(
-									'User.Client has been deleted'
+									'User.Client has been deleted',
 								),
 								callback: () => {
 									this.setUsers();
-								}
+								},
 							});
-						}
-					}
-				]
+						},
+					},
+				],
 			});
-		}
+		},
 	};
 
 	constructor() {

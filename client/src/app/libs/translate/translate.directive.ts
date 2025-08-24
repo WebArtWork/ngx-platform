@@ -13,7 +13,7 @@ export class TranslateDirective implements OnInit {
 				this._elementRef.nativeElement.innerHTML,
 				(translate: string) => {
 					this._elementRef.nativeElement.innerHTML = translate;
-				}
+				},
 			);
 	}
 

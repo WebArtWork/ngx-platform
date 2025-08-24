@@ -9,7 +9,7 @@ import { FormModalButton } from '../../services/form.service';
 @Component({
 	templateUrl: './modal-form.component.html',
 	styleUrl: './modal-form.component.scss',
-	imports: [FormComponent, ButtonComponent, NgClass]
+	imports: [FormComponent, ButtonComponent, NgClass],
 })
 export class ModalFormComponent {
 	private _core = inject(CoreService);

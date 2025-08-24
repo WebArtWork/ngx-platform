@@ -4,7 +4,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
 import { SelectComponent as SelectComponent_1 } from '../../libs/select/select.component';
@@ -14,7 +14,7 @@ interface Interface {}
 @Component({
 	templateUrl: './select.component.html',
 	styleUrls: ['./select.component.scss'],
-	imports: [SelectComponent_1, NgClass]
+	imports: [SelectComponent_1, NgClass],
 })
 export class SelectComponent implements OnInit {
 	private _form = inject(FormService);

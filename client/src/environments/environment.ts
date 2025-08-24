@@ -9,9 +9,9 @@ export const environment = {
 	sign: {
 		logo: '',
 		email: 'ceo@webart.work',
-		password: 'asdasdasdasd'
+		password: 'asdasdasdasd',
 	},
-	production: false
+	production: false,
 };
 
 /*

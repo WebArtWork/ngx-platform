@@ -3,7 +3,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import { ButtonComponent as LibButtonComponent } from '../../libs/button/button.component';
 import { FormService } from '../../libs/form/services/form.service';
@@ -14,7 +14,7 @@ interface Interface {}
 	selector: 'button-formcomponents',
 	templateUrl: './button.component.html',
 	styleUrls: ['./button.component.scss'],
-	imports: [LibButtonComponent]
+	imports: [LibButtonComponent],
 })
 export class ButtonComponent implements OnInit {
 	private _form = inject(FormService);

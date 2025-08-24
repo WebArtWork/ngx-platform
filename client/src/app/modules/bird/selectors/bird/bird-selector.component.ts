@@ -3,7 +3,7 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	input,
-	output
+	output,
 } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
@@ -20,7 +20,7 @@ import { BirdService } from '../../services/bird.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SelectComponent, TranslatePipe, CommonModule],
 	selector: 'bird-selector',
-	templateUrl: './bird-selector.component.html'
+	templateUrl: './bird-selector.component.html',
 })
 export class BirdSelectorComponent extends CrudComponent<
 	BirdService,
@@ -40,7 +40,7 @@ export class BirdSelectorComponent extends CrudComponent<
 	constructor(
 		_birdService: BirdService,
 		_translate: TranslateService,
-		_form: FormService
+		_form: FormService,
 	) {
 		super(birdForm, _form, _translate, _birdService, 'bird');
 

@@ -9,13 +9,13 @@ export const birdForm = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Title'
+					value: 'Title',
 				},
 				{
 					name: 'Placeholder',
-					value: 'Enter bird title ...'
-				}
-			]
+					value: 'Enter bird title ...',
+				},
+			],
 		},
 		{
 			name: 'Text',
@@ -23,13 +23,13 @@ export const birdForm = {
 			fields: [
 				{
 					name: 'Label',
-					value: 'Description'
+					value: 'Description',
 				},
 				{
 					name: 'Placeholder',
-					value: 'Enter bird description ...'
-				}
-			]
-		}
-	]
+					value: 'Enter bird description ...',
+				},
+			],
+		},
+	],
 };

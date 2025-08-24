@@ -4,7 +4,7 @@ import {
 	EventEmitter,
 	Input,
 	Output,
-	inject
+	inject,
 } from '@angular/core';
 import { CoreService } from 'wacom';
 import { FormComponentInterface } from '../../interfaces/component.interface';
@@ -14,7 +14,7 @@ import { FormComponentComponent } from '../form-component/form-component.compone
 @Component({
 	selector: 'wform',
 	templateUrl: './form.component.html',
-	imports: [FormComponentComponent]
+	imports: [FormComponentComponent],
 })
 export class FormComponent implements AfterViewInit {
 	private _core = inject(CoreService);
@@ -33,7 +33,7 @@ export class FormComponent implements AfterViewInit {
 
 	component(
 		key: string,
-		components = this.config.components
+		components = this.config.components,
 	): FormComponentInterface | false {
 		for (const component of components) {
 			if (component.key === key) {

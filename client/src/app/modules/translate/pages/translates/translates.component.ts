@@ -13,7 +13,7 @@ import { TranslateService } from '../../services/translate.service';
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [TableComponent, LanguageSelectorComponent],
-	templateUrl: './translates.component.html'
+	templateUrl: './translates.component.html',
 })
 export class TranslatesComponent extends CrudComponent<
 	PhraseService,
@@ -31,14 +31,14 @@ export class TranslatesComponent extends CrudComponent<
 	constructor(
 		_translateService: TranslateService,
 		_phraseService: PhraseService,
-		__formService: FormService
+		__formService: FormService,
 	) {
 		super(
 			phraseForm,
 			__formService,
 			_translateService,
 			_phraseService,
-			'phrase'
+			'phrase',
 		);
 
 		this.setDocuments();

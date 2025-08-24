@@ -1,7 +1,7 @@
 import {
 	enableProdMode,
 	importProvidersFrom,
-	provideZonelessChangeDetection
+	provideZonelessChangeDetection,
 } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -10,7 +10,7 @@ import {
 	Routes,
 	provideRouter,
 	withInMemoryScrolling,
-	withPreloading
+	withPreloading,
 } from '@angular/router';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import { MetaGuard, WacomModule } from 'wacom';
@@ -24,14 +24,14 @@ const routes: Routes = [
 	{
 		path: '',
 		redirectTo: '/sign',
-		pathMatch: 'full'
+		pathMatch: 'full',
 	},
 	{
 		path: '',
 		canActivate: [GuestGuard],
 		loadComponent: () =>
 			import('./app/core/theme/guest/guest.component').then(
-				(m) => m.GuestComponent
+				(m) => m.GuestComponent,
 			),
 		children: [
 			/* guest */
@@ -40,22 +40,22 @@ const routes: Routes = [
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Sign'
-					}
+						title: 'Sign',
+					},
 				},
 				loadChildren: () =>
 					import('./app/pages/guest/sign/sign.routes').then(
-						(m) => m.routes
-					)
-			}
-		]
+						(m) => m.routes,
+					),
+			},
+		],
 	},
 	{
 		path: '',
 		canActivate: [AuthenticatedGuard],
 		loadComponent: () =>
 			import('./app/core/theme/user/user.component').then(
-				(m) => m.UserComponent
+				(m) => m.UserComponent,
 			),
 		children: [
 			/* user */
@@ -64,35 +64,35 @@ const routes: Routes = [
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'My Profile'
-					}
+						title: 'My Profile',
+					},
 				},
 				loadChildren: () =>
 					import('./app/pages/user/profile/profile.routes').then(
-						(m) => m.routes
-					)
+						(m) => m.routes,
+					),
 			},
 			{
 				path: 'birds',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Sign'
-					}
+						title: 'Sign',
+					},
 				},
 				loadChildren: () =>
 					import('./app/modules/bird/pages/birds/birds.routes').then(
-						(m) => m.routes
-					)
-			}
-		]
+						(m) => m.routes,
+					),
+			},
+		],
 	},
 	{
 		path: 'admin',
 		canActivate: [AdminsGuard],
 		loadComponent: () =>
 			import('./app/core/theme/user/user.component').then(
-				(m) => m.UserComponent
+				(m) => m.UserComponent,
 			),
 		children: [
 			/* admin */
@@ -101,60 +101,60 @@ const routes: Routes = [
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Users'
-					}
+						title: 'Users',
+					},
 				},
 				loadChildren: () =>
 					import('./app/modules/user/pages/users/users.routes').then(
-						(m) => m.routes
-					)
+						(m) => m.routes,
+					),
 			},
 			{
 				path: 'forms',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Forms'
-					}
+						title: 'Forms',
+					},
 				},
 				loadChildren: () =>
 					import(
 						'./app/modules/customform/pages/customforms/customforms.routes'
-					).then((m) => m.routes)
+					).then((m) => m.routes),
 			},
 			{
 				path: 'translates',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Translates'
-					}
+						title: 'Translates',
+					},
 				},
 				loadChildren: () =>
 					import(
 						'./app/modules/translate/pages/translates/translates.routes'
-					).then((m) => m.routes)
+					).then((m) => m.routes),
 			},
 			{
 				path: 'old_translates',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Translates'
-					}
+						title: 'Translates',
+					},
 				},
 				loadChildren: () =>
 					import(
 						'./app/libs/translate/pages/translates/translates.routes'
-					).then((m) => m.routes)
-			}
-		]
+					).then((m) => m.routes),
+			},
+		],
 	},
 	{
 		path: '**',
 		redirectTo: 'profile',
-		pathMatch: 'full'
-	}
+		pathMatch: 'full',
+	},
 ];
 
 if (environment.production) {
@@ -167,12 +167,12 @@ bootstrapApplication(AppComponent, {
 		importProvidersFrom(
 			BrowserModule,
 			NgxTinymceModule.forRoot({
-				baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
+				baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/',
 			}),
 			WacomModule.forRoot({
 				store: {},
 				http: {
-					url: environment.url
+					url: environment.url,
 				},
 				socket: environment.production,
 				meta: {
@@ -182,10 +182,10 @@ bootstrapApplication(AppComponent, {
 						favicon: environment.meta.favicon,
 						description: environment.meta.description,
 						titleSuffix: ' | ' + environment.meta.title,
-						'og:image': environment.meta.image
-					}
-				}
-			})
+						'og:image': environment.meta.image,
+					},
+				},
+			}),
 		),
 		/* providers */
 		AuthenticatedGuard,
@@ -195,9 +195,9 @@ bootstrapApplication(AppComponent, {
 		provideRouter(
 			routes,
 			withPreloading(PreloadAllModules),
-			withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })
-		)
-	]
+			withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+		),
+	],
 })
 	// eslint-disable-next-line no-console
 	.catch((err) => console.error(err));

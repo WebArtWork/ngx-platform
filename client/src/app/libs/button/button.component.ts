@@ -2,7 +2,7 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	input,
-	output
+	output,
 } from '@angular/core';
 
 /**
@@ -13,7 +13,7 @@ import {
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	selector: 'wbutton',
-	templateUrl: './button.component.html'
+	templateUrl: './button.component.html',
 })
 export class ButtonComponent {
 	readonly type = input<

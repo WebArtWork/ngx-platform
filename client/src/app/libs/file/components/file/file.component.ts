@@ -7,7 +7,7 @@ import {
 	OnInit,
 	Output,
 	SimpleChanges,
-	inject
+	inject,
 } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpService, ModalService } from 'wacom';
@@ -23,7 +23,7 @@ import { FileService } from './../../services/file.service';
 	selector: 'ngx-file',
 	templateUrl: './file.component.html',
 	styleUrls: ['./file.component.scss'],
-	imports: [CommonModule]
+	imports: [CommonModule],
 })
 export class FileComponent implements OnInit, OnChanges {
 	private _modal = inject(ModalService);
@@ -141,7 +141,7 @@ export class FileComponent implements OnInit, OnChanges {
 					component: FileCropperComponent,
 					width: this.width,
 					height: this.height,
-					dataUrl
+					dataUrl,
 				});
 			} else {
 				this.uploadImage(dataUrl);
@@ -159,7 +159,7 @@ export class FileComponent implements OnInit, OnChanges {
 			{
 				container: this.container,
 				name: this.name,
-				dataUrl
+				dataUrl,
 			},
 			(url: string) => {
 				if (this.multiple) {
@@ -175,7 +175,7 @@ export class FileComponent implements OnInit, OnChanges {
 				}
 
 				this.update.emit(this.value);
-			}
+			},
 		);
 	}
 }

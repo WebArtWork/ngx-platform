@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.service';
 	imports: [TableComponent, CellDirective, InputComponent],
 	selector: 'app-users',
 	templateUrl: './users.component.html',
-	styleUrls: ['./users.component.scss']
+	styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent {
 	private _translate = inject(TranslateService);
@@ -33,9 +33,9 @@ export class UsersComponent {
 				click: (created: unknown, close: () => void) => {
 					this._us.create(created as User, {
 						alert: 'User has been created',
-						callback: close.bind(this)
+						callback: close.bind(this),
 					});
-				}
+				},
 			});
 		},
 		update: (doc: User): void => {
@@ -43,18 +43,18 @@ export class UsersComponent {
 				this._core.copy(updated, doc);
 
 				this._us.update(doc, {
-					alert: 'User has been updated'
+					alert: 'User has been updated',
 				});
 			});
 		},
 		delete: (user: User): void => {
 			this._alert.question({
 				text: this._translate.translate(
-					'Common.Are you sure you want to delete this user?'
+					'Common.Are you sure you want to delete this user?',
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No')
+						text: this._translate.translate('Common.No'),
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
@@ -64,25 +64,25 @@ export class UsersComponent {
 								alert: 'User has been deleted',
 								callback: () => {
 									// this.setUsers();
-								}
+								},
 							});
-						}
-					}
-				]
+						},
+					},
+				],
 			});
 		},
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist'
+				class: 'playlist',
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit'
-			}
-		]
+				class: 'edit',
+			},
+		],
 	};
 
 	columns = ['name', 'email'];

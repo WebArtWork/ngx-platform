@@ -4,7 +4,7 @@ import {
 	EventEmitter,
 	Input,
 	Output,
-	TemplateRef
+	TemplateRef,
 } from '@angular/core';
 import { FormModalButton } from '../../../form.service';
 
@@ -12,7 +12,7 @@ import { FormModalButton } from '../../../form.service';
 	selector: 'app-modal-form-button',
 	templateUrl: './modal-form-button.component.html',
 	styleUrls: ['./modal-form-button.component.scss'],
-	imports: [NgTemplateOutlet]
+	imports: [NgTemplateOutlet],
 })
 export class ModalFormButtonComponent {
 	@Input() button: FormModalButton;

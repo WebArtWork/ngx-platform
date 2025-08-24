@@ -3,7 +3,7 @@ import {
 	OnInit,
 	TemplateRef,
 	ViewChild,
-	inject
+	inject,
 } from '@angular/core';
 import 'brace';
 import 'brace/mode/json';
@@ -15,7 +15,7 @@ interface Interface {}
 
 @Component({
 	templateUrl: './code.component.html',
-	imports: [AceModule]
+	imports: [AceModule],
 })
 export class CodeComponent implements OnInit {
 	private _form = inject(FormService);

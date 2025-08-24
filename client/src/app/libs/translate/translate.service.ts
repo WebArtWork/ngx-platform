@@ -19,7 +19,7 @@ export interface Word {
 }
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class TranslateService {
 	private _store = inject(StoreService);
@@ -49,8 +49,8 @@ export class TranslateService {
 				{
 					code: 'en',
 					name: 'English',
-					origin: 'English'
-				}
+					origin: 'English',
+				},
 			];
 
 	// Currently selected language
@@ -58,14 +58,14 @@ export class TranslateService {
 		? languages.find((l) => l.code === this.defaultLanguageCode) || {
 				code: 'en',
 				name: 'English',
-				origin: 'English'
+				origin: 'English',
 			}
 		: this.languages.length
 			? this.languages[0]
 			: {
 					code: 'en',
 					name: 'English',
-					origin: 'English'
+					origin: 'English',
 				};
 
 	constructor() {
@@ -135,15 +135,15 @@ export class TranslateService {
 		this._http.post(
 			'/api/word/delete' + (this.appId ? '/' + this.appId : ''),
 			{
-				_id: word._id
-			}
+				_id: word._id,
+			},
 		);
 
 		this._http.post(
 			'/api/translate/delete' + (this.appId ? '/' + this.appId : ''),
 			{
-				slug: word.slug
-			}
+				slug: word.slug,
+			},
 		);
 	}
 
@@ -155,7 +155,7 @@ export class TranslateService {
 		if (language) {
 			this._http.post('/api/translate/set', {
 				appId: this.appId,
-				language: language.code
+				language: language.code,
 			});
 
 			this.language = language;
@@ -204,7 +204,7 @@ export class TranslateService {
 						this.translates[this.language.code][slug]
 					) {
 						this.resets[slug][i](
-							this.translates[this.language.code][slug]
+							this.translates[this.language.code][slug],
 						);
 					} else {
 						this.resets[slug][i](this._slug2name(slug));
@@ -274,13 +274,13 @@ export class TranslateService {
 					slug: slug,
 					word: this._slug2name(slug),
 					page: slug.split('.')[0],
-					lang: this.language.code
+					lang: this.language.code,
 				},
 				(word) => {
 					if (word) {
 						this.words.push(word);
 					}
-				}
+				},
 			);
 		} else {
 			setTimeout(() => {
@@ -301,7 +301,7 @@ export class TranslateService {
 				appId: this.appId,
 				slug,
 				translate,
-				lang: languageCode
+				lang: languageCode,
 			});
 
 			this._store.setJson('translates', this.translates);

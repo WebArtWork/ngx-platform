@@ -30,7 +30,7 @@ import { ButtonComponent } from '.../button.component.ts';
 
 @Component({
 	imports: [ButtonComponent],
-	template: `<wbutton ...>Button</wbutton>`
+	template: `<wbutton ...>Button</wbutton>`,
 })
 export class AppComponent {}
 ```
@@ -61,7 +61,7 @@ import { signal } from '@angular/core';
 		>
 			Toggle Disabled
 		</wbutton>
-	`
+	`,
 })
 export class ParentComponent {
 	disabledSignal = signal(false);

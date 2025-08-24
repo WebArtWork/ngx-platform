@@ -3,12 +3,12 @@ import { CrudService } from 'wacom';
 import { Bird } from '../interfaces/bird.interface';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class BirdService extends CrudService<Bird> {
 	constructor() {
 		super({
-			name: 'bird'
+			name: 'bird',
 		});
 	}
 }

@@ -16,8 +16,8 @@ import { coreAnimation } from '../../animations/core.animations';
 		RouterLinkActive,
 		RouterLink,
 		TranslateDirective,
-		RouterOutlet
-	]
+		RouterOutlet,
+	],
 })
 export class UserComponent {
 	userService = inject(UserService);
