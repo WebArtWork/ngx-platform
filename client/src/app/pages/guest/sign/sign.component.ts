@@ -23,7 +23,8 @@ interface RespStatus {
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SpiderComponent, FormComponent],
-	templateUrl: './sign.component.html'
+	templateUrl: './sign.component.html',
+	styleUrl: './sign.component.scss'
 })
 export class SignComponent {
 	userService = inject(UserService);

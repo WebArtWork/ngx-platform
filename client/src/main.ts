@@ -88,28 +88,6 @@ const routes: Routes = [
 		]
 	},
 	{
-		path: '',
-		loadComponent: () =>
-			import('./app/core/theme/public/public.component').then(
-				(m) => m.PublicComponent
-			),
-		children: [
-			{
-				path: 'document',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Document'
-					}
-				},
-				loadChildren: () =>
-					import('./app/pages/guest/document/document.routes').then(
-						(m) => m.routes
-					)
-			}
-		]
-	},
-	{
 		path: 'admin',
 		canActivate: [AdminsGuard],
 		loadComponent: () =>

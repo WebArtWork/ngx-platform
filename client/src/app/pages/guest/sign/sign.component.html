@@ -1,21 +1,22 @@
-<div class="auth-wrapper">
-	<div class="auth__wrap">
-		<div (click)="userService.toggleMode()" class="auth__img">
+<div class="sign-wrapper">
+	<div class="sign-wrapper__wrap">
+		<div (click)="userService.toggleTheme()" class="sign-wrapper__img">
 			@if (logo) {
 			<img [src]="logo" alt="Logo" />
 			} @if (!logo) {
 			<icon-spider></icon-spider>
 			}
 		</div>
-		<div class="auth__form">
-			<div class="auth">
+		<div class="sign-wrapper__form">
+			<div class="sign-wrapper__card">
 				<span
-					(click)="userService.toggleMode()"
-					class="material-icons auth__icon"
+					(click)="userService.toggleTheme()"
+					class="material-icons sign-wrapper__icon"
 				>
-					@if (userService.mode === 'dark') { dark_mode } @else {
+					@if (userService.theme === 'dark') { dark_mode } @else {
 					light_mode }
 				</span>
+
 				<wform (wSubmit)="submit()" [submition]="user" [config]="form">
 				</wform>
 			</div>

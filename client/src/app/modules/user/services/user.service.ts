@@ -13,12 +13,6 @@ import { User } from '../interfaces/user.interface';
 	providedIn: 'root'
 })
 export class UserService extends CrudService<User> {
-	private _http = inject(HttpService);
-	private _store = inject(StoreService);
-	private _alert = inject(AlertService);
-	private _core = inject(CoreService);
-	private _router = inject(Router);
-
 	readonly url = environment.url;
 
 	get thumb(): string {
@@ -34,10 +28,10 @@ export class UserService extends CrudService<User> {
 
 	employees = (environment as unknown as { roles: string[] }).roles || [];
 
-	mode = 'dark';
+	theme = 'dark';
 
-	modes = (
-		(environment as unknown as { modes: string[] }).modes || []
+	themes = (
+		(environment as unknown as { themes: string[] }).themes || []
 	).concat(['dark', 'white']);
 
 	users: User[] = this.getDocs();
@@ -95,33 +89,33 @@ export class UserService extends CrudService<User> {
 
 		this._store.get('mode', (mode) => {
 			if (mode) {
-				this.setMode(mode);
+				this.setTheme(mode);
 			} else {
-				this.setMode('dark');
+				this.setTheme('dark');
 			}
 		});
 	}
 
-	toggleMode() {
-		this.setMode(this.mode === 'dark' ? 'white' : 'dark');
+	toggleTheme() {
+		this.setTheme(this.theme === 'dark' ? 'white' : 'dark');
 	}
 
-	setMode(mode = 'white') {
-		if (mode === 'white') {
-			this._store.remove('mode');
+	setTheme(theme = 'white') {
+		if (theme === 'white') {
+			this._store.remove('theme');
 
-			for (const localmode of this.modes) {
+			for (const localtheme of this.themes) {
 				(document.body.parentNode as HTMLElement).classList.remove(
-					localmode
+					localtheme
 				);
 			}
 		} else {
-			this._store.set('mode', mode);
+			this._store.set('theme', theme);
 
-			(document.body.parentNode as HTMLElement).classList.add(mode);
+			(document.body.parentNode as HTMLElement).classList.add(theme);
 		}
 
-		this.mode = mode;
+		this.theme = theme;
 	}
 
 	setUser(user: User): void {
@@ -204,4 +198,14 @@ export class UserService extends CrudService<User> {
 	}
 
 	private _changingPassword = false;
+
+	private _http = inject(HttpService);
+
+	private _store = inject(StoreService);
+
+	private _alert = inject(AlertService);
+
+	private _core = inject(CoreService);
+
+	private _router = inject(Router);
 }

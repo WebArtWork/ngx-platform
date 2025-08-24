@@ -28,9 +28,9 @@
 				<div class="theme-switch">
 					<span
 						class="material-icons"
-						(click)="userService.toggleMode()"
+						(click)="userService.toggleTheme()"
 					>
-						@if (userService.mode === 'dark') {dark_mode} @else
+						@if (userService.theme === 'dark') {dark_mode} @else
 						{light_mode}
 					</span>
 				</div>

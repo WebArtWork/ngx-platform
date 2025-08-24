@@ -9,7 +9,7 @@ import { coreAnimation } from '../../animations/core.animations';
 
 @Component({
 	templateUrl: './user.component.html',
-	styleUrls: ['./user.component.scss'],
+	styleUrl: './user.component.scss',
 	animations: [coreAnimation],
 	imports: [
 		WacomModule,
