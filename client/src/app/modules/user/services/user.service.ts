@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
@@ -15,13 +15,6 @@ import { User } from '../interfaces/user.interface';
 export class UserService extends CrudService<User> {
 	readonly url = environment.url;
 
-	get thumb(): string {
-		return !this.user.thumb ||
-			this.user.thumb.includes('assets/default.png')
-			? 'assets/default.png'
-			: this.url + this.user.thumb;
-	}
-
 	roles = (
 		(environment as unknown as { roles: string[] }).roles || []
 	).concat(['admin']);
@@ -34,13 +27,25 @@ export class UserService extends CrudService<User> {
 		(environment as unknown as { themes: string[] }).themes || []
 	).concat(['dark', 'white']);
 
-	users: User[] = this.getDocs();
+	users = signal<User[]>(this.getDocs());
 
-	user: User = localStorage.getItem('waw_user')
-		? JSON.parse(localStorage.getItem('waw_user') as string)
-		: this.new();
+	user = signal<User>(
+		localStorage.getItem('waw_user')
+			? JSON.parse(localStorage.getItem('waw_user') as string)
+			: this.new(),
+	);
 
-	usersByRole: Record<string, User[]> = {};
+	thumb = signal(
+		!this.user().thumb || this.user().thumb.includes('assets/default.png')
+			? 'assets/default.png'
+			: this.url + this.user().thumb,
+	);
+
+	role(role: string): boolean {
+		return !!(this.user().is || {})[role];
+	}
+
+	usersByRole: Record<string, WritableSignal<User[]>> = {};
 
 	constructor() {
 		super({
@@ -66,7 +71,25 @@ export class UserService extends CrudService<User> {
 			},
 		});
 
-		this.filteredDocuments(this.usersByRole, 'roles');
+		this.filteredDocuments(
+			{},
+			{
+				field: 'roles',
+				filtered: (splitted) => {
+					for (const role in splitted) {
+						if (this.usersByRole[role]) {
+							this.usersByRole[role].set(
+								(splitted as Record<string, User[]>)[role],
+							);
+						} else {
+							this.usersByRole[role] = signal(
+								(splitted as Record<string, User[]>)[role],
+							);
+						}
+					}
+				},
+			},
+		);
 
 		this._store.get('mode', (mode) => {
 			if (mode) {
@@ -76,7 +99,7 @@ export class UserService extends CrudService<User> {
 			}
 		});
 
-		if (this._http.header('token')) {
+		if (localStorage.getItem('waw_user')) {
 			this.fetch({}, { name: 'me' }).subscribe((user: User) => {
 				if (user) {
 					if (
@@ -121,27 +144,23 @@ export class UserService extends CrudService<User> {
 	}
 
 	setUser(user: User): void {
-		this.user = user;
+		this.user.set(user);
 
 		localStorage.setItem('waw_user', JSON.stringify(user));
 
 		this._core.complete('us.user');
 	}
 
-	role(role: string): boolean {
-		return !!(this.user?.is || {})[role];
-	}
-
 	updateMe(): void {
-		this.setUser(this.user);
+		this.setUser(this.user());
 
-		this.update(this.user);
+		this.update(this.user());
 	}
 
 	updateMeAfterWhile(): void {
-		this.setUser(this.user);
+		this.setUser(this.user());
 
-		this.updateAfterWhile(this.user);
+		this.updateAfterWhile(this.user());
 	}
 
 	changePassword(oldPass: string, newPass: string): void {
@@ -172,7 +191,7 @@ export class UserService extends CrudService<User> {
 	}
 
 	logout(): void {
-		this.user = this.new();
+		this.user.set(this.new());
 
 		localStorage.removeItem('waw_user');
 

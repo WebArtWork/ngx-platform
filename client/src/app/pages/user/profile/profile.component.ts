@@ -4,15 +4,14 @@ import {
 	Component,
 	inject,
 } from '@angular/core';
+import { ButtonComponent } from 'src/app/libs/button/button.component';
 import { FileComponent } from 'src/app/libs/file/components/file/file.component';
-import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormComponent } from 'src/app/libs/form/components/form/form.component';
 import { FormService } from 'src/app/libs/form/services/form.service';
+import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 import { CoreService } from 'wacom';
-import { ButtonComponent } from '../../../libs/button/button.component';
-import { FormComponent } from '../../../libs/form/components/form/form.component';
-import { TranslateDirective } from '../../../libs/translate/translate.directive';
 
 interface ChangePassword {
 	oldPass: string;
@@ -27,23 +26,19 @@ interface ChangePassword {
 		FileComponent,
 		FormComponent,
 	],
-	selector: 'app-profile',
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
-	private _form = inject(FormService);
-	private _core = inject(CoreService);
-	private _cdr = inject(ChangeDetectorRef);
 	userService = inject(UserService);
 
 	readonly url = environment.url;
 
 	constructor() {
-		this._core.onComplete('us.user').then(() => {
+		this._coreService.onComplete('us.user').then(() => {
 			const user = {};
 
-			this._core.copy(this.userService.user, user);
+			this._coreService.copy(this.userService.user, user);
 
 			this.user = user;
 
@@ -51,7 +46,9 @@ export class ProfileComponent {
 		});
 	}
 
-	formUser: FormInterface = this._form.prepareForm({
+	private _formService = inject(FormService);
+
+	formUser = this._formService.prepareForm({
 		formId: 'user',
 		title: 'My profile',
 		components: [
@@ -105,16 +102,7 @@ export class ProfileComponent {
 		],
 	});
 
-	user: Record<string, unknown>;
-
-	update() {
-		this._core.copy(this.user, this.userService.user);
-
-		this.userService.updateMe();
-	}
-
-	// Update user password
-	formPassword: FormInterface = this._form.prepareForm({
+	formPassword = this._formService.prepareForm({
 		formId: 'changePassword',
 		title: 'Change password',
 		components: [
@@ -150,8 +138,16 @@ export class ProfileComponent {
 		],
 	});
 
+	user: Record<string, unknown>;
+
+	update() {
+		this._coreService.copy(this.user, this.userService.user);
+
+		this.userService.updateMe();
+	}
+
 	changePassword() {
-		this._form.modal<ChangePassword>(this.formPassword, {
+		this._formService.modal<ChangePassword>(this.formPassword, {
 			label: 'Change',
 			click: (submition: unknown, close: () => void) => {
 				this.userService.changePassword(
@@ -165,8 +161,16 @@ export class ProfileComponent {
 	}
 
 	updateThumb(thumb: string | string[]) {
-		this.userService.user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
+		this.userService.user.update((user) => {
+			user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
+
+			return user;
+		});
 
 		this.userService.updateMe();
 	}
+
+	private _coreService = inject(CoreService);
+
+	private _cdr = inject(ChangeDetectorRef);
 }

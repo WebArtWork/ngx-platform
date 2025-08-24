@@ -6,13 +6,13 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpiderComponent } from 'src/app/icons/spider/spider.component';
+import { FormComponent } from 'src/app/libs/form/components/form/form.component';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 import { AlertService, HttpService, UtilService } from 'wacom';
-import { FormComponent } from '../../../libs/form/components/form/form.component';
 
 interface RespStatus {
 	email: string;

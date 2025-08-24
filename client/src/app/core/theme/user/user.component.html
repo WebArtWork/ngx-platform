@@ -45,9 +45,9 @@
 					routerLink="/profile"
 				>
 					<img
+						[src]="userService.thumb()"
 						alt="Profile Picture"
 						class="avatar__img"
-						[src]="userService.thumb"
 						height="50"
 						width="50"
 					/>
