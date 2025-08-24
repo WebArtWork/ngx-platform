@@ -93,34 +93,34 @@ export class TranslateService {
 			}
 		});
 
-		this._http.get(
-			'/api/translate/get' + (this.appId ? '/' + this.appId : ''),
-			(obj) => {
-				if (obj) {
-					this.translates = obj;
+		// this._http.get(
+		// 	'/api/translate/get' + (this.appId ? '/' + this.appId : ''),
+		// 	(obj) => {
+		// 		if (obj) {
+		// 			this.translates = obj;
 
-					this._core.complete('translate');
+		// 			this._core.complete('translate');
 
-					this._store.setJson('translates', this.translates);
-				}
-			}
-		);
+		// 			this._store.setJson('translates', this.translates);
+		// 		}
+		// 	}
+		// );
 
-		this._http.get(
-			'/api/word/get' + (this.appId ? '/' + this.appId : ''),
-			(arr) => {
-				if (arr) {
-					this.words = arr;
-					this._store.setJson('words', this.words);
-					for (let i = 0; i < arr.length; i++) {
-						if (this.pages.indexOf(arr[i].page) < 0) {
-							this.pages.push(arr[i].page);
-						}
-					}
-					this._wordsLoaded = true;
-				}
-			}
-		);
+		// this._http.get(
+		// 	'/api/word/get' + (this.appId ? '/' + this.appId : ''),
+		// 	(arr) => {
+		// 		if (arr) {
+		// 			this.words = arr;
+		// 			this._store.setJson('words', this.words);
+		// 			for (let i = 0; i < arr.length; i++) {
+		// 				if (this.pages.indexOf(arr[i].page) < 0) {
+		// 					this.pages.push(arr[i].page);
+		// 				}
+		// 			}
+		// 			this._wordsLoaded = true;
+		// 		}
+		// 	}
+		// );
 	}
 
 	/**

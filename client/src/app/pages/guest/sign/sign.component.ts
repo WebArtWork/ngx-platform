@@ -28,15 +28,10 @@ interface RespStatus {
 })
 export class SignComponent {
 	userService = inject(UserService);
-	private _utilService = inject(UtilService);
-	private _alert = inject(AlertService);
-	private _http = inject(HttpService);
-	private _router = inject(Router);
-	private _form = inject(FormService);
-	private _translate = inject(TranslateService);
-	private _cdr = inject(ChangeDetectorRef);
 
 	readonly logo = environment.sign.logo;
+
+	private _form = inject(FormService);
 
 	form: FormInterface = this._form.prepareForm({
 		formId: 'sign',
@@ -207,4 +202,16 @@ export class SignComponent {
 			});
 		}
 	};
+
+	private _utilService = inject(UtilService);
+
+	private _alert = inject(AlertService);
+
+	private _http = inject(HttpService);
+
+	private _router = inject(Router);
+
+	private _translate = inject(TranslateService);
+
+	private _cdr = inject(ChangeDetectorRef);
 }

@@ -68,25 +68,6 @@ export class UserService extends CrudService<User> {
 
 		this.filteredDocuments(this.usersByRole, 'roles');
 
-		this.fetch({}, { name: 'me' }).subscribe((user: User) => {
-			if (user) {
-				if (
-					!localStorage.getItem('waw_user') &&
-					this._router.url === '/sign'
-				) {
-					this._router.navigateByUrl('/profile');
-				}
-
-				this.setUser(user);
-			} else if (localStorage.getItem('waw_user')) {
-				this.logout();
-			}
-		});
-
-		this.get({
-			query: environment.appId ? 'appId=' + environment.appId : ''
-		});
-
 		this._store.get('mode', (mode) => {
 			if (mode) {
 				this.setTheme(mode);
@@ -94,6 +75,27 @@ export class UserService extends CrudService<User> {
 				this.setTheme('dark');
 			}
 		});
+
+		if (this._http.header('token')) {
+			this.fetch({}, { name: 'me' }).subscribe((user: User) => {
+				if (user) {
+					if (
+						!localStorage.getItem('waw_user') &&
+						this._router.url === '/sign'
+					) {
+						this._router.navigateByUrl('/profile');
+					}
+
+					this.setUser(user);
+				} else if (localStorage.getItem('waw_user')) {
+					this.logout();
+				}
+			});
+
+			this.get({
+				query: environment.appId ? 'appId=' + environment.appId : ''
+			});
+		}
 	}
 
 	toggleTheme() {
