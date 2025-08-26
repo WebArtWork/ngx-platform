@@ -11,9 +11,9 @@ import {
 	signal,
 } from '@angular/core';
 import { CoreService } from 'wacom';
+import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
+import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
-import { TranslateDirective } from '../translate/translate.directive';
-import { TranslatePipe } from '../translate/translate.pipe';
 import { ClickOutsideDirective } from './clickoutside.directive';
 import { SearchPipe } from './search.pipe';
 import { SelectItem } from './select.interface';

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CoreService } from 'wacom';
-import { TranslatePipe } from '../translate/translate.pipe';
+import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputType, InputValue } from './input.type';
 
 /**

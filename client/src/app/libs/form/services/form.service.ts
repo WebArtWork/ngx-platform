@@ -7,9 +7,9 @@ import {
 	inject,
 } from '@angular/core';
 import { CustomformService } from 'src/app/modules/customform/services/customform.service';
+import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { environment } from 'src/environments/environment';
 import { CoreService, Modal, ModalService, StoreService } from 'wacom';
-import { TranslateService } from '../../translate/translate.service';
 import {
 	FormComponentInterface,
 	TemplateFieldInterface,

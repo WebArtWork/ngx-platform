@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { HttpService } from 'wacom';
+import { TranslateDirective } from '../../../../modules/translate/directives/translate.directive';
+import { TranslatePipe } from '../../../../modules/translate/pipes/translate.pipe';
 import { ButtonComponent } from '../../../button/button.component';
 import { SelectComponent } from '../../../select/select.component';
 import { TableComponent } from '../../../table/table.component';
 import { CellDirective } from '../../../table/table.directive';
-import { TranslateDirective } from '../../translate.directive';
-import { TranslatePipe } from '../../translate.pipe';
 import { Language, TranslateService, Word } from '../../translate.service';
 
 interface Translate {

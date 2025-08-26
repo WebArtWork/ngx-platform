@@ -10,7 +10,7 @@ import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { SelectValue } from 'src/app/libs/select/select.type';
-import { TranslatePipe } from 'src/app/libs/translate/translate.pipe';
+import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { AlertService, CoreService, CrudComponent } from 'wacom';
 import { languageForm } from '../../form/language.form';
 import { LanguageFormcomponent } from '../../form/language/language.formcomponent';

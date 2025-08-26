@@ -232,6 +232,8 @@ export class TranslateService {
 		}
 
 		if (!this.translates[this.language.code]) {
+			console.trace('asd');
+
 			this.translates[this.language.code] = {};
 		}
 

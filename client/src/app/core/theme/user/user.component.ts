@@ -1,8 +1,8 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TranslateDirective } from 'src/app/libs/translate/translate.directive';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
+import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { WacomModule } from 'wacom';
 import { coreAnimation } from '../../animations/core.animations';
