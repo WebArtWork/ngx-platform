@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CrudService } from 'wacom';
 import { Translate } from '../interfaces/translate.interface';
+import { PhraseService } from './phrase.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -10,24 +11,23 @@ export class TranslateService extends CrudService<Translate> {
 		super({
 			name: 'translate',
 		});
+
+		this._phraseService.filteredDocuments(this._phrases, {
+			field: 'name',
+			filtered: () => {
+				console.log('translate', this._phrases);
+			},
+		});
 	}
 
-	/**
-	 * Translates a slug into its corresponding string for the current language.
-	 * @param slug - The translation key.
-	 * @param reset - Optional reset callback to handle dynamic updates.
-	 * @returns The translated string.
-	 */
-	translate(slug: string, reset?: (translate: string) => void) {
-		// if (!slug) return '';
+	translate(wordName: string, reset?: (translate: string) => void) {
+		if (!wordName) return '';
 
-		// if (slug.split('.').length < 2) return slug;
+		this._resets[wordName] ||= [];
 
-		// if (!this.resets[slug]) this.resets[slug] = [];
-
-		// if (reset) {
-		// 	this.resets[slug].push(reset);
-		// }
+		if (reset) {
+			this._resets[wordName].push(reset);
+		}
 
 		// if (!this.translates[this.language.code]) {
 		// 	this.translates[this.language.code] = {};
@@ -46,6 +46,12 @@ export class TranslateService extends CrudService<Translate> {
 		// 	this.createWord(slug);
 		// }
 
-		return '';
+		return wordName;
 	}
+
+	private _resets: Record<string, ((translate: string) => void)[]> = {};
+
+	private _phraseService = inject(PhraseService);
+
+	private _phrases = {};
 }

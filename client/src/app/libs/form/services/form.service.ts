@@ -100,7 +100,7 @@ export class FormService {
 	translateForm(form: FormInterface): void {
 		if (form.title) {
 			form.title = this._translate.translate(
-				`Form_${form.formId}.${form.title}`,
+				`${form.title}`,
 				(title: string) => {
 					form.title = title;
 				},
@@ -108,22 +108,19 @@ export class FormService {
 
 			for (const component of form.components) {
 				for (const field of component.fields || []) {
-					this.translateFormComponent(form, field);
+					this.translateFormComponent(field);
 				}
 			}
 		}
 	}
 
 	/** Translates individual form components' fields */
-	translateFormComponent(
-		form: FormInterface,
-		field: TemplateFieldInterface,
-	): void {
+	translateFormComponent(field: TemplateFieldInterface): void {
 		const fieldValue = field.value;
 
 		if (typeof fieldValue === 'string' && !field.skipTranslation) {
 			field.value = this._translate.translate(
-				`Form_${form.formId}.${fieldValue}`,
+				`${fieldValue}`,
 				(value: string) => {
 					field.value = value;
 				},

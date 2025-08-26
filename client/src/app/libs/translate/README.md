@@ -30,7 +30,7 @@ export class AppModule {}
 The `translate` pipe can be used in templates to translate keys into their corresponding language strings:
 
 ```Typescript
-<p>{{ 'home.title' | translate }}</p>
+<p>{{ 'title' | translate }}</p>
 ```
 
 ### Using the Translate Directive
