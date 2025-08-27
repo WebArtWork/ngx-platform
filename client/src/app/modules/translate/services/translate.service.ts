@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { CrudService } from 'wacom';
+import { Phrase } from '../interfaces/phrase.interface';
 import { Translate } from '../interfaces/translate.interface';
 import { PhraseService } from './phrase.service';
 
@@ -20,14 +21,22 @@ export class TranslateService extends CrudService<Translate> {
 		});
 	}
 
-	translate(wordName: string, reset?: (translate: string) => void) {
-		if (!wordName) return '';
+	translate(phraseName: string, reset?: (translate: string) => void) {
+		if (!phraseName) return '';
 
-		this._resets[wordName] ||= [];
+		this._resets[phraseName] ||= [];
 
 		if (reset) {
-			this._resets[wordName].push(reset);
+			this._resets[phraseName].push(reset);
 		}
+
+		if (!this._phrases[phraseName]) {
+			console.log('create ', phraseName);
+
+			this._phraseService.create({ text: phraseName });
+		}
+
+		this._phrases[phraseName] ||= [{} as Phrase];
 
 		// if (!this.translates[this.language.code]) {
 		// 	this.translates[this.language.code] = {};
@@ -46,12 +55,12 @@ export class TranslateService extends CrudService<Translate> {
 		// 	this.createWord(slug);
 		// }
 
-		return wordName;
+		return phraseName;
 	}
 
 	private _resets: Record<string, ((translate: string) => void)[]> = {};
 
 	private _phraseService = inject(PhraseService);
 
-	private _phrases = {};
+	private _phrases: Record<string, Phrase[]> = {};
 }
