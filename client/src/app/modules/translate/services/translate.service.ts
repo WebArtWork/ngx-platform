@@ -21,22 +21,20 @@ export class TranslateService extends CrudService<Translate> {
 		});
 	}
 
-	translate(phraseName: string, reset?: (translate: string) => void) {
-		if (!phraseName) return '';
+	translate(text: string, reset?: (translate: string) => void) {
+		if (!text) return '';
 
-		this._resets[phraseName] ||= [];
+		this._resets[text] ||= [];
 
 		if (reset) {
-			this._resets[phraseName].push(reset);
+			this._resets[text].push(reset);
 		}
 
-		if (!this._phrases[phraseName]) {
-			console.log('create ', phraseName);
+		if (!this._phrases[text]) {
+			this._phraseService.create({ text });
 
-			this._phraseService.create({ text: phraseName });
+			return text;
 		}
-
-		this._phrases[phraseName] ||= [{} as Phrase];
 
 		// if (!this.translates[this.language.code]) {
 		// 	this.translates[this.language.code] = {};
@@ -55,7 +53,7 @@ export class TranslateService extends CrudService<Translate> {
 		// 	this.createWord(slug);
 		// }
 
-		return phraseName;
+		return text;
 	}
 
 	private _resets: Record<string, ((translate: string) => void)[]> = {};

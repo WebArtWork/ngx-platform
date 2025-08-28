@@ -87,7 +87,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 					this.languageService
 						.create(updated)
 						.subscribe((language) => {
-							this.languageService.setLanguage(language._id);
+							this.languageService.setLanguage(language);
 						});
 				}
 			});

@@ -1,4 +1,5 @@
 export type SelectValue =
+	| undefined
 	| null
 	| string
 	| number

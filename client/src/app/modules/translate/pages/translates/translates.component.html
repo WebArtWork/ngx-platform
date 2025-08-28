@@ -1,5 +1,5 @@
 <language-selector
-	(wChange)="languageService.setLanguage($event + '')"
+	(wChange)="languageService.setLanguageId($event + '')"
 	[value]="languageService.language()._id"
 	[clearable]="false"
 	[mutatable]="true"
@@ -12,6 +12,6 @@
 	title="Translates"
 >
 	<ng-template cell="translation" let-data
-		>Hello WOrld {{data.name}}</ng-template
+		>Hello World {{data.name}}</ng-template
 	>
 </wtable>

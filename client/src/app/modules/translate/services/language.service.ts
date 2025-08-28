@@ -15,9 +15,9 @@ export class LanguageService extends CrudService<Language> {
 			name: 'translatelanguage',
 		});
 
-		this._storeService.getJson('language', (language) => {
-			if (language) {
-				this.setLanguage(language);
+		this._storeService.get('languageId', (languageId) => {
+			if (languageId) {
+				this.setLanguageId(languageId);
 			}
 		});
 
@@ -26,13 +26,19 @@ export class LanguageService extends CrudService<Language> {
 		});
 	}
 
-	setLanguage(_id: string) {
-		const language = this.languages().find((l) => l._id === _id);
+	setLanguage(language: Language) {
+		this.language.set(language);
+
+		this._storeService.setJson('languageId', language._id);
+	}
+
+	setLanguageId(languageId: string) {
+		const language = this.languages().find(
+			(l) => l._id === languageId || l._localId === +languageId,
+		);
 
 		if (language) {
-			this.language.set(language);
-
-			this._storeService.setJson('language', language._id);
+			this.setLanguage(language);
 		}
 	}
 
@@ -48,8 +54,8 @@ export class LanguageService extends CrudService<Language> {
 
 			this.setLanguage(
 				index === languages.length - 1
-					? languages[0]._id
-					: languages[index]._id,
+					? languages[0]
+					: languages[index],
 			);
 		}
 	}
