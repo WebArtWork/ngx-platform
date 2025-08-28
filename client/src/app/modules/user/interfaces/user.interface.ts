@@ -1,6 +1,6 @@
 import { CrudDocument } from 'wacom';
 
-export interface User extends CrudDocument {
+export interface User extends CrudDocument<User> {
 	data: Record<string, unknown>;
 	is: Record<string, boolean>;
 	roles: string[];

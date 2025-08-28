@@ -15,7 +15,7 @@ export interface CustomformcomponnetInterface {
 	root?: boolean;
 }
 
-export interface Customform extends CrudDocument {
+export interface Customform extends CrudDocument<Customform> {
 	name: string;
 	class: string;
 	fields: CustomformcomponnetfieldInterface[];
