@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { CrudService } from 'wacom';
 import { Phrase } from '../interfaces/phrase.interface';
 import { Translate } from '../interfaces/translate.interface';
+import { LanguageService } from './language.service';
 import { PhraseService } from './phrase.service';
 
 @Injectable({
@@ -11,10 +12,20 @@ export class TranslateService extends CrudService<Translate> {
 	constructor() {
 		super({
 			name: 'translate',
+			replace: (doc) => {
+				doc.slug = doc.phrase + doc.language;
+			},
 		});
 
 		this._phraseService.filteredDocuments(this._phrases, {
-			field: 'name',
+			field: 'text',
+			filtered: () => {
+				console.log('translate', this._phrases);
+			},
+		});
+
+		this.filteredDocuments(this._translates, {
+			field: 'slug',
 			filtered: () => {
 				console.log('translate', this._phrases);
 			},
@@ -30,35 +41,36 @@ export class TranslateService extends CrudService<Translate> {
 			this._resets[text].push(reset);
 		}
 
-		if (!this._phrases[text]) {
+		if (!this._phrases[text]?.length) {
 			this._phraseService.create({ text });
 
 			return text;
 		}
 
-		// if (!this.translates[this.language.code]) {
-		// 	this.translates[this.language.code] = {};
-		// }
+		const slug =
+			this._phrases[text][0]._id ||
+			'' + this._languageService.language()._id ||
+			'';
 
-		// if (this.translates[this.language.code][slug]) {
-		// 	return this.translates[this.language.code][slug];
-		// }
+		console.log(
+			slug,
+			this._translates[slug].length
+				? this._translates[slug][0].text || text
+				: text,
+		);
 
-		// if (
-		// 	this.words
-		// 		.map((w) => w?.slug || '')
-		// 		.filter((w) => !!w)
-		// 		.indexOf(slug) < 0
-		// ) {
-		// 	this.createWord(slug);
-		// }
-
-		return text;
+		return this._translates[slug].length
+			? this._translates[slug][0].text || text
+			: text;
 	}
 
 	private _resets: Record<string, ((translate: string) => void)[]> = {};
 
 	private _phraseService = inject(PhraseService);
 
+	private _languageService = inject(LanguageService);
+
 	private _phrases: Record<string, Phrase[]> = {};
+
+	private _translates: Record<string, Translate[]> = {};
 }

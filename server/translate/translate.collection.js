@@ -1,6 +1,6 @@
 module.exports = async function (waw) {
 	const Schema = waw.mongoose.Schema({
-		name: String,
+		text: String,
 		language: {
 			type: waw.mongoose.Schema.Types.ObjectId,
 			ref: "Translatelanguage",
@@ -12,7 +12,7 @@ module.exports = async function (waw) {
 	});
 
 	Schema.methods.create = function (obj) {
-		this.name = obj.name;
+		this.text = obj.text;
 
 		this.language = obj.language;
 

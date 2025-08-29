@@ -15,7 +15,7 @@ module.exports = async (waw) => {
 			},
 		},
 		create: {
-			ensure: waw.role("admin"),
+			ensure: waw.next,
 		},
 		update: {
 			ensure: waw.role("admin"),

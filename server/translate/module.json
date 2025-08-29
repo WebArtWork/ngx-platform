@@ -5,14 +5,14 @@
 		{
 			"name": "translate",
 			"update": {
-				"keys": ["name"]
+				"keys": ["text"]
 			},
 			"delete": [""]
 		},
 		{
 			"name": "translatephrase",
 			"update": {
-				"keys": ["name"]
+				"keys": ["text"]
 			},
 			"delete": [""]
 		},
