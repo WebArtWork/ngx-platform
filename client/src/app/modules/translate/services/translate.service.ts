@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CrudService } from 'wacom';
+import { CrudService, NetworkService } from 'wacom';
 import { Phrase } from '../interfaces/phrase.interface';
 import { Translate } from '../interfaces/translate.interface';
 import { LanguageService } from './language.service';
@@ -12,6 +12,7 @@ export class TranslateService extends CrudService<Translate> {
 	constructor() {
 		super({
 			name: 'translate',
+			unauthorized: true,
 			replace: (doc) => {
 				doc.slug = doc.phrase + doc.language;
 			},
@@ -19,17 +20,15 @@ export class TranslateService extends CrudService<Translate> {
 
 		this._phraseService.filteredDocuments(this._phrases, {
 			field: 'text',
-			filtered: () => {
-				console.log('translate', this._phrases);
-			},
+			filtered: this._reTranslate.bind(this),
 		});
 
 		this.filteredDocuments(this._translates, {
 			field: 'slug',
-			filtered: () => {
-				console.log('translate', this._phrases);
-			},
+			filtered: this._reTranslate.bind(this),
 		});
+
+		this.get();
 	}
 
 	translate(text: string, reset?: (translate: string) => void) {
@@ -41,6 +40,13 @@ export class TranslateService extends CrudService<Translate> {
 			this._resets[text].push(reset);
 		}
 
+		console.log(
+			text,
+			!this._phrases[text]?.length,
+			this._phrases[text],
+			this._phraseService.getDocs(),
+		);
+
 		if (!this._phrases[text]?.length) {
 			this._phraseService.create({ text });
 
@@ -51,14 +57,7 @@ export class TranslateService extends CrudService<Translate> {
 			this._phrases[text][0]._id ??
 			'' + this._languageService.language()._id;
 
-		console.log(
-			slug,
-			this._translates[slug].length
-				? this._translates[slug][0].text || text
-				: text,
-		);
-
-		return this._translates[slug].length
+		return this._translates[slug]?.length
 			? this._translates[slug][0].text || text
 			: text;
 	}
@@ -69,7 +68,11 @@ export class TranslateService extends CrudService<Translate> {
 
 	private _languageService = inject(LanguageService);
 
+	private _networkService = inject(NetworkService);
+
 	private _phrases: Record<string, Phrase[]> = {};
 
 	private _translates: Record<string, Translate[]> = {};
+
+	private _reTranslate() {}
 }

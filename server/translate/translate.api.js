@@ -1,40 +1,61 @@
 module.exports = async (waw) => {
-	const crud = {
-		get: {
-			ensure: waw.next,
-			query: () => {
-				return {};
+	// await waw.Translatephrase.deleteMany({});
+	// await waw.Translatelanguage.deleteMany({});
+	// await waw.Translate.deleteMany({});
+	const crud = (model) => {
+		const ensure = async (req, res, next) => {
+			req.body = req.body || {};
+
+			if (
+				model &&
+				(!req.body.text ||
+					(await model.countDocuments({
+						text: req.body.text,
+					})))
+			) {
+				res.json(false);
+			} else {
+				next();
+			}
+		};
+
+		return {
+			get: {
+				ensure: waw.next,
+				query: () => {
+					return {};
+				},
 			},
-		},
-		fetch: {
-			ensure: waw.next,
-			query: (resp) => {
-				return {
-					_id: resp._id,
-				};
+			fetch: {
+				ensure: waw.next,
+				query: (resp) => {
+					return {
+						_id: resp._id,
+					};
+				},
 			},
-		},
-		create: {
-			ensure: waw.next,
-		},
-		update: {
-			ensure: waw.role("admin"),
-			query: (resp) => {
-				return {
-					_id: resp._id,
-				};
+			create: {
+				ensure,
 			},
-		},
-		delete: {
-			ensure: waw.role("admin"),
-			query: (resp) => {
-				return {
-					_id: resp._id,
-				};
+			update: {
+				ensure,
+				query: (resp) => {
+					return {
+						_id: resp._id,
+					};
+				},
 			},
-		},
+			delete: {
+				ensure,
+				query: (resp) => {
+					return {
+						_id: resp._id,
+					};
+				},
+			},
+		};
 	};
-	waw.crud("translate", crud);
-	waw.crud("translatephrase", crud);
-	waw.crud("translatelanguage", crud);
+	waw.crud("translate", crud(waw.Translate));
+	waw.crud("translatephrase", crud(waw.Translatephrase));
+	waw.crud("translatelanguage", crud());
 };

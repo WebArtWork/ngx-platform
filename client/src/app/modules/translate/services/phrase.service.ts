@@ -9,6 +9,9 @@ export class PhraseService extends CrudService<Phrase> {
 	constructor() {
 		super({
 			name: 'translatephrase',
+			unauthorized: true,
 		});
+
+		this.get();
 	}
 }

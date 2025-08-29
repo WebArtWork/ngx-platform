@@ -13,6 +13,7 @@ export class LanguageService extends CrudService<Language> {
 	constructor() {
 		super({
 			name: 'translatelanguage',
+			unauthorized: true,
 		});
 
 		this._storeService.get('languageId', (languageId) => {
