@@ -48,9 +48,8 @@ export class TranslateService extends CrudService<Translate> {
 		}
 
 		const slug =
-			this._phrases[text][0]._id ||
-			'' + this._languageService.language()._id ||
-			'';
+			this._phrases[text][0]._id ??
+			'' + this._languageService.language()._id;
 
 		console.log(
 			slug,
