@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CrudService, NetworkService } from 'wacom';
+import { CrudService } from 'wacom';
 import { Phrase } from '../interfaces/phrase.interface';
 import { Translate } from '../interfaces/translate.interface';
 import { LanguageService } from './language.service';
@@ -68,11 +68,17 @@ export class TranslateService extends CrudService<Translate> {
 
 	private _languageService = inject(LanguageService);
 
-	private _networkService = inject(NetworkService);
-
 	private _phrases: Record<string, Phrase[]> = {};
 
 	private _translates: Record<string, Translate[]> = {};
 
-	private _reTranslate() {}
+	private _reTranslate() {
+		for (const phrase in this._resets) {
+			this._resets[phrase] ||= [];
+
+			for (const callback of this._resets[phrase]) {
+				callback(this.translate(phrase));
+			}
+		}
+	}
 }
