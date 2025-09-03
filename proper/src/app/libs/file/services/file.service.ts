@@ -1,0 +1,49 @@
+import { Injectable, inject } from '@angular/core';
+import { CrudService, FileService as WacomFileService } from 'wacom';
+import { File } from '../interfaces/file.interface';
+
+@Injectable({
+	providedIn: 'root',
+})
+export class FileService extends CrudService<File> {
+	private _file = inject(WacomFileService);
+
+	files = this.getDocs();
+
+	setFile: (dataUrl: string) => void;
+
+	constructor() {
+		super({
+			name: 'file',
+		});
+
+		this._file.add({
+			id: 'formPhoto',
+			// accept: 'image/*',
+			resize: 1920,
+			cb: (file: any) => {
+				if (
+					typeof file === 'string' &&
+					typeof this.setFile === 'function'
+				) {
+					this.setFile(file);
+				}
+			},
+		});
+
+		this._file.add({
+			id: 'formPhotos',
+			// accept: 'image/*',
+			multiple: true,
+			resize: 1920,
+			cb: (file: any) => {
+				if (
+					typeof file === 'string' &&
+					typeof this.setFile === 'function'
+				) {
+					this.setFile(file);
+				}
+			},
+		});
+	}
+}

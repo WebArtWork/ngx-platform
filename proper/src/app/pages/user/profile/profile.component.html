@@ -1,0 +1,45 @@
+<div class="profile-wrapper">
+	<div class="profile-wrapper__header">
+		<div class="profile-wrapper__avatar">
+			<ngx-file
+				(update)="updateThumb($event)"
+				[value]="userService.thumb()"
+				[name]="userService.user()._id + '.jpg'"
+				err="assets/default.png"
+				[isPhoto]="true"
+				[imgStyle]="{
+					'border-radius': 'var(--c-img-round)',
+					'width': '52px',
+					'height': '52px'
+				}"
+				container="user"
+				[height]="512"
+				[width]="512"
+			></ngx-file>
+		</div>
+	</div>
+	<div class="profile-wrapper__body">
+		@if (user) {
+		<wform
+			(wChange)="update()"
+			[config]="formUser"
+			[submition]="user"
+		></wform>
+		}
+
+		<div class="profile-wrapper__footer">
+			<div class="profile-wrapper__logout">
+				<wbutton (click)="userService.logout()" type="danger">
+					<span class="material-icons">logout</span>
+					<span translate>Profile.Logout</span>
+				</wbutton>
+			</div>
+
+			<div class="profile-wrapper__password">
+				<wbutton (click)="changePassword()" type="link" translate>
+					Profile.Change Password
+				</wbutton>
+			</div>
+		</div>
+	</div>
+</div>

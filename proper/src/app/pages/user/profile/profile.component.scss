@@ -1,0 +1,68 @@
+@use 'src/scss/utils/mixins' as mixins;
+@use 'src/scss/utils/media' as media;
+@use 'src/scss/utils/vars' as vars;
+:host {
+	width: 100%;
+
+	wcard {
+		width: 100%;
+		// padding: 20px 260px 0px 20px;
+		transition: all 0.3s;
+		display: block;
+	}
+}
+
+/*  PROFILE STYLE  */
+.profile-wrapper {
+	padding: unset;
+
+	&__header {
+		z-index: 9;
+		top: 20px;
+		position: absolute;
+		right: 30px;
+		@include mixins.text-default(0, 23px, 500, 20px, var(--c-text-primary));
+		@include mixins.flexBox(flex, null, space-between, center, null);
+		border-radius: 12px;
+	}
+
+	&__avatar {
+		border-radius: vars.$b-radius-img;
+		border: 1px solid var(--c-border);
+		position: relative;
+		margin: 0 auto;
+		padding: 3px;
+		width: 60px;
+		height: 60px;
+	}
+
+	&__footer {
+		margin-top: 20px;
+		@include mixins.flexBox(flex, null, space-between, center, wrap);
+
+		@include media.bp-max(sm) {
+			flex-direction: column;
+			align-items: center;
+
+			.profile-wrapper__logout {
+				order: 2;
+				margin-top: 20px;
+			}
+		}
+	}
+
+	&__logout {
+		.w-btn {
+			margin: 0;
+			@include mixins.flexBox(flex, null, space-between, center, null);
+		}
+
+		.material-icons {
+			margin-right: 10px;
+		}
+	}
+
+	&__password {
+		cursor: pointer;
+	}
+}

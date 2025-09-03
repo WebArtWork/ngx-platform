@@ -1,0 +1,16 @@
+<ng-template #templateRef let-data>
+	<winput
+		[value]="data.submition[data.key]"
+		(wChange)="
+			data.submition[data.key] = $event;
+			data.wChange()
+		"
+		[placeholder]="data.field.Placeholder"
+		[name]="data.field.Label || 'name'"
+		[focused]="data.component.focused"
+		[ngClass]="data.component.class"
+		(wSubmit)="data.wSubmit()"
+		[label]="data.field.Label"
+		type="email"
+	/>
+</ng-template>
