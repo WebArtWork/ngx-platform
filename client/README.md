@@ -109,16 +109,6 @@ To create a new service:
 waw service user
 ```
 
-## Testing Guidelines
-
-The project uses **Jest** for unit testing.
-
-To run tests:
-
-```sh
-npm run test
-```
-
 For live testing while developing:
 
 ```sh

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import {
 	AlertService,
 	CoreService,
+	CrudService,
 	HttpService,
-	StoreService,
-	CrudService
+	StoreService
 } from 'wacom';
 import { User } from '../interfaces/user.interface';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -75,7 +75,7 @@ export class UserService extends CrudService<User> {
 
 		this.filteredDocuments(this.usersByRole, 'roles');
 
-		this.fetch({}, { name: 'me' }).subscribe((user) => {
+		this.fetch({}, { name: 'me' }).subscribe((user: User) => {
 			if (user) {
 				if (
 					!localStorage.getItem('waw_user') &&
