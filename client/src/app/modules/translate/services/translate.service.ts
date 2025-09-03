@@ -18,6 +18,10 @@ export class TranslateService extends CrudService<Translate> {
 			},
 		});
 
+		this._phraseService.loaded.then(() => {
+			this._phrasesInitialized = true;
+		});
+
 		this._phraseService.filteredDocuments(this._phrases, {
 			field: 'text',
 			filtered: this._reTranslate.bind(this),
@@ -40,15 +44,12 @@ export class TranslateService extends CrudService<Translate> {
 			this._resets[text].push(reset);
 		}
 
-		console.log(
-			text,
-			!this._phrases[text]?.length,
-			this._phrases[text],
-			this._phraseService.getDocs(),
-		);
-
 		if (!this._phrases[text]?.length) {
-			this._phraseService.create({ text });
+			if (this._phrasesInitialized) {
+				console.log('Creating: ', text, this._phraseService.getDocs());
+
+				this._phraseService.create({ text });
+			}
 
 			return text;
 		}
@@ -73,6 +74,8 @@ export class TranslateService extends CrudService<Translate> {
 	private _translates: Record<string, Translate[]> = {};
 
 	private _reTranslate() {
+		console.log('_reTranslate');
+
 		for (const phrase in this._resets) {
 			this._resets[phrase] ||= [];
 
@@ -81,4 +84,6 @@ export class TranslateService extends CrudService<Translate> {
 			}
 		}
 	}
+
+	private _phrasesInitialized = false;
 }
