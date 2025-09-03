@@ -12,20 +12,6 @@ export class PhraseService extends CrudService<Phrase> {
 			unauthorized: true,
 		});
 
-		setTimeout(async () => {
-			console.log(this.getDocs());
-
-			const docs = await this.storeService.getJson<Phrase[]>(
-				'docs_translatephrase',
-			);
-
-			console.log(docs);
-		});
-
-		setTimeout(() => {
-			console.log(this.getDocs());
-		}, 1000);
-
 		this.get();
 	}
 
