@@ -46,8 +46,6 @@ export class TranslateService extends CrudService<Translate> {
 
 		if (!this._phrases[text]?.length) {
 			if (this._phrasesInitialized) {
-				console.log('Creating: ', text, this._phraseService.getDocs());
-
 				this._phraseService.create({ text });
 			}
 
@@ -74,8 +72,6 @@ export class TranslateService extends CrudService<Translate> {
 	private _translates: Record<string, Translate[]> = {};
 
 	private _reTranslate() {
-		console.log('_reTranslate');
-
 		for (const phrase in this._resets) {
 			this._resets[phrase] ||= [];
 
