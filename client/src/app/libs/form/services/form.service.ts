@@ -7,10 +7,9 @@ import {
 	inject,
 } from '@angular/core';
 import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
-import { CustomformService } from 'src/app/modules/customform/services/customform.service';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { environment } from 'src/environments/environment';
-import { CoreService, Modal, ModalService, StoreService } from 'wacom';
+import { EmitterService, Modal, ModalService, StoreService } from 'wacom';
 import {
 	FormComponentInterface,
 	TemplateFieldInterface,
@@ -32,11 +31,9 @@ export interface FormModalButton {
 })
 export class FormService {
 	private _translate = inject(TranslateService);
-	private _cfs = inject(CustomformService);
 	private appRef = inject(ApplicationRef);
 	private _modal = inject(ModalService);
 	private _store = inject(StoreService);
-	private _core = inject(CoreService);
 
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
@@ -186,24 +183,24 @@ export class FormService {
 
 		form.formId = formId;
 
-		this._core.onComplete('form_loaded').then(() => {
-			const customForms = this._cfs.customforms.filter(
-				(f) => f.active && f.formId === form.formId,
-			);
+		this._emitterService.onComplete('form_loaded').subscribe(() => {
+			// const customForms = this._cfs.customforms.filter(
+			// 	(f) => f.active && f.formId === form.formId,
+			// );
 
-			for (const customForm of customForms) {
-				form.title = form.title || customForm.name;
+			// for (const customForm of customForms) {
+			// 	form.title = form.title || customForm.name;
 
-				form.class = form.class || customForm.class;
+			// 	form.class = form.class || customForm.class;
 
-				for (const component of customForm.components) {
-					component.key = component.key?.startsWith('data.')
-						? component.key
-						: 'data.' + component.key;
+			// 	for (const component of customForm.components) {
+			// 		component.key = component.key?.startsWith('data.')
+			// 			? component.key
+			// 			: 'data.' + component.key;
 
-					form.components.push(component);
-				}
-			}
+			// 		form.components.push(component);
+			// 	}
+			// }
 
 			this.translateForm(form);
 
@@ -371,6 +368,8 @@ export class FormService {
 			component?.resetFields?.();
 		}
 	}
+
+	private _emitterService = inject(EmitterService);
 
 	private _getComponent(
 		components: FormComponentInterface[],

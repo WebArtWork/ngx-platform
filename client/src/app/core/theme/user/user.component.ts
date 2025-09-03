@@ -1,8 +1,8 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
+import { LanguageService } from 'src/app/modules/translate/services/language.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { WacomModule } from 'wacom';
 import { coreAnimation } from '../../animations/core.animations';
@@ -21,7 +21,9 @@ import { coreAnimation } from '../../animations/core.animations';
 })
 export class UserComponent {
 	userService = inject(UserService);
-	translateService = inject(TranslateService);
+
+	languageService = inject(LanguageService);
+
 	private _platform = inject(Platform);
 
 	showSidebar = false;

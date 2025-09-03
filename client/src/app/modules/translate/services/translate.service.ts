@@ -18,7 +18,7 @@ export class TranslateService extends CrudService<Translate> {
 			},
 		});
 
-		this._phraseService.loaded.then(() => {
+		this._phraseService.loaded.subscribe(() => {
 			this._phrasesInitialized = true;
 		});
 

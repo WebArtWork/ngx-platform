@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
-import { TranslateService } from 'src/app/libs/translate/translate.service';
+import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { CrudComponent } from 'wacom';
 import { InputComponent } from '../../../../libs/input/input.component';
 import { TableComponent } from '../../../../libs/table/table.component';

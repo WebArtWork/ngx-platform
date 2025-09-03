@@ -11,7 +11,7 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
-import { CoreService } from 'wacom';
+import { CoreService, EmitterService } from 'wacom';
 
 interface ChangePassword {
 	oldPass: string;
@@ -35,7 +35,7 @@ export class ProfileComponent {
 	readonly url = environment.url;
 
 	constructor() {
-		this._coreService.onComplete('us.user').then(() => {
+		this._emitterService.onComplete('us.user').subscribe(() => {
 			const user = {};
 
 			this._coreService.copy(this.userService.user, user);
@@ -171,6 +171,8 @@ export class ProfileComponent {
 	}
 
 	private _coreService = inject(CoreService);
+
+	private _emitterService = inject(EmitterService);
 
 	private _cdr = inject(ChangeDetectorRef);
 }

@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
 	AlertService,
-	CoreService,
 	CrudService,
+	EmitterService,
 	HttpService,
 	StoreService,
 } from 'wacom';
@@ -91,7 +91,7 @@ export class UserService extends CrudService<User> {
 			},
 		);
 
-		this._store.get('mode', (mode) => {
+		this._storeService.get('mode', (mode) => {
 			if (mode) {
 				this.setTheme(mode);
 			} else {
@@ -127,7 +127,7 @@ export class UserService extends CrudService<User> {
 
 	setTheme(theme = 'white') {
 		if (theme === 'white') {
-			this._store.remove('theme');
+			this._storeService.remove('theme');
 
 			for (const localtheme of this.themes) {
 				(document.body.parentNode as HTMLElement).classList.remove(
@@ -135,7 +135,7 @@ export class UserService extends CrudService<User> {
 				);
 			}
 		} else {
-			this._store.set('theme', theme);
+			this._storeService.set('theme', theme);
 
 			(document.body.parentNode as HTMLElement).classList.add(theme);
 		}
@@ -148,7 +148,7 @@ export class UserService extends CrudService<User> {
 
 		localStorage.setItem('waw_user', JSON.stringify(user));
 
-		this._core.complete('us.user');
+		this._emitterService.complete('us.user');
 	}
 
 	updateMe(): void {
@@ -168,7 +168,7 @@ export class UserService extends CrudService<User> {
 
 		this._changingPassword = true;
 
-		this._http.post(
+		this._httpService.post(
 			'/api/user/changePassword',
 			{
 				newPass: newPass,
@@ -178,11 +178,11 @@ export class UserService extends CrudService<User> {
 				this._changingPassword = false;
 
 				if (resp) {
-					this._alert.info({
+					this._alertService.info({
 						text: 'Successfully changed password',
 					});
 				} else {
-					this._alert.error({
+					this._alertService.error({
 						text: 'Incorrect current password',
 					});
 				}
@@ -195,9 +195,9 @@ export class UserService extends CrudService<User> {
 
 		localStorage.removeItem('waw_user');
 
-		this._http.remove('token');
+		this._httpService.remove('token');
 
-		this._http.get('/api/user/logout');
+		this._httpService.get('/api/user/logout');
 
 		this._router.navigateByUrl('/sign');
 
@@ -220,13 +220,13 @@ export class UserService extends CrudService<User> {
 
 	private _changingPassword = false;
 
-	private _http = inject(HttpService);
+	private _httpService = inject(HttpService);
 
-	private _store = inject(StoreService);
+	private _storeService = inject(StoreService);
 
-	private _alert = inject(AlertService);
-
-	private _core = inject(CoreService);
+	private _alertService = inject(AlertService);
 
 	private _router = inject(Router);
+
+	private _emitterService = inject(EmitterService);
 }

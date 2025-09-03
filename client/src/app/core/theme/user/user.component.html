@@ -35,10 +35,10 @@
 					</span>
 				</div>
 				<div
-					(click)="translateService.nextLanguage()"
+					(click)="languageService.nextLanguage()"
 					class="translate-switch"
 				>
-					{{translateService.language.code}}
+					{{languageService.language().name}}
 				</div>
 				<a
 					class="nav__burger-link nav__burger-user"

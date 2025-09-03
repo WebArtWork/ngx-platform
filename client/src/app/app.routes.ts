@@ -94,19 +94,6 @@ export const routes: Routes = [
 					),
 			},
 			{
-				path: 'forms',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Forms',
-					},
-				},
-				loadChildren: () =>
-					import(
-						'./modules/customform/pages/customforms/customforms.routes'
-					).then((m) => m.routes),
-			},
-			{
 				path: 'translates',
 				canActivate: [MetaGuard],
 				data: {
@@ -117,19 +104,6 @@ export const routes: Routes = [
 				loadChildren: () =>
 					import(
 						'./modules/translate/pages/translates/translates.routes'
-					).then((m) => m.routes),
-			},
-			{
-				path: 'old_translates',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Translates',
-					},
-				},
-				loadChildren: () =>
-					import(
-						'./libs/translate/pages/translates/translates.routes'
 					).then((m) => m.routes),
 			},
 		],
