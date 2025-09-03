@@ -6,6 +6,7 @@ import {
 	createComponent,
 	inject,
 } from '@angular/core';
+import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
 import { CustomformService } from 'src/app/modules/customform/services/customform.service';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { environment } from 'src/environments/environment';
@@ -399,9 +400,7 @@ export class FormService {
 	}
 
 	private async _addFormComponent(name: string) {
-		const component = (
-			environment.formcomponent as unknown as Record<string, Type<any>>
-		)[name];
+		const component = (FORM_COMPONENTS as Record<string, Type<any>>)[name];
 
 		if (component && !this._addedFormComponent[name]) {
 			this._addedFormComponent[name] = true;
