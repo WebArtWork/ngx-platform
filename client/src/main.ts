@@ -11,7 +11,7 @@ import {
 	withPreloading,
 } from '@angular/router';
 import { NgxTinymceModule } from 'ngx-tinymce';
-import { WacomModule } from 'wacom';
+import { provideWacom } from 'wacom';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { AdminsGuard } from './app/core/guards/admins.guard';
@@ -26,27 +26,27 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
 	providers: [
 		provideZonelessChangeDetection(),
+		provideWacom({
+			store: {},
+			http: {
+				url: environment.url,
+			},
+			socket: environment.production,
+			meta: {
+				useTitleSuffix: true,
+				defaults: {
+					title: environment.meta.title,
+					favicon: environment.meta.favicon,
+					description: environment.meta.description,
+					titleSuffix: ' | ' + environment.meta.title,
+					'og:image': environment.meta.image,
+				},
+			},
+		}),
 		importProvidersFrom(
 			BrowserModule,
 			NgxTinymceModule.forRoot({
 				baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/',
-			}),
-			WacomModule.forRoot({
-				store: {},
-				http: {
-					url: environment.url,
-				},
-				socket: environment.production,
-				meta: {
-					useTitleSuffix: true,
-					defaults: {
-						title: environment.meta.title,
-						favicon: environment.meta.favicon,
-						description: environment.meta.description,
-						titleSuffix: ' | ' + environment.meta.title,
-						'og:image': environment.meta.image,
-					},
-				},
 			}),
 		),
 		/* providers */

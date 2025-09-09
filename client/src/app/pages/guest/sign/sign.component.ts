@@ -30,9 +30,9 @@ export class SignComponent {
 
 	readonly logo = environment.sign.logo;
 
-	private _form = inject(FormService);
+	private _formService = inject(FormService);
 
-	form = this._form.prepareForm({
+	form = this._formService.prepareForm({
 		formId: 'sign',
 		title: 'Sign In / Sign Up',
 		components: [
@@ -115,17 +115,17 @@ export class SignComponent {
 			this.save();
 		} else if (!this.user.email) {
 			this._alert.error({
-				text: this._translate.translate('Sign.Enter your email'),
+				text: 'Sign.Enter your email',
 			});
 		}
 
 		if (!this._utilService.valid(this.user.email)) {
 			this._alert.error({
-				text: this._translate.translate('Sign.Enter proper email'),
+				text: 'Sign.Enter proper email',
 			});
 		} else if (!this.user.password) {
 			this._alert.error({
-				text: this._translate.translate('Sign.Enter your password'),
+				text: 'Sign.Enter your password',
 			});
 		} else {
 			this._http.post(
