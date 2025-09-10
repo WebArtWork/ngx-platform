@@ -1,7 +1,6 @@
 @let _showSidebar = showSidebar();
-
 <div class="wrapper" id="wrapper">
-	<nav class="nav" (clickOutside)="showSidebar.set(false)">
+	<nav class="nav">
 		<ul class="nav__ul container" [class._active]="_showSidebar">
 			<li class="nav__li">
 				<a
@@ -25,10 +24,7 @@
 	</nav>
 
 	<div class="main" [class.showTable]="_showSidebar">
-		@if (_showSidebar) {
-		<div class="fade" [@showInOut]="_showSidebar"></div>
-		}
-		<div class="nav__burger _active" [class._active]="_showSidebar">
+		<div [class._active]="_showSidebar" class="nav__burger _active">
 			<div class="nav__burger-list">
 				<div class="theme-switch">
 					<span
