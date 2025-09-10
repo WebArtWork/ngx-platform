@@ -38,7 +38,7 @@ export class ProfileComponent {
 		this._emitterService.onComplete('us.user').subscribe(() => {
 			const user = {};
 
-			this._coreService.copy(this.userService.user, user);
+			this._coreService.copy(this.userService.user(), user);
 
 			this.user = user;
 

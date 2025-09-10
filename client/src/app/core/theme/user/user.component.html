@@ -1,5 +1,6 @@
 @let _showSidebar = showSidebar();
-<div class="wrapper" id="wrapper">
+
+<div class="user" id="wrapper">
 	<nav class="nav">
 		<ul class="nav__ul container" [class._active]="_showSidebar">
 			<li class="nav__li">
@@ -23,10 +24,10 @@
 		</ul>
 	</nav>
 
-	<div class="main" [class.showTable]="_showSidebar">
-		<div [class._active]="_showSidebar" class="nav__burger _active">
+	<div class="user__main" [class.showTable]="_showSidebar">
+		<div class="nav__burger _active" [class._active]="_showSidebar">
 			<div class="nav__burger-list">
-				<div class="theme-switch">
+				<div class="nav__theme-switch">
 					<span
 						class="material-icons"
 						(click)="userService.toggleTheme()"
@@ -37,7 +38,7 @@
 				</div>
 				<div
 					(click)="languageService.nextLanguage()"
-					class="translate-switch"
+					class="nav__translate-switch"
 				>
 					{{languageService.language().name}}
 				</div>
