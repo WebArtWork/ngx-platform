@@ -33,6 +33,7 @@ bootstrapApplication(AppComponent, {
 			},
 			socket: environment.production,
 			meta: {
+				warnMissingGuard: false,
 				useTitleSuffix: true,
 				defaults: {
 					title: environment.meta.title,

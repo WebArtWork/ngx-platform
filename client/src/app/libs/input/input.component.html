@@ -21,6 +21,7 @@ _placeholder = placeholder();
 			[type]="_type || 'text'"
 			class="w-forms__input"
 			(blur)="wBlur.emit()"
+			[autocomplete]="_name"
 			[class.error]="_error"
 			[disabled]="_disabled"
 			[ngModel]="_value"
