@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
 import { LanguageService } from 'src/app/modules/translate/services/language.service';
@@ -26,11 +26,11 @@ export class UserComponent {
 
 	private _platform = inject(Platform);
 
-	showSidebar = false;
+	showSidebar = signal(false);
 
 	hideSidebar(): void {
 		if (!this._platform.ANDROID && !this._platform.IOS) {
-			this.showSidebar = false;
+			this.showSidebar.set(false);
 		}
 	}
 }

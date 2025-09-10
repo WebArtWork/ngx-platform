@@ -1,29 +1,34 @@
+@let _showSidebar = showSidebar();
+
 <div class="wrapper" id="wrapper">
-	<nav class="nav" (clickOutside)="showSidebar = false">
-		<ul class="nav__ul container" [class._active]="showSidebar">
+	<nav class="nav" (clickOutside)="showSidebar.set(false)">
+		<ul class="nav__ul container" [class._active]="_showSidebar">
 			<li class="nav__li">
 				<a
+					(click)="showSidebar.set(false)"
 					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
 					routerLink="/profile"
 					class="nav__a"
 				>
 					<span class="material-icons">home</span>
 				</a>
 			</li>
-			<li class="nav__li _burger" (click)="showSidebar = !showSidebar">
-				<a class="nav__toggle" [class._active]="showSidebar">
+			<li
+				(click)="showSidebar.set(!_showSidebar)"
+				class="nav__li _burger"
+			>
+				<a class="nav__toggle" [class._active]="_showSidebar">
 					<span class="nav__toggle-line"></span>
 				</a>
 			</li>
 		</ul>
 	</nav>
 
-	<div class="main" [class.showTable]="showSidebar">
-		@if (showSidebar) {
-		<div class="fade" [@showInOut]="showSidebar"></div>
+	<div class="main" [class.showTable]="_showSidebar">
+		@if (_showSidebar) {
+		<div class="fade" [@showInOut]="_showSidebar"></div>
 		}
-		<div class="nav__burger _active" [class._active]="showSidebar">
+		<div class="nav__burger _active" [class._active]="_showSidebar">
 			<div class="nav__burger-list">
 				<div class="theme-switch">
 					<span
@@ -52,7 +57,7 @@
 						width="50"
 					/>
 					<div class="name">
-						{{userService.user.name || "Profile"}}
+						{{userService.user().name || "Profile"}}
 					</div>
 				</a>
 				<hr />
@@ -65,7 +70,7 @@
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">people</span>
-					<span translate>Theme.Users</span>
+					<span translate>Users</span>
 				</a>
 				<a
 					[routerLinkActiveOptions]="{ exact: true }"
@@ -75,7 +80,7 @@
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">backup_table</span>
-					<span translate>Theme.Forms</span>
+					<span translate>Forms</span>
 				</a>
 				<a
 					[routerLinkActiveOptions]="{ exact: true }"
@@ -85,7 +90,7 @@
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">translate</span>
-					<span translate>Theme.Translates</span>
+					<span translate>Translates</span>
 				</a>
 				<hr />
 				}

@@ -1,65 +1,13 @@
-import {
-	enableProdMode,
-	importProvidersFrom,
-	provideZonelessChangeDetection,
-} from '@angular/core';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import {
-	PreloadAllModules,
-	provideRouter,
-	withInMemoryScrolling,
-	withPreloading,
-} from '@angular/router';
-import { NgxTinymceModule } from 'ngx-tinymce';
-import { provideWacom } from 'wacom';
+import { enableProdMode } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { routes } from './app/app.routes';
-import { AdminsGuard } from './app/core/guards/admins.guard';
-import { AuthenticatedGuard } from './app/core/guards/authenticated.guard';
-import { GuestGuard } from './app/core/guards/guest.guard';
+import { appConfig } from './app/app.config';
 import { environment } from './environments/environment';
 
 if (environment.production) {
 	enableProdMode();
 }
 
-bootstrapApplication(AppComponent, {
-	providers: [
-		provideZonelessChangeDetection(),
-		provideWacom({
-			store: {},
-			http: {
-				url: environment.url,
-			},
-			socket: environment.production,
-			meta: {
-				warnMissingGuard: false,
-				useTitleSuffix: true,
-				defaults: {
-					title: environment.meta.title,
-					favicon: environment.meta.favicon,
-					description: environment.meta.description,
-					titleSuffix: ' | ' + environment.meta.title,
-					'og:image': environment.meta.image,
-				},
-			},
-		}),
-		importProvidersFrom(
-			BrowserModule,
-			NgxTinymceModule.forRoot({
-				baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/',
-			}),
-		),
-		/* providers */
-		AuthenticatedGuard,
-		GuestGuard,
-		AdminsGuard,
-		provideRouter(
-			routes,
-			withPreloading(PreloadAllModules),
-			withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
-		),
-	],
-})
+bootstrapApplication(AppComponent, appConfig)
 	// eslint-disable-next-line no-console
 	.catch((err) => console.error(err));
