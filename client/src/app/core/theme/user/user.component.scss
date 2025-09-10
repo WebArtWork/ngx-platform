@@ -3,7 +3,7 @@
 @use 'src/scss/utils/vars' as vars;
 
 /*  WRAPPER STYLE  */
-.wrapper {
+.user {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -11,13 +11,11 @@
 	@include mixins.flexBox(flex, column, null, null, null);
 	background: var(--c-bg-primary);
 	transition: all 0.5s ease-in-out;
-	.main {
+        &__main {
 		flex-grow: 1;
 		overflow-y: auto;
 		@include mixins.flexBox(flex, column, null, null, null);
 		position: relative;
-		// display: flex;
-		// flex-flow: row wrap;
 		max-width: 100%;
 		margin: 0 auto;
 		width: 100%;
@@ -31,23 +29,10 @@
 		@media screen and (max-width: 767px) {
 			padding: 10px;
 		}
-		// .fade {
-		// 	display: none;
-		// 	position: fixed;
-		// 	width: 100%;
-		// 	height: 100%;
-		// 	z-index: 9;
-		// 	background: rgba(0, 0, 0, 0.3);
-		// 	@media screen and (max-width: 991px) {
-		// 		display: block;
-		// 	}
-		// }
 	}
 }
 
-/*.showTable {
-	padding: 20px !important;
-}*/
+
 
 hr {
 	border: none;
@@ -271,24 +256,34 @@ hr {
 				font-size: 30px;
 			}
 		}
-		&-user {
-			@include mixins.flexBox(flex, column, center, center, null);
-			color: var(--c-text-primary);
-			padding: 5px;
-			.name {
-				word-break: break-word;
-			}
-			.material-icons {
-				color: var(--c-text-primary);
-				font-size: calc(vars.$fs + 32px);
-			}
-		}
-	}
-	@include media.bp-max(md) {
-		order: 2;
-		&__ul {
-			justify-content: space-between;
-		}
+                &-user {
+                        @include mixins.flexBox(flex, column, center, center, null);
+                        color: var(--c-text-primary);
+                        padding: 5px;
+                        .name {
+                                word-break: break-word;
+                        }
+                        .material-icons {
+                                color: var(--c-text-primary);
+                                font-size: calc(vars.$fs + 32px);
+                        }
+                }
+        }
+        &__theme-switch {
+                position: absolute;
+                right: 10px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 10px;
+                .material-icons {
+                        cursor: pointer;
+                }
+        }
+        @include media.bp-max(md) {
+                order: 2;
+                &__ul {
+                        justify-content: space-between;
+                }
 		&__li:last-child {
 			margin-left: 0;
 		}
@@ -298,13 +293,3 @@ hr {
 	}
 }
 
-.theme-switch {
-	position: absolute;
-	right: 10px;
-	display: flex;
-	justify-content: flex-end;
-	margin-right: 10px;
-	.material-icons {
-		cursor: pointer;
-	}
-}
