@@ -37,6 +37,15 @@ export const appConfig = {
 					'og:image': environment.meta.image,
 				},
 			},
+			theme: {
+				primary: '#282828',
+				secondary: '#ffffff',
+				info: '#9ddeff',
+				error: '#ffafb4',
+				success: '#a6efb8',
+				warning: '#ffcfa5',
+				question: '#fff9b2',
+			},
 		}),
 		importProvidersFrom(
 			BrowserModule,
