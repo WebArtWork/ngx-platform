@@ -2,17 +2,11 @@
 
 <wselect
 	placeholder="{{ (_documents.length ? 'Select language' : 'Create new language') + '...' | translate}}"
+	(wChange)="wChange.emit($event); selected = $event; updateButtons()"
 	[disabled]="disabled() || !_documents.length"
-	(wChange)="wChange.emit($event); selected = $event"
 	[searchable]="searchable()"
 	[clearable]="clearable()"
 	[items]="_documents"
+	[buttons]="buttons"
 	[value]="value()"
 ></wselect>
-
-@if (mutatable()) { @if(languageService.language()){
-<wbutton (click)="mutate()">Edit</wbutton>
-<wbutton (click)="delete(languageService.language())">Delete</wbutton>
-}
-<wbutton (click)="mutate(false)">Add</wbutton>
-}

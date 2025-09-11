@@ -73,11 +73,7 @@ export class SelectComponent {
 	/** List of items to display in the dropdown. */
 	readonly items = input<unknown[]>([]);
 
-	readonly buttons = input<SelectButton[]>([
-		{
-			icon: 'home',
-		},
-	]);
+	readonly buttons = input<SelectButton[]>([]);
 
 	/** Event emitted when the selected value/values change. */
 	readonly wChange = output<SelectValue>();

@@ -3,12 +3,13 @@ import {
 	Component,
 	inject,
 	input,
+	OnInit,
 	output,
 } from '@angular/core';
-import { ButtonComponent } from 'src/app/libs/button/button.component';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent } from 'src/app/libs/select/select.component';
+import { SelectButton } from 'src/app/libs/select/select.interface';
 import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { AlertService, CoreService, CrudComponent } from 'wacom';
@@ -20,15 +21,14 @@ import { TranslateService } from '../../services/translate.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [SelectComponent, TranslatePipe, ButtonComponent],
+	imports: [SelectComponent, TranslatePipe],
 	selector: 'language-selector',
 	templateUrl: './language-selector.component.html',
 })
-export class LanguageSelectorComponent extends CrudComponent<
-	LanguageService,
-	Language,
-	FormInterface
-> {
+export class LanguageSelectorComponent
+	extends CrudComponent<LanguageService, Language, FormInterface>
+	implements OnInit
+{
 	readonly mutatable = input<boolean>(false);
 
 	readonly searchable = input<boolean>(true);
@@ -45,6 +45,25 @@ export class LanguageSelectorComponent extends CrudComponent<
 
 	selected: SelectValue;
 
+	buttons: SelectButton[] = [
+		{
+			click: () => {
+				this.mutate();
+			},
+		},
+		{
+			click: () => {
+				this.delete(this.languageService.language());
+			},
+		},
+		{
+			icon: 'add',
+			click: () => {
+				this.mutate(false);
+			},
+		},
+	];
+
 	constructor(
 		_languageService: LanguageService,
 		_translate: TranslateService,
@@ -59,6 +78,15 @@ export class LanguageSelectorComponent extends CrudComponent<
 		);
 
 		this.setDocuments();
+	}
+
+	updateButtons() {
+		// this.languageService.loaded.subscribe(() => {});
+		console.log(this);
+	}
+
+	ngOnInit() {
+		this.updateButtons();
 	}
 
 	mutate(current = true) {

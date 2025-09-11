@@ -6,8 +6,8 @@ export interface SelectItem {
 }
 
 export interface SelectButton {
+	click: () => void;
 	icon?: string;
 	text?: string;
-	click?: (doc: Document) => void;
 	class?: string;
 }

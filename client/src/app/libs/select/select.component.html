@@ -76,8 +76,12 @@ search();
 			expand_more
 		</div>
 
-		@for (button of buttons || []; track $index) { @if (button.icon) {}
-		@else if (button.text) {} }
+		@for (button of buttons() || []; track button.icon || button.text) { @if
+		(button.icon) {
+		<i class="material-icons" (click)="button.click()">{{button.icon}}</i>
+		} @else if (button.text) {
+		<span (click)="button.click()">{{button.text}}</span>
+		} }
 
 		<!-- Dropdown menu -->
 		@if (_showOptions) {
