@@ -45,8 +45,9 @@ import {
 	],
 })
 export class TableComponent implements OnInit, AfterContentInit {
-	private _router = inject(Router);
-	private _store = inject(StoreService);
+	private readonly _router = inject(Router);
+
+	private readonly _storeService = inject(StoreService);
 
 	readonly bindValue = input('_id');
 
@@ -124,7 +125,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		}
 
 		// Restore the perPage value from the store if available
-		this._store.get(this.tableId + 'perPage', (perPage) => {
+		this._storeService.get(this.tableId + 'perPage', (perPage) => {
 			if (perPage) {
 				this.changePerPage(Number(perPage));
 			}
@@ -165,14 +166,6 @@ export class TableComponent implements OnInit, AfterContentInit {
 			const cell = this.cell.toArray()[i];
 			this.custom_cell[cell.cell] = cell.template;
 		}
-
-		// Refresh the table periodically
-		const interval = setInterval(() => {
-			this.refresh();
-		}, 1000);
-		setTimeout(() => {
-			clearInterval(interval);
-		}, 20000);
 	}
 
 	/** Refreshes the table by updating the current timestamp. */
@@ -250,7 +243,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 			this.config.paginate(this.config.page);
 		}
 
-		this._store.set(this.tableId + 'perPage', row.toString());
+		this._storeService.set(this.tableId + 'perPage', row.toString());
 
 		if ((this.config.page - 1) * this.config.perPage > this.rows.length) {
 			this.lastPage();

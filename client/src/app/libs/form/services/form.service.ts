@@ -393,7 +393,10 @@ export class FormService {
 	private _addedFormComponent: Record<string, boolean> = {};
 
 	private async _addFormComponents(components: FormComponentInterface[]) {
-		for (const component of components) {
+		// TODO we have spot where components are undefined
+		// console.trace(components, this);
+
+		for (const component of components || []) {
 			if (component.name) this._addFormComponent(component.name);
 		}
 	}

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
+import { CellDirective } from 'src/app/libs/table/table.directive';
 import { CrudComponent } from 'wacom';
 import { phraseForm } from '../../form/phrase.form';
 import { Phrase } from '../../interfaces/phrase.interface';
@@ -12,7 +13,7 @@ import { TranslateService } from '../../services/translate.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [TableComponent, LanguageSelectorComponent],
+	imports: [TableComponent, LanguageSelectorComponent, CellDirective],
 	templateUrl: './translates.component.html',
 })
 export class TranslatesComponent extends CrudComponent<
@@ -20,9 +21,19 @@ export class TranslatesComponent extends CrudComponent<
 	Phrase,
 	FormInterface
 > {
-	columns = ['name', 'translation'];
+	columns = ['phrase', 'translation'];
+
+	override configType: 'server' | 'local' = 'local';
 
 	override allowCreate() {
+		return false;
+	}
+
+	override allowUrl() {
+		return false;
+	}
+
+	override allowMutate() {
 		return false;
 	}
 

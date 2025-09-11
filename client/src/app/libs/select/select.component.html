@@ -76,6 +76,9 @@ search();
 			expand_more
 		</div>
 
+		@for (button of buttons || []; track $index) { @if (button.icon) {}
+		@else if (button.text) {} }
+
 		<!-- Dropdown menu -->
 		@if (_showOptions) {
 		<div [class._search]="_searchable" class="w-select__popup">

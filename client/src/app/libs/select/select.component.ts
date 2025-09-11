@@ -10,13 +10,12 @@ import {
 	output,
 	signal,
 } from '@angular/core';
-import { CoreService } from 'wacom';
+import { ClickOutsideDirective, CoreService } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
-import { ClickOutsideDirective } from './clickoutside.directive';
 import { SearchPipe } from './search.pipe';
-import { SelectItem } from './select.interface';
+import { SelectButton, SelectItem } from './select.interface';
 import { SelectId, SelectValue } from './select.type';
 
 /**
@@ -73,6 +72,12 @@ export class SelectComponent {
 
 	/** List of items to display in the dropdown. */
 	readonly items = input<unknown[]>([]);
+
+	readonly buttons = input<SelectButton[]>([
+		{
+			icon: 'home',
+		},
+	]);
 
 	/** Event emitted when the selected value/values change. */
 	readonly wChange = output<SelectValue>();
