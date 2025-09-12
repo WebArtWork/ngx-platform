@@ -3,7 +3,6 @@ import {
 	Component,
 	inject,
 	input,
-	OnInit,
 	output,
 } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -12,7 +11,12 @@ import { SelectComponent } from 'src/app/libs/select/select.component';
 import { SelectButton } from 'src/app/libs/select/select.interface';
 import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
-import { AlertService, CoreService, CrudComponent } from 'wacom';
+import {
+	AlertService,
+	CoreService,
+	CrudComponent,
+	EmitterService,
+} from 'wacom';
 import { languageForm } from '../../form/language.form';
 import { LanguageFormcomponent } from '../../form/language/language.formcomponent';
 import { Language } from '../../interfaces/language.interface';
@@ -25,10 +29,11 @@ import { TranslateService } from '../../services/translate.service';
 	selector: 'language-selector',
 	templateUrl: './language-selector.component.html',
 })
-export class LanguageSelectorComponent
-	extends CrudComponent<LanguageService, Language, FormInterface>
-	implements OnInit
-{
+export class LanguageSelectorComponent extends CrudComponent<
+	LanguageService,
+	Language,
+	FormInterface
+> {
 	readonly mutatable = input<boolean>(false);
 
 	readonly searchable = input<boolean>(true);
@@ -43,17 +48,21 @@ export class LanguageSelectorComponent
 
 	languageService = inject(LanguageService);
 
+	private _emitterService = inject(EmitterService);
+
 	selected: SelectValue;
 
 	buttons: SelectButton[] = [
 		{
+			icon: this.languageService.language() ? 'edit' : '',
 			click: () => {
 				this.mutate();
 			},
 		},
 		{
+			icon: this.languageService.language() ? 'delete' : '',
 			click: () => {
-				this.delete(this.languageService.language());
+				this.delete(this.languageService.language() as Language);
 			},
 		},
 		{
@@ -78,15 +87,12 @@ export class LanguageSelectorComponent
 		);
 
 		this.setDocuments();
-	}
 
-	updateButtons() {
-		// this.languageService.loaded.subscribe(() => {});
-		console.log(this);
-	}
+		this._emitterService.on('languageId').subscribe((languageId) => {
+			this.buttons[0].icon = 'edit';
 
-	ngOnInit() {
-		this.updateButtons();
+			this.buttons[1].icon = 'delete';
+		});
 	}
 
 	mutate(current = true) {
@@ -101,7 +107,7 @@ export class LanguageSelectorComponent
 			.then((updated: Language) => {
 				if (current) {
 					this.languageService.language.update((language) => {
-						language = language || {};
+						language = language || ({} as Language);
 
 						this._coreService.copy(updated, language);
 
@@ -109,7 +115,7 @@ export class LanguageSelectorComponent
 					});
 
 					this.languageService.update(
-						this.languageService.language(),
+						this.languageService.language() as Language,
 					);
 				} else {
 					this.languageService

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CrudService } from 'wacom';
+import { CrudService, EmitterService } from 'wacom';
 import { Phrase } from '../interfaces/phrase.interface';
 import { Translate } from '../interfaces/translate.interface';
 import { LanguageService } from './language.service';
@@ -32,7 +32,19 @@ export class TranslateService extends CrudService<Translate> {
 			filtered: this._reTranslate.bind(this),
 		});
 
-		this.get();
+		this._emitterService.on('languageId').subscribe((languageId) => {
+			this.loadTranslate(languageId as string);
+		});
+	}
+
+	loadTranslate(languageId: string) {
+		if (this._languageLoaded === languageId) {
+			return;
+		}
+
+		this._languageLoaded = languageId;
+
+		this.get({ query: 'language=' + languageId });
 	}
 
 	translate(text: string, reset?: (translate: string) => void) {
@@ -54,7 +66,7 @@ export class TranslateService extends CrudService<Translate> {
 
 		const slug =
 			this._phrases[text][0]._id ??
-			'' + this._languageService.language()._id;
+			'' + (this._languageService.language()?._id || '');
 
 		return this._translates[slug]?.length
 			? this._translates[slug][0].text || text
@@ -66,6 +78,8 @@ export class TranslateService extends CrudService<Translate> {
 	private _phraseService = inject(PhraseService);
 
 	private _languageService = inject(LanguageService);
+
+	private _emitterService = inject(EmitterService);
 
 	private _phrases: Record<string, Phrase[]> = {};
 
@@ -82,4 +96,6 @@ export class TranslateService extends CrudService<Translate> {
 	}
 
 	private _phrasesInitialized = false;
+
+	private _languageLoaded = '';
 }

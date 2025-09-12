@@ -1,6 +1,6 @@
 <language-selector
 	(wChange)="languageService.setLanguageId($event + '')"
-	[value]="languageService.language()._id"
+	[value]="languageService.language()?._id"
 	[clearable]="false"
 	[mutatable]="true"
 />

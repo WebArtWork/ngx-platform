@@ -1,12 +1,12 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { CrudService, StoreService } from 'wacom';
+import { CrudService, EmitterService, StoreService } from 'wacom';
 import { Language } from '../interfaces/language.interface';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class LanguageService extends CrudService<Language> {
-	language = signal<Language>({} as Language);
+	language = signal<Language | undefined>(undefined);
 
 	languages = signal<Language[]>(this.getDocs());
 
@@ -22,25 +22,27 @@ export class LanguageService extends CrudService<Language> {
 			}
 		});
 
+		this.loaded.subscribe({
+			next: () => {
+				this.languages.set(this.getDocs());
+			},
+		});
+
 		this.get().subscribe(() => {
 			this.languages.set(this.getDocs());
 		});
 	}
 
 	setLanguage(language: Language) {
-		this.language.set(language);
-
-		this._storeService.setJson('languageId', language._id);
+		this.setLanguageId(language._id as string);
 	}
 
 	setLanguageId(languageId: string) {
-		const language = this.languages().find(
-			(l) => l._id === languageId || l._localId === +languageId,
-		);
+		this.language = this.getSignal(languageId);
 
-		if (language) {
-			this.setLanguage(language);
-		}
+		this._storeService.setJson('languageId', languageId);
+
+		this._emitterService.emit('languageId', languageId);
 	}
 
 	nextLanguage() {
@@ -49,9 +51,11 @@ export class LanguageService extends CrudService<Language> {
 		if (languages.length > 1) {
 			const language = this.language();
 
-			const index = languages.findIndex((_language) => {
-				return _language._id === language._id;
-			});
+			const index = language
+				? languages.findIndex((_language) => {
+						return _language._id === language._id;
+					})
+				: 0;
 
 			this.setLanguage(
 				index === languages.length - 1
@@ -62,4 +66,6 @@ export class LanguageService extends CrudService<Language> {
 	}
 
 	private _storeService = inject(StoreService);
+
+	private _emitterService = inject(EmitterService);
 }
