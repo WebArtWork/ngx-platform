@@ -46,15 +46,13 @@ export class FilesComponent {
 		},
 		delete: (doc: File): void => {
 			this._alert.question({
-				text: this._translate.translate(
-					'Common.Are you sure you want to delete this file?',
-				),
+				text: 'Are you sure you want to delete this file?',
 				buttons: [
 					{
-						text: this._translate.translate('Common.No'),
+						text: 'No',
 					},
 					{
-						text: this._translate.translate('Common.Yes'),
+						text: 'Yes',
 						callback: async (): Promise<void> => {
 							this._fileService.delete(doc);
 

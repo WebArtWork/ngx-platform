@@ -1,5 +1,5 @@
 <wselect
-	placeholder="{{'Select bird...' | translate}}"
+	placeholder="{{ ('Select bird...' | translate)() }}"
 	(wChange)="wChange.emit($event)"
 	[searchable]="searchable()"
 	[clearable]="clearable()"

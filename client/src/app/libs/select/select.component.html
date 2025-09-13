@@ -11,7 +11,7 @@ search();
 >
 	<!-- Label for the select field -->
 	@if (_label) {
-	<div class="w-select__label">{{ _label | translate }}</div>
+	<div class="w-select__label">{{ (_label | translate)() }}</div>
 	}
 
 	<!-- Select body containing the selected item(s) and dropdown -->
@@ -32,14 +32,14 @@ search();
 					@if (_multiple) {
 					<div class="text-overflow">
 						@if (!_activeValues.length) {
-						<div>{{ _placeholder | translate }}</div>
+						<div>{{ (_placeholder | translate)() }}</div>
 						} @for (id of _activeValues; track id; let i = $index) {
 						<span>
 							@if (i && allItem[id]) {
 							<span>, </span>
 							} @if (allItem[id]) {
 							<span
-								>{{ allItem[id] | translate }}
+								>{{ (allItem[id] | translate)() }}
 								<i
 									class="material-icons avatar__icon"
 									(click)="removeItem(i)"
@@ -52,8 +52,8 @@ search();
 					</div>
 					} @else {
 					<div class="text-overflow">
-						{{ (_activeValue ? allItem[_activeValue] : _placeholder)
-						| translate }}
+						{{ ((_activeValue ? allItem[_activeValue] :
+						_placeholder) | translate)() }}
 					</div>
 					}
 				</div>
@@ -93,7 +93,7 @@ search();
 				></ng-container>
 				<ng-template #defaultSearch>
 					<winput
-						placeholder="{{'Select.Enter search text...' | translate}}"
+						placeholder="{{ ('Enter search text...' | translate)() }}"
 						(wChange)="search.set($event + '')"
 						[focused]="true"
 					/>
@@ -112,7 +112,7 @@ search();
 				} @if (!(_allItems | search: _search: _searchableBy + '
 				__search')?.length) {
 				<div class="popup-block__empty-search" translate>
-					Select.Nothing was found
+					Nothing was found
 				</div>
 				}
 			</div>
@@ -126,9 +126,9 @@ search();
 						[class.selected]="_multiple ? _activeValues.includes(id) : false"
 						class="item__text"
 					>
-						@if (item()[bindLabel()]) { {{ item()[bindLabel()] |
-						translate }} } @else { {{'Select.Unknown item' |
-						translate}} }
+						@if (item()[bindLabel()]) { {{ (item()[bindLabel()] |
+						translate)() }} } @else { {{ ('Unknown item' |
+						translate)() }} }
 					</div>
 				</div>
 			</ng-template>

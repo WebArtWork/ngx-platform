@@ -1,7 +1,7 @@
 @let _documents = documents();
 
 <wselect
-	placeholder="{{ (_documents.length ? 'Select language' : 'Create new language') + '...' | translate}}"
+	placeholder="{{ ((_documents.length ? 'Select language' : 'Create new language') + '...' | translate)() }}"
 	(wChange)="wChange.emit($event); selected = $event"
 	[disabled]="disabled() || !_documents.length"
 	[searchable]="searchable()"

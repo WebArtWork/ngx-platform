@@ -56,9 +56,7 @@ export class ClientsComponent {
 					label: 'Create',
 					click: (created: unknown, close: () => void) => {
 						this._userService.create(created as User, {
-							alert: this._translate.translate(
-								'User.Client has been created',
-							),
+							alert: 'Client has been created',
 							callback: () => {
 								this.setUsers();
 								close();
@@ -73,29 +71,23 @@ export class ClientsComponent {
 				this._core.copy(updated, doc);
 
 				this._userService.update(doc, {
-					alert: this._translate.translate(
-						'User.Client has been updated',
-					),
+					alert: 'Client has been updated',
 				});
 			});
 		},
 		delete: (user: User) => {
 			this._alertService.question({
-				text: this._translate.translate(
-					'Common.Are you sure you want to delete this client?',
-				),
+				text: 'Are you sure you want to delete this client?',
 				buttons: [
 					{
-						text: this._translate.translate('Common.No'),
+						text: 'No',
 					},
 					{
-						text: this._translate.translate('Common.Yes'),
+						text: 'Yes',
 						callback: () => {
 							this._userService.delete(user, {
 								name: 'admin',
-								alert: this._translate.translate(
-									'User.Client has been deleted',
-								),
+								alert: 'Client has been deleted',
 								callback: () => {
 									this.setUsers();
 								},

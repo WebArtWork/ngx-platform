@@ -6,10 +6,9 @@ export class TranslatePipe implements PipeTransform {
 	/**
 	 * Transforms the given slug into its corresponding translated string.
 	 * @param slug - The translation key to be translated.
-	 * @param refresh - An optional parameter to force the pipe to update (not used here).
-	 * @returns The translated string.
+	 * @returns The translated Signal<string>.
 	 */
-	transform(slug: string, refresh?: number): string {
+	transform(slug: string) {
 		return this._translateService.translate(slug);
 	}
 

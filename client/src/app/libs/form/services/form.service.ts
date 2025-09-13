@@ -4,6 +4,7 @@ import {
 	TemplateRef,
 	Type,
 	createComponent,
+	effect,
 	inject,
 } from '@angular/core';
 import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
@@ -97,12 +98,11 @@ export class FormService {
 	/** Translates the form title and its components' fields */
 	translateForm(form: FormInterface): void {
 		if (form.title) {
-			form.title = this._translate.translate(
-				`${form.title}`,
-				(title: string) => {
-					form.title = title;
-				},
-			);
+			const title = this._translate.translate(`${form.title}`);
+
+			effect(() => {
+				form.title = title();
+			});
 
 			for (const component of form.components) {
 				for (const field of component.fields || []) {
@@ -117,12 +117,9 @@ export class FormService {
 		const fieldValue = field.value;
 
 		if (typeof fieldValue === 'string' && !field.skipTranslation) {
-			field.value = this._translate.translate(
-				`${fieldValue}`,
-				(value: string) => {
-					field.value = value;
-				},
-			);
+			field.value = this._translate.translate(`${fieldValue}`)();
+
+			// TODO implement effect which will update field on translate change
 		}
 	}
 

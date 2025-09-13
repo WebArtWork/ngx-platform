@@ -7,11 +7,11 @@ _placeholder = placeholder();
 @if (_type !== 'radio' && _type !== 'checkbox' && _type !== 'textarea') {
 <label class="w-forms">
 	@if (_label) {
-	<span class="w-forms__title">{{ _label | translate }}</span>
+	<span class="w-forms__title">{{ (_label | translate)() }}</span>
 	}
 	<div style="position: relative">
 		<input
-			[placeholder]=" (_placeholder || 'Enter text...') | translate"
+			[placeholder]=" ((_placeholder || 'Enter text...') | translate)()"
 			(ngModelChange)="
 				activeValue.set($event);
 				error.set(false);
@@ -41,7 +41,7 @@ _placeholder = placeholder();
 	<!-- Error Message Display -->
 	@if (_error) {
 	<div class="error-message">
-		{{ (_label || _placeholder) + ' is invalid.' | translate }}
+		{{ ((_label || _placeholder) + ' is invalid.' | translate)() }}
 	</div>
 	}
 </label>
@@ -52,7 +52,7 @@ _placeholder = placeholder();
 <label class="w-forms">
 	<span class="w-forms__title">{{ _label }}</span>
 	<textarea
-		[placeholder]=" (_placeholder || 'Enter text...') | translate"
+		[placeholder]=" ((_placeholder || 'Enter text...') | translate)()"
 		(ngModelChange)="activeValue.set($event); onChangeAfterWhile()"
 		(keyup.enter)="onSubmit()"
 		class="w-forms__textarea"
@@ -67,7 +67,7 @@ _placeholder = placeholder();
 	<!-- Error Message Display -->
 	@if (_error) {
 	<div class="error-message">
-		{{ (_label || _placeholder) + ' is invalid.' | translate }}
+		{{ ((_label || _placeholder) + ' is invalid.' | translate)() }}
 	</div>
 	}
 </label>
@@ -76,7 +76,7 @@ _placeholder = placeholder();
 <!-- Radio Buttons -->
 @if (_type === 'radio') { @for (item of _items; track $index) {
 <label [class.disabled]="_disabled" class="check-label">
-	<span class="form-label">{{ item | translate }}</span>
+	<span class="form-label">{{ (item | translate)() }}</span>
 	<input
 		(ngModelChange)="activeValue.set($event); onChange()"
 		class="w-input__checkbox"
@@ -96,7 +96,7 @@ _placeholder = placeholder();
 @if (_type === 'checkbox') { @for (item of _items; track $index; let i = $index)
 {
 <label [class.disabled]="_disabled" class="check-label">
-	<span class="form-label">{{ item | translate }}</span>
+	<span class="form-label">{{ (item | translate)() }}</span>
 	<input
 		(ngModelChange)="setCheckboxValue($event, i); onChange()"
 		[ngModel]="isChecked(item)"
@@ -113,7 +113,7 @@ _placeholder = placeholder();
 } @if (!_items.length) {
 <label class="check-label" [class.disabled]="_disabled">
 	@if (_label) {
-	<span class="check-text form-label">{{ _label | translate }}</span>
+	<span class="check-text form-label">{{ (_label | translate)() }}</span>
 	}
 	<input
 		(ngModelChange)="activeValue.set($event); onChange()"

@@ -129,22 +129,20 @@ export class LanguageSelectorComponent extends CrudComponent<
 
 	// delete() {
 	// 	this._alertService.question({
-	// 		text: this._translateService.translate(
-	// 			`Are you sure you want to delete this language?`
-	// 		),
+	// 		text: `Are you sure you want to delete this language?`,
 	// 		buttons: [
-	// 			{ text: this._translateService.translate('No') },
+	// 			{ text: 'No' },
 	// 			{
-	// 				text: this._translateService.translate('Yes'),
+	// 				text: 'Yes',
 	// 				callback: async (): Promise<void> => {
 	// 					this.languageService.nextLanguage();
 
 	// 					this.languageService.delete(
-	// 						this.languageService.language()
+	// 						this.languageService.language(),
 	// 					);
-	// 				}
-	// 			}
-	// 		]
+	// 				},
+	// 			},
+	// 		],
 	// 	});
 	// }
 

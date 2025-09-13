@@ -11,11 +11,12 @@ import { TranslateService } from './modules/translate/services/translate.service
 })
 export class AppComponent {
 	private _translateService = inject(TranslateService);
+
 	private _alertService = inject(AlertService);
 
 	constructor() {
 		this._alertService.setTranslate((phrase: string) => {
-			return this._translateService.translate(phrase);
+			return this._translateService.translate(phrase)();
 		});
 	}
 }

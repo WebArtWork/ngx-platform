@@ -1,8 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { CrudService, EmitterService } from 'wacom';
 import { Phrase } from '../interfaces/phrase.interface';
 import { Translate } from '../interfaces/translate.interface';
-import { LanguageService } from './language.service';
 import { PhraseService } from './phrase.service';
 
 @Injectable({
@@ -18,6 +17,11 @@ export class TranslateService extends CrudService<Translate> {
 			},
 		});
 
+		this.filteredDocuments(this._translates, {
+			field: 'slug',
+			filtered: this._reTranslate.bind(this),
+		});
+
 		this._phraseService.loaded.subscribe(() => {
 			this._phrasesInitialized = true;
 		});
@@ -27,57 +31,30 @@ export class TranslateService extends CrudService<Translate> {
 			filtered: this._reTranslate.bind(this),
 		});
 
-		this.filteredDocuments(this._translates, {
-			field: 'slug',
-			filtered: this._reTranslate.bind(this),
-		});
-
 		this._emitterService.on('languageId').subscribe((languageId) => {
 			this.loadTranslate(languageId as string);
 		});
 	}
 
 	loadTranslate(languageId: string) {
-		if (this._languageLoaded === languageId) {
+		if (this._languageId === languageId) {
 			return;
 		}
 
-		this._languageLoaded = languageId;
+		this._languageId = languageId;
 
-		this.get({ query: 'language=' + languageId });
+		this.get({ query: 'language=' + languageId }).subscribe(
+			this._reTranslate.bind(this),
+		);
 	}
 
-	translate(text: string, reset?: (translate: string) => void) {
-		if (!text) return '';
+	translate(text: string): WritableSignal<string> {
+		this._signalTranslates[text] ||= signal(this._getTranslation(text));
 
-		this._resets[text] ||= [];
-
-		if (reset) {
-			this._resets[text].push(reset);
-		}
-
-		if (!this._phrases[text]?.length) {
-			if (this._phrasesInitialized) {
-				this._phraseService.create({ text });
-			}
-
-			return text;
-		}
-
-		const slug =
-			this._phrases[text][0]._id ??
-			'' + (this._languageService.language()?._id || '');
-
-		return this._translates[slug]?.length
-			? this._translates[slug][0].text || text
-			: text;
+		return this._signalTranslates[text];
 	}
-
-	private _resets: Record<string, ((translate: string) => void)[]> = {};
 
 	private _phraseService = inject(PhraseService);
-
-	private _languageService = inject(LanguageService);
 
 	private _emitterService = inject(EmitterService);
 
@@ -85,17 +62,33 @@ export class TranslateService extends CrudService<Translate> {
 
 	private _translates: Record<string, Translate[]> = {};
 
-	private _reTranslate() {
-		for (const phrase in this._resets) {
-			this._resets[phrase] ||= [];
+	private _signalTranslates: Record<string, WritableSignal<string>> = {};
 
-			for (const callback of this._resets[phrase]) {
-				callback(this.translate(phrase));
+	private _reTranslate() {
+		for (const phrase in this._signalTranslates) {
+			const translate = this._getTranslation(phrase);
+
+			if (this._signalTranslates[phrase]() !== translate) {
+				this._signalTranslates[phrase].set(translate);
 			}
 		}
 	}
 
+	private _getTranslation(text: string) {
+		if (this._phrases[text]?.length) {
+			const slug = this._phrases[text][0]._id + this._languageId;
+
+			if (this._translates[slug].length) {
+				return this._translates[slug][0].text;
+			}
+		} else if (this._phrasesInitialized) {
+			this._phraseService.create({ text });
+		}
+
+		return text;
+	}
+
 	private _phrasesInitialized = false;
 
-	private _languageLoaded = '';
+	private _languageId = '';
 }
