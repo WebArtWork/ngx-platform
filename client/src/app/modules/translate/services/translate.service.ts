@@ -75,10 +75,10 @@ export class TranslateService extends CrudService<Translate> {
 	}
 
 	private _getTranslation(text: string) {
-		if (this._phrases[text]?.length) {
+		if (this._phrases[text]?.length && this._languageId) {
 			const slug = this._phrases[text][0]._id + this._languageId;
 
-			if (this._translates[slug].length) {
+			if (this._translates[slug]?.length) {
 				return this._translates[slug][0].text;
 			}
 		} else if (this._phrasesInitialized) {

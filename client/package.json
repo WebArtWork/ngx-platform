@@ -19,7 +19,7 @@
     "rxjs": "7.8.2",
     "socket.io-client": "4.8.1",
     "tinymce": "7.9.1",
-    "wacom": "^20.5.1"
+    "wacom": "^20.5.2"
   },
   "devDependencies": {
     "@angular-eslint/builder": "20.2.0",
