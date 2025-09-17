@@ -1,19 +1,31 @@
-import { Directive, effect, ElementRef, inject, OnInit } from '@angular/core';
+import {
+	Directive,
+	ElementRef,
+	Injector,
+	OnInit,
+	effect,
+	inject,
+	runInInjectionContext,
+} from '@angular/core';
 import { TranslateService } from '../services/translate.service';
 
 @Directive({ selector: '[translate]' })
 export class TranslateDirective implements OnInit {
-	private _elementRef = inject(ElementRef);
+	private readonly _el = inject(ElementRef<HTMLElement>);
 
-	private _translateService = inject(TranslateService);
+	private readonly _translateService = inject(TranslateService);
+
+	private readonly _inj = inject(Injector);
 
 	ngOnInit() {
-		const originalText = this._elementRef.nativeElement.innerHTML;
+		const original = this._el.nativeElement.textContent ?? '';
 
-		const translated = this._translateService.translate(originalText);
+		const translated = this._translateService.translate(original);
 
-		effect(() => {
-			this._elementRef.nativeElement.innerHTML = translated();
+		runInInjectionContext(this._inj, () => {
+			effect(() => {
+				this._el.nativeElement.textContent = translated();
+			});
 		});
 	}
 }

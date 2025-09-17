@@ -49,8 +49,7 @@ export class TranslateService extends CrudService<Translate> {
 	}
 
 	translate(text: string): WritableSignal<string> {
-		// this._signalTranslates[text] ||= signal(this._getTranslation(text));
-		this._signalTranslates[text] ||= signal(text);
+		this._signalTranslates[text] ||= signal(this._getTranslation(text));
 
 		return this._signalTranslates[text];
 	}
@@ -66,14 +65,18 @@ export class TranslateService extends CrudService<Translate> {
 	private _signalTranslates: Record<string, WritableSignal<string>> = {};
 
 	private _reTranslate() {
-		return;
+		console.log('_reTranslate', this._signalTranslates);
+
 		for (const text in this._signalTranslates) {
+			console.log('creating', this._phrases[text], { text });
+
 			if (this._phrases[text]?.length) {
-				// const translate = this._getTranslation(text);
-				// if (this._signalTranslates[text]() !== translate) {
-				// 	this._signalTranslates[text].set(translate);
-				// }
-			} else if (this._phrasesInitialized) {
+				const translate = this._getTranslation(text);
+
+				if (this._signalTranslates[text]() !== translate) {
+					this._signalTranslates[text].set(translate);
+				}
+			} else if (this._phrasesInitialized && this._languageId) {
 				// this._phraseService.create({ text });
 			}
 		}

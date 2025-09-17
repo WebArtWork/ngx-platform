@@ -102,29 +102,34 @@ export class LanguageSelectorComponent extends CrudComponent<
 				) || {}
 			: {};
 
-		this._formService
-			.modal<Language>(languageForm, [], doc)
-			.then((updated: Language) => {
-				if (current) {
-					this.languageService.language.update((language) => {
-						language = language || ({} as Language);
+		this._formService.modal<Language>(
+			languageForm,
+			{
+				click: (updated) => {
+					if (current) {
+						this.languageService.language.update((language) => {
+							language = language || ({} as Language);
 
-						this._coreService.copy(updated, language);
+							this._coreService.copy(updated, language);
 
-						return language;
-					});
-
-					this.languageService.update(
-						this.languageService.language() as Language,
-					);
-				} else {
-					this.languageService
-						.create(updated)
-						.subscribe((language) => {
-							this.languageService.setLanguage(language);
+							return language;
 						});
-				}
-			});
+
+						this.languageService.update(
+							this.languageService.language() as Language,
+						);
+					} else {
+						this.languageService
+							.create(updated as Language)
+							.subscribe((language) => {
+								this.languageService.setLanguage(language);
+							});
+					}
+				},
+				label: current ? 'Update' : 'Create',
+			},
+			doc,
+		);
 	}
 
 	// delete() {
