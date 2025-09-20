@@ -4,30 +4,34 @@ export const phraseForm = {
 	components: [
 		{
 			name: 'Text',
-			key: 'name',
+			key: 'text',
 			focused: true,
 			fields: [
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Origin text',
 				},
 				{
 					name: 'Placeholder',
-					value: 'fill phrase title',
+					value: 'fill origin text...',
+				},
+				{
+					name: 'Textarea',
+					value: true,
 				},
 			],
 		},
 		{
 			name: 'Text',
-			key: 'description',
+			key: 'translation',
 			fields: [
 				{
 					name: 'Label',
-					value: 'Description',
+					value: 'Translation',
 				},
 				{
 					name: 'Placeholder',
-					value: 'fill phrase description',
+					value: 'fill translation...',
 				},
 				{
 					name: 'Textarea',

@@ -5,12 +5,10 @@ import { TranslateDirective } from 'src/app/modules/translate/directives/transla
 import { LanguageService } from 'src/app/modules/translate/services/language.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { WacomModule } from 'wacom';
-import { coreAnimation } from '../../animations/core.animations';
 
 @Component({
 	templateUrl: './user.component.html',
 	styleUrl: './user.component.scss',
-	animations: [coreAnimation],
 	imports: [
 		WacomModule,
 		RouterLinkActive,

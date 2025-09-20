@@ -33,20 +33,48 @@ export class TranslatesComponent extends CrudComponent<
 		return false;
 	}
 
-	override allowMutate() {
-		return false;
+	override update(doc: Phrase) {
+		doc.translation = this._translateService.translate(doc.text)();
+
+		this._formService.modal<Phrase>(
+			this.form,
+			{
+				label: 'Update',
+				click: (updated: unknown, close: () => void) => {
+					close();
+
+					if (doc.text !== (updated as Phrase).text) {
+						doc.text = (updated as Phrase).text;
+
+						this._phraseService.update(doc);
+					}
+
+					if (doc.translation !== (updated as Phrase).translation) {
+					}
+
+					console.log(
+						this.languageService.language()?._id,
+						doc.text,
+						(updated as Phrase).text,
+						doc.translation,
+						(updated as Phrase).translation,
+					);
+				},
+			},
+			doc,
+		);
 	}
 
 	config = this.getConfig();
 
 	constructor(
-		_translateService: TranslateService,
-		_phraseService: PhraseService,
-		__formService: FormService,
+		private _translateService: TranslateService,
+		private _phraseService: PhraseService,
+		private _formService: FormService,
 	) {
 		super(
 			phraseForm,
-			__formService,
+			_formService,
 			_translateService,
 			_phraseService,
 			'phrase',

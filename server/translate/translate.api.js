@@ -38,7 +38,7 @@ module.exports = async (waw) => {
 				ensure,
 			},
 			update: {
-				ensure,
+				ensure: waw.next,
 				query: (resp) => {
 					return {
 						_id: resp._id,
@@ -46,7 +46,7 @@ module.exports = async (waw) => {
 				},
 			},
 			delete: {
-				ensure,
+				ensure: waw.next,
 				query: (resp) => {
 					return {
 						_id: resp._id,
