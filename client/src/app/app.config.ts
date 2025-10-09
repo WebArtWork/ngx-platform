@@ -13,9 +13,9 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 import { environment } from 'src/environments/environment';
 import { provideWacom } from 'wacom';
 import { routes } from './app.routes';
-import { AdminsGuard } from './core/guards/admins.guard';
-import { AuthenticatedGuard } from './core/guards/authenticated.guard';
-import { GuestGuard } from './core/guards/guest.guard';
+import { AdminsGuard } from './modules/user/guards/admins.guard';
+import { AuthenticatedGuard } from './modules/user/guards/authenticated.guard';
+import { GuestGuard } from './modules/user/guards/guest.guard';
 
 export const appConfig = {
 	providers: [

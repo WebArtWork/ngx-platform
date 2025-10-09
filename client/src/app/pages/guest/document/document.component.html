@@ -1,0 +1,28 @@
+<div class="space" [class.space--open]="isMenuOpen">
+	<!-- Mobile header -->
+	<div class="space__header">
+		<div class="space__header-left">
+			<div class="space__header-avatar" routerLink="/profile">
+				<img [src]="userService.thumb()" alt="" />
+			</div>
+		</div>
+
+		<div class="space__header-title">Title header</div>
+
+		<div class="space__header-right">
+			<div class="space__burger" (click)="isMenuOpen = !isMenuOpen">
+				<div class="space__burger-item"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Sidebar (can be removed to have full-width main) -->
+	<div class="space__sidebar">
+		<!-- sidebar content -->
+	</div>
+
+	<!-- Main -->
+	<div class="space__main">
+		<!-- page content -->
+	</div>
+</div>

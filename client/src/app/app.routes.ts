@@ -1,14 +1,37 @@
 import { Routes } from '@angular/router';
 import { MetaGuard } from 'wacom';
-import { AdminsGuard } from './core/guards/admins.guard';
-import { AuthenticatedGuard } from './core/guards/authenticated.guard';
-import { GuestGuard } from './core/guards/guest.guard';
+import { AdminsGuard } from './modules/user/guards/admins.guard';
+import { AuthenticatedGuard } from './modules/user/guards/authenticated.guard';
+import { GuestGuard } from './modules/user/guards/guest.guard';
 
 export const routes: Routes = [
 	{
 		path: '',
 		redirectTo: '/sign',
 		pathMatch: 'full',
+	},
+	{
+		path: '',
+		loadComponent: () =>
+			import('./core/theme/public/public.component').then(
+				(m) => m.PublicComponent,
+			),
+		children: [
+			/* public */
+			{
+				path: 'document',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Document',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/guest/document/document.routes').then(
+						(m) => m.routes,
+					),
+			},
+		],
 	},
 	{
 		path: '',

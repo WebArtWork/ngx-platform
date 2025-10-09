@@ -31,7 +31,10 @@
 // ## ATOM
 @use 'atom/display';
 @use 'atom/margin';
-// @use 'atom/padding';
-// @use 'atom/size';
-// @use 'atom/text';
-// @use 'atom/other';
+@use 'atom/padding';
+@use 'atom/size';
+@use 'atom/text';
+@use 'atom/other';
+
+// ## Pages
+@use 'pages/default';
