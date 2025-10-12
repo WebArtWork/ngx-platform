@@ -1,11 +1,11 @@
-<div class="public" id="wrapper">
-	<nav class="nav">
-		<ul class="nav__ul container">
-			<li class="nav__li">
+<div class="public">
+	<nav class="public__topbar">
+		<ul class="public__menu">
+			<li class="public__menu-item">
 				<a
 					routerLinkActive="_activeLink"
 					routerLink="/profile"
-					class="nav__a"
+					class="public__link"
 				>
 					<span class="material-icons">home</span>
 				</a>
@@ -14,6 +14,6 @@
 	</nav>
 
 	<div class="public__main">
-		<router-outlet></router-outlet>
+		<router-outlet />
 	</div>
 </div>
