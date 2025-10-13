@@ -4,12 +4,13 @@ import { ButtonComponent } from 'src/app/libs/button/button.component';
 import { FormComponent } from 'src/app/libs/form/components/form/form.component';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
+import { SelectComponent } from 'src/app/libs/select/select.component';
 import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({
 	templateUrl: './document.component.html',
 	styleUrls: ['./document.component.scss'],
-	imports: [ButtonComponent, FormComponent, RouterLink],
+	imports: [ButtonComponent, FormComponent, RouterLink, SelectComponent],
 })
 export class DocumentComponent {
 	spaceDocument: FormInterface = this._form.getForm('spaceDocumentForm', {

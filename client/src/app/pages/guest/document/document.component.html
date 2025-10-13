@@ -18,11 +18,404 @@
 
 	<!-- Sidebar (can be removed to have full-width main) -->
 	<div class="space__sidebar">
-		<!-- sidebar content -->
+		<div (click)="isMenuOpen = !isMenuOpen" class="space__sidebar-close">
+			<span class="material-icons">close</span>
+		</div>
+		<div class="space__sidebar-content">
+			<div class="space__sidebar-row">
+				<span class="material-icons edit">edit</span>
+				<span class="material-icons delete">delete</span>
+			</div>
+
+			<div class="space__sidebar-img">
+				<img src="assets/default.png" alt="" />
+			</div>
+
+			<div class="space__sidebar-title">Title of sidebar...</div>
+
+			<div class="space__sidebar-desc">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
+				molestiae consequatur quae. Modi corporis rem amet tempore
+				debitis assumenda minima repellat labore expedita quam. Itaque
+				accusamus culpa ullam necessitatibus nisi.
+			</div>
+		</div>
 	</div>
 
 	<!-- Main -->
 	<div class="space__main">
-		<!-- page content -->
+		<!-- Title -->
+		<div class="section__title">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit.
+		</div>
+
+		<!-- Description -->
+		<div class="section__desc">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
+			voluptatum facilis sit necessitatibus, rem consectetur pariatur
+			sapiente incidunt laudantium praesentium aut iste omnis suscipit
+			autem deleniti, nisi temporibus obcaecati eligendi?
+		</div>
+
+		<!-- Breadcrumbs -->
+		<nav class="space__breadcrumbs">
+			<a class="space__breadcrumbs-link" href="/">Home</a>
+			<span class="space__breadcrumbs-sep">/</span>
+			<a class="space__breadcrumbs-link" href="/catalog">Catalog</a>
+			<span class="space__breadcrumbs-sep">/</span>
+			<span class="space__breadcrumbs-current">Item</span>
+		</nav>
+
+		<!-- Hero -->
+		<section class="space__hero">
+			<div class="space__hero-body">
+				<h1 class="space__title">Build anything faster</h1>
+				<p class="space__desc">
+					One modular layout to cover product, content, and commerce
+					pages.
+				</p>
+				<div class="space__hero-actions">
+					<wbutton type="primary">Get started</wbutton>
+					<wbutton type="info">Learn more</wbutton>
+				</div>
+			</div>
+			<div class="space__hero-media">
+				<img
+					src="assets/default.png"
+					alt="Hero"
+					loading="lazy"
+					decoding="async"
+				/>
+			</div>
+		</section>
+
+		<!-- Feature highlights -->
+		<section class="space__features">
+			@for (f of [{},{},{},{}]; track $index) {
+			<div class="space__feature">
+				<div class="space__feature-icon">bolt</div>
+				<div class="space__feature-title">Fast setup</div>
+				<div class="space__feature-desc">
+					Drop-in blocks with consistent BEM.
+				</div>
+			</div>
+			}
+		</section>
+
+		<!-- Stats -->
+		<section class="space__stats">
+			<div class="space__stat">
+				<div class="space__stat-value">24k+</div>
+				<div class="space__stat-label">Users</div>
+			</div>
+			<div class="space__stat">
+				<div class="space__stat-value">99.9%</div>
+				<div class="space__stat-label">Uptime</div>
+			</div>
+			<div class="space__stat">
+				<div class="space__stat-value">3x</div>
+				<div class="space__stat-label">Faster</div>
+			</div>
+		</section>
+
+		<!-- Media: image + text -->
+		<section class="space__media">
+			<div class="space__media-img">
+				<img
+					src="assets/default.png"
+					alt="Preview"
+					loading="lazy"
+					decoding="async"
+				/>
+			</div>
+			<div class="space__media-body">
+				<div class="space__media-title">Composable by design</div>
+				<div class="space__media-desc">
+					<p>
+						Use one block for docs, landing, or shop pages with
+						minimal changes.
+					</p>
+					<p>Scoped elements keep styles predictable and portable.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Tags -->
+		<section class="space__tags">
+			@for (tag of ['UI','Angular','PrimeNG','BEM','Responsive']; track
+			$index) {
+			<div class="space__tags-item">{{ tag }}</div>
+			}
+		</section>
+
+		<!-- Filters + Sort (for lists/catalog) -->
+		<section class="space__filters">
+			<div class="space__filters-left">
+				<input placeholder="Search…" />
+
+				<wselect [items]="['All','New','Sale']"></wselect>
+			</div>
+			<div class="space__sort">
+				<label class="space__sort-label">Sort by</label>
+
+				<wselect [items]="['Popular','Price ↑','Price ↓']"></wselect>
+			</div>
+		</section>
+
+		<!-- Tiny cards (generic) -->
+		<section class="space__cards">
+			@for (item of [{},{},{},{},{}]; track $index) {
+			<div class="space__card space__card--tiny">
+				<div class="space__card-img">
+					<img
+						src="assets/default.png"
+						alt="Card"
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
+				<div class="space__card-title">Card title…</div>
+				<div class="space__card-desc">Short descriptive text.</div>
+			</div>
+			}
+		</section>
+
+		<!-- Product list -->
+		<section class="space__products">
+			@for (product of [{},{},{},{},{}]; track $index) {
+			<div class="space__product">
+				<div class="space__product-img">
+					<img
+						src="assets/logo.png"
+						alt="Product"
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
+
+				<div class="space__product-title">Product name</div>
+				<div class="space__product-desc">
+					Short product description goes here…
+				</div>
+
+				<div class="space__product-price">
+					<span class="space__product-price-current">$19.99</span>
+					<span class="space__product-price-old">$29.99</span>
+					<span class="space__product-price-note">incl. VAT</span>
+				</div>
+
+				<div class="space__product-actions">
+					<wbutton type="primary">Add to cart</wbutton>
+					<wbutton type="info">Details</wbutton>
+				</div>
+			</div>
+			}
+		</section>
+
+		<!-- Comparison table -->
+		<section class="space__table">
+			<div class="space__table-scroll">
+				<table>
+					<thead>
+						<tr>
+							<th>Plan</th>
+							<th>Users</th>
+							<th>Storage</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Starter</td>
+							<td>3</td>
+							<td>5 GB</td>
+							<td>$0</td>
+						</tr>
+						<tr>
+							<td>Pro</td>
+							<td>10</td>
+							<td>100 GB</td>
+							<td>$19</td>
+						</tr>
+						<tr>
+							<td>Team</td>
+							<td>Unlimited</td>
+							<td>1 TB</td>
+							<td>$49</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Steps / How it works -->
+		<section class="space__steps">
+			@for (s of [1,2,3]; track $index) {
+			<div class="space__step">
+				<div class="space__step-num">{{ s }}</div>
+				<div class="space__step-title">Step {{ s }}</div>
+				<div class="space__step-desc">
+					Explain the action for this step.
+				</div>
+			</div>
+			}
+		</section>
+
+		<!-- Tabs -->
+		<section class="space__tabs">
+			<div class="space__tabs-nav">
+				<button class="space__tabs-btn is-active">Overview</button>
+				<button class="space__tabs-btn">Details</button>
+				<button class="space__tabs-btn">Reviews</button>
+			</div>
+			<div class="space__tab-panel is-active">
+				<p>Overview content…</p>
+			</div>
+			<div class="space__tab-panel">
+				<p>Details content…</p>
+			</div>
+			<div class="space__tab-panel">
+				<p>Reviews content…</p>
+			</div>
+		</section>
+
+		<!-- Testimonials -->
+		<section class="space__testimonials">
+			@for (t of [{},{},{}]; track $index) {
+			<figure class="space__testimonial">
+				<blockquote class="space__testimonial-quote">
+					“This layout saved us weeks.”
+				</blockquote>
+				<figcaption class="space__testimonial-author">
+					Jane Doe • Product Lead
+				</figcaption>
+			</figure>
+			}
+		</section>
+
+		<!-- FAQ -->
+		<section class="space__faq">
+			@for (q of [{},{},{}]; track $index) {
+			<div class="space__faq-item">
+				<button
+					class="space__faq-q"
+					type="button"
+					aria-expanded="false"
+				>
+					What is included?
+				</button>
+				<div class="space__faq-a">
+					Everything you need to ship pages fast.
+				</div>
+			</div>
+			}
+		</section>
+
+		<!-- Gallery -->
+		<section class="space__gallery">
+			@for (g of [{},{},{},{},{},{}]; track $index) {
+			<figure class="space__figure">
+				<img
+					src="assets/default.png"
+					alt="Gallery"
+					loading="lazy"
+					decoding="async"
+				/>
+				<figcaption class="space__figure-caption">Caption</figcaption>
+			</figure>
+			}
+		</section>
+
+		<!-- Badges -->
+		<section class="space__badges">
+			<span class="space__badge">New</span>
+			<span class="space__badge">Beta</span>
+			<span class="space__badge">Featured</span>
+		</section>
+
+		<!-- Alerts -->
+		<section class="space__alerts">
+			<div class="space__alert space__alert--info">
+				Heads up: new components shipped.
+			</div>
+			<div class="space__alert space__alert--success">
+				Your changes were saved.
+			</div>
+			<div class="space__alert space__alert--warn">Usage near limit.</div>
+			<div class="space__alert space__alert--error">
+				Something went wrong.
+			</div>
+		</section>
+
+		<!-- Timeline -->
+		<section class="space__timeline">
+			<div class="space__event">
+				<div class="space__event-dot"></div>
+				<div class="space__event-body">
+					<div class="space__event-title">Launched v1</div>
+					<div class="space__event-meta">Apr 2025</div>
+					<div class="space__event-desc">Initial public release.</div>
+				</div>
+			</div>
+			<div class="space__event">
+				<div class="space__event-dot"></div>
+				<div class="space__event-body">
+					<div class="space__event-title">
+						Added e-commerce blocks
+					</div>
+					<div class="space__event-meta">Jun 2025</div>
+					<div class="space__event-desc">
+						Products, pricing, and checkout UI.
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section class="space__cta">
+			<div class="space__cta-body">
+				<h2 class="space__cta-title">Ready to build?</h2>
+				<p class="space__cta-desc">
+					Use these blocks to launch pages in hours, not weeks.
+				</p>
+				<div class="space__cta-actions">
+					<wbutton type="primary">Start now</wbutton>
+					<wbutton type="info">Contact sales</wbutton>
+				</div>
+			</div>
+		</section>
+
+		<!-- Form -->
+		<section class="space__form">
+			<wform [config]="spaceDocument"></wform>
+			<div class="space__form-actions">
+				<wbutton type="primary">Submit</wbutton>
+				<wbutton type="warning">Cancel</wbutton>
+			</div>
+		</section>
+
+		<!-- Pagination -->
+		<nav class="space__pagination">
+			<button class="space__page is-disabled">Prev</button>
+			<button class="space__page is-active">1</button>
+			<button class="space__page">2</button>
+			<button class="space__page">3</button>
+			<button class="space__page">Next</button>
+		</nav>
+
+		<!-- Local footer -->
+		<footer class="space__footer">
+			<div class="space__footer-left">© 2025 Web Art Work</div>
+			<div class="space__footer-right">
+				<a href="#">Terms</a>
+				<a href="#">Privacy</a>
+				<a href="#">Contact</a>
+			</div>
+		</footer>
+
+		<!-- Form -->
+		<wform [config]="spaceDocument"></wform>
+
+		<wbutton>Press button</wbutton>
 	</div>
 </div>
