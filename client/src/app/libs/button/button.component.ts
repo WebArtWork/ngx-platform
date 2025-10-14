@@ -1,7 +1,10 @@
 import {
 	ChangeDetectionStrategy,
+	ChangeDetectorRef,
 	Component,
+	inject,
 	input,
+	OnInit,
 	output,
 } from '@angular/core';
 
@@ -15,7 +18,9 @@ import {
 	selector: 'wbutton',
 	templateUrl: './button.component.html',
 })
-export class ButtonComponent {
+export class ButtonComponent implements OnInit {
+	private _cdr = inject(ChangeDetectorRef);
+
 	readonly type = input<
 		| 'primary'
 		| 'secondary'
@@ -57,6 +62,10 @@ export class ButtonComponent {
 	 * Event emitted when the button is clicked.
 	 */
 	readonly wClick = output<void>();
+
+	ngOnInit() {
+		this._cdr.detectChanges();
+	}
 
 	/**
 	 * Handles the click event.

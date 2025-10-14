@@ -6,7 +6,7 @@
 
 	block-size: 100%;
 	background: var(--c-bg-primary);
-	color: #fff;
+	color: var(--c-white);
 	position: relative;
 
 	display: flex;
@@ -20,6 +20,7 @@
 
 	&__sidebar {
 		position: sticky;
+		min-width: var(--sidebar-w);
 		width: var(--sidebar-w);
 		top: 0;
 		background: var(--c-bg-secondary);
@@ -48,7 +49,7 @@
 	&__sidebar-row {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		gap: 8px;
 		margin-block-start: 8px;
 
@@ -459,6 +460,7 @@
 		gap: 6px;
 	}
 	&__tabs-btn {
+		color: var(--c-white);
 		background: var(--c-bg-secondary);
 		border: 1px solid var(--c-border);
 		border-radius: 10px;
@@ -671,6 +673,7 @@
 		justify-content: center;
 	}
 	&__page {
+		color: var(--c-white);
 		padding: 8px 12px;
 		border-radius: 10px;
 		border: 1px solid var(--c-border);

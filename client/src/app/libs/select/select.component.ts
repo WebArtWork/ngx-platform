@@ -116,21 +116,15 @@ export class SelectComponent {
 				this.items().map((item) => {
 					const saveItem: SelectItem = {} as SelectItem;
 
-					const inputItem = (item as () => unknown)();
-
 					saveItem.name =
-						typeof inputItem === 'object'
-							? (inputItem as Record<string, string>)[
-									this.bindLabel()
-								]
-							: (inputItem as string);
+						typeof item === 'object'
+							? (item as Record<string, string>)[this.bindLabel()]
+							: (item as string);
 
 					saveItem.id =
-						typeof inputItem === 'object'
-							? (inputItem as Record<string, string>)[
-									this.bindValue()
-								]
-							: (inputItem as SelectId);
+						typeof item === 'object'
+							? (item as Record<string, string>)[this.bindValue()]
+							: (item as SelectId);
 
 					this.allItem[saveItem.id] = saveItem.name;
 

@@ -22,7 +22,7 @@
 			<span class="material-icons">close</span>
 		</div>
 		<div class="space__sidebar-content">
-			<div class="space__sidebar-row">
+			<div class="space__sidebar-row jc-fe">
 				<span class="material-icons edit">edit</span>
 				<span class="material-icons delete">delete</span>
 			</div>
@@ -38,6 +38,11 @@
 				molestiae consequatur quae. Modi corporis rem amet tempore
 				debitis assumenda minima repellat labore expedita quam. Itaque
 				accusamus culpa ullam necessitatibus nisi.
+			</div>
+
+			<div class="space__sidebar-row">
+				<span class="material-icons">delete</span>
+				<span>Hello world</span>
 			</div>
 		</div>
 	</div>
@@ -89,6 +94,28 @@
 			</div>
 		</section>
 
+		<!-- Media: image + text -->
+		<section class="space__media">
+			<div class="space__media-img">
+				<img
+					src="assets/default.png"
+					alt="Preview"
+					loading="lazy"
+					decoding="async"
+				/>
+			</div>
+			<div class="space__media-body">
+				<div class="space__media-title">Composable by design</div>
+				<div class="space__media-desc">
+					<p>
+						Use one block for docs, landing, or shop pages with
+						minimal changes.
+					</p>
+					<p>Scoped elements keep styles predictable and portable.</p>
+				</div>
+			</div>
+		</section>
+
 		<!-- Feature highlights -->
 		<section class="space__features">
 			@for (f of [{},{},{},{}]; track $index) {
@@ -118,28 +145,6 @@
 			</div>
 		</section>
 
-		<!-- Media: image + text -->
-		<section class="space__media">
-			<div class="space__media-img">
-				<img
-					src="assets/default.png"
-					alt="Preview"
-					loading="lazy"
-					decoding="async"
-				/>
-			</div>
-			<div class="space__media-body">
-				<div class="space__media-title">Composable by design</div>
-				<div class="space__media-desc">
-					<p>
-						Use one block for docs, landing, or shop pages with
-						minimal changes.
-					</p>
-					<p>Scoped elements keep styles predictable and portable.</p>
-				</div>
-			</div>
-		</section>
-
 		<!-- Tags -->
 		<section class="space__tags">
 			@for (tag of ['UI','Angular','PrimeNG','BEM','Responsive']; track
@@ -151,14 +156,16 @@
 		<!-- Filters + Sort (for lists/catalog) -->
 		<section class="space__filters">
 			<div class="space__filters-left">
-				<input placeholder="Search…" />
-
-				<wselect [items]="['All','New','Sale']"></wselect>
+				<wselect
+					[items]="['All','New','Sale']"
+					placeholder="Select type..."
+				></wselect>
 			</div>
 			<div class="space__sort">
-				<label class="space__sort-label">Sort by</label>
-
-				<wselect [items]="['Popular','Price ↑','Price ↓']"></wselect>
+				<wselect
+					[items]="['Popular','Price ↑','Price ↓']"
+					placeholder="Select type..."
+				></wselect>
 			</div>
 		</section>
 

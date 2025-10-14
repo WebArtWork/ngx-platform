@@ -1,15 +1,17 @@
+@let _type = type();
+
 <button
 	[type]="click() || disableSubmit() ? 'button' : 'submit'"
 	[class]=" 'w-btn' + (class() ? ' ' + class() : '') "
-	[class._secondary]="type() === 'secondary'"
-	[class._primary]="type() === 'primary'"
-	[class._success]="type() === 'success'"
-	[class._warning]="type() === 'warning'"
-	[class._danger]="type() === 'danger'"
-	[class._light]="type() === 'light'"
-	[class._info]="type() === 'info'"
-	[class._dark]="type() === 'dark'"
-	[class._link]="type() === 'link'"
+	[class._secondary]="_type === 'secondary'"
+	[class._primary]="_type === 'primary'"
+	[class._success]="_type === 'success'"
+	[class._warning]="_type === 'warning'"
+	[class._danger]="_type === 'danger'"
+	[class._light]="_type === 'light'"
+	[class._info]="_type === 'info'"
+	[class._dark]="_type === 'dark'"
+	[class._link]="_type === 'link'"
 	[disabled]="disabled()"
 	(click)="clicked()"
 >
