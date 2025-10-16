@@ -1,0 +1,33 @@
+.space {
+	/* ===== Media (image + text) ===== */
+	&__media {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--gutter);
+		align-items: start;
+	}
+	&__media-img img {
+		display: block;
+		inline-size: 100%;
+		block-size: auto;
+		border-radius: 12px;
+	}
+	&__media-title {
+		font-weight: 700;
+		color: var(--c-text-secondary);
+		margin-block-end: 6px;
+	}
+	&__media-desc {
+		color: var(--c-text-primary);
+		line-height: 1.6;
+	}
+}
+
+/* ============ Mobile (≤991px) ============ */
+@media (max-width: 991px) {
+	.space {
+		&__media {
+			grid-template-columns: 1fr;
+		}
+	}
+}

@@ -1,0 +1,28 @@
+.space {
+	/* ===== Hero ===== */
+	&__hero {
+		display: grid;
+		grid-template-columns: 1.1fr 0.9fr;
+		gap: var(--gutter);
+		align-items: center;
+	}
+	&__hero-actions {
+		display: flex;
+		gap: 10px;
+	}
+	&__hero-media img {
+		display: block;
+		inline-size: 100%;
+		block-size: auto;
+		border-radius: 12px;
+	}
+}
+
+/* ============ Mobile (≤991px) ============ */
+@media (max-width: 991px) {
+	.space {
+		&__hero {
+			grid-template-columns: 1fr;
+		}
+	}
+}

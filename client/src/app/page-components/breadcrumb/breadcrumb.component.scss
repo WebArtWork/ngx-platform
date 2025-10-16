@@ -1,0 +1,18 @@
+/* ===== Breadcrumbs ===== */
+&__breadcrumbs {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--c-text-primary);
+	&-link {
+		color: var(--c-text-secondary);
+		text-decoration: none;
+	}
+	&-current {
+		font-weight: 600;
+		color: var(--c-text-secondary);
+	}
+	&-sep {
+		opacity: 0.5;
+	}
+}

@@ -13,7 +13,7 @@ export const routes: Routes = [
 	{
 		path: '',
 		loadComponent: () =>
-			import('./core/theme/public/public.component').then(
+			import('./layouts/public/public.component').then(
 				(m) => m.PublicComponent,
 			),
 		children: [
@@ -37,7 +37,7 @@ export const routes: Routes = [
 		path: '',
 		canActivate: [GuestGuard],
 		loadComponent: () =>
-			import('./core/theme/guest/guest.component').then(
+			import('./layouts/guest/guest.component').then(
 				(m) => m.GuestComponent,
 			),
 		children: [
@@ -61,7 +61,7 @@ export const routes: Routes = [
 		path: '',
 		canActivate: [AuthenticatedGuard],
 		loadComponent: () =>
-			import('./core/theme/user/user.component').then(
+			import('./layouts/user/user.component').then(
 				(m) => m.UserComponent,
 			),
 		children: [
@@ -98,7 +98,7 @@ export const routes: Routes = [
 		path: 'admin',
 		canActivate: [AdminsGuard],
 		loadComponent: () =>
-			import('./core/theme/user/user.component').then(
+			import('./layouts/user/user.component').then(
 				(m) => m.UserComponent,
 			),
 		children: [

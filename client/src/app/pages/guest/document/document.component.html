@@ -62,60 +62,6 @@
 			autem deleniti, nisi temporibus obcaecati eligendi?
 		</div>
 
-		<!-- Breadcrumbs -->
-		<nav class="space__breadcrumbs">
-			<a class="space__breadcrumbs-link" href="/">Home</a>
-			<span class="space__breadcrumbs-sep">/</span>
-			<a class="space__breadcrumbs-link" href="/catalog">Catalog</a>
-			<span class="space__breadcrumbs-sep">/</span>
-			<span class="space__breadcrumbs-current">Item</span>
-		</nav>
-
-		<!-- Hero -->
-		<section class="space__hero">
-			<div class="space__hero-body">
-				<h1 class="space__title">Build anything faster</h1>
-				<p class="space__desc">
-					One modular layout to cover product, content, and commerce
-					pages.
-				</p>
-				<div class="space__hero-actions">
-					<wbutton type="primary">Get started</wbutton>
-					<wbutton type="info">Learn more</wbutton>
-				</div>
-			</div>
-			<div class="space__hero-media">
-				<img
-					src="assets/default.png"
-					alt="Hero"
-					loading="lazy"
-					decoding="async"
-				/>
-			</div>
-		</section>
-
-		<!-- Media: image + text -->
-		<section class="space__media">
-			<div class="space__media-img">
-				<img
-					src="assets/default.png"
-					alt="Preview"
-					loading="lazy"
-					decoding="async"
-				/>
-			</div>
-			<div class="space__media-body">
-				<div class="space__media-title">Composable by design</div>
-				<div class="space__media-desc">
-					<p>
-						Use one block for docs, landing, or shop pages with
-						minimal changes.
-					</p>
-					<p>Scoped elements keep styles predictable and portable.</p>
-				</div>
-			</div>
-		</section>
-
 		<!-- Feature highlights -->
 		<section class="space__features">
 			@for (f of [{},{},{},{}]; track $index) {
@@ -422,7 +368,5 @@
 
 		<!-- Form -->
 		<wform [config]="spaceDocument"></wform>
-
-		<wbutton>Press button</wbutton>
 	</div>
 </div>
