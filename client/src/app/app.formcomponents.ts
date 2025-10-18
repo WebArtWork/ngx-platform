@@ -14,6 +14,7 @@ import { SelectComponent } from 'src/app/form-components/select/select.component
 import { TagsComponent } from 'src/app/form-components/tags/tags.component';
 import { TextComponent } from 'src/app/form-components/text/text.component';
 import { TimeComponent } from 'src/app/form-components/time/time.component';
+/* componnets */
 
 export const FORM_COMPONENTS: Record<string, Type<any>> = {
 	Email: EmailComponent,
@@ -30,4 +31,5 @@ export const FORM_COMPONENTS: Record<string, Type<any>> = {
 	Tags: TagsComponent,
 	Text: TextComponent,
 	Time: TimeComponent,
+	/* addComponents */
 };

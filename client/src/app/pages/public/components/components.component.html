@@ -1,6 +1,6 @@
 <div class="space" [class.space--open]="isMenuOpen()">
-	<!-- Mobile header -->
-	<div class="space__header">
+	<!-- Header (mobile only) -->
+	<header class="space__header" aria-label="Page header">
 		<div class="space__header-left">
 			<user-preview></user-preview>
 		</div>
@@ -13,15 +13,21 @@
 				#burger
 			></icon-burger>
 		</div>
-	</div>
+	</header>
 
-	<!-- Sidebar (can be removed to have full-width main) -->
-	<div class="space__sidebar">
-		<div (click)="burger.toggle()" class="space__sidebar-close">
+	<!-- Sidebar -->
+	<aside class="space__sidebar" aria-label="Sidebar">
+		<button
+			type="button"
+			class="space__sidebar-close"
+			(click)="burger.toggle()"
+			aria-label="Close sidebar"
+		>
 			<span class="material-icons">close</span>
-		</div>
+		</button>
+
 		<div class="space__sidebar-content">
-			<div class="space__sidebar-row jc-fe">
+			<div class="space__sidebar-row space__sidebar-row--end">
 				<span class="material-icons edit">edit</span>
 				<span class="material-icons delete">delete</span>
 			</div>
@@ -44,15 +50,15 @@
 				<span>Hello world</span>
 			</div>
 		</div>
-	</div>
+	</aside>
 
 	<!-- Main -->
-	<div class="space__main">
+	<main class="space__main">
 		<page-hero
 			title="Build anything faster"
 			description="One modular layout to cover product, content, and commerce pages."
-			[buttons]="[{text: 'Get started'}]"
+			[buttons]="[{ text: 'Get started' }]"
 			mediaUrl="assets/default.png"
 		></page-hero>
-	</div>
+	</main>
 </div>

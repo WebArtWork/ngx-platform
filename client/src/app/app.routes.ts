@@ -7,11 +7,6 @@ import { GuestGuard } from './modules/user/guards/guest.guard';
 export const routes: Routes = [
 	{
 		path: '',
-		redirectTo: '/sign',
-		pathMatch: 'full',
-	},
-	{
-		path: '',
 		loadComponent: () =>
 			import('./layouts/public/public.component').then(
 				(m) => m.PublicComponent,
@@ -19,16 +14,16 @@ export const routes: Routes = [
 		children: [
 			/* public */
 			{
-				path: 'document',
+				path: 'components',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Document',
+						title: 'Components',
 					},
 				},
 				loadChildren: () =>
-					import('./pages/guest/document/document.routes').then(
-						(m) => m.routes,
+					import('./pages/public/components/components.routes').then(
+						(m) => m.componentsRoutes,
 					),
 			},
 		],

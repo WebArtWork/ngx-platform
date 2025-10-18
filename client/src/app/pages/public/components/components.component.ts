@@ -12,11 +12,11 @@ import { HeroComponent } from 'src/app/page-components/hero/hero.component';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	templateUrl: './document.component.html',
-	styleUrls: ['./document.component.scss'],
+	templateUrl: './components.component.html',
+	styleUrls: ['./components.component.scss'],
 	imports: [UserPreviewComponent, BurgerComponent, HeroComponent],
 })
-export class DocumentComponent implements OnInit {
+export class ComponentsComponent implements OnInit {
 	private _cdr = inject(ChangeDetectorRef);
 
 	isMenuOpen = signal(false);
