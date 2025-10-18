@@ -1,12 +1,25 @@
-<!-- Breadcrumbs -->
-<nav class="space__breadcrumbs">
-	<a class="space__breadcrumbs-link" href="/">Home</a>
+<nav class="breadcrumb" [attr.aria-label]="ariaLabel()">
+	<ng-container *ngFor="let c of items(); let i = index; let last = last">
+		<a
+			*ngIf="!last && c.href; else currentTpl"
+			class="breadcrumb__link"
+			[href]="c.href"
+			[attr.target]="c.target || null"
+			[attr.rel]="c.rel || null"
+			(click)="crumbClick.emit({ index: i, item: c })"
+		>
+			{{ c.label }}
+		</a>
 
-	<span class="space__breadcrumbs-sep">/</span>
+		<ng-template #currentTpl>
+			<span
+				class="breadcrumb__current"
+				[attr.aria-current]="last ? 'page' : null"
+			>
+				{{ c.label }}
+			</span>
+		</ng-template>
 
-	<a class="space__breadcrumbs-link" href="/catalog">Catalog</a>
-
-	<span class="space__breadcrumbs-sep">/</span>
-
-	<span class="space__breadcrumbs-current">Item</span>
+		<span *ngIf="!last" class="breadcrumb__sep">{{ separator() }}</span>
+	</ng-container>
 </nav>

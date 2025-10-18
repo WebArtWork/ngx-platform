@@ -11,7 +11,7 @@
 	@include mixins.flexBox(flex, column, null, null, null);
 	background: var(--c-bg-primary);
 	transition: all 0.5s ease-in-out;
-        &__main {
+	&__main {
 		flex-grow: 1;
 		overflow-y: auto;
 		@include mixins.flexBox(flex, column, null, null, null);
@@ -31,8 +31,6 @@
 		}
 	}
 }
-
-
 
 hr {
 	border: none;
@@ -256,34 +254,34 @@ hr {
 				font-size: 30px;
 			}
 		}
-                &-user {
-                        @include mixins.flexBox(flex, column, center, center, null);
-                        color: var(--c-text-primary);
-                        padding: 5px;
-                        .name {
-                                word-break: break-word;
-                        }
-                        .material-icons {
-                                color: var(--c-text-primary);
-                                font-size: calc(vars.$fs + 32px);
-                        }
-                }
-        }
-        &__theme-switch {
-                position: absolute;
-                right: 10px;
-                display: flex;
-                justify-content: flex-end;
-                margin-right: 10px;
-                .material-icons {
-                        cursor: pointer;
-                }
-        }
-        @include media.bp-max(md) {
-                order: 2;
-                &__ul {
-                        justify-content: space-between;
-                }
+		&-user {
+			@include mixins.flexBox(flex, column, center, center, null);
+			color: var(--c-text-primary);
+			padding: 5px;
+			.name {
+				word-break: break-word;
+			}
+			.material-icons {
+				color: var(--c-text-primary);
+				font-size: calc(vars.$fs + 32px);
+			}
+		}
+	}
+	&__theme-switch {
+		position: absolute;
+		right: 10px;
+		display: flex;
+		justify-content: flex-end;
+		margin-right: 10px;
+		.material-icons {
+			cursor: pointer;
+		}
+	}
+	@include media.bp-max(md) {
+		order: 2;
+		&__ul {
+			justify-content: space-between;
+		}
 		&__li:last-child {
 			margin-left: 0;
 		}
@@ -292,4 +290,3 @@ hr {
 		}
 	}
 }
-

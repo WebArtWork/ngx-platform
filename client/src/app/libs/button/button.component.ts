@@ -8,6 +8,17 @@ import {
 	output,
 } from '@angular/core';
 
+export type ButtonType =
+	| 'primary'
+	| 'secondary'
+	| 'success'
+	| 'danger'
+	| 'warning'
+	| 'info'
+	| 'light'
+	| 'dark'
+	| 'link';
+
 /**
  * ButtonComponent is a reusable Angular component for buttons.
  * It supports multiple styles, custom classes, disabled states,
@@ -21,17 +32,7 @@ import {
 export class ButtonComponent implements OnInit {
 	private _cdr = inject(ChangeDetectorRef);
 
-	readonly type = input<
-		| 'primary'
-		| 'secondary'
-		| 'success'
-		| 'danger'
-		| 'warning'
-		| 'info'
-		| 'light'
-		| 'dark'
-		| 'link'
-	>('primary');
+	readonly type = input<ButtonType>('primary');
 
 	/**
 	 * Additional CSS classes for the button.

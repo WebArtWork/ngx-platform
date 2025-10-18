@@ -1,11 +1,51 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ButtonComponent } from 'src/app/libs/button/button.component';
+import { CommonModule } from '@angular/common';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	input,
+	output,
+} from '@angular/core';
+import {
+	ButtonComponent,
+	ButtonType,
+} from 'src/app/libs/button/button.component';
+
+interface HeroButton {
+	text: string;
+	type?: ButtonType;
+	click?: () => void;
+	href?: () => void;
+	routerLink?: () => void;
+}
+
+type MediaSide = 'left' | 'right';
 
 @Component({
 	selector: 'page-hero',
-	imports: [ButtonComponent],
+	standalone: true,
+	imports: [CommonModule, ButtonComponent],
 	templateUrl: './hero.component.html',
 	styleUrl: './hero.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroComponent {}
+export class HeroComponent {
+	// Texts
+	title = input<string>('');
+	description = input<string>('');
+
+	// Buttons
+	buttons = input<HeroButton[]>([]);
+
+	// Media
+	mediaUrl = input<string>('');
+	mediaAlt = input<string>('Hero');
+	mediaSide = input<MediaSide>('right'); // 'left' places media before text
+
+	// Layout
+	cols = input<string>('1.1fr 0.9fr'); // grid-template-columns
+
+	// Outputs
+	primaryClick = output<void>();
+	secondaryClick = output<void>();
+	mediaClick = output<void>();
+}
