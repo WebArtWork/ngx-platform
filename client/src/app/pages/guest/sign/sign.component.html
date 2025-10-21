@@ -1,24 +1,37 @@
-<div class="sign-wrapper">
-	<div class="sign-wrapper__wrap">
-		<div (click)="userService.toggleTheme()" class="sign-wrapper__img">
+<div class="sign">
+	<div class="sign__container">
+		<button
+			(click)="userService.toggleTheme()"
+			aria-label="Toggle theme"
+			class="sign__brand"
+			type="button"
+		>
 			@if (logo) {
-			<img [src]="logo" alt="Logo" />
-			} @if (!logo) {
-			<icon-spider></icon-spider>
+			<img class="sign__logo" [src]="logo" alt="Logo" />
+			} @else {
+			<icon-spider class="sign__logo sign__logo--icon"></icon-spider>
 			}
-		</div>
-		<div class="sign-wrapper__form">
-			<div class="sign-wrapper__card">
-				<span
-					(click)="userService.toggleTheme()"
-					class="material-icons sign-wrapper__icon"
-				>
-					@if (userService.theme === 'dark') { dark_mode } @else {
-					light_mode }
-				</span>
+		</button>
 
-				<wform (wSubmit)="submit()" [submition]="user" [config]="form">
-				</wform>
+		<div class="sign__panel">
+			<div class="sign__card">
+				<button
+					(click)="userService.toggleTheme()"
+					aria-label="Toggle theme"
+					class="sign__theme"
+					type="button"
+				>
+					<span class="material-icons">
+						@if (userService.theme === 'dark') { dark_mode } @else {
+						light_mode }
+					</span>
+				</button>
+
+				<wform
+					(wSubmit)="submit()"
+					[submition]="user"
+					[config]="form"
+				></wform>
 			</div>
 		</div>
 	</div>

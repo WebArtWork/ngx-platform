@@ -1,98 +1,126 @@
-@let _showSidebar = showSidebar();
-
-<div class="user" id="wrapper">
-	<nav class="nav">
-		<ul class="nav__ul container" [class._active]="_showSidebar">
-			<li class="nav__li">
+<div class="user">
+	<nav class="user__topbar">
+		<ul class="user__menu">
+			<li class="user__menu-item">
 				<a
-					(click)="showSidebar.set(false)"
-					routerLinkActive="_activeLink"
 					routerLink="/profile"
-					class="nav__a"
+					routerLinkActive="_activeLink"
+					[routerLinkActiveOptions]="{ exact: true }"
+					class="user__link"
+					(click)="closeIfDesktop()"
+					aria-label="Home"
 				>
 					<span class="material-icons">home</span>
 				</a>
 			</li>
-			<li
-				(click)="showSidebar.set(!_showSidebar)"
-				class="nav__li _burger"
-			>
-				<a class="nav__toggle" [class._active]="_showSidebar">
-					<span class="nav__toggle-line"></span>
-				</a>
+
+			<li class="user__menu-item user__menu-spacer"></li>
+
+			<li class="user__menu-item">
+				<button
+					class="user__iconbtn"
+					(click)="languageService.nextLanguage()"
+					aria-label="Switch language"
+				>
+					{{ languageService.language()?.name }}
+				</button>
+			</li>
+
+			<!-- Burger: visible only on mobile; (updated) keeps state in sync -->
+			<li class="user__menu-item user__menu-burger">
+				<icon-burger
+					#burger
+					(updated)="isOpen.set($event)"
+					aria-label="Menu"
+				></icon-burger>
 			</li>
 		</ul>
 	</nav>
 
-	<div class="user__main" [class.showTable]="_showSidebar">
-		<div class="nav__burger _active" [class._active]="_showSidebar">
-			<div class="nav__burger-list">
-				<div class="nav__theme-switch">
-					<span
-						class="material-icons"
-						(click)="userService.toggleTheme()"
-					>
-						@if (userService.theme === 'dark') {dark_mode} @else
-						{light_mode}
-					</span>
-				</div>
-				<div
-					(click)="languageService.nextLanguage()"
-					class="nav__translate-switch"
-				>
-					{{languageService.language()?.name}}
-				</div>
-				<a
-					class="nav__burger-link nav__burger-user"
-					routerLink="/profile"
-				>
-					<img
-						[src]="userService.thumb()"
-						alt="Profile Picture"
-						class="avatar__img"
-						height="50"
-						width="50"
-					/>
-					<div class="name">
-						{{userService.user().name || "Profile"}}
-					</div>
-				</a>
-				<hr />
-				@if (userService.role('admin')) {
-				<a
-					[routerLinkActiveOptions]="{ exact: true }"
-					routerLinkActive="_activeLink"
-					routerLink="/admin/users"
-					class="nav__burger-link"
-					(click)="hideSidebar()"
-				>
-					<span class="material-icons">people</span>
-					<span translate>Users</span>
-				</a>
-				<a
-					[routerLinkActiveOptions]="{ exact: true }"
-					routerLinkActive="_activeLink"
-					routerLink="/admin/forms"
-					class="nav__burger-link"
-					(click)="hideSidebar()"
-				>
-					<span class="material-icons">backup_table</span>
-					<span translate>Forms</span>
-				</a>
-				<a
-					[routerLinkActiveOptions]="{ exact: true }"
-					routerLinkActive="_activeLink"
-					routerLink="/admin/translates"
-					class="nav__burger-link"
-					(click)="hideSidebar()"
-				>
-					<span class="material-icons">translate</span>
-					<span translate>Translates</span>
-				</a>
-				<hr />
-				}
+	<!-- Sidebar -->
+	<aside class="user__drawer" [class._open]="isOpen()">
+		<!-- Close (mobile only). One click: we only toggle the icon, state is updated via (updated) above -->
+		<button
+			type="button"
+			class="user__iconbtn user__drawer-close"
+			(click)="burger.toggle()"
+			aria-label="Close sidebar"
+		>
+			<span class="material-icons">close</span>
+		</button>
+
+		<!-- Profile -->
+		<a
+			class="user__drawer-link user__drawer-user"
+			routerLink="/profile"
+			(click)="isOpen() && burger.toggle()"
+		>
+			<img
+				[src]="userService.thumb()"
+				alt=""
+				class="user__avatar"
+				height="50"
+				width="50"
+			/>
+			<div class="user__name">
+				{{ userService.user().name || 'Profile' }}
 			</div>
-		</div>
-		<router-outlet></router-outlet>
+		</a>
+
+		<hr class="user__hr" />
+
+		<!-- Theme toggle MOVED here -->
+		<button
+			class="user__drawer-link"
+			type="button"
+			(click)="userService.toggleTheme()"
+		>
+			<span class="material-icons">
+				@if (userService.theme === 'dark') { dark_mode } @else {
+				light_mode }
+			</span>
+			<span>Theme</span>
+		</button>
+
+		<hr class="user__hr" />
+
+		@if (userService.role('admin')) {
+		<a
+			class="user__drawer-link"
+			routerLink="/admin/users"
+			routerLinkActive="_activeLink"
+			[routerLinkActiveOptions]="{ exact: true }"
+			(click)="isOpen() && burger.toggle()"
+		>
+			<span class="material-icons">people</span>
+			<span translate>Users</span>
+		</a>
+		<a
+			class="user__drawer-link"
+			routerLink="/admin/forms"
+			routerLinkActive="_activeLink"
+			[routerLinkActiveOptions]="{ exact: true }"
+			(click)="isOpen() && burger.toggle()"
+		>
+			<span class="material-icons">backup_table</span>
+			<span translate>Forms</span>
+		</a>
+		<a
+			class="user__drawer-link"
+			routerLink="/admin/translates"
+			routerLinkActive="_activeLink"
+			[routerLinkActiveOptions]="{ exact: true }"
+			(click)="isOpen() && burger.toggle()"
+		>
+			<span class="material-icons">translate</span>
+			<span translate>Translates</span>
+		</a>
+		<hr class="user__hr" />
+		}
+	</aside>
+
+	<!-- Main -->
+	<div class="user__main">
+		<router-outlet />
 	</div>
 </div>

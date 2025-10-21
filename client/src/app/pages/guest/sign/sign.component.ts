@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { SpiderComponent } from 'src/app/icons/spider/spider.component';
 import { FormComponent } from 'src/app/libs/form/components/form/form.component';
 import { FormService } from 'src/app/libs/form/services/form.service';
-import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
@@ -187,8 +186,6 @@ export class SignComponent {
 	private _http = inject(HttpService);
 
 	private _router = inject(Router);
-
-	private _translate = inject(TranslateService);
 
 	private _cdr = inject(ChangeDetectorRef);
 

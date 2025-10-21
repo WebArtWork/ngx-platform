@@ -1,63 +1,76 @@
-.space {
-	/* ===== Burger (scoped, BEM) ===== */
-	&__burger {
-		inline-size: 44px;
-		block-size: 44px;
+.burger {
+	/* size tokens (inherit palette from globals) */
+	--burger-size: 44px;
+	--bar-w: 24px;
+	--bar-h: 2px;
+	--bar-gap: 8px;
+
+	display: inline-flex;
+
+	&__btn {
+		inline-size: var(--burger-size);
+		block-size: var(--burger-size);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
+		background: transparent;
+		border: 0;
+		border-radius: var(--b-radius-btn, 8px);
 		-webkit-tap-highlight-color: transparent;
 		touch-action: manipulation;
+		padding: 0;
 	}
 
-	/* middle line */
-	&__burger-item {
+	/* middle bar */
+	&__bar {
 		position: relative;
-		inline-size: 24px;
-		block-size: 2px;
+		inline-size: var(--bar-w);
+		block-size: var(--bar-h);
 		background-color: var(--c-text-primary);
 		transition:
 			transform 0.25s ease,
 			background-color 0.2s ease;
-	}
-	/* top & bottom lines */
-	&__burger-item::before,
-	&__burger-item::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		inline-size: 100%;
-		block-size: 2px;
-		background-color: var(--c-text-primary);
-		transition:
-			transform 0.25s ease,
-			background-color 0.2s ease,
-			opacity 0.2s ease;
-	}
-	&__burger-item::before {
-		transform: translateY(-8px);
-	}
-	&__burger-item::after {
-		transform: translateY(8px);
+
+		/* top & bottom bars */
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			inline-size: 100%;
+			block-size: var(--bar-h);
+			background-color: var(--c-text-primary);
+			transition:
+				transform 0.25s ease,
+				background-color 0.2s ease,
+				opacity 0.2s ease;
+		}
+		&::before {
+			transform: translateY(calc(var(--bar-gap) * -1));
+		}
+		&::after {
+			transform: translateY(var(--bar-gap));
+		}
 	}
 
-	&.space--open {
-		.space__burger-item {
-			background-color: transparent; /* hide middle line */
-		}
-		.space__burger-item::before {
-			transform: translateY(0) rotate(45deg);
-		}
-		.space__burger-item::after {
-			transform: translateY(0) rotate(-45deg);
+	/* open state → cross */
+	&--open {
+		.burger__bar {
+			background-color: transparent; /* hide middle */
+			&::before {
+				transform: translateY(0) rotate(45deg);
+			}
+			&::after {
+				transform: translateY(0) rotate(-45deg);
+			}
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		&__burger-item,
-		&__burger-item::before,
-		&__burger-item::after {
+		&__bar,
+		&__bar::before,
+		&__bar::after {
 			transition: none !important;
 			animation: none !important;
 		}
