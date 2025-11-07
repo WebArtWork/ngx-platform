@@ -4,7 +4,7 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { CrudComponent } from 'wacom';
-import { birdForm } from '../../formcomponents/bird.form';
+import { birdForm } from '../../forms/bird.form';
 import { Bird } from '../../interfaces/bird.interface';
 import { BirdSelectorComponent } from '../../selectors/bird/bird-selector.component';
 import { BirdService } from '../../services/bird.service';

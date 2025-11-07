@@ -12,7 +12,7 @@ import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { CrudComponent } from 'wacom';
-import { birdForm } from '../../formcomponents/bird.form';
+import { birdForm } from '../../forms/bird.form';
 import { Bird } from '../../interfaces/bird.interface';
 import { BirdService } from '../../services/bird.service';
 
