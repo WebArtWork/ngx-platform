@@ -5,21 +5,17 @@ _placeholder = placeholder();
 
 <!-- General Input -->
 @if (_type !== 'radio' && _type !== 'checkbox' && _type !== 'textarea') {
-<label class="w-forms">
+<label class="winput">
 	@if (_label) {
-	<span class="w-forms__title">{{ (_label | translate)() }}</span>
+	<span class="winput__label">{{ (_label | translate)() }}</span>
 	}
-	<div style="position: relative">
+	<div class="winput__control">
 		<input
-			[placeholder]=" ((_placeholder || 'Enter text...') | translate)()"
-			(ngModelChange)="
-				activeValue.set($event);
-				error.set(false);
-				onChangeAfterWhile();
-			"
+			class="winput__field"
+			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
+			(ngModelChange)="activeValue.set($event); error.set(false); onChangeAfterWhile()"
 			(keyup.enter)="onSubmit()"
 			[type]="_type || 'text'"
-			class="w-forms__input"
 			(blur)="wBlur.emit()"
 			[autocomplete]="_name"
 			[class.error]="_error"
@@ -31,16 +27,15 @@ _placeholder = placeholder();
 		/>
 		@if (_clearable) {
 		<i
-			style="position: absolute; right: 7px; bottom: 8px"
+			class="material-icons winput__clear"
 			(click)="activeValue.set(null); onSubmit(); focus()"
-			class="material-icons"
 			>close</i
 		>
 		}
 	</div>
-	<!-- Error Message Display -->
+
 	@if (_error) {
-	<div class="error-message">
+	<div class="winput__error">
 		{{ ((_label || _placeholder) + ' is invalid.' | translate)() }}
 	</div>
 	}
@@ -49,24 +44,28 @@ _placeholder = placeholder();
 
 <!-- Textarea -->
 @if (_type === 'textarea') {
-<label class="w-forms">
-	<span class="w-forms__title">{{ _label }}</span>
-	<textarea
-		[placeholder]=" ((_placeholder || 'Enter text...') | translate)()"
-		(ngModelChange)="activeValue.set($event); onChangeAfterWhile()"
-		(keyup.enter)="onSubmit()"
-		class="w-forms__textarea"
-		(blur)="wBlur.emit()"
-		[disabled]="_disabled"
-		[class.error]="_error"
-		[ngModel]="_value"
-		[ngClass]="_wClass"
-		[name]="_name"
-		#inputEl
-	></textarea>
-	<!-- Error Message Display -->
+<label class="winput">
+	@if (_label) {
+	<span class="winput__label">{{ (_label | translate)() }}</span>
+	}
+	<div class="winput__control">
+		<textarea
+			class="winput__field winput__field--textarea"
+			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
+			(ngModelChange)="activeValue.set($event); onChangeAfterWhile()"
+			(keyup.enter)="onSubmit()"
+			(blur)="wBlur.emit()"
+			[disabled]="_disabled"
+			[class.error]="_error"
+			[ngModel]="_value"
+			[ngClass]="_wClass"
+			[name]="_name"
+			#inputEl
+		></textarea>
+	</div>
+
 	@if (_error) {
-	<div class="error-message">
+	<div class="winput__error">
 		{{ ((_label || _placeholder) + ' is invalid.' | translate)() }}
 	</div>
 	}
@@ -75,57 +74,61 @@ _placeholder = placeholder();
 
 <!-- Radio Buttons -->
 @if (_type === 'radio') { @for (item of _items; track $index) {
-<label [class.disabled]="_disabled" class="check-label">
-	<span class="form-label">{{ (item | translate)() }}</span>
+<label class="winput__choice" [class.disabled]="_disabled">
+	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
-		(ngModelChange)="activeValue.set($event); onChange()"
-		class="w-input__checkbox"
+		class="winput__native"
+		type="radio"
 		[disabled]="_disabled"
 		[class.error]="_error"
 		[ngModel]="_value"
 		[ngClass]="_wClass"
 		[value]="item"
 		[name]="_name"
-		type="radio"
+		(ngModelChange)="activeValue.set($event); onChange()"
 		#inputEl
 	/>
-	<span class="mark mark--radio"></span>
+	<span class="winput__choice-mark winput__choice-mark--radio"></span>
 </label>
 } }
-<!-- Checkboxes -->
+
+<!-- Checkboxes (list) -->
 @if (_type === 'checkbox') { @for (item of _items; track $index; let i = $index)
 {
-<label [class.disabled]="_disabled" class="check-label">
-	<span class="form-label">{{ (item | translate)() }}</span>
+<label class="winput__choice" [class.disabled]="_disabled">
+	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
-		(ngModelChange)="setCheckboxValue($event, i); onChange()"
-		[ngModel]="isChecked(item)"
-		class="w-input__checkbox"
-		[disabled]="_disabled"
-		[class.error]="_error"
-		[ngClass]="wClass"
+		class="winput__native"
 		type="checkbox"
-		[name]="_name + i"
-		#inputEl
-	/>
-	<span class="mark"></span>
-</label>
-} @if (!_items.length) {
-<label class="check-label" [class.disabled]="_disabled">
-	@if (_label) {
-	<span class="check-text form-label">{{ (_label | translate)() }}</span>
-	}
-	<input
-		(ngModelChange)="activeValue.set($event); onChange()"
-		[ngModel]="_value"
-		class="w-input__checkbox"
 		[disabled]="_disabled"
 		[class.error]="_error"
 		[ngClass]="_wClass"
+		[ngModel]="isChecked(item)"
+		(ngModelChange)="setCheckboxValue($event, i); onChange()"
+		[name]="_name + i"
+		#inputEl
+	/>
+	<span class="winput__choice-mark"></span>
+</label>
+}
+
+<!-- Single checkbox (no items) -->
+@if (!_items.length) {
+<label class="winput__choice" [class.disabled]="_disabled">
+	@if (_label) {
+	<span class="winput__choice-text">{{ (_label | translate)() }}</span>
+	}
+	<input
+		class="winput__native"
 		type="checkbox"
+		[disabled]="_disabled"
+		[class.error]="_error"
+		[ngClass]="_wClass"
+		[ngModel]="_value"
+		(ngModelChange)="activeValue.set($event); onChange()"
 		[name]="_name"
 		#inputEl
 	/>
-	<span class="mark"></span>
+	<span class="winput__choice-mark"></span>
 </label>
 } }

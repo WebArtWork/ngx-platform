@@ -2,47 +2,47 @@
 @use 'src/scss/utils/media' as media;
 @use 'src/scss/utils/vars' as vars;
 
-/* =====================================
-   General Input Styles
-   These styles apply to all input fields
-   ===================================== */
-.w-forms {
+/* =========================
+   winput (BEM)
+   ========================= */
+.winput {
 	position: relative;
 	padding: 10px 0;
 	display: block;
 
-	&__title {
-		letter-spacing: 0;
-		line-height: 23px;
-		font-weight: 500;
-		font-size: 20px;
-		color: var(--c-text-primary);
+	&__label {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		margin-bottom: 10px;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 23px;
+		color: var(--c-text-primary);
 		border-radius: var(--b-radius);
-		margin-bottom: 10px; /* Adjusted margin */
+		letter-spacing: 0;
 	}
 
-	/* Input and Textarea shared styling */
-	&__field,
-	.w-forms__textarea {
+	&__control {
+		position: relative;
+	}
+
+	&__field {
+		width: 100%;
+		display: block;
 		background-color: transparent;
 		border: 1px solid var(--c-border);
 		border-radius: var(--b-radius);
 		color: var(--c-text-secondary);
 		font-size: calc(#{var(--fs)} - 2px);
 		line-height: calc(#{var(--fs)} + 4px);
-		transition: var(--transition);
-		width: 100%; /* Ensure input fields take full width of the container */
-		display: block;
 		letter-spacing: var(--letter-spacing);
-		padding: 8px 12px; /* Adjusted padding for better visual alignment */
+		padding: 8px 12px;
+		transition: var(--transition);
 
-		/* Ensure compatibility across browsers */
 		appearance: textfield;
-		-webkit-appearance: textfield; /* For WebKit-based browsers */
-		-moz-appearance: textfield; /* For Mozilla-based browsers */
+		-webkit-appearance: textfield;
+		-moz-appearance: textfield;
 
 		&::placeholder {
 			color: var(--c-placeholder);
@@ -50,9 +50,9 @@
 		}
 
 		&:focus {
-			transition: var(--transition);
+			outline: none;
 			border-color: var(--c-primary);
-			outline: none; /* Remove default outline for better visual focus */
+			transition: var(--transition);
 		}
 
 		&:disabled {
@@ -64,182 +64,122 @@
 		}
 
 		&[type='time'] {
+			appearance: textfield;
 			-webkit-appearance: textfield;
 			-moz-appearance: textfield;
-			appearance: textfield;
+		}
+
+		&--textarea {
+			min-height: 88px;
+			resize: vertical;
 		}
 	}
 
-	/* Hidden checkbox input, used in custom styled checkboxes */
-	&__checkbox {
-		display: none;
+	&__clear {
+		position: absolute;
+		right: 7px;
+		bottom: 8px;
+		cursor: pointer;
+		user-select: none;
+	}
 
-		&:checked ~ .checkbox::before {
-			opacity: 1;
+	&__error {
+		margin-top: 4px;
+		font-size: 12px;
+		color: red;
+	}
+
+	/* Choices: radio & checkbox */
+	&__choice {
+		display: flex;
+		column-gap: 5px;
+		align-items: center;
+		cursor: pointer;
+
+		&.disabled {
+			opacity: 0.5;
+
+			.winput__choice-mark {
+				background-color: grey !important;
+			}
 		}
 	}
-}
 
-/* Error Styling */
-input.error,
-textarea.error {
-	border: 1px solid red; /* Red border to indicate validation error */
-}
-
-/* Error message display */
-.error-message {
-	color: red; /* Red text for error messages */
-	font-size: 12px; /* Slightly smaller text size for error messages */
-	margin-top: 4px; /* Spacing above the error message */
-}
-
-.disabled {
-	opacity: 0.5;
-	.mark {
-		background-color: grey !important;
-	}
-}
-
-/* =====================================
-   Radio Button Styles
-   ===================================== */
-.check-label {
-	display: flex;
-	column-gap: 5px;
-	cursor: pointer;
-
-	input {
-		width: 0;
-		height: 0;
-		overflow: hidden;
-	}
-	.form-label {
-		line-height: unset;
+	&__choice-text {
 		display: flex;
 		align-items: center;
 		font-weight: 500;
 		font-size: 18px;
+		line-height: 1.2;
 	}
-	/* Custom radio button checkbox styling */
-	.mark {
+
+	/* Visually hidden native control */
+	&__native {
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+
+		/* checked state controls the mark */
+		&:checked ~ .winput__choice-mark {
+			&::before {
+				opacity: 1;
+			}
+		}
+		&:checked ~ .winput__choice-mark--radio {
+			&::before {
+				opacity: 1;
+			}
+		}
+	}
+
+	&__choice-mark {
+		order: -1;
 		position: relative;
 		width: 26px;
 		height: 26px;
 		display: inline-block;
 		border-radius: 4px;
 		background-color: var(--c-primary);
-		transform: scale(1);
 		border: 1px solid var(--c-border);
-		transition: var(--transition);
 		box-shadow: 0 1px 1px var(--c-shadow);
-		order: -1;
+		transition: var(--transition);
+		transform: scale(1);
+
 		&::before {
+			content: '';
 			position: absolute;
 			left: 50%;
 			top: 50%;
-			transition: var(--transition);
-			opacity: 0;
-			transform: translate(-50%, -71%) rotate(45deg);
-			height: 14px;
 			width: 7px;
+			height: 14px;
+			border-bottom: 3px solid #fff;
+			border-right: 3px solid #fff;
+			transform: translate(-50%, -71%) rotate(45deg);
+			opacity: 0;
+			transition: var(--transition);
 			display: block;
-			content: '';
-			border-bottom: 3px solid #ffffff;
-			border-right: 3px solid #ffffff;
 		}
+
 		&--radio {
 			border-radius: 120px;
+
 			&::before {
-				transform: translate(-50%, -50%) rotate(45deg);
-				border-bottom: unset;
-				border-right: unset;
 				width: 12px;
 				height: 12px;
 				border-radius: 120px;
-				background: #ffff;
+				background: #fff;
+				border: none;
+				transform: translate(-50%, -50%);
 			}
-		}
-	}
-
-	.checkbox {
-	}
-	input:checked ~ .mark {
-		&--radio {
-			&::before {
-				opacity: 1;
-			}
-		}
-		&::before {
-			opacity: 1;
-		}
-	}
-	input:checked ~ .mark--radio {
-		&::before {
-			opacity: 1;
 		}
 	}
 }
 
-/* =====================================
-   Checkbox Styles
-   ===================================== */
-.container-box {
-	position: relative;
-	padding-left: 35px;
-	margin-bottom: 12px;
-	cursor: pointer;
-	font-size: 22px;
-	user-select: none;
-
-	/* Hidden checkbox input, used in custom styled checkboxes */
-	input {
-		position: absolute;
-		opacity: 0;
-		cursor: pointer;
-		height: 0;
-		width: 0;
-	}
-
-	/* Custom checkbox styling */
-	.checkmark {
-		position: relative;
-		height: 32px;
-		width: 32px;
-		background-color: #12677a6e;
-		border-radius: 50%;
-		transition: all 0.3s;
-
-		&:after,
-		&:before {
-			content: '';
-			position: absolute;
-			display: none;
-		}
-
-		&:after {
-			left: 10px;
-			top: 47%;
-			width: 8px;
-			height: 14px;
-			border: solid white;
-			border-width: 0 3px 3px 0;
-			transform: rotate(45deg) translate(-50%, -50%);
-		}
-	}
-
-	&:hover input ~ .mark {
-		background-color: #0f353d60;
-	}
-
-	input:checked ~ .mark {
-		background-color: var(--c-primary);
-
-		&:after {
-			display: block;
-		}
-	}
-}
-.check-text {
-	margin-left: 0;
-	line-height: 0;
+/* Error class (kept to match existing bindings) */
+input.error,
+textarea.error {
+	border: 1px solid red;
 }
