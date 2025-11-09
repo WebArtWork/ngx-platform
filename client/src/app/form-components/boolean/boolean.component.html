@@ -1,12 +1,12 @@
 <ng-template #templateRef let-data>
-    <winput
-        [formId]="data.wFormId"
-        [formKey]="data.wFormKey"
-        type="checkbox"
-        [label]="data.props?.Label"
-        [name]="data.props?.Label || 'boolean'"
-        [focused]="data.component.focused"
-        [ngClass]="data.component.class"
-        (wChange)="data.wChange()"
-    />
+	<winput
+		[formId]="data.wFormId"
+		[formKey]="data.wFormKey"
+		type="checkbox"
+		[label]="data.props?.Label"
+		[name]="data.props?.Label || 'boolean'"
+		[focused]="data.component.focused"
+		[ngClass]="data.component.class"
+		(wChange)="data.wChange()"
+	/>
 </ng-template>

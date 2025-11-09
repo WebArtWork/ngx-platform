@@ -7,6 +7,7 @@ import {
 	inject,
 	input,
 	OnDestroy,
+	OnInit,
 	output,
 	runInInjectionContext,
 	signal,
@@ -24,13 +25,11 @@ import { FormComponentComponent } from '../form-component/form-component.compone
 	imports: [FormComponentComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent implements AfterViewInit, OnDestroy {
+export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 	private _core = inject(CoreService);
 	private _virtualFormService = inject(VirtualFormService);
 
-	// Injection context for effects
 	private _ei = inject(EnvironmentInjector);
-	private _stop?: ReturnType<typeof effect>;
 
 	readonly config = input.required<FormInterface>();
 	readonly submition = input<Record<string, any>>({}); // legacy compat
@@ -38,80 +37,87 @@ export class FormComponent implements AfterViewInit, OnDestroy {
 	readonly wChange = output<Record<string, any>>();
 	readonly wSubmit = output<Record<string, any>>();
 
-	private _formId = signal<string>('');
+	// Stable across the component lifecycle
+	readonly _formId = signal<string>('');
+
+	// guards
+	private _stop?: ReturnType<typeof effect>;
 	private _unsubFns: Array<() => void> = [];
 
-	ngAfterViewInit(): void {
-		if (this.submition()) {
-			(this.submition() as any).data =
-				(this.submition() as any).data || {};
+	ngOnInit(): void {
+		// Compute stable formId ONCE
+		const cfg = this.config();
+		const existing = (cfg?.formId as string) || this._formId();
+		const id = existing || crypto.randomUUID();
+		this._formId.set(id);
+
+		// Ensure VirtualForm exists and fields are registered exactly once
+		this._virtualFormService.getForm(id);
+		(cfg?.components || []).forEach((c) => this._registerFromSchema(id, c));
+
+		// Apply initial values once (do not bind the effect to submition())
+		const initial = this.submition();
+		if (initial && Object.keys(initial).length) {
+			this._virtualFormService.patch(id, initial as any);
 		}
 
-		// Create the effect within a valid injection context
+		// Handlers/listeners - attach once
+		this._clearHandlers();
+		this._virtualFormService.setHandler(
+			id,
+			'onValidSubmit',
+			(values: any) => this.wSubmit.emit(values),
+		);
+		this._virtualFormService.setHandler(
+			id,
+			'onInvalidSubmit',
+			(_errors: any, values: any) => this._emitLegacyChange(values),
+		);
+		this._virtualFormService.setHandler(id, 'onPatch', () => {
+			this._emitLegacyChange(this._virtualFormService.getValues(id));
+		});
+
+		const onFieldChange = () => {
+			this._core.afterWhile(this, () => {
+				this._emitLegacyChange(this._virtualFormService.getValues(id));
+			});
+		};
+		this._virtualFormService.addListener(
+			id,
+			'onFieldChange',
+			onFieldChange,
+		);
+		this._unsubFns.push(() =>
+			this._virtualFormService.removeListener(
+				id,
+				'onFieldChange',
+				onFieldChange,
+			),
+		);
+	}
+
+	ngAfterViewInit(): void {
+		// Keep only reactive bits that truly depend on config() CHANGES.
+		// IMPORTANT: No new UUIDs, no re-registering fields, no handler reattachment.
 		this._stop = runInInjectionContext(this._ei, () =>
 			effect(() => {
+				// If formId in config changes explicitly, allow a hard reset.
 				const cfg = this.config();
-				const id = (cfg?.formId as string) || crypto.randomUUID();
-				this._formId.set(id);
+				const newId = (cfg?.formId as string) || this._formId();
 
-				this._virtualFormService.getForm(id);
+				if (!newId || newId === this._formId()) return;
 
-				(cfg?.components || []).forEach((c) =>
-					this._registerFromSchema(id, c),
-				);
-
-				const initial = this.submition();
-				if (initial && Object.keys(initial).length) {
-					this._virtualFormService.patch(id, initial as any);
-				}
-
-				this._clearHandlers();
-				this._virtualFormService.setHandler(
-					id,
-					'onValidSubmit',
-					(values: any) => this.wSubmit.emit(values),
-				);
-				this._virtualFormService.setHandler(
-					id,
-					'onInvalidSubmit',
-					(_errors: any, values: any) =>
-						this._emitLegacyChange(values),
-				);
-				this._virtualFormService.setHandler(id, 'onPatch', () => {
-					this._emitLegacyChange(
-						this._virtualFormService.getValues(id),
-					);
-				});
-
-				const onFieldChange = () => {
-					this._core.afterWhile(this, () => {
-						this._emitLegacyChange(
-							this._virtualFormService.getValues(id),
-						);
-					});
-				};
-				this._virtualFormService.addListener(
-					id,
-					'onFieldChange',
-					onFieldChange,
-				);
-				this._unsubFns.push(() =>
-					this._virtualFormService.removeListener(
-						id,
-						'onFieldChange',
-						onFieldChange,
-					),
-				);
+				// Hard reset: destroy old, init new once.
+				this._destroyForm();
+				this._formId.set(newId);
+				this.ngOnInit();
 			}),
 		);
 	}
 
 	ngOnDestroy(): void {
-		// Stop the effect created in injection context
 		this._stop?.destroy();
-		this._clearHandlers();
-		const id = this._formId();
-		if (id) this._virtualFormService.destroyForm(id);
+		this._destroyForm();
 	}
 
 	onSubmit(): void {
@@ -164,5 +170,11 @@ export class FormComponent implements AfterViewInit, OnDestroy {
 		this._unsubFns = [];
 		const id = this._formId();
 		if (id) this._virtualFormService.clearHandlers(id);
+	}
+
+	private _destroyForm() {
+		this._clearHandlers();
+		const id = this._formId();
+		if (id) this._virtualFormService.destroyForm(id);
 	}
 }

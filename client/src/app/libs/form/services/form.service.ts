@@ -200,13 +200,18 @@ export class FormService {
 		return form;
 	}
 
-	/** Ensures virtual form exists & fields are registered from schema. */
+	private _registeredFields = new Map<string, Set<string>>(); // formId -> keys
+
 	ensureVirtualForm(
 		form: FormInterface,
 		initial?: Record<string, any>,
 	): void {
 		const id = (form.formId as string) || crypto.randomUUID();
 		this._vform.getForm(id);
+
+		if (!this._registeredFields.has(id))
+			this._registeredFields.set(id, new Set());
+		const registered = this._registeredFields.get(id)!;
 
 		const walk = (nodes: FormComponentInterface[] = []) => {
 			for (const n of nodes) {
@@ -215,6 +220,8 @@ export class FormService {
 					continue;
 				}
 				if (!n.key) continue;
+
+				if (registered.has(n.key)) continue; // idempotent guard
 
 				const init: VirtualFormFieldValue =
 					(initial || {})[n.key] ?? null;
@@ -225,6 +232,7 @@ export class FormService {
 				].filter(Boolean);
 
 				this._vform.registerField(id, n.key, init, composed as any);
+				registered.add(n.key);
 			}
 		};
 		walk(form.components);

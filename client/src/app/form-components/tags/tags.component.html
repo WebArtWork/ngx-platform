@@ -1,17 +1,17 @@
 <ng-template #templateRef let-data>
-    <div class="tags">
-        <winput
-            [label]="data.props?.Label"
-            [placeholder]="data.props?.Placeholder"
-            (wChange)="data.props.__name = $event"
-            (wSubmit)="addTag(data)"
-        />
-        <div class="tags__list">
-            <!-- Display current value via helper pipe (requires consumer to render from values) -->
-            <!-- For manager-bound rendering, a dedicated tags component would read current form state by key. -->
-        </div>
-        <wbutton (click)="addTag(data)" [disableSubmit]="true">
-            {{ data.props?.Button || 'Add' }}
-        </wbutton>
-    </div>
+	<div class="tags">
+		<winput
+			[label]="data.props?.Label"
+			[placeholder]="data.props?.Placeholder"
+			(wChange)="data.props.__name = $event"
+			(wSubmit)="addTag(data)"
+		/>
+		<div class="tags__list">
+			<!-- Display current value via helper pipe (requires consumer to render from values) -->
+			<!-- For manager-bound rendering, a dedicated tags component would read current form state by key. -->
+		</div>
+		<wbutton (click)="addTag(data)" [disableSubmit]="true">
+			{{ data.props?.Button || 'Add' }}
+		</wbutton>
+	</div>
 </ng-template>

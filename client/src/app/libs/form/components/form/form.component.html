@@ -6,10 +6,10 @@
 	}
 
 	<form class="wform__body" (ngSubmit)="onSubmit()">
-		@for (component of cfg?.components; track component; let i = $index) {
-		@if (!component.hidden) {
+		@for (component of cfg?.components; track component.key || i; let i =
+		$index) { @if (!component.hidden) {
 		<form-component
-			class="wform__component {{ cfg.formId }} {{ cfg.formId + '_' + i }} {{ component.class || '' }}"
+			class="wform__component {{ _formId() }} {{ _formId() + '_' + i }} {{ component.class || '' }}"
 			[component]="component"
 			[config]="cfg"
 			[submition]="sub"

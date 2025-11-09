@@ -1,13 +1,13 @@
 <ng-template #templateRef let-data>
-    <winput
-        [formId]="data.wFormId"
-        [formKey]="data.wFormKey"
-        type="date"
-        [label]="data.props?.Label"
-        [placeholder]="data.props?.Placeholder"
-        [name]="data.props?.Label || 'date'"
-        [focused]="data.component.focused"
-        [ngClass]="data.component.class"
-        (wChange)="data.wChange()"
-    />
+	<winput
+		[formId]="data.wFormId"
+		[formKey]="data.wFormKey"
+		type="date"
+		[label]="data.props?.Label"
+		[placeholder]="data.props?.Placeholder"
+		[name]="data.props?.Label || 'date'"
+		[focused]="data.component.focused"
+		[ngClass]="data.component.class"
+		(wChange)="data.wChange()"
+	/>
 </ng-template>

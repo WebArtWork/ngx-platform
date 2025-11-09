@@ -1,14 +1,14 @@
 <ng-template #templateRef let-data>
-    <winput
-        [formId]="data.wFormId"
-        [formKey]="data.wFormKey"
-        type="email"
-        [label]="data.props?.Label"
-        [placeholder]="data.props?.Placeholder"
-        [name]="data.props?.Label || 'email'"
-        [focused]="data.component.focused"
-        [ngClass]="data.component.class"
-        (wChange)="data.wChange()"
-        (wSubmit)="data.wSubmit()"
-    />
+	<winput
+		[formId]="data.wFormId"
+		[formKey]="data.wFormKey"
+		type="email"
+		[label]="data.props?.Label"
+		[placeholder]="data.props?.Placeholder"
+		[name]="data.props?.Label || 'email'"
+		[focused]="data.component.focused"
+		[ngClass]="data.component.class"
+		(wChange)="data.wChange()"
+		(wSubmit)="data.wSubmit()"
+	/>
 </ng-template>

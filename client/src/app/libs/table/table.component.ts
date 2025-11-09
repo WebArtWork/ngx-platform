@@ -29,7 +29,6 @@ import {
 
 @Component({
 	selector: 'wtable',
-	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './table.component.html',
 	styleUrls: ['./table.component.scss'],
