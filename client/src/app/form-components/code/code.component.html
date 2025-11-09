@@ -1,12 +1,13 @@
 <ng-template #templateRef let-data>
-	<ace
-		(valueChange)="
-			data.submition[data.key] = $event;
-			data.wChange()
-		"
-		[value]="data.submition[data.key]"
-		style="width: 100%"
-		theme="monkai"
-		mode="json"
-	/>
+    <winput
+        [formId]="data.wFormId"
+        [formKey]="data.wFormKey"
+        type="textarea"
+        [label]="data.props?.Label || 'Code'"
+        [placeholder]="data.props?.Placeholder || '{ ... }'"
+        [name]="data.props?.Label || 'code'"
+        [focused]="data.component.focused"
+        [ngClass]="data.component.class"
+        (wChange)="data.wChange()"
+    />
 </ng-template>

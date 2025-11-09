@@ -1,131 +1,141 @@
-# Ngx Select Component
+[![Angular v20](https://img.shields.io/badge/angular-v20+-red)]()
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)]()
 
-The `ngx-select` component is an Angular component designed to provide a customizable select dropdown, supporting features like multiple selections, search, and custom templates for both the view and items.
+# WAW Select Component (`wselect`)
 
-## Features
+A lightweight, signal-driven select with:
 
-- Single and multiple item selection.
-- Customizable via templates for header and items.
-- Optional search functionality.
-- Clearable selection.
-- Easy styling with CSS variables.
+- single/multiple select
+- search
+- custom templates
+- `[(wModel)]` two-way binding
+- Virtual Form integration via `formId` + `formKey`
+- Full Angular Forms (CVA) support
 
-## Installation
+## Install
 
-To install the module, use the following command:
-
-```cmd
+```bash
 waw add ngx-select
 ```
 
-## Usage
+---
 
-### Importing the Module
+## 🧩 Import
 
-First, import the `SelectModule` into your Angular module:
+```ts
+import { SelectComponent } from '@libs/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-```Typescript
-import { SelectModule } from '@your-namespace/ngx-select';
-
-@NgModule({
-  declarations: [...],
-  imports: [
-    SelectModule,
-    ...
-  ],
-  providers: [],
-  bootstrap: [...]
+@Component({
+	imports: [SelectComponent, FormsModule, ReactiveFormsModule],
 })
-export class AppModule { }
+export class DemoComponent {}
 ```
 
-### Basic Example
+---
 
-Here’s a basic example of how to use the `ngx-select` component:
+### 1️⃣ Template-Driven Form
 
-```Typescript
-<wselect
-  [items]="dataItems"
-  [placeholder]="'Select an option'"
-  [label]="'Choose an item'"
-  [multiple]="true"
-  [clearable]="true"
-  (modelChange)="onSelectionChange($event)">
+```html
+<wselect [items]="users" bindLabel="name" bindValue="_id" [(wModel)]="assignee">
 </wselect>
 ```
 
-### Custom Templates
+### 2️⃣ Reactive Form
 
-You can use custom templates for the view and items:
-
-```Typescript
+```html
 <wselect
-  [items]="dataItems"
-  [placeholder]="'Select an option'"
-  [label]="'Choose an item'"
-  [view]="viewTemplate"
-  [item]="itemTemplate"
-  (modelChange)="onSelectionChange($event)">
-
-  <ng-template #viewTemplate>
-    <div>Custom View Here</div>
-  </ng-template>
-
-  <ng-template #itemTemplate let-item="item">
-    <div>{{ item.name }}</div>
-  </ng-template>
+	[items]="users"
+	bindLabel="name"
+	bindValue="_id"
+	formControlName="assignee"
+>
 </wselect>
 ```
+
+### 3️⃣ Virtual Form
+
+```html
+<wselect
+	[items]="users"
+	bindLabel="fullName"
+	bindValue="_id"
+	placeholder="Choose user"
+	[formId]="formId"
+	[formKey]="'assigneeId'"
+>
+</wselect>
+```
+
+> When `formId` + `formKey` are provided, the component syncs with `VirtualFormService` (registers the field, updates value on change/patch, etc.).
+
+## Search
+
+```html
+<wselect [items]="items" [searchable]="true" [searchableBy]="'name email'">
+</wselect>
+```
+
+## Multiple
+
+```html
+<wselect [items]="tags" [multiple]="true" [(wModel)]="selectedTagIds">
+</wselect>
+```
+
+## Templates
+
+```html
+<wselect
+	[items]="users"
+	[t_view]="viewTpl"
+	[t_item]="itemTpl"
+	[t_search]="searchTpl"
+>
+</wselect>
+
+<ng-template #viewTpl>
+	<div>Custom header…</div>
+</ng-template>
+
+<ng-template #itemTpl let-item="item">
+	<div>{{ item().name }} — custom row</div>
+</ng-template>
+
+<ng-template #searchTpl>
+	<winput placeholder="Type to search…" (wChange)="onSearch($event)" />
+</ng-template>
+```
+
+## API
 
 ### Inputs
 
-- **placeholder** (`string`): Placeholder text for the select input.
-- **items** (`any[]`): List of items to display in the dropdown.
-- **disabled** (`boolean`): Whether the select input is disabled.
-- **clearable** (`boolean`): Whether the select input is clearable.
-- **name** (`string`): The name of the property to display in the dropdown items.
-- **value** (`string`): The property used as the value for each item.
-- **multiple** (`boolean`): Whether multiple items can be selected.
-- **label** (`string`): The label for the select input.
-- **searchable** (`boolean`): Whether the dropdown is searchable.
-- **searchableBy** (`string`): The property by which to search items.
-- **select** (`any`): The selected value(s).
-- **view** (`TemplateRef<any>`): Custom template for the view (header) of the select input.
-- **item** (`TemplateRef<any>`): Custom template for each item in the dropdown.
-- **search** (`TemplateRef<any>`): Custom template for the search input.
+- `items: unknown[]`
+- `placeholder: string`
+- `label: string`
+- `bindLabel: string` (default: `"name"`)
+- `bindValue: string` (default: `"_id"`)
+- `multiple: boolean`
+- `clearable: boolean`
+- `disabled: boolean`
+- `searchable: boolean`
+- `searchableBy: string` (space-separated paths)
+- `t_view: TemplateRef`
+- `t_item: TemplateRef`
+- `t_search: TemplateRef`
+- `formId?: string` — Virtual Form id
+- `formKey?: string` — Virtual Form field key
+
+### Two-way
+
+- `[(wModel)]="value"` — selected id or array of ids (when `multiple`)
 
 ### Outputs
 
-- **modelChange** (`EventEmitter<any>`): Event emitted when the selected values change.
+- `(wChange)="onChange($event)"` — emitted on selection changes (`id | id[]`)
 
-### SCSS Customization
+## Notes
 
-The component supports CSS variables for easy customization. Below are some of the customizable variables:
-
-- `--c-sky`: Default color for the select border when active (default: `#3498db`).
-- `--c-text`: Default text color (default: `#333333`).
-- `--c-border`: Default border color (default: `#e5e5e5`).
-- `--c-shadow`: Default shadow color (default: `#f3f3f3`).
-- `--c-white`: Default background color (default: `#ffffff`).
-
-### Example of Custom CSS Variables
-
-You can customize the styles using CSS variables in your global styles or component-specific styles:
-
-```css
-:root {
-	--c-sky: #3498db;
-	--c-text: #333;
-	--c-border: #e5e5e5;
-	--c-shadow: #f3f3f3;
-	--c-white: #ffffff;
-}
-```
-
-## Contributing
-
-Feel free to contribute to this project by opening issues or submitting pull requests. Make sure to follow the contribution guidelines.
-
-## License
-
-This project is licensed under the MIT License.
+- Priority of value sources: **VirtualForm** (`formId` + `formKey`) → `[(wModel)]` → Angular Forms (CVA).
+- Works seamlessly inside WAW `wform` flows alongside `winput`.

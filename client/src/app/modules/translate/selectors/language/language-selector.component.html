@@ -1,12 +1,13 @@
-@let _documents = documents();
+@let _docs = documents();
 
 <wselect
-	placeholder="{{ ((_documents.length ? 'Select language' : 'Create new language') + '...' | translate)() }}"
-	(wChange)="wChange.emit($event); selected = $event"
-	[disabled]="disabled() || !_documents.length"
+	[placeholder]="(placeholder() | translate)()"
+	[disabled]="disabled() || !_docs.length"
 	[searchable]="searchable()"
 	[clearable]="clearable()"
-	[items]="_documents"
-	[buttons]="buttons"
-	[value]="value()"
-></wselect>
+	[items]="_docs"
+	[buttons]="buttons()"
+	[wModel]="wModel()"
+	(wChange)="wModel.set($event); wChange.emit($event)"
+>
+</wselect>

@@ -1,34 +1,28 @@
-// src/app/libs/form/form.service.ts
 import { Injectable, WritableSignal, signal } from '@angular/core';
 
-/** ---------- Types ---------- */
-export type FormFieldValue =
-	| null
-	| string
-	| number
-	| boolean
-	| string[]
-	| number[]
-	| boolean[];
+/* ===========================
+ * Virtual Form: Public Types
+ * =========================== */
 
-export type ValidatorFn = (
-	value: FormFieldValue,
-	all: Record<string, FormFieldValue>,
+export type VFScalar = string | number | boolean | null;
+export type VirtualFormFieldValue = VFScalar | VFScalar[];
+
+export type VirtualValidatorFn = (
+	value: VirtualFormFieldValue,
+	all: Record<string, VirtualFormFieldValue>,
 ) => string | null;
 
-interface FieldState {
-	value: WritableSignal<FormFieldValue>;
-	touched: WritableSignal<boolean>;
-	error: WritableSignal<string | null>;
-	validators: ValidatorFn[];
+/** Built-in: required */
+export function required(message = 'Required'): VirtualValidatorFn {
+	return (value) => {
+		if (value === null || value === undefined) return message;
+		if (typeof value === 'string' && value.trim() === '') return message;
+		if (Array.isArray(value) && value.length === 0) return message;
+		return null;
+	};
 }
 
-interface Deferred {
-	promise: Promise<void>;
-	resolve: () => void;
-}
-
-type SingleEventName =
+export type VirtualSingleEventName =
 	| 'onInit'
 	| 'onBeforeValidate'
 	| 'onAfterValidate'
@@ -39,49 +33,75 @@ type SingleEventName =
 	| 'onReset'
 	| 'onPatch';
 
-type MultiEventName = 'onFieldRegister' | 'onFieldChange' | 'onFieldTouched';
+export type VirtualMultiEventName =
+	| 'onFieldRegister'
+	| 'onFieldChange'
+	| 'onFieldTouched';
 
-type SingleHandler = (...args: any[]) => void | Promise<void>;
-type MultiHandler = (...args: any[]) => void | Promise<void>;
+export type VirtualSingleHandler = (...args: any[]) => void | Promise<void>;
+export type VirtualMultiHandler = (...args: any[]) => void | Promise<void>;
 
-interface Handlers {
-	onInit?: SingleHandler;
-	onBeforeValidate?: SingleHandler;
-	onAfterValidate?: SingleHandler;
-	onValidSubmit?: SingleHandler;
-	onInvalidSubmit?: SingleHandler;
-	onSubmitAlways?: SingleHandler;
-	onDestroy?: SingleHandler;
-	onReset?: SingleHandler;
-	onPatch?: SingleHandler;
+/* ===========================
+ * Virtual Form: Internal Types
+ * =========================== */
 
-	_multi: Record<MultiEventName, MultiHandler[]>;
+interface VirtualFieldState {
+	value: WritableSignal<VirtualFormFieldValue>;
+	touched: WritableSignal<boolean>;
+	error: WritableSignal<string | null>;
+	validators: VirtualValidatorFn[];
 }
 
-interface FormState {
-	fields: Map<string, FieldState>;
-	values: WritableSignal<Record<string, FormFieldValue>>;
+interface VirtualDeferred {
+	promise: Promise<void>;
+	resolve: () => void;
+}
+
+interface VirtualHandlers {
+	onInit?: VirtualSingleHandler;
+	onBeforeValidate?: VirtualSingleHandler;
+	onAfterValidate?: VirtualSingleHandler;
+	onValidSubmit?: VirtualSingleHandler;
+	onInvalidSubmit?: VirtualSingleHandler;
+	onSubmitAlways?: VirtualSingleHandler;
+	onDestroy?: VirtualSingleHandler;
+	onReset?: VirtualSingleHandler;
+	onPatch?: VirtualSingleHandler;
+
+	_multi: Record<VirtualMultiEventName, VirtualMultiHandler[]>;
+}
+
+export interface VirtualFormState {
+	fields: Map<string, VirtualFieldState>;
+	values: WritableSignal<Record<string, VirtualFormFieldValue>>;
 	touched: WritableSignal<Record<string, boolean>>;
 	errors: WritableSignal<Record<string, string | null>>;
 	submitting: WritableSignal<boolean>;
-	submitDeferred: Deferred;
-	handlers: Handlers;
+	submitDeferred: VirtualDeferred;
+	handlers: VirtualHandlers;
 }
 
-function createDeferred(): Deferred {
+/* ===========================
+ * Helpers
+ * =========================== */
+
+function createVirtualDeferred(): VirtualDeferred {
 	let res!: () => void;
 	const promise = new Promise<void>((r) => (res = r));
 	return { promise, resolve: res };
 }
 
-/** ---------- Service ---------- */
+/* ===========================
+ * Service
+ * =========================== */
+
 @Injectable({ providedIn: 'root' })
-export class FormService {
-	private _forms = new Map<string, FormState>();
+export class VirtualFormService {
+	private _forms = new Map<string, VirtualFormState>();
 
 	/* ---------- FORM BASICS ---------- */
 
-	getForm(formId: string): FormState {
+	getForm(formId: string): VirtualFormState {
 		let form = this._forms.get(formId);
 		if (form) return form;
 
@@ -91,7 +111,7 @@ export class FormService {
 			touched: signal({}),
 			errors: signal({}),
 			submitting: signal(false),
-			submitDeferred: createDeferred(),
+			submitDeferred: createVirtualDeferred(),
 			handlers: {
 				_multi: {
 					onFieldRegister: [],
@@ -111,14 +131,14 @@ export class FormService {
 	registerField(
 		formId: string,
 		key: string,
-		initial: FormFieldValue = null,
-		validators: ValidatorFn[] = [],
+		initial: VirtualFormFieldValue = null,
+		validators: VirtualValidatorFn[] = [],
 	) {
 		const form = this.getForm(formId);
 
 		if (!form.fields.has(key)) {
 			form.fields.set(key, {
-				value: signal<FormFieldValue>(initial),
+				value: signal<VirtualFormFieldValue>(initial),
 				touched: signal(false),
 				error: signal<string | null>(null),
 				validators,
@@ -136,7 +156,7 @@ export class FormService {
 		const field = form.fields.get(key);
 		if (!field) throw new Error(`Field "${key}" not registered.`);
 
-		const setValue = (v: FormFieldValue) => {
+		const setValue = (v: VirtualFormFieldValue) => {
 			field.value.set(v);
 			this.validateField(formId, key);
 			this._recompute(formId);
@@ -160,7 +180,7 @@ export class FormService {
 
 	/* ---------- SET / GET ---------- */
 
-	setValue(formId: string, key: string, value: FormFieldValue) {
+	setValue(formId: string, key: string, value: VirtualFormFieldValue) {
 		if (!this.getForm(formId).fields.has(key)) {
 			this.registerField(formId, key, value);
 		} else {
@@ -172,7 +192,7 @@ export class FormService {
 		this._emit(formId, 'onFieldChange', key, value, this.getValues(formId));
 	}
 
-	patch(formId: string, values: Record<string, FormFieldValue>) {
+	patch(formId: string, values: Record<string, VirtualFormFieldValue>) {
 		Object.entries(values).forEach(([k, v]) => this.setValue(formId, k, v));
 		this._callSingle(formId, 'onPatch', values);
 	}
@@ -247,7 +267,7 @@ export class FormService {
 		});
 
 		form.submitDeferred.resolve();
-		form.submitDeferred = createDeferred();
+		form.submitDeferred = createVirtualDeferred();
 
 		await this._callSingle(formId, 'onSubmitAlways', { values, valid });
 		form.submitting.set(false);
@@ -257,7 +277,7 @@ export class FormService {
 
 	/* ---------- RESET / DESTROY ---------- */
 
-	reset(formId: string, to?: Record<string, FormFieldValue>) {
+	reset(formId: string, to?: Record<string, VirtualFormFieldValue>) {
 		const form = this.getForm(formId);
 
 		form.fields.forEach((f, key) => {
@@ -277,17 +297,29 @@ export class FormService {
 
 	/* ---------- HANDLERS ---------- */
 
-	setHandler(formId: string, event: SingleEventName, fn?: SingleHandler) {
+	setHandler(
+		formId: string,
+		event: VirtualSingleEventName,
+		fn?: VirtualSingleHandler,
+	) {
 		const form = this.getForm(formId);
 		if (fn) (form.handlers as any)[event] = fn;
 		else delete (form.handlers as any)[event];
 	}
 
-	addListener(formId: string, event: MultiEventName, fn: MultiHandler) {
+	addListener(
+		formId: string,
+		event: VirtualMultiEventName,
+		fn: VirtualMultiHandler,
+	) {
 		this.getForm(formId).handlers._multi[event].push(fn);
 	}
 
-	removeListener(formId: string, event: MultiEventName, fn: MultiHandler) {
+	removeListener(
+		formId: string,
+		event: VirtualMultiEventName,
+		fn: VirtualMultiHandler,
+	) {
 		const arr = this.getForm(formId).handlers._multi[event];
 		this.getForm(formId).handlers._multi[event] = arr.filter(
 			(h) => h !== fn,
@@ -309,7 +341,7 @@ export class FormService {
 	private _recompute(formId: string) {
 		const form = this.getForm(formId);
 
-		const values: Record<string, FormFieldValue> = {};
+		const values: Record<string, VirtualFormFieldValue> = {};
 		const touched: Record<string, boolean> = {};
 		const errors: Record<string, string | null> = {};
 
@@ -326,7 +358,7 @@ export class FormService {
 
 	private async _callSingle(
 		formId: string,
-		event: SingleEventName,
+		event: VirtualSingleEventName,
 		...args: any[]
 	) {
 		const form = this._forms.get(formId);
@@ -335,7 +367,11 @@ export class FormService {
 		if (typeof fn === 'function') await fn(...args);
 	}
 
-	private async _emit(formId: string, event: MultiEventName, ...args: any[]) {
+	private async _emit(
+		formId: string,
+		event: VirtualMultiEventName,
+		...args: any[]
+	) {
 		const list = this._forms.get(formId)?.handlers._multi[event] ?? [];
 		for (const fn of list) await fn(...args);
 	}

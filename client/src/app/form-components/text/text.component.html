@@ -1,15 +1,14 @@
 <ng-template #templateRef let-data>
-	<winput
-		[type]="data.field.Textarea ? 'textarea' : 'text'"
-		(wChange)="
-			data.submition[data.key] = $event;
-			data.wChange()
-		"
-		[placeholder]="data.field.Placeholder"
-		[name]="data.field.Label || 'name'"
-		[value]="data.submition[data.key]"
-		[focused]="data.component.focused"
-		[ngClass]="data.component.class"
-		[label]="data.field.Label"
-	/>
+    <winput
+        [formId]="data.wFormId"
+        [formKey]="data.wFormKey"
+        [type]="data.props?.Textarea ? 'textarea' : 'text'"
+        [label]="data.props?.Label"
+        [placeholder]="data.props?.Placeholder"
+        [name]="data.props?.Label || 'name'"
+        [focused]="data.component.focused"
+        [ngClass]="data.component.class"
+        (wChange)="data.wChange()"
+        (wSubmit)="data.wSubmit()"
+    />
 </ng-template>

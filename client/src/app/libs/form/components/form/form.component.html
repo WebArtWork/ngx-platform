@@ -1,21 +1,23 @@
-<div class="w-forms">
-	@if (config.title) {
-	<h1 class="w-forms__title">{{config.title}}</h1>
+@let cfg = config(); @let sub = submition();
+
+<div class="wform {{ cfg?.class || '' }}">
+	@if (cfg?.title) {
+	<h1 class="wform__title">{{ cfg.title }}</h1>
 	}
-	<form (ngSubmit)="onSubmit()">
-		@for (component of config.components; track component; let i = $index) {
+
+	<form class="wform__body" (ngSubmit)="onSubmit()">
+		@for (component of cfg?.components; track component; let i = $index) {
 		@if (!component.hidden) {
 		<form-component
-			[class]="config.formId + '_' + i + ' ' +(component.class || '') + ' ' + config.formId"
-			class="w-forms__component"
+			class="wform__component {{ cfg.formId }} {{ cfg.formId + '_' + i }} {{ component.class || '' }}"
 			[component]="component"
-			[submition]="submition"
-			[config]="config"
+			[config]="cfg"
+			[submition]="sub"
 			(wSubmit)="onSubmit()"
-			(wChange)="onChange()"
+			(wChange)="onLegacyChange()"
 			(wClick)="onClick()"
-			[index]="''+i"
-		></form-component>
+			[index]="'' + i"
+		/>
 		} }
 	</form>
 </div>

@@ -1,10 +1,13 @@
 <ng-template #templateRef let-data>
-	<tinymce
-		[config]="editorConfig"
-		[ngModel]="data.submition[data.key]"
-		(ngModelChange)="
-			data.submition[data.key] = $event;
-			data.wChange()
-		"
-	/>
+    <winput
+        [formId]="data.wFormId"
+        [formKey]="data.wFormKey"
+        type="textarea"
+        [label]="data.props?.Label || 'HTML'"
+        [placeholder]="data.props?.Placeholder || '<p>...</p>'"
+        [name]="data.props?.Label || 'html'"
+        [focused]="data.component.focused"
+        [ngClass]="data.component.class"
+        (wChange)="data.wChange()"
+    />
 </ng-template>

@@ -1,41 +1,23 @@
-import {
-	Component,
-	OnInit,
-	TemplateRef,
-	ViewChild,
-	inject,
-} from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TinymceComponent } from 'ngx-tinymce';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
+import { InputComponent } from '../../libs/input/input.component';
+import { NgClass } from '@angular/common';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './html.component.html',
-	imports: [TinymceComponent, FormsModule],
+    templateUrl: './html.component.html',
+    
+    imports: [InputComponent, NgClass],
 })
 export class HtmlComponent implements OnInit {
-	private _form = inject(FormService);
+    private _form = inject(FormService);
 
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
+    @ViewChild('templateRef', { static: true })
+    templateRef: TemplateRef<Interface>;
 
-	editorConfig = {
-		height: 500,
-		menubar: true,
-		plugins: [
-			'advlist autolink lists link image charmap print preview anchor',
-			'searchreplace visualblocks code fullscreen',
-			'insertdatetime media table paste code help wordcount',
-		],
-		toolbar:
-			'undo redo | formatselect | bold italic backcolor | \
-    alignleft aligncenter alignright alignjustify | \
-    bullist numlist outdent indent | removeformat | help',
-	};
-
-	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Html', this.templateRef);
-	}
+    ngOnInit(): void {
+        this._form.addTemplateComponent<Interface>('Html', this.templateRef);
+    }
+    
 }

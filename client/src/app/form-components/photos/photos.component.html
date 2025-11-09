@@ -1,15 +1,13 @@
 <ng-template #templateRef let-data>
-	<ngx-file
-		[value]="data.submition[data.key]"
-		(update)="
-			data.submition[data.key] = $event;
-			data.wChange()
-		"
-		[container]="data.config.formId"
-		[label]="data.field.Label"
-		[width]="data.field.Width"
-		[height]="data.field.Height"
-		[multiple]="true"
-		[isPhoto]="true"
-	/>
+    <ngx-file
+        [formId]="data.wFormId"
+        [formKey]="data.wFormKey"
+        [container]="data.wFormId"
+        [label]="data.props?.Label"
+        [width]="data.props?.Width"
+        [height]="data.props?.Height"
+        [multiple]="true"
+        [isPhoto]="true"
+        (update)="data.wChange()"
+    />
 </ng-template>

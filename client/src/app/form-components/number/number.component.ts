@@ -1,32 +1,23 @@
-import { NgClass } from '@angular/common';
-import {
-	Component,
-	OnInit,
-	TemplateRef,
-	ViewChild,
-	inject,
-} from '@angular/core';
-import { InputValue } from 'src/app/libs/input/input.type';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
 import { InputComponent } from '../../libs/input/input.component';
+import { NgClass } from '@angular/common';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './number.component.html',
-	imports: [InputComponent, NgClass],
+    templateUrl: './number.component.html',
+    
+    imports: [InputComponent, NgClass],
 })
 export class NumberComponent implements OnInit {
-	private _form = inject(FormService);
+    private _form = inject(FormService);
 
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
+    @ViewChild('templateRef', { static: true })
+    templateRef: TemplateRef<Interface>;
 
-	number(value: InputValue) {
-		return Number(value);
-	}
-
-	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Number', this.templateRef);
-	}
+    ngOnInit(): void {
+        this._form.addTemplateComponent<Interface>('Number', this.templateRef);
+    }
+    
 }

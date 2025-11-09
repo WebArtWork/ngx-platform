@@ -4,26 +4,27 @@ import {
 	Component,
 	Signal,
 	TemplateRef,
+	computed,
 	effect,
+	forwardRef,
 	inject,
 	input,
+	model,
 	output,
 	signal,
 } from '@angular/core';
-import { ClickOutsideDirective, CoreService } from 'wacom';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { VirtualFormService } from 'src/app/virtual-form.service'; // ensure correct path
+import { ClickOutsideDirective, CoreService, SearchPipe } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
-import { SearchPipe } from './search.pipe';
 import { SelectButton, SelectItem } from './select.interface';
 import { SelectId, SelectValue } from './select.type';
 
-/**
- * The SelectComponent is a customizable select dropdown component that supports
- * single or multiple selections, search, and custom templates for both the view
- * and items.
- */
 @Component({
+	selector: 'wselect',
+	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		NgTemplateOutlet,
@@ -33,166 +34,209 @@ import { SelectId, SelectValue } from './select.type';
 		InputComponent,
 		ClickOutsideDirective,
 	],
-	selector: 'wselect',
 	templateUrl: './select.component.html',
 	styleUrl: './select.component.scss',
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: forwardRef(() => SelectComponent),
+			multi: true,
+		},
+	],
 })
-export class SelectComponent {
-	/** Whether the select input is disabled. */
+export class SelectComponent implements ControlValueAccessor {
+	/* ===== Inputs ===== */
 	readonly disabled = input(false);
-
-	/** Whether the select input is clearable. */
 	readonly clearable = input(false);
-
-	/** Placeholder text for the select input. */
 	readonly placeholder = input('');
-
-	/** Whether multiple items can be selected. */
 	readonly multiple = input(false);
-
-	/** The name of the property to display in the dropdown items. */
 	readonly bindLabel = input('name');
-
-	/** The property used as the value for each item. */
 	readonly bindValue = input('_id');
-
-	/** The value type used */
-	readonly valueType = input<'string' | 'number' | 'boolean' | 'null'>(
-		'string',
-	);
-
-	/** The label for the select input. */
 	readonly label = input('');
-
-	/** Whether the dropdown is searchable. */
 	readonly searchable = input(false);
-
-	/** The property by which to search items. */
 	readonly searchableBy = input('name');
-
-	/** List of items to display in the dropdown. */
 	readonly items = input<unknown[]>([]);
-
 	readonly buttons = input<SelectButton[]>([]);
 
-	/** Event emitted when the selected value/values change. */
-	readonly wChange = output<SelectValue>();
-
-	/** Custom template for the view (header) of the select input. */
+	/** Templates */
 	readonly t_view = input<TemplateRef<unknown>>();
-
-	/** Custom template for each item in the dropdown. */
 	readonly t_item = input<TemplateRef<unknown>>();
-
-	/** Custom template for the search input. */
 	readonly t_search = input<TemplateRef<unknown>>();
 
+	/** Virtual Form */
+	readonly formId = input<string | null>(null);
+	readonly formKey = input<string | null>(null);
+
+	/** Two-way model (single source of truth) */
+	readonly wModel = model<SelectValue>(null, { alias: 'wModel' });
+
+	/** Back-compat event */
+	readonly wChange = output<SelectValue>();
+
+	/* ===== Internal state ===== */
+	private readonly _core = inject(CoreService);
+	private readonly _vform = inject(VirtualFormService);
+
+	/** quick id->label map for header rendering */
 	readonly allItem: Record<SelectId, string> = {};
 
-	private _core = inject(CoreService);
-
+	/** signals array for fast template iteration */
 	readonly allItems = signal<Signal<SelectItem>[]>(
 		this._core.toSignalsArray<SelectItem>([]),
 	);
 
-	/** The selected value(s). */
-	readonly value = input<SelectValue>(null);
+	/** popup + search */
+	readonly showOptions = signal(false);
+	readonly search = signal('');
 
-	activeValue = signal<SelectId | null>(null);
+	/** derived helpers */
+	readonly isMulti = computed(() => this.multiple());
+	private _disabledCva = false;
+	readonly isDisabled = computed(() => this.disabled() || this._disabledCva);
 
-	test = signal<SelectId | null>(null);
+	/** normalize selection for render */
+	readonly selectedIds = computed<SelectId[]>(() => {
+		const v = this.wModel();
+		return this.isMulti()
+			? Array.isArray(v)
+				? (v as SelectId[])
+				: []
+			: v == null
+				? []
+				: [v as SelectId];
+	});
+	readonly selectedId = computed<SelectId | null>(
+		() => this.selectedIds()[0] ?? null,
+	);
 
-	activeValues = signal<SelectId[]>([]);
-
-	search = signal('');
-
-	showOptions = signal(false);
+	/* ===== CVA glue ===== */
+	private _onChange: (v: any) => void = () => {};
+	private _onTouched: () => void = () => {};
 
 	constructor() {
-		let initialized = false;
-
+		/* rebuild items mirror on input changes */
 		effect(() => {
+			const list = this.items();
 			this.allItems.update(() =>
-				this.items().map((item) => {
-					const saveItem: SelectItem = {} as SelectItem;
-
-					saveItem.name =
-						typeof item === 'object'
-							? (item as Record<string, string>)[this.bindLabel()]
-							: (item as string);
-
-					saveItem.id =
-						typeof item === 'object'
-							? (item as Record<string, string>)[this.bindValue()]
-							: (item as SelectId);
-
-					this.allItem[saveItem.id] = saveItem.name;
-
-					return this._core.toSignal(saveItem);
+				list.map((raw) => {
+					const item: SelectItem = {
+						name:
+							typeof raw === 'object'
+								? (raw as any)[this.bindLabel()]
+								: (raw as any),
+						id:
+							typeof raw === 'object'
+								? (raw as any)[this.bindValue()]
+								: (raw as any),
+					};
+					this.allItem[item.id] = item.name;
+					return this._core.toSignal(item);
 				}),
 			);
 
-			if (!initialized) {
-				initialized = true;
+			// sanitize selection when items change
+			const ids = new Set(this.allItems().map((s) => s().id));
+			const val = this.wModel();
 
-				if (
-					this.multiple() &&
-					JSON.stringify(this.activeValue()) !==
-						JSON.stringify(this.value())
-				) {
-					this.activeValues.set(this.value() as string[] | number[]);
-				} else if (
-					!this.multiple() &&
-					this.activeValue() !== this.value()
-				) {
-					this.activeValue.set(this.value() as string | number);
-				}
+			if (this.isMulti()) {
+				const next = (Array.isArray(val) ? val : []).filter((id) =>
+					ids.has(id as SelectId),
+				) as SelectId[];
+				if (JSON.stringify(next) !== JSON.stringify(val))
+					this.wModel.set(next);
+			} else {
+				if (val != null && !ids.has(val as SelectId))
+					this.wModel.set(null);
 			}
+		});
+
+		/* Virtual Form <-> wModel sync (with guard) */
+		let syncing = false;
+
+		// pull from VF → wModel
+		effect(() => {
+			const id = this.formId();
+			const key = this.formKey();
+			if (!id || !key) return;
+
+			this._vform.registerField(id, key, null, []);
+
+			const vfVal = this._vform.getValues(id)[key] ?? null;
+			if (!syncing && !this._equal(vfVal, this.wModel())) {
+				syncing = true;
+				this.wModel.set(vfVal as SelectValue);
+				syncing = false;
+			}
+		});
+
+		// push wModel → VF
+		effect(() => {
+			const id = this.formId();
+			const key = this.formKey();
+			if (!id || !key) return;
+
+			const val = this.wModel();
+			if (!syncing && !this._equal(this._vform.getValues(id)[key], val)) {
+				syncing = true;
+				this._vform.setValue(id, key, val ?? null); // ensure no undefined
+				syncing = false;
+			}
+		});
+
+		/* propagate to CVA + legacy output */
+		effect(() => {
+			const v = this.wModel();
+			this._onChange(v);
+			this.wChange.emit(v);
 		});
 	}
 
-	removeItem(index: number) {
-		this.activeValues.set(this.activeValues().splice(index, 1));
-
-		this.wChange.emit(this.activeValues() as SelectValue);
-	}
-
-	/** Clears the selected values. */
-	clear(): void {
-		if (this.multiple()) {
-			this.activeValues.set([]);
-
-			this.wChange.emit([]);
-		} else {
-			this.activeValue.set('');
-
-			this.wChange.emit('');
-		}
-	}
-
-	toggleOptions(showOptions = !this.showOptions()) {
-		if (!this.disabled()) {
-			this.showOptions.set(showOptions);
-		}
+	/* ===== UI actions ===== */
+	toggleOptions(show = !this.showOptions()) {
+		if (!this.isDisabled()) this.showOptions.set(show);
 	}
 
 	selectOption(item: SelectItem): void {
-		if (this.multiple()) {
-			this.activeValues.set(
-				this.activeValues().includes(item.id)
-					? this.activeValues().filter((id) => id !== item.id)
-					: [...this.activeValues(), item.id],
-			);
-
-			this.wChange.emit(this.activeValues() as SelectValue);
+		if (this.isMulti()) {
+			const set = new Set(this.selectedIds());
+			set.has(item.id) ? set.delete(item.id) : set.add(item.id);
+			this.wModel.set([...set]); // SelectId[] fits SelectValue now
 		} else {
-			this.activeValue.set(item.id);
-
-			console.log(item.id, this.activeValue());
-
-			this.wChange.emit(this.activeValue());
-
+			this.wModel.set(item.id);
 			this.showOptions.set(false);
 		}
+		this._onTouched();
+	}
+
+	removeItem(index: number) {
+		if (!this.isMulti()) return;
+		const arr = [...this.selectedIds()];
+		arr.splice(index, 1);
+		this.wModel.set(arr);
+	}
+
+	clear(): void {
+		this.wModel.set(this.isMulti() ? [] : null);
+	}
+
+	/* ===== CVA ===== */
+	writeValue(obj: SelectValue): void {
+		if (!this._equal(this.wModel(), obj)) this.wModel.set(obj);
+	}
+	registerOnChange(fn: any): void {
+		this._onChange = fn;
+	}
+	registerOnTouched(fn: any): void {
+		this._onTouched = fn;
+	}
+	setDisabledState(isDisabled: boolean): void {
+		this._disabledCva = isDisabled;
+	}
+
+	/* ===== Utils ===== */
+	private _equal(a: any, b: any) {
+		return Array.isArray(a) || Array.isArray(b)
+			? JSON.stringify(a) === JSON.stringify(b)
+			: a === b;
 	}
 }

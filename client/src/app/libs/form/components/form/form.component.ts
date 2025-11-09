@@ -1,11 +1,16 @@
+// client/src/app/libs/form/components/form/form.component.ts
 import {
 	AfterViewInit,
+	ChangeDetectionStrategy,
 	Component,
-	EventEmitter,
-	Input,
-	Output,
+	effect,
 	inject,
+	input,
+	OnDestroy,
+	output,
+	signal,
 } from '@angular/core';
+import { required, VirtualFormService } from 'src/app/virtual-form.service';
 import { CoreService } from 'wacom';
 import { FormComponentInterface } from '../../interfaces/component.interface';
 import { FormInterface } from '../../interfaces/form.interface';
@@ -14,74 +19,137 @@ import { FormComponentComponent } from '../form-component/form-component.compone
 @Component({
 	selector: 'wform',
 	templateUrl: './form.component.html',
+	styleUrl: './form.component.scss',
 	imports: [FormComponentComponent],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent implements AfterViewInit {
+export class FormComponent implements AfterViewInit, OnDestroy {
 	private _core = inject(CoreService);
+	private _virtualFormService = inject(VirtualFormService);
 
-	@Input() config: FormInterface;
+	readonly config = input.required<FormInterface>();
+	readonly submition = input<Record<string, any>>({}); // legacy compat
 
-	@Input() submition: Record<string, unknown> = {};
+	readonly wChange = output<Record<string, any>>();
+	readonly wSubmit = output<Record<string, any>>();
 
-	@Output() wChange = new EventEmitter();
-
-	@Output() wSubmit = new EventEmitter();
+	private _formId = signal<string>('');
+	private _unsubFns: Array<() => void> = [];
 
 	ngAfterViewInit(): void {
-		this.submition['data'] = this.submition['data'] || {};
-	}
-
-	component(
-		key: string,
-		components = this.config.components,
-	): FormComponentInterface | false {
-		for (const component of components) {
-			if (component.key === key) {
-				return component;
-			}
-
-			if (component.components?.length) {
-				const deepComponent = this.component(key, component.components);
-
-				if (deepComponent) {
-					return deepComponent;
-				}
-			}
+		if (this.submition()) {
+			(this.submition() as any).data =
+				(this.submition() as any).data || {};
 		}
 
-		return false;
+		effect(() => {
+			const cfg = this.config();
+			const id = (cfg?.formId as string) || crypto.randomUUID();
+			this._formId.set(id);
+
+			this._virtualFormService.getForm(id);
+
+			(cfg?.components || []).forEach((c) =>
+				this._registerFromSchema(id, c),
+			);
+
+			const initial = this.submition();
+			if (initial && Object.keys(initial).length) {
+				this._virtualFormService.patch(id, initial as any);
+			}
+
+			this._clearHandlers();
+			this._virtualFormService.setHandler(
+				id,
+				'onValidSubmit',
+				(values: any) => this.wSubmit.emit(values),
+			);
+			this._virtualFormService.setHandler(
+				id,
+				'onInvalidSubmit',
+				(_errors: any, values: any) => this._emitLegacyChange(values),
+			);
+			this._virtualFormService.setHandler(id, 'onPatch', () => {
+				this._emitLegacyChange(this._virtualFormService.getValues(id));
+			});
+
+			const onFieldChange = () => {
+				this._core.afterWhile(this, () => {
+					this._emitLegacyChange(
+						this._virtualFormService.getValues(id),
+					);
+				});
+			};
+			this._virtualFormService.addListener(
+				id,
+				'onFieldChange',
+				onFieldChange,
+			);
+			this._unsubFns.push(() =>
+				this._virtualFormService.removeListener(
+					id,
+					'onFieldChange',
+					onFieldChange,
+				),
+			);
+		});
+	}
+
+	ngOnDestroy(): void {
+		this._clearHandlers();
+		const id = this._formId();
+		if (id) this._virtualFormService.destroyForm(id);
 	}
 
 	onSubmit(): void {
+		const id = this._formId();
+		this._virtualFormService.submit(id);
+	}
+
+	onLegacyChange(): void {
+		const id = this._formId();
 		this._core.afterWhile(this, () => {
-			for (const component of this.config.components) {
-				if (
-					component.key &&
-					component.required &&
-					((component.valid && !component.valid()) ||
-						(!component.valid && !this.submition[component.key]))
-				) {
-					if (typeof component.focus === 'function') {
-						component.focus();
-					}
-
-					return;
-				}
-			}
-
-			this.wSubmit.emit(this.submition);
+			this._emitLegacyChange(this._virtualFormService.getValues(id));
 		});
 	}
 
-	onChange(): void {
-		this._core.afterWhile(this, () => {
-			this.wChange.emit(this.submition);
-		});
+	onClick(): void {}
+
+	private _emitLegacyChange(values: Record<string, any>) {
+		this.wChange.emit(values || {});
 	}
 
-	onClick(/* component: FormComponentInterface */): void {
-		// if (typeof component.click === 'function') {
-		// 	component.click(this.submition);
-		// }
+	private _registerFromSchema(
+		formId: string,
+		c: FormComponentInterface,
+	): void {
+		if (Array.isArray(c.components) && c.components.length) {
+			c.components.forEach((child) =>
+				this._registerFromSchema(formId, child),
+			);
+			return;
+		}
+		if (!c.key) return;
+
+		const init = (this.submition() || {})[c.key as string];
+
+		const composed = [
+			c.props && (c.props as any).Required ? required() : null,
+			...(c.validators || []),
+		].filter(Boolean) as typeof c.validators;
+
+		this._virtualFormService.registerField(
+			formId,
+			c.key as string,
+			init,
+			composed || [],
+		);
+	}
+
+	private _clearHandlers() {
+		this._unsubFns.forEach((u) => u());
+		this._unsubFns = [];
+		const id = this._formId();
+		if (id) this._virtualFormService.clearHandlers(id);
 	}
 }

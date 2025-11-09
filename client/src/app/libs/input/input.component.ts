@@ -1,3 +1,4 @@
+// client/src/app/libs/input/input.component.ts
 import { NgClass } from '@angular/common';
 import {
 	AfterViewInit,
@@ -16,10 +17,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormsModule } from '@angular/forms';
 import {
-	FormFieldValue,
-	FormService,
-	ValidatorFn as FormValidatorFn,
-} from 'src/app/form.service';
+	VirtualFormFieldValue,
+	VirtualFormService,
+	VirtualValidatorFn,
+} from 'src/app/virtual-form.service';
 import { CoreService } from 'wacom';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputType, InputValue } from './input.type';
@@ -28,7 +29,7 @@ import { InputType, InputValue } from './input.type';
  * Signal-based input that supports:
  * - Template-driven forms via [(wModel)]
  * - Reactive Forms via [control]
- * - WAW FormService via [formId] + [formKey]
+ * - Virtual Forms via [formId] + [formKey]
  *
  * Priority (read): control → wForm → wModel → value
  * Priority (write): wForm → control → wModel
@@ -51,10 +52,10 @@ export class InputComponent implements AfterViewInit {
 	/** Reactive Forms control (highest read priority). */
 	readonly control = input<AbstractControl | null>(null);
 
-	/** WAW FormService hookup (activates only if both provided). */
+	/** WAW Virtual Form hookup (activates only if both provided). */
 	readonly formId = input<string | null>(null);
 	readonly formKey = input<string | null>(null);
-	readonly validators = input<FormValidatorFn[]>([]);
+	readonly validators = input<VirtualValidatorFn[]>([]);
 
 	/** Options (for radio / checkbox list). */
 	readonly items = input<string[]>([]);
@@ -97,21 +98,21 @@ export class InputComponent implements AfterViewInit {
 	/* ---------------- Services ---------------- */
 	private _core = inject(CoreService);
 	private _destroyRef = inject(DestroyRef);
-	private _form = inject(FormService);
+	private _virtualFormService = inject(VirtualFormService);
 
 	/* ---------------- wForm field API ---------------- */
 	private _fieldApi: {
-		value: Signal<FormFieldValue>;
+		value: Signal<VirtualFormFieldValue>;
 		error: Signal<string | null>;
 		touched: Signal<boolean>;
-		setValue: (v: FormFieldValue) => void;
+		setValue: (v: VirtualFormFieldValue) => void;
 		setTouched: (t: boolean) => void;
-		getValue: () => FormFieldValue;
+		getValue: () => VirtualFormFieldValue;
 		validate: () => string | null;
 	} | null = null;
 
 	constructor() {
-		/* Activate / register to FormService when both formId & formKey exist. */
+		/* Activate / register to VirtualFormService when both formId & formKey exist. */
 		effect(() => {
 			const enabled = !!this.formId() && !!this.formKey();
 			this._usewForm.set(enabled);
@@ -121,10 +122,10 @@ export class InputComponent implements AfterViewInit {
 				return;
 			}
 
-			this._fieldApi = this._form.registerField(
+			this._fieldApi = this._virtualFormService.registerField(
 				this.formId()!,
 				this.formKey()!,
-				this.model() as FormFieldValue,
+				this.model() as VirtualFormFieldValue,
 				this.validators(),
 			);
 		});
@@ -146,12 +147,10 @@ export class InputComponent implements AfterViewInit {
 				return;
 			}
 
-			if (this._usewForm()) {
-				// reflect from wForm
-				this.model.set(
-					this._fieldApi!.value() as unknown as InputValue,
-				);
-				this.error.set(!!this._fieldApi!.error());
+			if (this._usewForm() && this._fieldApi) {
+				// reflect from virtual form
+				this.model.set(this._fieldApi.value() as unknown as InputValue);
+				this.error.set(!!this._fieldApi.error());
 				return;
 			}
 
@@ -187,9 +186,9 @@ export class InputComponent implements AfterViewInit {
 		}
 
 		// write to highest target
-		if (this._usewForm()) {
-			this._fieldApi!.setValue(this.model() as FormFieldValue);
-			this.error.set(!!this._fieldApi!.error());
+		if (this._usewForm() && this._fieldApi) {
+			this._fieldApi.setValue(this.model() as VirtualFormFieldValue);
+			this.error.set(!!this._fieldApi.error());
 		} else {
 			const c = this.control();
 			if (c) {
@@ -216,9 +215,9 @@ export class InputComponent implements AfterViewInit {
 	onBlur(): void {
 		this.wBlur.emit();
 
-		if (this._usewForm()) {
-			this._fieldApi!.setTouched(true);
-			this.error.set(!!this._fieldApi!.error());
+		if (this._usewForm() && this._fieldApi) {
+			this._fieldApi.setTouched(true);
+			this.error.set(!!this._fieldApi.error());
 			return;
 		}
 
@@ -232,9 +231,9 @@ export class InputComponent implements AfterViewInit {
 	onSubmit(): void {
 		this.onChange();
 
-		if (this._usewForm()) {
-			this._fieldApi!.validate();
-			this.error.set(!!this._fieldApi!.error());
+		if (this._usewForm() && this._fieldApi) {
+			this._fieldApi.validate();
+			this.error.set(!!this._fieldApi.error());
 			this.wSubmit.emit(this.model());
 			return;
 		}

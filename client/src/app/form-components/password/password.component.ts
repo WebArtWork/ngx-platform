@@ -1,32 +1,23 @@
-import { NgClass } from '@angular/common';
-import {
-	Component,
-	OnInit,
-	TemplateRef,
-	ViewChild,
-	inject,
-} from '@angular/core';
-import { UtilService } from 'wacom';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
 import { InputComponent } from '../../libs/input/input.component';
+import { NgClass } from '@angular/common';
+
 interface Interface {}
+
 @Component({
-	templateUrl: './password.component.html',
-	styleUrls: ['./password.component.scss'],
-	imports: [InputComponent, NgClass],
+    templateUrl: './password.component.html',
+    styleUrls: ['./password.component.scss'],
+    imports: [InputComponent, NgClass],
 })
 export class PasswordComponent implements OnInit {
-	private _form = inject(FormService);
+    private _form = inject(FormService);
 
-	util = inject(UtilService);
+    @ViewChild('templateRef', { static: true })
+    templateRef: TemplateRef<Interface>;
 
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
-
-	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>(
-			'Password',
-			this.templateRef,
-		);
-	}
+    ngOnInit(): void {
+        this._form.addTemplateComponent<Interface>('Password', this.templateRef);
+    }
+    
 }

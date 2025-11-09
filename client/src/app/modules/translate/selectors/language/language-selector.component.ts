@@ -1,8 +1,10 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	computed,
 	inject,
 	input,
+	model,
 	output,
 } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -11,12 +13,7 @@ import { SelectComponent } from 'src/app/libs/select/select.component';
 import { SelectButton } from 'src/app/libs/select/select.interface';
 import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
-import {
-	AlertService,
-	CoreService,
-	CrudComponent,
-	EmitterService,
-} from 'wacom';
+import { CrudComponent } from 'wacom';
 import { languageForm } from '../../form/language.form';
 import { LanguageFormcomponent } from '../../form/language/language.formcomponent';
 import { Language } from '../../interfaces/language.interface';
@@ -24,9 +21,9 @@ import { LanguageService } from '../../services/language.service';
 import { TranslateService } from '../../services/translate.service';
 
 @Component({
+	selector: 'language-selector',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SelectComponent, TranslatePipe],
-	selector: 'language-selector',
 	templateUrl: './language-selector.component.html',
 })
 export class LanguageSelectorComponent extends CrudComponent<
@@ -34,128 +31,96 @@ export class LanguageSelectorComponent extends CrudComponent<
 	Language,
 	FormInterface
 > {
-	readonly mutatable = input<boolean>(false);
-
+	/* ==== Inputs ==== */
 	readonly searchable = input<boolean>(true);
-
 	readonly clearable = input<boolean>(true);
-
 	readonly disabled = input<boolean>(false);
+	readonly isMutatable = input<boolean>(false);
 
-	readonly value = input<SelectValue>('');
+	/** external model (same name as wselect) */
+	readonly wModel = model<SelectValue>(null, { alias: 'wModel' });
 
+	/** change event */
 	readonly wChange = output<SelectValue>();
 
+	/** computed placeholder */
+	readonly placeholder = computed(
+		() =>
+			(this.documents().length
+				? 'Select language'
+				: 'Create new language') + '...',
+	);
+
+	/** buttons (only visible if mutatable = true) */
+	readonly buttons = computed<SelectButton[]>(() => {
+		if (!this.isMutatable()) return [];
+		const hasCurrent = !!this.languageService.language();
+		return [
+			{
+				icon: hasCurrent ? 'edit' : '',
+				click: () => this.mutate(true),
+			},
+			{
+				icon: hasCurrent ? 'delete' : '',
+				click: () => this.deleteCurrent(),
+			},
+			{
+				icon: 'add',
+				click: () => this.mutate(false),
+			},
+		];
+	});
+
 	languageService = inject(LanguageService);
+	private _form = inject(FormService);
+	private _translate = inject(TranslateService);
 
-	private _emitterService = inject(EmitterService);
-
-	selected: SelectValue;
-
-	buttons: SelectButton[] = [
-		{
-			icon: this.languageService.language() ? 'edit' : '',
-			click: () => {
-				this.mutate();
-			},
-		},
-		{
-			icon: this.languageService.language() ? 'delete' : '',
-			click: () => {
-				this.delete(this.languageService.language() as Language);
-			},
-		},
-		{
-			icon: 'add',
-			click: () => {
-				this.mutate(false);
-			},
-		},
-	];
-
-	constructor(
-		_languageService: LanguageService,
-		_translate: TranslateService,
-		_form: FormService,
-	) {
+	constructor(_lang: LanguageService) {
 		super(
 			LanguageFormcomponent,
-			_form,
-			_translate,
-			_languageService,
+			inject(FormService),
+			inject(TranslateService),
+			_lang,
 			'language',
 		);
-
 		this.setDocuments();
-
-		this._emitterService.on('languageId').subscribe((languageId) => {
-			this.buttons[0].icon = 'edit';
-
-			this.buttons[1].icon = 'delete';
-		});
 	}
 
 	mutate(current = true) {
-		const doc = current
-			? this.documents().find(
-					(d) => d()._id === (this.selected || this.value()),
-				) || {}
-			: {};
+		const selectedId = (this.wModel() as string | null) ?? null;
+		const docSig = current
+			? this.documents().find((d) => d()._id === selectedId)
+			: undefined;
 
-		this._formService.modal<Language>(
+		this._form.modal<Language>(
 			languageForm,
 			{
+				label: current ? 'Update' : 'Create',
 				click: (updated) => {
-					if (current) {
-						this.languageService.language.update((language) => {
-							language = language || ({} as Language);
-
-							this._coreService.copy(updated, language);
-
-							return language;
+					if (current && this.languageService.language()) {
+						this.languageService.update({
+							...(this.languageService.language() as Language),
+							...(updated as Partial<Language>),
 						});
-
-						this.languageService.update(
-							this.languageService.language() as Language,
-						);
 					} else {
 						this.languageService
 							.create(updated as Language)
-							.subscribe((language) => {
-								this.languageService.setLanguage(language);
+							.subscribe((l) => {
+								this.languageService.setLanguage(l);
+								this.wModel.set(l._id as SelectValue);
+								this.wChange.emit(l._id as SelectValue);
 							});
 					}
 				},
-				label: current ? 'Update' : 'Create',
 			},
-			doc,
+			docSig?.(),
 		);
 	}
 
-	// delete() {
-	// 	this._alertService.question({
-	// 		text: `Are you sure you want to delete this language?`,
-	// 		buttons: [
-	// 			{ text: 'No' },
-	// 			{
-	// 				text: 'Yes',
-	// 				callback: async (): Promise<void> => {
-	// 					this.languageService.nextLanguage();
-
-	// 					this.languageService.delete(
-	// 						this.languageService.language(),
-	// 					);
-	// 				},
-	// 			},
-	// 		],
-	// 	});
-	// }
-
-	private _coreService = inject(CoreService);
-
-	private _alertService = inject(AlertService);
-
-	private _formService = inject(FormService);
-
-	private _translateService = inject(TranslateService);
+	private deleteCurrent() {
+		const curr = this.languageService.language() as Language | null;
+		if (!curr) return;
+		this.languageService.delete(curr);
+		this.languageService.nextLanguage();
+	}
 }

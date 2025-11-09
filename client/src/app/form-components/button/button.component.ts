@@ -1,34 +1,22 @@
-import {
-	Component,
-	OnInit,
-	TemplateRef,
-	ViewChild,
-	inject,
-} from '@angular/core';
-import { ButtonComponent as LibButtonComponent } from '../../libs/button/button.component';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
+import { ButtonComponent as LibButtonComponent } from '../../libs/button/button.component';
 
 interface Interface {}
 
 @Component({
-	selector: 'button-formcomponents',
-	templateUrl: './button.component.html',
-	styleUrls: ['./button.component.scss'],
-	imports: [LibButtonComponent],
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.scss'],
+    imports: [LibButtonComponent],
 })
 export class ButtonComponent implements OnInit {
-	private _form = inject(FormService);
+    private _form = inject(FormService);
 
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
+    @ViewChild('templateRef', { static: true })
+    templateRef: TemplateRef<Interface>;
 
-	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Button', this.templateRef);
-	}
-
-	click(data: any): void {
-		if (typeof data.field.Click === 'function') {
-			data.field.Click();
-		}
-	}
+    ngOnInit(): void {
+        this._form.addTemplateComponent<Interface>('Button', this.templateRef);
+    }
+    
 }

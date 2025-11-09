@@ -2,18 +2,19 @@
 	#formRef
 	[config]="form"
 	[submition]="submition"
-	(wSubmit)="set(submition); submit(submition); close()"
-	(wChange)="set(submition); change(submition)"
+	(wSubmit)="handleSubmit()"
+	(wChange)="handleChange()"
 />
 
-<div class="btn-action btn-action_w95p">
+<div class="modal-actions">
 	@for (button of modalButtons; track button) {
 	<wbutton
-		(click)="button.click(submition, close)"
-		[ngClass]="button.class"
 		class="w-btn _primary"
+		[ngClass]="button.class"
+		[disabled]="submitting()"
+		(click)="onButtonClick(button)"
 	>
-		{{button.label}}
+		{{ button.label }}
 	</wbutton>
 	}
 </div>

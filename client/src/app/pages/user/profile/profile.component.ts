@@ -56,48 +56,28 @@ export class ProfileComponent {
 				name: 'Text',
 				key: 'name',
 				focused: true,
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your name ...',
-					},
-					{
-						name: 'Label',
-						value: 'Name',
-					},
-				],
+				props: {
+					Placeholder: 'Enter your name ...',
+					Label: 'Name',
+					Required: true,
+				},
 			},
 			{
 				name: 'Text',
 				key: 'phone',
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your phone ...',
-					},
-					{
-						name: 'Label',
-						value: 'Phone',
-					},
-				],
+				props: {
+					Placeholder: 'Enter your phone ...',
+					Label: 'Phone',
+				},
 			},
 			{
 				name: 'Text',
 				key: 'bio',
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your biography ...',
-					},
-					{
-						name: 'Label',
-						value: 'Biography',
-					},
-					{
-						name: 'Textarea',
-						value: true,
-					},
-				],
+				props: {
+					Placeholder: 'Enter your biography ...',
+					Label: 'Biography',
+					Textarea: true,
+				},
 			},
 		],
 	});
@@ -110,30 +90,20 @@ export class ProfileComponent {
 				name: 'Password',
 				key: 'oldPass',
 				focused: true,
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your old password ...',
-					},
-					{
-						name: 'Label',
-						value: 'Old Password',
-					},
-				],
+				props: {
+					Placeholder: 'Enter your old password ...',
+					Label: 'Old Password',
+					Required: true,
+				},
 			},
 			{
 				name: 'Password',
 				key: 'newPass',
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your new password ...',
-					},
-					{
-						name: 'Label',
-						value: 'New Password',
-					},
-				],
+				props: {
+					Placeholder: 'Enter your new password ...',
+					Label: 'New Password',
+					Required: true,
+				},
 			},
 		],
 	});

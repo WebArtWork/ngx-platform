@@ -1,26 +1,17 @@
 <ng-template #templateRef let-data>
-	<div>
-		<!-- (keyup.enter) -->
-		<winput
-			[placeholder]="data.field.Placeholder"
-			(wChange)="data.field.__name = $event"
-			[value]="data.field.__name"
-			[label]="data.field.Label"
-			(wSubmit)="addTag(data)"
-		></winput>
-
-		@for (tag of data.submition[data.key]; track tag; let i = $index) {
-		<span>{{tag}}</span>
-		<i
-			(click)="data.submition[data.key].splice(i, 1)"
-			class="material-icons"
-			>delete</i
-		>
-		}
-
-		<!--  [disabled]="!inputRef.value" -->
-		<wbutton (click)="addTag(data)" [disableSubmit]="true">
-			{{data.field.Button || 'Add'}}
-		</wbutton>
-	</div>
+    <div class="tags">
+        <winput
+            [label]="data.props?.Label"
+            [placeholder]="data.props?.Placeholder"
+            (wChange)="data.props.__name = $event"
+            (wSubmit)="addTag(data)"
+        />
+        <div class="tags__list">
+            <!-- Display current value via helper pipe (requires consumer to render from values) -->
+            <!-- For manager-bound rendering, a dedicated tags component would read current form state by key. -->
+        </div>
+        <wbutton (click)="addTag(data)" [disableSubmit]="true">
+            {{ data.props?.Button || 'Add' }}
+        </wbutton>
+    </div>
 </ng-template>

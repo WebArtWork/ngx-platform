@@ -1,42 +1,36 @@
-import {
-	Component,
-	OnInit,
-	TemplateRef,
-	ViewChild,
-	inject,
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
 import { InputComponent } from '../../libs/input/input.component';
-
 import { ButtonComponent } from '../../libs/button/button.component';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './tags.component.html',
-	imports: [InputComponent, ButtonComponent],
+    templateUrl: './tags.component.html',
+    
+    imports: [InputComponent, ButtonComponent],
 })
 export class TagsComponent implements OnInit {
-	private _form = inject(FormService);
+    private _form = inject(FormService);
 
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
+    @ViewChild('templateRef', { static: true })
+    templateRef: TemplateRef<Interface>;
 
-	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Tags', this.templateRef);
-	}
+    ngOnInit(): void {
+        this._form.addTemplateComponent<Interface>('Tags', this.templateRef);
+    }
+    addTag(data: any): void {
+    const name = data.props?.__name;
+    if (!name) return;
 
-	addTag(data: any): void {
-		data.submition[data.key] = data.submition[data.key] || [];
-
-		data.submition[data.key].push(data.field.__name);
-
-		data.field.__name = '';
-
-		data.wChange();
-
-		setTimeout(() => {
-			data.field.focus();
-		}, 100);
-	}
+    // Inform host to add tag at current key; the actual append logic
+    // is expected to be handled by the template bound to VirtualFormService.
+    // If your winput supports programmatic patching, you can emit a custom event.
+    if (Array.isArray((data.props as any).__buffer)) {
+        (data.props as any).__buffer.push(name);
+    }
+    // Notify form to re-evaluate
+    data.props.__name = '';
+    setTimeout(() => data.wChange());
+}
 }

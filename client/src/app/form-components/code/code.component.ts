@@ -1,29 +1,23 @@
-import {
-	Component,
-	OnInit,
-	TemplateRef,
-	ViewChild,
-	inject,
-} from '@angular/core';
-import 'brace';
-import 'brace/mode/json';
-import 'brace/theme/monokai';
-import { AceModule } from 'ngx-ace-wrapper';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormService } from '../../libs/form/services/form.service';
+import { InputComponent } from '../../libs/input/input.component';
+import { NgClass } from '@angular/common';
 
 interface Interface {}
 
 @Component({
-	templateUrl: './code.component.html',
-	imports: [AceModule],
+    templateUrl: './code.component.html',
+    
+    imports: [InputComponent, NgClass],
 })
 export class CodeComponent implements OnInit {
-	private _form = inject(FormService);
+    private _form = inject(FormService);
 
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
+    @ViewChild('templateRef', { static: true })
+    templateRef: TemplateRef<Interface>;
 
-	ngOnInit(): void {
-		this._form.addTemplateComponent<Interface>('Code', this.templateRef);
-	}
+    ngOnInit(): void {
+        this._form.addTemplateComponent<Interface>('Code', this.templateRef);
+    }
+    
 }

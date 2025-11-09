@@ -4,10 +4,10 @@
 
 ._disabled {
 	opacity: 0.6;
+	pointer-events: none;
 }
 
-// waw-select styles
-.w-select {
+.wselect {
 	width: 100%;
 
 	&__label {
@@ -25,7 +25,6 @@
 		border-radius: 12px;
 		transition: var(--transition);
 
-		//background: var(--c-bg-secondary);
 		&._active {
 			border-color: var(--c-primary);
 		}
@@ -70,10 +69,6 @@
 
 	.material-icons {
 		color: var(--c-text-primary);
-	}
-
-	winput {
-		margin: 100px;
 	}
 
 	.item {
@@ -130,29 +125,8 @@
 		width: 100%;
 		left: 0;
 		padding: 0 15px;
-
-		.search-input {
-			outline: none;
-			width: 100%;
-			cursor: pointer;
-			display: flex;
-			padding: 10px;
-			padding-right: 30px;
-			align-items: center;
-			border: 1px solid var(--c-border);
-			border-radius: 10px;
-			transition: var(--transition);
-		}
-
-		.search-icon {
-			position: absolute;
-			top: 50%;
-			right: 25px;
-			transform: translateY(-50%);
-		}
 	}
 
-	// scroll styles
 	*::-webkit-scrollbar {
 		width: 5px;
 		height: 5px;
@@ -162,97 +136,6 @@
 	* ::-webkit-scrollbar-thumb {
 		border-radius: 0;
 		background-color: var(--c-border);
-	}
-
-	// checkbox styles
-	.checkbox {
-		&__body {
-			display: inline-flex;
-			user-select: none;
-			cursor: pointer;
-			padding: 6px 8px;
-			color: var(--c-text);
-			border-radius: 6px;
-			overflow: hidden;
-			transition: var(--transition);
-
-			&:not(:last-child) {
-				margin-right: 6px;
-			}
-
-			&:hover {
-				background: rgba(var(--c-sky), 0.09);
-			}
-
-			&:hover .checkbox__svg {
-				border-color: var(--c-sky);
-			}
-		}
-
-		&__input {
-			display: none;
-
-			&:checked + .checkbox__body .checkbox__svg {
-				background: var(--c-sky);
-				border-color: var(--c-sky);
-				animation: wave 0.4s ease;
-			}
-
-			&:checked + .checkbox__body .checkbox__svg svg {
-				stroke-dashoffset: 0;
-			}
-		}
-
-		&__svg {
-			position: relative;
-			min-width: 18px;
-			min-height: 18px;
-			width: 18px;
-			height: 18px;
-			display: inline-block;
-			border-radius: 4px;
-			transform: scale(1);
-			border: 1px solid var(--c-border);
-			transition: var(--transition);
-			box-shadow: 0 1px 1px var(--c-shadow);
-		}
-
-		&__svg svg {
-			position: absolute;
-			top: 3px;
-			left: 2px;
-			fill: none;
-			stroke: var(--c-white);
-			stroke-width: 2;
-			stroke-linecap: round;
-			stroke-linejoin: round;
-			stroke-dasharray: 16px;
-			stroke-dashoffset: 16px;
-			transition: all 0.3s ease;
-			transition-delay: 0.1s;
-			transform: translate3d(0, 0, 0);
-		}
-
-		&__text {
-			padding-left: 8px;
-			line-height: 18px;
-			text-overflow: ellipsis;
-			overflow: hidden;
-		}
-
-		&__svg-icon {
-			position: absolute;
-			width: 0;
-			height: 0;
-			pointer-events: none;
-			user-select: none;
-		}
-
-		@keyframes wave {
-			50% {
-				transform: scale(0.9);
-			}
-		}
 	}
 }
 

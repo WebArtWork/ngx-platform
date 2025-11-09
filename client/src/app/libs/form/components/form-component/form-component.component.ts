@@ -1,12 +1,13 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+	ChangeDetectionStrategy,
 	Component,
-	EventEmitter,
-	Input,
-	OnInit,
-	Output,
-	TemplateRef,
+	effect,
 	inject,
+	input,
+	output,
+	signal,
+	TemplateRef,
 } from '@angular/core';
 import { FormComponentInterface } from '../../interfaces/component.interface';
 import { FormInterface } from '../../interfaces/form.interface';
@@ -17,130 +18,54 @@ import { FormService } from '../../services/form.service';
 	templateUrl: './form-component.component.html',
 	styleUrls: ['./form-component.component.scss'],
 	imports: [NgTemplateOutlet],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponentComponent implements OnInit {
+export class FormComponentComponent {
 	private _form = inject(FormService);
 
-	@Input() index: string;
+	readonly index = input<string>('');
+	readonly config = input.required<FormInterface>();
+	readonly component = input.required<FormComponentInterface>();
+	readonly submition = input<Record<string, unknown>>({}); // legacy pass-through
 
-	@Input() config: FormInterface;
+	readonly wSubmit = output<Record<string, unknown>>();
+	readonly wChange = output<void>();
+	readonly wClick = output<void>();
 
-	@Input() component: FormComponentInterface;
+	readonly template = signal<TemplateRef<unknown> | null>(null);
 
-	@Input() submition: Record<string, unknown> = {};
+	constructor() {
+		effect(() => {
+			const name = this.component().name as string | undefined;
+			this.template.set(
+				(name && this._form.getTemplateComponent(name)) || null,
+			);
+		});
+	}
 
-	@Output() wSubmit = new EventEmitter();
+	hasChildren(): boolean {
+		return Array.isArray(this.component().components);
+	}
 
-	@Output() wChange = new EventEmitter();
+	effectiveKey(): string | null {
+		const key = this.component().key;
+		if (!key) return null;
+		if (!key.includes('[]')) return key;
 
-	@Output() wClick = new EventEmitter();
+		const idxStr = (this.index() || '').split('_').pop() || '0';
+		const idx = Number.isFinite(+idxStr) ? +idxStr : 0;
+		return key.replace(/\[\]/g, `[${idx}]`);
+	}
 
 	submit(): void {
-		this.wSubmit.emit(this.submition);
+		this.wSubmit.emit(this.submition());
 	}
 
 	change(): void {
-		this.wChange.emit(this.submition);
+		this.wChange.emit();
 	}
 
 	click(): void {
-		this.wClick.emit(this.submition);
-	}
-
-	get hasComponents(): boolean {
-		return Array.isArray(this.component.components);
-	}
-
-	get template(): TemplateRef<unknown> {
-		return this._form.getTemplateComponent(
-			this.component.name as string,
-		) as TemplateRef<unknown>;
-	}
-
-	field: Record<string, unknown> = {};
-
-	localKey: string;
-
-	localSubmition: Record<string, unknown>;
-
-	ngOnInit(): void {
-		this.component.resetFields = this._resetFields.bind(this);
-
-		this._resetFields();
-
-		this.localSubmition = this.submition;
-
-		const keys = (this.component.key || '')?.split('.');
-
-		while (keys.length > 1) {
-			let key = keys.shift() as string;
-
-			if (key.endsWith('[]')) {
-				key = key.replace('[]', '');
-
-				const index = this._getIndex();
-
-				this.localSubmition[key] = (this.localSubmition[key] ||
-					[]) as Record<string, unknown>[];
-
-				while (
-					index + 1 >
-					(this.localSubmition[key] as Record<string, unknown>[])
-						.length
-				) {
-					(
-						this.localSubmition[key] as Record<string, unknown>[]
-					).push({});
-				}
-
-				this.localSubmition = (
-					this.localSubmition[key] as Record<string, unknown>[]
-				)[index];
-			} else {
-				this.localSubmition =
-					(this.localSubmition[key] as Record<string, unknown>) || {};
-			}
-		}
-
-		this.localKey = keys[0];
-	}
-
-	private _getIndex(components = this.config.components): number {
-		for (const component of components) {
-			if (component.components) {
-				const localIndex = this._getIndex(component.components);
-
-				if (localIndex >= 0) {
-					for (let i = 0; i < component.components.length; i++) {
-						for (const comp of component.components[i]
-							.components as Record<string, unknown>[]) {
-							if (comp === this.component) {
-								return i;
-							}
-						}
-					}
-				}
-
-				if (
-					component?.components?.indexOf(
-						this.component as unknown as any,
-					) >= 0
-				) {
-					return component.components.indexOf(
-						this.component as unknown as any,
-					);
-				}
-			}
-		}
-
-		return -1;
-	}
-
-	private _resetFields() {
-		if (Array.isArray(this.component.fields)) {
-			for (const field of this.component.fields) {
-				this.field[field.name] = field.value;
-			}
-		}
+		this.wClick.emit();
 	}
 }

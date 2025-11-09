@@ -30,7 +30,7 @@ waw add ngx-input
 ## 🧩 Import
 
 ```ts
-import { InputComponent } from '@waw/input';
+import { InputComponent } from '@libs/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -43,13 +43,13 @@ export class DemoComponent {}
 
 ## 🧪 Usage Examples
 
-### 1️⃣ Template-Driven Form (`ngModel`)
+### 1️⃣ Template-Driven Form
 
 ```html
 <winput type="password" [(wModel)]="submission.password"></winput>
 ```
 
-### 2️⃣ Reactive Form (`FormControl`)
+### 2️⃣ Reactive Form
 
 ```ts
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -66,7 +66,7 @@ form = new FormGroup({
 <winput type="password" [control]="form.get('password')"></winput>
 ```
 
-### 3️⃣ WAW Virtual Form
+### 3️⃣ Virtual Form
 
 ```html
 <winput type="password" wFormId="submission" wFormKey="password"></winput>
@@ -91,8 +91,8 @@ form = new FormGroup({
 | `name`         | `string`                            | `'name'`     | Control name (radio grouping).                                                           |
 | `wClass`       | `string`                            | `''`         | Extra CSS classes to apply to the field.                                                 |
 | `autocomplete` | `string`                            | _(auto)_     | If not set and `type='password'`, defaults to `'current-password'`; otherwise untouched. |
-| `wFormId`      | `string`                            | `''`         | (WAW) Virtual form identifier.                                                           |
-| `wFormKey`     | `string`                            | `''`         | (WAW) Virtual form field key.                                                            |
+| `wFormId`      | `string`                            | `''`         | Virtual form identifier.                                                                 |
+| `wFormKey`     | `string`                            | `''`         | Virtual form field key.                                                                  |
 
 > Binding priority (highest → lowest): `control` → `wModel` → `value`.
 

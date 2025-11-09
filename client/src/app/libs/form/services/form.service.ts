@@ -1,78 +1,59 @@
 import {
 	ApplicationRef,
-	Injectable,
-	TemplateRef,
-	Type,
 	createComponent,
 	effect,
 	inject,
+	Injectable,
+	TemplateRef,
+	Type,
 } from '@angular/core';
 import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { environment } from 'src/environments/environment';
 import { EmitterService, Modal, ModalService, StoreService } from 'wacom';
-import {
-	FormComponentInterface,
-	TemplateFieldInterface,
-} from '../interfaces/component.interface';
+
+import { FormComponentInterface } from '../interfaces/component.interface';
 import { FormInterface } from '../interfaces/form.interface';
 import { ModalFormComponent } from '../modals/modal-form/modal-form.component';
 import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.component';
 
+// 🔗 Virtual manager (new)
+import {
+	required,
+	VirtualFormFieldValue,
+	VirtualFormService,
+} from 'src/app/virtual-form.service';
+
 export interface FormModalButton {
 	click: (submition: unknown, close: () => void) => void;
-	/** Label for the button */
 	label: string;
-	/** CSS class for the button (optional) */
 	class?: string;
 }
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class FormService {
 	private _translate = inject(TranslateService);
 	private appRef = inject(ApplicationRef);
 	private _modal = inject(ModalService);
 	private _store = inject(StoreService);
+	private _emitterService = inject(EmitterService);
+
+	// Virtual manager
+	private _vform = inject(VirtualFormService);
 
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
 
 	constructor() {
-		/** Load form IDs from the store */
+		// restore known form IDs
 		this._store.getJson('formIds', (formIds: unknown) => {
-			if (Array.isArray(formIds)) {
-				this.formIds.push(...formIds);
-			}
+			if (Array.isArray(formIds)) this.formIds.push(...formIds);
 		});
 	}
 
-	templateFields: Record<string, string[]> = {};
-
-	getTemplateFields(name: string): string[] {
-		return this.templateFields[name] || ['Placeholder', 'Label'];
-	}
-
-	setTemplateFields(
-		name: string,
-		fields: string[],
-		customFields: Record<string, string> = {},
-	): void {
-		this.templateFields[name] = fields;
-
-		this.customTemplateFields[name] = {
-			...(this.customTemplateFields[name] || {}),
-			...customFields,
-		};
-	}
-
-	customTemplateFields: Record<string, Record<string, string>> = {};
-
-	getCustomTemplateFields(name: string): Record<string, string> {
-		return this.customTemplateFields[name] || {};
-	}
-
+	/* --------------------------------------------------------------------------------------
+	   Template registry (name -> <ng-template>).
+	   -------------------------------------------------------------------------------------- */
 	private _templateComponent: Record<string, TemplateRef<unknown>> = {};
 
 	addTemplateComponent<T>(name: string, template: TemplateRef<T>): void {
@@ -86,152 +67,181 @@ export class FormService {
 	}
 
 	getTemplateComponentsNames(): string[] {
-		const names = [];
-
-		for (const name in this._templateComponent) {
-			names.push(name);
-		}
-
-		return names;
+		return Object.keys(this._templateComponent);
 	}
 
-	/** Translates the form title and its components' fields */
+	/* --------------------------------------------------------------------------------------
+	   (Legacy helper API) “template fields” – kept for compatibility with older code paths.
+	   With the new schema, prefer component.props over fields[].
+	   -------------------------------------------------------------------------------------- */
+	templateFields: Record<string, string[]> = {};
+	customTemplateFields: Record<string, Record<string, string>> = {};
+
+	getTemplateFields(name: string): string[] {
+		return this.templateFields[name] || ['Placeholder', 'Label'];
+	}
+
+	setTemplateFields(
+		name: string,
+		fields: string[],
+		customFields: Record<string, string> = {},
+	): void {
+		this.templateFields[name] = fields;
+		this.customTemplateFields[name] = {
+			...(this.customTemplateFields[name] || {}),
+			...customFields,
+		};
+	}
+
+	getCustomTemplateFields(name: string): Record<string, string> {
+		return this.customTemplateFields[name] || {};
+	}
+
+	/* --------------------------------------------------------------------------------------
+	   Translation helpers (updated to props-first, recursive, string-only).
+	   -------------------------------------------------------------------------------------- */
 	translateForm(form: FormInterface): void {
 		if (form.title) {
-			const title = this._translate.translate(`${form.title}`);
+			const titleSig = this._translate.translate(`${form.title}`);
+			effect(() => (form.title = titleSig()));
+		}
+		this._translateComponents(form.components);
+	}
 
-			effect(() => {
-				form.title = title();
-			});
-
-			for (const component of form.components) {
-				for (const field of component.fields || []) {
-					this.translateFormComponent(field);
+	private _translateComponents(list: FormComponentInterface[] = []) {
+		for (const c of list) {
+			// translate string props (Label, Placeholder, items, etc.)
+			if (c.props) {
+				for (const [k, v] of Object.entries(c.props)) {
+					if (typeof v === 'string') {
+						const ts = this._translate.translate(`${v}`);
+						effect(() => (c.props![k] = ts()));
+					} else if (Array.isArray(v)) {
+						// translate arrays of strings
+						const arr = v as unknown[];
+						arr.forEach((item, i) => {
+							if (typeof item === 'string') {
+								const ts = this._translate.translate(`${item}`);
+								effect(() => ((arr[i] as any) = ts()));
+							}
+						});
+					}
 				}
+			}
+			if (Array.isArray(c.components) && c.components.length) {
+				this._translateComponents(c.components);
 			}
 		}
 	}
 
-	/** Translates individual form components' fields */
-	translateFormComponent(field: TemplateFieldInterface): void {
-		const fieldValue = field.value;
-
-		if (typeof fieldValue === 'string' && !field.skipTranslation) {
-			field.value = this._translate.translate(`${fieldValue}`)();
-
-			// TODO implement effect which will update field on translate change
-		}
-	}
-
-	/** List of forms managed by the service */
+	/* --------------------------------------------------------------------------------------
+	   Public state
+	   -------------------------------------------------------------------------------------- */
 	forms: FormInterface[] = [];
-
-	/** List of form IDs managed by the service */
 	formIds: string[] = [];
 
-	/** Creates a default form with specified components */
+	/* --------------------------------------------------------------------------------------
+	   Defaults / builders (now using props instead of fields)
+	   -------------------------------------------------------------------------------------- */
 	getDefaultForm(
-		formIds: string,
-		components = ['name', 'description'],
+		formId: string,
+		keys = ['name', 'description'],
 	): FormInterface {
-		if (this.formIds.indexOf(formIds) === -1) {
-			this.formIds.push(formIds);
+		this._rememberFormId(formId);
 
-			this._store.setJson('formIds', this.formIds);
-		}
+		const components: FormComponentInterface[] = keys.map((fullKey, i) => {
+			const base = fullKey.includes('.') ? fullKey.split('.')[1] : 'Text';
+			const label = (fullKey.split('.')[0] || fullKey).replace(
+				/\[\]|\[\d+\]/g,
+				'',
+			);
 
-		const form = {
-			formIds,
-			components: components.map((key, index) => {
-				const name = key.includes('.') ? key.split('.')[1] : 'Text';
+			return {
+				name: base,
+				key: fullKey,
+				focused: i === 0,
+				props: {
+					Placeholder: `Enter your ${label}`,
+					Label: label.charAt(0).toUpperCase() + label.slice(1),
+				},
+			};
+		});
 
-				return {
-					name,
-					key,
-					focused: !index,
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'Enter your ' + key.split('.')[0],
-						},
-						{
-							name: 'Label',
-							value: key.split('.')[0].capitalize(),
-						},
-					],
-				};
-			}),
-		};
-
-		return form;
+		return { formId, components };
 	}
 
-	/** Prepare form component */
 	prepareForm(form: FormInterface): FormInterface {
-		const formId = form.formId + '';
-
-		if (this.formIds.indexOf(formId) === -1) {
-			this.formIds.push(formId);
-
-			this._store.setJson('formIds', this.formIds);
-		}
+		const formId = `${form.formId ?? ''}`;
+		this._rememberFormId(formId);
 
 		form = form || this.getDefaultForm(formId);
-
 		form.formId = formId;
 
 		this._emitterService.onComplete('form_loaded').subscribe(() => {
-			// const customForms = this._cfs.customforms.filter(
-			// 	(f) => f.active && f.formId === form.formId,
-			// );
-
-			// for (const customForm of customForms) {
-			// 	form.title = form.title || customForm.name;
-
-			// 	form.class = form.class || customForm.class;
-
-			// 	for (const component of customForm.components) {
-			// 		component.key = component.key?.startsWith('data.')
-			// 			? component.key
-			// 			: 'data.' + component.key;
-
-			// 		form.components.push(component);
-			// 	}
-			// }
-
 			this.translateForm(form);
-
 			this._addFormComponents(form.components);
+			// ensure virtual manager is in sync (idempotent)
+			this.ensureVirtualForm(form);
 		});
 
+		this.translateForm(form);
 		this._addFormComponents(form.components);
+		this.ensureVirtualForm(form);
 
 		return form;
 	}
 
-	getForm(formId: string, form?: FormInterface): FormInterface {
-		console.warn('This function is deprecated');
+	/** Ensures virtual form exists & fields are registered from schema. */
+	ensureVirtualForm(
+		form: FormInterface,
+		initial?: Record<string, any>,
+	): void {
+		const id = (form.formId as string) || crypto.randomUUID();
+		this._vform.getForm(id);
 
-		this.prepareForm(
-			form ||
-				this.forms.find((f) => f.formId === formId) ||
-				this.getDefaultForm(formId),
-		);
+		const walk = (nodes: FormComponentInterface[] = []) => {
+			for (const n of nodes) {
+				if (n.components?.length) {
+					walk(n.components);
+					continue;
+				}
+				if (!n.key) continue;
 
-		return form as FormInterface;
+				const init: VirtualFormFieldValue =
+					(initial || {})[n.key] ?? null;
+
+				const composed = [
+					n.props && (n.props as any).Required ? required() : null,
+					...(n.validators || []),
+				].filter(Boolean);
+
+				this._vform.registerField(id, n.key, init, composed as any);
+			}
+		};
+		walk(form.components);
+
+		if (initial && Object.keys(initial).length) {
+			this._vform.patch(id, initial);
+		}
 	}
 
-	/** Shows a modal form with specified options */
+	/* --------------------------------------------------------------------------------------
+	   Modal helpers (wire virtual manager automatically)
+	   -------------------------------------------------------------------------------------- */
+
 	modal<T>(
 		form: FormInterface | FormInterface[],
 		buttons: FormModalButton | FormModalButton[] = [],
 		submition: unknown = { data: {} },
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		change: (update: T) => void | Promise<(update: T) => void> = (
-			update: T,
+			_u: T,
 		): void => {},
 		modalOptions: unknown = {},
 	): Promise<T> {
+		// Ensure virtual forms ready before open
+		const forms = Array.isArray(form) ? form : [form];
+		forms.forEach((f) => this.ensureVirtualForm(f, submition as any));
+
 		return new Promise((resolve) => {
 			this._modal.show({
 				...(modalOptions as Modal),
@@ -241,22 +251,15 @@ export class FormService {
 				form,
 				modalButtons: Array.isArray(buttons) ? buttons : [buttons],
 				submition,
-				onClose: function () {
-					resolve(submition as T);
-				},
-				submit: (update: T) => {
-					resolve(update);
-				},
+				onClose: () => resolve(submition as T),
+				submit: (update: T) => resolve(update),
 				change: (update: T) => {
-					if (typeof change === 'function') {
-						change(update);
-					}
+					if (typeof change === 'function') change(update);
 				},
 			});
 		});
 	}
 
-	/** Shows a modal form with docs in ace editor */
 	modalDocs<T>(docs: T[]): Promise<T[]> {
 		return new Promise((resolve) => {
 			const submition = {
@@ -274,34 +277,26 @@ export class FormService {
 						{
 							name: 'Code',
 							key: 'docs',
-							fields: [
-								{
-									name: 'Placeholder',
-									value: 'fill content of documents',
-								},
-							],
+							props: { Placeholder: 'fill content of documents' },
 						},
 					],
 				},
-				onClose: function () {
-					const docs: T[] = submition.docs
+				onClose: () => {
+					const out: T[] = submition.docs
 						? JSON.parse(submition.docs)
 						: [];
-
-					resolve(docs);
+					resolve(out);
 				},
 				submit: () => {
-					const docs: T[] = submition.docs
+					const out: T[] = submition.docs
 						? JSON.parse(submition.docs)
 						: [];
-
-					resolve(docs);
+					resolve(out);
 				},
 			});
 		});
 	}
 
-	/** Shows a modal with a unique component */
 	modalUnique<T>(
 		module: string,
 		field: string,
@@ -309,11 +304,14 @@ export class FormService {
 		component: string = '',
 		onClose: () => void | Promise<() => void> = (): void => {},
 	): void {
+		const form = this.getDefaultForm('unique', [
+			field + (component ? '.' + component : ''),
+		]);
+		this.ensureVirtualForm(form, doc as any);
+
 		this._modal.show({
 			component: ModalUniqueComponent,
-			form: this.getDefaultForm('unique', [
-				field + (component ? '.' + component : ''),
-			]),
+			form,
 			module,
 			field,
 			doc,
@@ -322,95 +320,84 @@ export class FormService {
 		});
 	}
 
+	/* --------------------------------------------------------------------------------------
+	   Schema utilities (updated to props)
+	   -------------------------------------------------------------------------------------- */
+
 	getComponent(form: FormInterface, key: string): FormComponentInterface {
-		return (
-			this._getComponent(form.components, key) ||
-			({} as FormComponentInterface)
-		);
+		return this._getComponent(form.components, key) || ({} as any);
 	}
 
-	getField(
+	getProp<T = unknown>(
 		form: FormInterface,
 		key: string,
-		name: string,
-	): TemplateFieldInterface | null {
-		const component = this.getComponent(form, key);
-
-		if (!component) {
-			return null;
-		}
-
-		for (const field of component?.fields || []) {
-			if (field.name === name) {
-				return field;
-			}
-		}
-
-		return null;
+		prop: string,
+	): T | null {
+		const comp = this.getComponent(form, key);
+		return (comp?.props?.[prop] as T) ?? null;
 	}
 
-	setValue(
+	setProp(
 		form: FormInterface,
 		key: string,
-		name: string,
+		prop: string,
 		value: unknown,
 	): void {
-		const field = this.getField(form, key, name);
+		const comp = this.getComponent(form, key);
+		if (!comp) return;
 
-		if (field) {
-			field.value = value;
+		comp.props = comp.props || {};
+		comp.props[prop] = value;
 
-			const component = this.getComponent(form, key);
-
-			component?.resetFields?.();
-		}
+		// let template see latest snapshot (old resetFields analogue no longer needed)
 	}
-
-	private _emitterService = inject(EmitterService);
 
 	private _getComponent(
 		components: FormComponentInterface[],
 		key: string,
 	): FormComponentInterface | null {
-		for (const component of components) {
-			if (component.key === key) {
-				return component;
-			} else if (component.components) {
-				const comp = this._getComponent(component.components, key);
-
-				if (comp) {
-					return comp;
-				}
+		for (const component of components || []) {
+			if (component.key === key) return component;
+			if (component.components?.length) {
+				const found = this._getComponent(component.components, key);
+				if (found) return found;
 			}
 		}
-
 		return null;
 	}
+
+	/* --------------------------------------------------------------------------------------
+	   Internal helpers
+	   -------------------------------------------------------------------------------------- */
 
 	private _addedFormComponent: Record<string, boolean> = {};
 
 	private async _addFormComponents(components: FormComponentInterface[]) {
-		// TODO we have spot where components are undefined
-		// console.trace(components, this);
-
-		for (const component of components || []) {
-			if (component.name) this._addFormComponent(component.name);
+		for (const c of components || []) {
+			if (c.name) await this._addFormComponent(c.name);
+			if (c.components?.length)
+				await this._addFormComponents(c.components);
 		}
 	}
 
 	private async _addFormComponent(name: string) {
 		const component = (FORM_COMPONENTS as Record<string, Type<any>>)[name];
-
 		if (component && !this._addedFormComponent[name]) {
 			this._addedFormComponent[name] = true;
 
 			const compRef = createComponent(component, {
 				environmentInjector: this.appRef.injector,
 			});
-
 			this.appRef.attachView(compRef.hostView);
-
 			(compRef.hostView as any).detectChanges?.();
+		}
+	}
+
+	private _rememberFormId(formId: string) {
+		if (!formId) return;
+		if (!this.formIds.includes(formId)) {
+			this.formIds.push(formId);
+			this._store.setJson('formIds', this.formIds);
 		}
 	}
 }

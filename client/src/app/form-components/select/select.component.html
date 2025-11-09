@@ -1,16 +1,14 @@
 <ng-template #templateRef let-data>
-	<wselect
-		[value]="data.submition[data.key]"
-		(wChange)="
-			data.submition[data.key] = $event;
-			data.wChange()
-		"
-		[multiple]="data.field.Multiple || false"
-		[placeholder]="data.field.Placeholder"
-		[bindValue]="data.field.Value || '_id'"
-		[bindLabel]="data.field.Name || 'name'"
-		[ngClass]="data.component.class"
-		[items]="data.field.Items"
-		[searchable]="true"
-	/>
+    <wselect
+        [formId]="data.wFormId"
+        [formKey]="data.wFormKey"
+        [multiple]="data.props?.Multiple || false"
+        [placeholder]="data.props?.Placeholder"
+        [bindValue]="data.props?.Value || '_id'"
+        [bindLabel]="data.props?.Name || 'name'"
+        [ngClass]="data.component.class"
+        [items]="data.props?.Items"
+        [searchable]="true"
+        (wChange)="data.wChange()"
+    />
 </ng-template>

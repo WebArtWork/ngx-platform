@@ -1,39 +1,37 @@
-@if (hasComponents) {
-<div class="form-components-container" [class]="component.class || ''">
-	@for (comp of component.components; track comp; let i = $index) { @if
-	(!this.component.hidden) {
+@if (hasChildren()) {
+<div class="wformc {{ component().class || '' }}">
+	@for (child of component().components; track child; let i = $index) { @if
+	(!child.hidden) {
 	<form-component
-		[class]="config.formId + '_' + index+'_'+i + ' ' +(component.class || '')"
-		class="w-forms__component"
-		[component]="comp"
-		[submition]="this.submition"
-		[config]="this.config"
-		(wSubmit)="this.wSubmit.emit(this.submition)"
-		(wChange)="this.wChange.emit()"
-		(wClick)="this.wClick.emit()"
-		[index]="index+'_'+i"
-	></form-component>
+		class="wformc__item {{ config().formId }} {{ config().formId + '_' + index() + '_' + i }} {{ child.class || '' }}"
+		[component]="child"
+		[config]="config()"
+		[submition]="submition()"
+		(wSubmit)="wSubmit.emit(submition())"
+		(wChange)="wChange.emit()"
+		(wClick)="wClick.emit()"
+		[index]="index() + '_' + i"
+	/>
 	} }
 </div>
-} @if (component.name && template && (!component.key || localKey &&
-localSubmition)) {
-<div class="form-container">
+} @else if (component().name && template() && effectiveKey()) {
+<div class="wformc">
 	<ng-container
 		*ngTemplateOutlet="
-				template;
-				context: {
-					$implicit: {
-						field: field,
-						config: config,
-						component: component,
-						key: localKey,
-						submition: localSubmition,
-						wSubmit: submit.bind(this),
-						wChange: change.bind(this),
-						wClick: click.bind(this)
-					}
+			template();
+			context: {
+				$implicit: {
+					props: component().props || {},
+					config: config(),
+					component: component(),
+					wFormId: config().formId,
+					wFormKey: effectiveKey(),
+					wSubmit: submit.bind(this),
+					wChange: change.bind(this),
+					wClick: click.bind(this)
 				}
-			"
-	></ng-container>
+			}
+		"
+	/>
 </div>
 }

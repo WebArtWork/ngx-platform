@@ -1,34 +1,41 @@
-import { Component, inject } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	inject,
+	input,
+} from '@angular/core';
 import { HttpService } from 'wacom';
 import { FormComponent } from '../../components/form/form.component';
 import { FormInterface } from '../../interfaces/form.interface';
 
 @Component({
-	selector: 'app-modal-unique',
 	templateUrl: './modal-unique.component.html',
 	styleUrls: ['./modal-unique.component.scss'],
 	imports: [FormComponent],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalUniqueComponent {
 	private _http = inject(HttpService);
-	form: FormInterface;
-	module: string;
-	field: string;
-	name: string;
-	// eslint-disable-next-line
-	doc: any;
+
+	// Provided by ModalService at open-time
+	readonly form = input.required<FormInterface>();
+	readonly module = input.required<string>();
+	readonly field = input.required<string>();
+	readonly doc = input.required<Record<string, unknown>>();
+
 	get getDoc(): Record<string, unknown> {
-		return this.doc as Record<string, unknown>;
+		return this.doc();
 	}
+
 	change(): void {
 		this._http
 			.post(
-				'/api/' + this.module + '/unique' + (this.field || ''),
-				this.doc,
+				`/api/${this.module()}/unique${this.field() || ''}`,
+				this.doc(),
 			)
 			.subscribe((resp: string) => {
-				if (this.doc[this.field] !== resp) {
-					this.doc[this.field] = resp;
+				if (this.doc()[this.field()] !== resp) {
+					this.doc()[this.field()] = resp;
 				}
 			});
 	}

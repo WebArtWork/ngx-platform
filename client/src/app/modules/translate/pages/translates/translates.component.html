@@ -1,8 +1,8 @@
 <language-selector
-	(wChange)="languageService.setLanguageId($event + '')"
-	[value]="languageService.language()?._id"
+	[wModel]="languageService.language()?._id"
+	(wChange)="languageService.setLanguageId(($event ?? '') + '')"
 	[clearable]="false"
-	[mutatable]="true"
+	[isMutatable]="true"
 />
 
 <wtable
@@ -11,6 +11,8 @@
 	[config]="config"
 	title="Translates"
 >
-	<ng-template cell="phrase" let-data>{{data.text}}</ng-template>
-	<ng-template cell="translation" let-data>{{data.text}}</ng-template>
+	<ng-template cell="phrase" let-data>{{ data.text }}</ng-template>
+	<ng-template cell="translation" let-data
+		>{{ data.translation }}</ng-template
+	>
 </wtable>

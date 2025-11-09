@@ -1,45 +1,39 @@
-@let _showOptions = showOptions(); @let _placeholder = placeholder(); @let
-_label = label(); @let _activeValue = activeValue(); @let _activeValues =
-activeValues(); @let _multiple = multiple(); @let _searchable = searchable();
-@let _allItems = allItems(); @let _searchableBy = searchableBy(); @let _search =
-search();
+@let _show = showOptions(); @let _ph = placeholder(); @let _label = label();
+@let _isMulti = isMulti(); @let _ids = selectedIds(); @let _id = selectedId();
+@let _searchable = searchable(); @let _all = allItems(); @let _searchBy =
+searchableBy(); @let _q = search();
 
-<div
-	(clickOutside)="toggleOptions(false)"
-	style="color: black"
-	class="w-select"
->
-	<!-- Label for the select field -->
+<div (clickOutside)="toggleOptions(false)" class="wselect">
 	@if (_label) {
-	<div class="w-select__label">{{ (_label | translate)() }}</div>
+	<div class="wselect__label">{{ (_label | translate)() }}</div>
 	}
 
-	<!-- Select body containing the selected item(s) and dropdown -->
 	<div
-		[class._disabled]="disabled()"
-		[class._active]="_showOptions"
-		class="w-select__body"
+		class="wselect__body"
+		[class._disabled]="isDisabled()"
+		[class._active]="_show"
 	>
-		<!-- Select header with the selected item(s) -->
-		<div (click)="toggleOptions()" class="w-select__header">
+		<!-- header -->
+		<div class="wselect__header" (click)="toggleOptions()">
 			<span class="material-icons">unfold_more</span>
-			<!-- Display the selected items -->
+
 			<ng-container
 				[ngTemplateOutlet]="t_view() ? t_view() : defaultView"
-			></ng-container>
+			>
+			</ng-container>
+
 			<ng-template #defaultView>
-				<div class="w-select__text">
-					@if (_multiple) {
+				<div class="wselect__text">
+					@if (_isMulti) {
 					<div class="text-overflow">
-						@if (!_activeValues.length) {
-						<div>{{ (_placeholder | translate)() }}</div>
-						} @for (id of _activeValues; track id; let i = $index) {
+						@if (!_ids.length) {
+						<div>{{ (_ph | translate)() }}</div>
+						} @for (sid of _ids; track sid; let i = $index) {
 						<span>
-							@if (i && allItem[id]) {
-							<span>, </span>
-							} @if (allItem[id]) {
-							<span
-								>{{ (allItem[id] | translate)() }}
+							@if (i && allItem[sid]) { <span>, </span> } @if
+							(allItem[sid]) {
+							<span>
+								{{ (allItem[sid] | translate)() }}
 								<i
 									class="material-icons avatar__icon"
 									(click)="removeItem(i)"
@@ -52,79 +46,74 @@ search();
 					</div>
 					} @else {
 					<div class="text-overflow">
-						{{ ((_activeValue ? allItem[_activeValue] :
-						_placeholder) | translate)() }}
+						{{ ((_id ? allItem[_id] : _ph) | translate)() }}
 					</div>
 					}
 				</div>
 			</ng-template>
 		</div>
 
-		<!-- Clearable icon -->
-		@if (clearable() && (_multiple ? _activeValues.length : _activeValue)) {
-		<div class="w-select__arrow material-icons" (click)="clear()">
-			close
-		</div>
+		<!-- clear -->
+		@if (clearable() && (_isMulti ? _ids.length : _id)) {
+		<div class="wselect__arrow material-icons" (click)="clear()">close</div>
 		}
 
-		<!-- Dropdown arrow -->
+		<!-- dropdown caret -->
 		<div
-			class="w-select__arrow material-icons"
-			[class._active]="_showOptions"
+			class="wselect__arrow material-icons"
+			[class._active]="_show"
 			(click)="toggleOptions()"
 		>
 			expand_more
 		</div>
 
+		<!-- extra buttons -->
 		@for (button of buttons() || []; track button.icon || button.text) { @if
 		(button.icon) {
-		<i class="material-icons" (click)="button.click()">{{button.icon}}</i>
+		<i class="material-icons" (click)="button.click()">{{ button.icon }}</i>
 		} @else if (button.text) {
-		<span (click)="button.click()">{{button.text}}</span>
+		<span (click)="button.click()">{{ button.text }}</span>
 		} }
 
-		<!-- Dropdown menu -->
-		@if (_showOptions) {
-		<div [class._search]="_searchable" class="w-select__popup">
+		<!-- dropdown -->
+		@if (_show) {
+		<div class="wselect__popup" [class._search]="_searchable">
 			@if (_searchable) {
 			<div>
 				<ng-container
 					[ngTemplateOutlet]="t_search() ? t_search() : defaultSearch"
-				></ng-container>
+				>
+				</ng-container>
 				<ng-template #defaultSearch>
 					<winput
 						placeholder="{{ ('Enter search text...' | translate)() }}"
-						(wChange)="search.set($event + '')"
+						(wChange)="search.set(($event ?? '') + '')"
 						[focused]="true"
 					/>
 				</ng-template>
 			</div>
 			}
 
-			<!-- Items list -->
 			<div class="popup-block">
-				@for (item of (_allItems | search: _search: _searchableBy + '
-				__search'); track item().id) {
+				@for (item of (_all | search: _q: _searchBy + ' __search');
+				track item().id) {
 				<ng-container
 					[ngTemplateOutlet]="t_item() ? t_item() : defaultItem"
 					[ngTemplateOutletContext]="{ item: item }"
-				></ng-container>
-				} @if (!(_allItems | search: _search: _searchableBy + '
-				__search')?.length) {
+				/>
+				} @if (!(_all | search: _q: _searchBy + ' __search')?.length) {
 				<div class="popup-block__empty-search" translate>
 					Nothing was found
 				</div>
 				}
 			</div>
 
-			<!-- Item view -->
 			<ng-template #defaultItem let-item="item">
-				<div (click)="selectOption(item())" class="item">
+				<div class="item" (click)="selectOption(item())">
 					@let id = item().id;
-
 					<div
-						[class.selected]="_multiple ? _activeValues.includes(id) : false"
 						class="item__text"
+						[class.selected]="_isMulti ? _ids.includes(id) : false"
 					>
 						@if (item()[bindLabel()]) { {{ (item()[bindLabel()] |
 						translate)() }} } @else { {{ ('Unknown item' |

@@ -16,8 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { StoreService } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
+import { SearchPipe } from '../../search.pipe';
 import { ButtonComponent } from '../button/button.component';
-import { SearchPipe } from '../select/search.pipe';
 import { PerPagePipe } from './per-page.pipe';
 import {
 	ActionsDirective,

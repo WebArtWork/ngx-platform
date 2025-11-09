@@ -1,11 +1,9 @@
+export type SelectPrimitive = string | number | boolean;
+
 export type SelectValue =
 	| undefined
 	| null
-	| string
-	| number
-	| boolean
-	| string[]
-	| number[]
-	| boolean[];
+	| SelectPrimitive
+	| SelectPrimitive[]; // allow (string|number|boolean)[]
 
 export type SelectId = string | number;

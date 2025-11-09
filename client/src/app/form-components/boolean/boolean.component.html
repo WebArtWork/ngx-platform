@@ -1,14 +1,12 @@
 <ng-template #templateRef let-data>
-	<winput
-		[value]="data.submition[data.key]"
-		(wChange)="
-			data.submition[data.key] = $event;
-			data.wChange()
-		"
-		[name]="data.field.Label || 'name'"
-		[focused]="data.component.focused"
-		[ngClass]="data.component.class"
-		[label]="data.field.Label"
-		type="checkbox"
-	/>
+    <winput
+        [formId]="data.wFormId"
+        [formKey]="data.wFormKey"
+        type="checkbox"
+        [label]="data.props?.Label"
+        [name]="data.props?.Label || 'boolean'"
+        [focused]="data.component.focused"
+        [ngClass]="data.component.class"
+        (wChange)="data.wChange()"
+    />
 </ng-template>
