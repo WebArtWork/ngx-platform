@@ -31,22 +31,23 @@ interface ChangePassword {
 })
 export class ProfileComponent {
 	userService = inject(UserService);
-
 	readonly url = environment.url;
+
+	private _formService = inject(FormService);
+	private _coreService = inject(CoreService);
+	private _emitterService = inject(EmitterService);
+	private _cdr = inject(ChangeDetectorRef);
+
+	user: Record<string, unknown>;
 
 	constructor() {
 		this._emitterService.onComplete('us.user').subscribe(() => {
-			const user = {};
-
+			const user: any = {};
 			this._coreService.copy(this.userService.user(), user);
-
 			this.user = user;
-
 			this._cdr.detectChanges();
 		});
 	}
-
-	private _formService = inject(FormService);
 
 	formUser = this._formService.prepareForm({
 		formId: 'user',
@@ -108,11 +109,8 @@ export class ProfileComponent {
 		],
 	});
 
-	user: Record<string, unknown>;
-
 	update() {
 		this._coreService.copy(this.user, this.userService.user);
-
 		this.userService.updateMe();
 	}
 
@@ -124,7 +122,6 @@ export class ProfileComponent {
 					(submition as ChangePassword).oldPass,
 					(submition as ChangePassword).newPass,
 				);
-
 				close();
 			},
 		});
@@ -133,16 +130,8 @@ export class ProfileComponent {
 	updateThumb(thumb: string | string[]) {
 		this.userService.user.update((user) => {
 			user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
-
 			return user;
 		});
-
 		this.userService.updateMe();
 	}
-
-	private _coreService = inject(CoreService);
-
-	private _emitterService = inject(EmitterService);
-
-	private _cdr = inject(ChangeDetectorRef);
 }

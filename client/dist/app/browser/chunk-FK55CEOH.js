@@ -1,0 +1,1 @@
+import{Ib as r,X as n,na as i}from"./chunk-H5N67KS5.js";import"./chunk-2VMXMS7J.js";var a=(()=>{let e=class e{};e.\u0275fac=function(o){return new(o||e)},e.\u0275cmp=n({type:e,selectors:[["ng-component"]],decls:1,vars:0,template:function(o,p){o&1&&i(0,"router-outlet")},dependencies:[r],encapsulation:2});let t=e;return t})();export{a as GuestComponent};

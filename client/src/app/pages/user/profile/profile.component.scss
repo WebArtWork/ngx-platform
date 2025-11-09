@@ -1,18 +1,17 @@
 @use 'src/scss/utils/mixins' as mixins;
 @use 'src/scss/utils/media' as media;
 @use 'src/scss/utils/vars' as vars;
+
 :host {
 	width: 100%;
 
 	wcard {
 		width: 100%;
-		// padding: 20px 260px 0px 20px;
 		transition: all 0.3s;
 		display: block;
 	}
 }
 
-/*  PROFILE STYLE  */
 .profile-wrapper {
 	padding: unset;
 

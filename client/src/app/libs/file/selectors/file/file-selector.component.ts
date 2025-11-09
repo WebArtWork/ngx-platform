@@ -1,35 +1,21 @@
-import {
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	Output,
-	SimpleChanges,
-	inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, inject, Signal } from '@angular/core';
 import { SelectComponent } from 'src/app/libs/select/select.component';
-import { File } from '../../interfaces/file.interface';
+import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { FileService } from '../../services/file.service';
+import { File } from '../../interfaces/file.interface';
 
 @Component({
-	selector: 'file-selector',
-	templateUrl: './file-selector.component.html',
-	imports: [SelectComponent],
+  selector: 'file-selector',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SelectComponent, TranslatePipe],
+  templateUrl: './file-selector.component.html',
 })
-export class FileSelectorComponent implements OnChanges {
-	private _fileService = inject(FileService);
+export class FileSelectorComponent {
+  private _files = inject(FileService);
 
-	@Input() value: string;
+  readonly wModel = input<string | null>(null, { alias: 'wModel' });
+  readonly wChange = output<string | null>();
 
-	@Output() wChange = new EventEmitter();
-
-	get items(): File[] {
-		return this._fileService.files;
-	}
-
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['value'] && !changes['value'].firstChange) {
-			this.value = changes['value'].currentValue;
-		}
-	}
+  readonly items: Signal<File[]> = this._files.getDocs();
 }

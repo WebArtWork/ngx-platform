@@ -1,181 +1,216 @@
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
+	ChangeDetectionStrategy,
 	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges,
+	TemplateRef,
+	computed,
+	effect,
+	forwardRef,
 	inject,
+	input,
+	model,
+	output,
 } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { HttpService, ModalService } from 'wacom';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
+import { VirtualFormService } from 'src/app/virtual-form.service';
+import { ModalService } from 'wacom';
+import { FileService } from '../../services/file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
-import { FileService } from './../../services/file.service';
 
-/**
- * The FileComponent is responsible for handling file uploads, primarily images,
- * but can also handle other file types. It includes options for cropping and
- * multiple file uploads.
- */
+export type WFileValue = string | string[] | null;
+
 @Component({
 	selector: 'ngx-file',
+	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [NgTemplateOutlet, TranslatePipe],
 	templateUrl: './file.component.html',
-	styleUrls: ['./file.component.scss'],
-	imports: [CommonModule],
+	styleUrl: './file.component.scss',
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: forwardRef(() => FileComponent),
+			multi: true,
+		},
+	],
 })
-export class FileComponent implements OnInit, OnChanges {
+export class FileComponent implements ControlValueAccessor {
+	/* UI props */
+	readonly label = input<string>('');
+	readonly placeholder = input<string>('Select file');
+	readonly disabled = input<boolean>(false);
+	readonly clearable = input<boolean>(true);
+	readonly accept = input<string>('*/*');
+	readonly multiple = input<boolean>(false);
+	readonly preview = input<boolean>(true);
+
+	/* Crop */
+	readonly cropWidth = input<number | null>(null);
+	readonly cropHeight = input<number | null>(null);
+
+	/* Custom templates */
+	readonly t_item = input<TemplateRef<any>>();
+	readonly t_empty = input<TemplateRef<any>>();
+
+	/* Virtual Form */
+	readonly formId = input<string | null>(null);
+	readonly formKey = input<string | null>(null);
+
+	/* Back-compat upload routing */
+	readonly container = input<string>('general');
+	readonly name = input<string>('');
+
+	/* Model */
+	readonly wModel = model<WFileValue>(null, { alias: 'wModel' });
+	readonly wChange = output<WFileValue>();
+
+	private _vf = inject(VirtualFormService);
 	private _modal = inject(ModalService);
-	private _http = inject(HttpService);
 	private _fs = inject(FileService);
 
-	readonly url = environment.url;
+	private _onChange: (v: any) => void = () => {};
+	private _onTouched: () => void = () => {};
+	private _disabledCva = false;
 
-	/**
-	 * The container where the file will be stored (default: 'general').
-	 */
-	@Input() container = 'general';
+	readonly isDisabled = computed(() => this.disabled() || this._disabledCva);
+	readonly files = computed<string[]>(() => {
+		const v = this.wModel();
+		return Array.isArray(v) ? (v as string[]) : v ? [v as string] : [];
+	});
 
-	/**
-	 * The name of the file.
-	 */
-	@Input() name = '';
+	constructor() {
+		// VF → model
+		let syncing = false;
+		effect(() => {
+			const id = this.formId();
+			const key = this.formKey();
+			if (!id || !key) return;
+			this._vf.registerField(id, key, null, []);
+			const vfVal = this._vf.getValues(id)[key] ?? null;
+			if (!syncing && !this._equal(vfVal, this.wModel())) {
+				syncing = true;
+				this.wModel.set(vfVal as WFileValue);
+				syncing = false;
+			}
+		});
 
-	/**
-	 * Error message for handling errors.
-	 */
-	@Input() err = '';
+		// model → VF
+		effect(() => {
+			const id = this.formId();
+			const key = this.formKey();
+			if (!id || !key) return;
+			const val = this.wModel();
+			if (!this._equal(this._vf.getValues(id)[key], val)) {
+				this._vf.setValue(id, key, (val ?? null) as WFileValue);
+			}
+		});
 
-	/**
-	 * Label for the file input.
-	 */
-	@Input() label = '';
-
-	/**
-	 * Custom CSS class for styling.
-	 */
-	@Input() class = '';
-
-	/**
-	 * Style object for the image.
-	 */
-	@Input() imgStyle = {};
-
-	/**
-	 * Whether multiple files can be uploaded.
-	 */
-	@Input() multiple = false;
-
-	/**
-	 * Whether the file is a photo.
-	 */
-	@Input() isPhoto = false;
-
-	/**
-	 * Whether the image should be displayed as a round shape.
-	 */
-	@Input() isRound = false;
-
-	/**
-	 * Resize factor for the image.
-	 */
-	@Input() resize: number;
-
-	/**
-	 * Width for cropping the image.
-	 */
-	@Input() width: number;
-
-	/**
-	 * Height for cropping the image.
-	 */
-	@Input() height: number;
-
-	/**
-	 * The value of the uploaded file(s).
-	 */
-	@Input() value: string | string[] = this.multiple ? [] : '';
-
-	/**
-	 * Event emitter to notify parent components of updates.
-	 */
-	@Output() update = new EventEmitter<string | string[]>();
-
-	/**
-	 * Forcefully set the image URL in case of an error.
-	 */
-	force = '';
-
-	/**
-	 * Returns the list of files if multiple uploads are enabled.
-	 */
-	get files(): string[] {
-		return this.value as string[];
+		// propagate to CVA + (wChange)
+		effect(() => {
+			const v = this.wModel();
+			this._onChange(v);
+			this.wChange.emit(v);
+		});
 	}
 
-	ngOnInit(): void {
-		if (!this.name && !this.multiple && this.value) {
-			const paths = ((this.value as string) || '').split('/');
-
-			this.name = paths[paths.length - 1].split('?')[0];
-		}
+	triggerPick(input: HTMLInputElement) {
+		if (!this.isDisabled()) input.click();
 	}
 
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['value']) {
-			this.value = changes['value'].currentValue;
-
-			this.force = '';
-		}
+	isImage(src: string): boolean {
+		return /\.(png|jpe?g|webp|gif)(\?|$)/i.test(src ?? '');
 	}
 
-	/**
-	 * Initiates the file selection and cropping process.
-	 */
-	set(): void {
-		this._fs.setFile = (dataUrl: string): void => {
-			if (this.width && this.height) {
-				this._modal.show({
-					uploadImage: this.uploadImage.bind(this),
-					component: FileCropperComponent,
-					width: this.width,
-					height: this.height,
-					dataUrl,
+	async onPicked(input: HTMLInputElement) {
+		const list = input.files;
+		if (!list || !list.length) return;
+
+		const doCrop = !!(this.cropWidth() && this.cropHeight());
+		const urls: string[] = [];
+		const container = this.container();
+		const name = this.name();
+
+		for (let i = 0; i < list.length; i++) {
+			const f = list.item(i)!;
+			const dataUrl = await fToDataURL(f);
+
+			if (doCrop) {
+				await new Promise<void>((resolve) => {
+					this._modal.show({
+						component: FileCropperComponent,
+						dataUrl,
+						width: this.cropWidth()!,
+						height: this.cropHeight()!,
+						uploadImage: (cropped: string) => {
+							this._fs
+								.uploadBase64(cropped, container, name)
+								.then((url) => {
+									urls.push(url);
+									resolve();
+								});
+						},
+					});
 				});
 			} else {
-				this.uploadImage(dataUrl);
+				const url = await this._fs.uploadBase64(
+					dataUrl,
+					container,
+					name,
+				);
+				urls.push(url);
 			}
-		};
+		}
+
+		const next = this.multiple()
+			? [...this.files(), ...urls]
+			: (urls[0] ?? null);
+		this.wModel.set(next as WFileValue);
+		input.value = '';
+		this._onTouched();
 	}
 
-	/**
-	 * Uploads the image to the server.
-	 * @param dataUrl The data URL of the image.
-	 */
-	uploadImage(dataUrl: string): void {
-		this._http.post(
-			'/api/file/photo',
-			{
-				container: this.container,
-				name: this.name,
-				dataUrl,
-			},
-			(url: string) => {
-				if (this.multiple) {
-					if (!this.value) {
-						this.value = [];
-					}
-
-					(this.value as string[]).push(url);
-				} else {
-					this.name = url.split('/')[5].split('?')[0];
-
-					this.value = url;
-				}
-
-				this.update.emit(this.value);
-			},
-		);
+	removeAt(i: number) {
+		if (!this.multiple()) {
+			this.wModel.set(null);
+			return;
+		}
+		const arr = [...this.files()];
+		arr.splice(i, 1);
+		this.wModel.set(arr.length ? arr : []);
 	}
+
+	clear() {
+		this.wModel.set(this.multiple() ? [] : null);
+	}
+
+	// CVA
+	writeValue(obj: WFileValue): void {
+		if (!this._equal(this.wModel(), obj)) this.wModel.set(obj);
+	}
+	registerOnChange(fn: any): void {
+		this._onChange = fn;
+	}
+	registerOnTouched(fn: any): void {
+		this._onTouched = fn;
+	}
+	setDisabledState(isDisabled: boolean): void {
+		this._disabledCva = isDisabled;
+	}
+
+	private _equal(a: any, b: any) {
+		return Array.isArray(a) || Array.isArray(b)
+			? JSON.stringify(a) === JSON.stringify(b)
+			: a === b;
+	}
+}
+
+/* helpers */
+function fToDataURL(file: File): Promise<string> {
+	return new Promise((res, rej) => {
+		const r = new FileReader();
+		r.onload = () => res(r.result as string);
+		r.onerror = rej;
+		r.readAsDataURL(file);
+	});
 }

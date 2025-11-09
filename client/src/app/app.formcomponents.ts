@@ -9,7 +9,6 @@ import { HtmlComponent } from 'src/app/form-components/html/html.component';
 import { NumberComponent } from 'src/app/form-components/number/number.component';
 import { PasswordComponent } from 'src/app/form-components/password/password.component';
 import { PhotoComponent } from 'src/app/form-components/photo/photo.component';
-import { PhotosComponent } from 'src/app/form-components/photos/photos.component';
 import { SelectComponent } from 'src/app/form-components/select/select.component';
 import { TagsComponent } from 'src/app/form-components/tags/tags.component';
 import { TextComponent } from 'src/app/form-components/text/text.component';
@@ -26,7 +25,6 @@ export const FORM_COMPONENTS: Record<string, Type<any>> = {
 	Number: NumberComponent,
 	Password: PasswordComponent,
 	Photo: PhotoComponent,
-	Photos: PhotosComponent,
 	Select: SelectComponent,
 	Tags: TagsComponent,
 	Text: TextComponent,

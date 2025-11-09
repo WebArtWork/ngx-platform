@@ -1,8 +1,8 @@
 <ng-template #templateRef let-data>
-    <wbutton
-        [disableSubmit]="true"
-        (click)="(data.props?.Click as any)?.(); data.wClick()"
-    >
-        {{ data.props?.Label }}
-    </wbutton>
+	<wbutton
+		[disableSubmit]="true"
+		(click)="invoke(data.props?.Click); data.wClick()"
+	>
+		{{ data.props?.Label }}
+	</wbutton>
 </ng-template>

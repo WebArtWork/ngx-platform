@@ -1,12 +1,16 @@
 <ng-template #templateRef let-data>
-    <ngx-file
-        [formId]="data.wFormId"
-        [formKey]="data.wFormKey"
-        [label]="data.props?.Label"
-        [width]="data.props?.Width"
-        [height]="data.props?.Height"
-        [name]="data.props?.Name"
-        [isPhoto]="true"
-        (update)="data.wChange()"
-    />
+	<ngx-file
+		[formId]="data.wFormId"
+		[formKey]="data.wFormKey"
+		[label]="data.props?.Label || 'Photo'"
+		[accept]="data.props?.Accept || 'image/*'"
+		[container]="data.props?.Container || data.wFormId"
+		[name]="data.props?.Name || ''"
+		[multiple]="!!data.props?.Multiple"
+		[preview]="data.props?.Preview ?? true"
+		[clearable]="data.props?.Clearable ?? true"
+		[cropWidth]="data.props?.Width || null"
+		[cropHeight]="data.props?.Height || null"
+		(wChange)="data?.wChange && data.wChange()"
+	/>
 </ng-template>

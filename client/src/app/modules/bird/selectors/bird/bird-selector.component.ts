@@ -33,7 +33,7 @@ export class BirdSelectorComponent extends CrudComponent<
 
 	readonly disabled = input<boolean>(false);
 
-	readonly value = input<SelectValue>('');
+	readonly wModel = input<SelectValue>('');
 
 	readonly wChange = output<SelectValue>();
 

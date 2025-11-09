@@ -1,69 +1,57 @@
-.file {
-	&__img {
-		display: block;
-		max-width: 100%;
-		height: auto;
-		border-radius: var(--file-img-border-radius, 8px);
-		cursor: pointer;
+:host { display: block; }
 
-		&.round {
-			border-radius: 50%;
-		}
-	}
+.wfile {
+  &._disabled { opacity: .6; pointer-events: none; }
 
-	&__add {
-		display: inline-block;
-		padding: 10px 20px;
-		background-color: var(--file-add-bg, #007bff);
-		color: #fff;
-		border-radius: 4px;
-		cursor: pointer;
-		text-align: center;
-		transition: background-color 0.3s ease;
+  &__label { margin-bottom: 6px; }
 
-		&:hover {
-			background-color: var(--file-add-bg-hover, #0056b3);
-		}
-	}
+  &__body {
+    border: 2px solid var(--c-text-primary);
+    border-radius: 12px;
+    padding: 12px;
+    background: var(--c-bg-secondary);
+    color: var(--c-text-primary);
+  }
 
-	&__list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		margin-top: 10px;
-	}
+  &__list {
+    margin-bottom: 10px;
+    ul { margin: 0; padding: 0; list-style: none; }
+  }
 
-	&__item {
-		position: relative;
-		display: inline-block;
+  &__empty { color: var(--c-text-primary); opacity: .8; }
 
-		&-img {
-			display: block;
-			width: 100px;
-			height: 100px;
-			object-fit: cover;
-			border-radius: var(--file-item-border-radius, 4px);
-			cursor: pointer;
-		}
+  &__item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid var(--c-border);
+    &:last-child { border-bottom: 0; }
+  }
 
-		&-remove {
-			position: absolute;
-			top: 5px;
-			right: 5px;
-			background-color: rgba(255, 0, 0, 0.8);
-			color: #fff;
-			border-radius: 50%;
-			width: 20px;
-			height: 20px;
-			text-align: center;
-			line-height: 20px;
-			font-size: 12px;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
+  &__name {
+    max-width: 50%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
 
-			&:hover {
-				background-color: rgba(255, 0, 0, 1);
-			}
-		}
-	}
+  &__thumb {
+    width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid var(--c-border);
+  }
+
+  &__remove {
+    border: 0; background: transparent; cursor: pointer;
+    color: var(--c-text-primary); display: inline-flex; align-items: center;
+    justify-content: center; border-radius: 8px; padding: 4px;
+  }
+
+  &__actions { display: flex; gap: 8px; }
+
+  &__btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: 10px;
+    border: 2px solid var(--c-primary);
+    background: var(--c-primary); color: var(--c-white);
+    cursor: pointer;
+
+    &--ghost {
+      background: transparent; color: var(--c-primary);
+    }
+  }
 }
