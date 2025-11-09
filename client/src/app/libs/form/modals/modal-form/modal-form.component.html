@@ -9,10 +9,9 @@
 <div class="modal-actions">
 	@for (button of modalButtons; track button) {
 	<wbutton
-		class="w-btn _primary"
-		[ngClass]="button.class"
+		[extraClass]="'w-btn _primary ' + (button.class || '')"
 		[disabled]="submitting()"
-		(click)="onButtonClick(button)"
+		(wClick)="onButtonClick(button)"
 	>
 		{{ button.label }}
 	</wbutton>

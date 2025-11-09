@@ -1,28 +1,26 @@
 <div class="wtable">
-	<div class="users__header w-card__header">
-		<!-- Table title -->
-		<h3 class="w-forms__title">{{ title }}</h3>
+	<div class="wtable__header">
+		<h3 class="wtable__title">{{ title }}</h3>
 
-		<!-- Search functionality -->
 		@if (config.searchable) {
-		<div class="table-search" [class.table-search--active]="searchShow">
+		<div class="wtable__search" [class.wtable__search--active]="searchShow">
 			<input
 				(keyup.enter)="search(); searchShow = false"
 				(ngModelChange)="searching()"
 				[(ngModel)]="searching_text"
-				class="table-search__input"
+				class="wtable__search-input"
 				placeholder="Search..."
 				type="text"
 			/>
 			<span
-				class="material-icons material-symbols-outlined table-search__icon"
+				class="material-icons material-symbols-outlined wtable__search-icon"
 				(click)="search(); searchShow = false"
 			>
 				search
 			</span>
 		</div>
 		} @if (!searchShow) {
-		<div class="table-search__icon-mobile">
+		<div class="wtable__search-iconMobile">
 			<span
 				class="material-icons material-symbols-outlined"
 				(click)="searchShow = true"
@@ -32,68 +30,58 @@
 		</div>
 		}
 
-		<div class="users__btns">
-			<!-- Header buttons -->
-			<div class="user__icons">
-				@if (config.headerButtons) { @for (button of
-				config.headerButtons; track button) { @if (button) {
-				<wbutton
-					(click)="button.click()"
-					[class]="button.class"
-					[disableSubmit]="true"
-					class="edit-header"
+		<div class="wtable__header-actions">
+			@if (config.headerButtons) { @for (button of config.headerButtons;
+			track button) { @if (button) {
+			<wbutton
+				(wClick)="button.click()"
+				[disableSubmit]="true"
+				[extraClass]="button.class"
+				class="wtable__header-button"
+			>
+				@if (button.icon) {
+				<i class="material-icons" [title]="button.icon"
+					>{{ button.icon }}</i
 				>
-					@if (button.icon) {
-					<i class="material-icons" [title]="button.icon">
-						{{ button.icon }}
-					</i>
-					} @if (button.text) {
-					<span>{{ button.text }}</span>
-					}
-				</wbutton>
-				} } } @if (config.create) {
-				<wbutton
-					(click)="config.create()"
-					class="table-plus-btn"
-					[disableSubmit]="true"
-				>
-					+ <span translate>Common.Add new</span>
-				</wbutton>
+				} @if (button.text) {
+				<span>{{ button.text }}</span>
 				}
-			</div>
-
-			<!-- Add new item button -->
+			</wbutton>
+			} } } @if (config.create) {
+			<wbutton
+				(wClick)="config.create()"
+				[disableSubmit]="true"
+				class="wtable__create"
+			>
+				+ <span translate>Common.Add new</span>
+			</wbutton>
+			}
 		</div>
 	</div>
 
-	<table class="table" cellpadding="0" cellspacing="0">
-		<thead class="table-header">
+	<table class="wtable__table" cellpadding="0" cellspacing="0">
+		<thead class="wtable__thead">
 			<tr>
-				<!-- Column for row numbers -->
 				@if (config.num) {
 				<th>No.</th>
-				}
-
-				<!-- Column headers with sorting -->
-				@for (column of columns; track column) {
+				} @for (column of columns; track column) {
 				<th scope="col">
 					<div
-						[class._sortActiveDown]="sort_type.direction === 'desc' && column.field === sort_type.title"
-						[class._sortActiveUp]="sort_type.direction === 'asc' && column.field === sort_type.title"
-						class="table-header__sort"
+						class="wtable__sort"
+						[class.is-activeDown]="sort_type.direction === 'desc' && column.field === sort_type.title"
+						[class.is-activeUp]="sort_type.direction === 'asc' && column.field === sort_type.title"
 						(click)="sort(column)"
 					>
 						<span>{{ column.title }}</span>
 						@if (sortable[column.field]) {
-						<span class="material-icons icon-arrow">
-							keyboard_backspace
-						</span>
+						<span class="material-icons wtable__sort-icon"
+							>keyboard_backspace</span
+						>
 						}
 					</div>
 				</th>
-				}
-				<!-- Column for action buttons -->
-				@if (config.delete || config.update || config.buttons?.length) {
+				} @if (config.delete || config.update || config.buttons?.length)
+				{
 				<th>
 					@if (action) {
 					<ng-container
@@ -104,92 +92,83 @@
 				}
 			</tr>
 		</thead>
-		<tbody class="table-body">
-			@for (row of config.allDocs ? (rows() | search: filter_filter:
+
+		<tbody class="wtable__tbody">
+			@for ( row of config.allDocs ? (rows() | search: filter_filter:
 			(config.searchBy || 'title') | perPage: config: sort_type:
-			filter_filter + now) : rows(); track row()[bindValue()]) { @let _row
-			= row();
+			(filter_filter + now)) : rows(); track row[bindValue()] ) {
 			<tr>
-				<!-- Row number -->
 				@if (config.num) {
-				<td>{{ _row.num }}</td>
-				}
-				<!-- Data rows with custom cells if defined -->
-				@for (column of columns; track column) { @if
+				<td>{{ row.num }}</td>
+				} @for (column of columns; track column) { @if
 				(custom_cell[column.field]) {
-				<td [attr.data-label]="column.title + ':&nbsp;'">
+				<td [attr.data-label]="column.title + ': '">
 					<ng-container
-						*ngTemplateOutlet="custom_cell[column.field]; context: { $implicit: _row }"
+						*ngTemplateOutlet="custom_cell[column.field]; context: { $implicit: row }"
 					></ng-container>
 				</td>
 				} @else {
-				<td [attr.data-label]="column.title + ':&nbsp;'">
-					{{ _row[column.field] }}
+				<td [attr.data-label]="column.title + ': '">
+					{{ row[column.field] }}
 				</td>
-				} }
-				<!-- Action buttons for each row -->
-				@if (config.delete || config.update || config.buttons?.length) {
-				<td class="table-body__last-td" data-label="Actions:&nbsp;">
-					<div class="table__actions">
-						<!-- Custom buttons -->
+				} } @if (config.delete || config.update ||
+				config.buttons?.length) {
+				<td class="wtable__cell--actions" data-label="Actions: ">
+					<div class="wtable__actions">
 						@for (button of config.buttons || []; track button) {
 						@if (button) { @if (!button.ahref && !button.ahrefFunc
 						&& !button.href && !button.hrefFunc) {
 						<i
-							(click)="button.click(_row)"
+							(click)="button.click(row)"
 							class="material-icons"
 							[title]="button.icon"
 						>
 							{{ button.icon }}
 						</i>
-						} @if (button.href) {
+						} @if (button.ahref) {
 						<a
 							[href]="button.ahref"
 							[target]="button.target || '_blank'"
 						>
-							<i class="material-icons" [title]="button.icon">
-								{{ button.icon }}
-							</i>
+							<i class="material-icons" [title]="button.icon"
+								>{{ button.icon }}</i
+							>
 						</a>
 						} @if (button.ahrefFunc) {
 						<a
-							[href]="button.ahrefFunc(_row)"
+							[href]="button.ahrefFunc(row)"
 							[target]="button.target || '_blank'"
 						>
-							<i class="material-icons" [title]="button.icon">
-								{{ button.icon }}
-							</i>
+							<i class="material-icons" [title]="button.icon"
+								>{{ button.icon }}</i
+							>
 						</a>
 						} @if (button.href) {
 						<a [routerLink]="button.href">
-							<i class="material-icons" [title]="button.icon">
-								{{ button.icon }}
-							</i>
+							<i class="material-icons" [title]="button.icon"
+								>{{ button.icon }}</i
+							>
 						</a>
 						} @if (button.hrefFunc) {
-						<a [routerLink]="button.hrefFunc(_row)">
-							<i class="material-icons" [title]="button.icon">
-								{{ button.icon }}
-							</i>
+						<a [routerLink]="button.hrefFunc(row)">
+							<i class="material-icons" [title]="button.icon"
+								>{{ button.icon }}</i
+							>
 						</a>
-						} } }
-						<!-- Edit and Delete buttons -->
-						@if (config.update) {
+						} } } @if (config.update) {
 						<i
-							(click)="config.update(_row)"
+							(click)="config.update(row)"
 							class="material-icons"
 							title="Edit"
+							>edit</i
 						>
-							edit
-						</i>
 						} @if (config.delete) {
 						<i
-							(click)="config.delete(_row)"
+							(click)="config.delete(row)"
 							class="material-icons"
 							title="Delete"
+							>delete_outline</i
 						>
-							delete_outline
-						</i>
 						}
 					</div>
 				</td>
@@ -197,14 +176,14 @@
 			</tr>
 			}
 		</tbody>
+
 		@if (config.perPage || (config.formCreate && config.create)) {
-		<tfoot class="table-footer">
-			<!-- Items per page dropdown -->
+		<tfoot class="wtable__tfoot">
 			@if (config.perPage) {
-			<div class="item-page">
-				<div class="item-page__text">Showing items per page</div>
+			<div class="wtable__perpage">
+				<div class="wtable__perpage-text">Showing items per page</div>
 				<div
-					class="item-page__dropdown"
+					class="wtable__perpage-dropdown"
 					(clickOutside)="select_page_size = false"
 					[class.open]="select_page_size"
 				>
@@ -237,14 +216,16 @@
 						}
 					</div>
 				</div>
+
 				@if (config.perPage >= 0 && !config.allDocs) {
-				<div class="item-page__result">Page {{ config.page }}</div>
+				<div class="wtable__perpage-result">Page {{ config.page }}</div>
 				} @if (config.perPage >= 0 && config.allDocs) {
-				<div class="item-page__result">
+				<div class="wtable__perpage-result">
 					<span
 						>{{ ((config.page - 1) * config.perPage) + 1 }} - {{
-						config.page * config.perPage > rows().length &&
-						rows().length || config.page * config.perPage }}</span
+						(config.page * config.perPage > rows().length &&
+						rows().length) || (config.page * config.perPage)
+						}}</span
 					>
 					<span> of </span>
 					<span
@@ -254,37 +235,35 @@
 				</div>
 				}
 			</div>
-			}
-			<!-- Pagination controls -->
-			@if (config.perPage !== -1 && config.allDocs) {
-			<div class="table-footer__pagination">
+			} @if (config.perPage !== -1 && config.allDocs) {
+			<div class="wtable__pagination">
 				<wbutton
-					class="table-footer__arrow _start"
+					class="wtable__arrow wtable__arrow--start"
 					[disabled]="config.page === 1"
-					(click)="config.page = 1"
+					(wClick)="config.page = 1"
 				>
 					<span class="material-icons"
 						>keyboard_double_arrow_left</span
 					>
 				</wbutton>
 				<wbutton
-					class="table-footer__arrow _left"
+					class="wtable__arrow wtable__arrow--left"
 					[disabled]="config.page === 1"
-					(click)="previous()"
+					(wClick)="previous()"
 				>
 					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
+					class="wtable__arrow wtable__arrow--right"
 					[disabled]="config.page * config.perPage > rows().length"
-					class="table-footer__arrow _right"
-					(click)="next()"
+					(wClick)="next()"
 				>
 					<span class="material-icons">chevron_right</span>
 				</wbutton>
 				<wbutton
-					class="table-footer__arrow _end"
+					class="wtable__arrow wtable__arrow--end"
 					[disabled]="isLast()"
-					(click)="lastPage()"
+					(wClick)="lastPage()"
 				>
 					<span class="material-icons"
 						>keyboard_double_arrow_right</span
@@ -292,18 +271,18 @@
 				</wbutton>
 			</div>
 			} @if (!config.allDocs) {
-			<div class="table-footer__pagination">
+			<div class="wtable__pagination">
 				<wbutton
-					class="table-footer__arrow _left"
+					class="wtable__arrow wtable__arrow--left"
 					[disabled]="config.page === 1"
-					(click)="previous()"
+					(wClick)="previous()"
 				>
 					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
+					class="wtable__arrow wtable__arrow--right"
 					[disabled]="rows().length !== config.perPage"
-					class="table-footer__arrow _right"
-					(click)="next()"
+					(wClick)="next()"
 				>
 					<span class="material-icons">chevron_right</span>
 				</wbutton>

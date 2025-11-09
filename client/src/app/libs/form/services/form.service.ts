@@ -2,8 +2,10 @@ import {
 	ApplicationRef,
 	createComponent,
 	effect,
+	EnvironmentInjector,
 	inject,
 	Injectable,
+	runInInjectionContext,
 	TemplateRef,
 	Type,
 } from '@angular/core';
@@ -40,6 +42,9 @@ export class FormService {
 
 	// Virtual manager
 	private _vform = inject(VirtualFormService);
+
+	// Injection context for reactive translate effects
+	private _ei = inject(EnvironmentInjector);
 
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
@@ -103,26 +108,31 @@ export class FormService {
 	translateForm(form: FormInterface): void {
 		if (form.title) {
 			const titleSig = this._translate.translate(`${form.title}`);
-			effect(() => (form.title = titleSig()));
+			// Create reactive effect inside injection context
+			runInInjectionContext(this._ei, () =>
+				effect(() => (form.title = titleSig())),
+			);
 		}
 		this._translateComponents(form.components);
 	}
 
 	private _translateComponents(list: FormComponentInterface[] = []) {
 		for (const c of list) {
-			// translate string props (Label, Placeholder, items, etc.)
 			if (c.props) {
 				for (const [k, v] of Object.entries(c.props)) {
 					if (typeof v === 'string') {
 						const ts = this._translate.translate(`${v}`);
-						effect(() => (c.props![k] = ts()));
+						runInInjectionContext(this._ei, () =>
+							effect(() => (c.props![k] = ts())),
+						);
 					} else if (Array.isArray(v)) {
-						// translate arrays of strings
 						const arr = v as unknown[];
 						arr.forEach((item, i) => {
 							if (typeof item === 'string') {
 								const ts = this._translate.translate(`${item}`);
-								effect(() => ((arr[i] as any) = ts()));
+								runInInjectionContext(this._ei, () =>
+									effect(() => ((arr[i] as any) = ts())),
+								);
 							}
 						});
 					}
@@ -180,7 +190,6 @@ export class FormService {
 		this._emitterService.onComplete('form_loaded').subscribe(() => {
 			this.translateForm(form);
 			this._addFormComponents(form.components);
-			// ensure virtual manager is in sync (idempotent)
 			this.ensureVirtualForm(form);
 		});
 
@@ -238,7 +247,6 @@ export class FormService {
 		): void => {},
 		modalOptions: unknown = {},
 	): Promise<T> {
-		// Ensure virtual forms ready before open
 		const forms = Array.isArray(form) ? form : [form];
 		forms.forEach((f) => this.ensureVirtualForm(f, submition as any));
 
@@ -348,12 +356,10 @@ export class FormService {
 
 		comp.props = comp.props || {};
 		comp.props[prop] = value;
-
-		// let template see latest snapshot (old resetFields analogue no longer needed)
 	}
 
 	private _getComponent(
-		components: FormComponentInterface[],
+		components: FormComponentInterface[] = [],
 		key: string,
 	): FormComponentInterface | null {
 		for (const component of components || []) {

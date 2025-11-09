@@ -1,131 +1,184 @@
-# Button Component
+# wbutton
 
-The Button Component is a customizable standalone Angular component for creating various types of buttons—primary, secondary, success, danger, and more. It provides an easy way to manage button styles, states, and events in your Angular applications.
+Standalone button for Angular v20 with BEM-scoped styles, 2-second multi-click lock, and a matching directive so you can use either `<wbutton>` or `<button wbutton>`.
 
-## Features
+---
 
-- Multiple button types: primary, secondary, success, danger, warning, info, light, dark, link
-- Customizable classes for additional styling
-- Supports disabled state
-- Emits custom click events
-- Fully standalone, uses Angular v20 `input()` and `output()`
+## ✨ Features
 
-## Installation
+- Angular v20 standalone + `OnPush`
+- BEM CSS (`.wbutton`, modifiers like `.wbutton--primary`)
+- 2s click cooldown (opt-out via input)
+- Works as component **and** directive
+- Form-aware submit behavior
+- Accessible disabled states
 
-To install this component, use:
+---
 
-```cmd
+## 📦 Install
+
+```bash
 waw add ngx-button
 ```
 
-## Usage
+---
 
-### Importing the Standalone Component
+## 🧩 Import (once) global styles for the directive
 
-Import the standalone `ButtonComponent` directly where you need it:
+> Required so `<button wbutton>` gets the same styles.
 
-```typescript
-import { signal } from '@angular/core';
-import { ButtonComponent } from '.../button.component.ts';
+```ts
+import { Component } from '@angular/core';
+import { ButtonStylesComponent } from 'src/app/libs/button/button-styles.component';
 
 @Component({
-	imports: [ButtonComponent],
-	template: `<wbutton ...>Button</wbutton>`,
+	standalone: true,
+	selector: 'app-root',
+	imports: [ButtonStylesComponent],
+	template: `<router-outlet />`,
 })
 export class AppComponent {}
 ```
 
-### Basic Example
+---
 
-**Simple usage:**
+## 🧪 Usage
 
-```html
-<wbutton type="primary" (wClick)="onButtonClick()">Click Me</wbutton>
-```
-
-### Parent-to-Child Reactivity with Signals
-
-You can use Angular signals in the parent and bind their value to the child.
-This keeps the button input reactive:
-
-```typescript
-import { signal } from '@angular/core';
-
-@Component({
-	imports: [ButtonComponent],
-	template: `
-		<wbutton
-			type="success"
-			[disabled]="disabledSignal()"
-			(wClick)="toggleDisabled()"
-		>
-			Toggle Disabled
-		</wbutton>
-	`,
-})
-export class ParentComponent {
-	disabledSignal = signal(false);
-
-	toggleDisabled() {
-		this.disabledSignal.set(!this.disabledSignal());
-	}
-}
-```
-
-- The button will enable/disable reactively as `disabledSignal` changes.
-
-### Handling Different Button Types
-
-Supported types:
-
-- `primary`
-- `secondary`
-- `success`
-- `danger`
-- `warning`
-- `info`
-- `light`
-- `dark`
-- `link`
-
-Example:
+### 1) Component
 
 ```html
-<wbutton type="danger" (wClick)="onDangerClick()">Delete</wbutton>
+<wbutton type="primary" (wClick)="save()">Save</wbutton>
 ```
 
-### Custom Classes
-
-Add extra classes for custom styling:
-
 ```html
-<wbutton type="success" class="custom-class" (wClick)="onSuccessClick()">
-	Save
+<wbutton
+	type="danger"
+	[disabled]="isBusy()"
+	[extraClass]="'wbutton--wide'"
+	(wClick)="remove()"
+>
+	Delete
 </wbutton>
 ```
 
-## API
+**Prevent submit inside forms**
 
-### Inputs (`input()` API)
+```html
+<form (ngSubmit)="submit()">
+	<wbutton [disableSubmit]="true" (wClick)="openDialog()">Open</wbutton>
+	<wbutton type="primary">Submit</wbutton>
+</form>
+```
 
-- **type** (`'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link'`, default `'primary'`): Button style
-- **class** (`string`, default `''`): Extra CSS classes
-- **disabled** (`boolean`, default `false`): Disabled state
-- **disableSubmit** (`boolean`, default `false`): When true, button will not submit forms
-- **click** (`(() => void) | undefined`): Custom function called on click (optional)
+**Block multiple clicks for 2s (default) / allow multiple**
 
-### Outputs (`output()` API)
+```html
+<wbutton (wClick)="payOnce()">Pay</wbutton>
+<wbutton [isMultipleClicksAllowed]="true" (wClick)="spamMe()">Spam</wbutton>
+```
 
-- **wClick** (`void`): Emits when the button is clicked
+### 2) Directive
 
-## Customization
+```html
+<button wbutton type="secondary" (wClick)="cancel()">Cancel</button>
+```
 
-Style the button via the `class` input or by overriding CSS. The component uses BEM-like classes (e.g., `_primary`, `_success`, etc).
+```html
+<button wbutton type="link" [extraClass]="'wbutton--wide'" (wClick)="details()">
+	Details
+</button>
+```
 
-## Contributing
+On anchors:
 
-Contributions are welcome! Please open issues or submit pull requests. Follow the contribution guidelines.
+```html
+<a wbutton type="primary" (wClick)="navigate()">Go</a>
+```
 
-## License
+> For `<a wbutton>` “disabled” becomes `aria-disabled="true"` and click is prevented.
 
-MIT License.
+---
+
+## ⚙️ API
+
+### `<wbutton>` (component)
+
+**Inputs**
+
+- `type: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link' = 'primary'`
+- `extraClass: string = ''` — extra CSS classes appended to root
+- `disabled: boolean = false`
+- `disableSubmit: boolean = false` — when `true`, forces `type="button"` (no form submit)
+- `isMultipleClicksAllowed: boolean = false` — when `false`, blocks subsequent clicks for **2s**
+
+**Outputs**
+
+- `wClick: void` — emitted on each accepted click
+
+**Behavior**
+
+- Default `type="submit"` inside forms; switches to `"button"` when `disableSubmit === true`.
+
+---
+
+### `wbutton` (directive)
+
+**Selector**
+
+- `button[wbutton], a[wbutton]`
+
+**Inputs**
+
+- Same as component: `type`, `extraClass`, `disabled`, `disableSubmit`, `isMultipleClicksAllowed`
+
+**Outputs**
+
+- `wClick: void`
+
+**Behavior**
+
+- Sets `type="submit"`/`"button"` only on real `<button>`.
+- Applies `disabled` attribute only on `<button>`.
+- For `<a>`: uses `aria-disabled` + prevents default while “disabled”.
+- 2s cooldown identical to component.
+
+---
+
+## 🎨 Styles (BEM)
+
+Root block: `.wbutton`
+Modifiers:
+
+- `.wbutton--primary`
+- `.wbutton--secondary`
+- `.wbutton--success`
+- `.wbutton--warning`
+- `.wbutton--danger`
+- `.wbutton--info`
+- `.wbutton--light`
+- `.wbutton--dark`
+- `.wbutton--link`
+
+State:
+
+- `.is-disabled`
+
+> The directive receives these styles via `ButtonStylesComponent` (global encapsulation).
+
+---
+
+## 🧱 Theming
+
+Relies on your design tokens:
+
+- `--c-primary`, `--c-secondary`, `--c-text-primary`, `--c-white`, `--c-border`, `--transition`, etc.
+
+Override globally, or pass utility classes via `extraClass`.
+
+---
+
+## 📝 Notes
+
+- Change detection: `ChangeDetectionStrategy.OnPush`
+- Multi-click lock uses an internal 2s cooldown; set `isMultipleClicksAllowed="true"` to opt out.
+- Prefer `(wClick)` for semantic consistency across both component and directive.

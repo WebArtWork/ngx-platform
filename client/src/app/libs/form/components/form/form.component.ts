@@ -1,13 +1,14 @@
-// client/src/app/libs/form/components/form/form.component.ts
 import {
 	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	effect,
+	EnvironmentInjector,
 	inject,
 	input,
 	OnDestroy,
 	output,
+	runInInjectionContext,
 	signal,
 } from '@angular/core';
 import { required, VirtualFormService } from 'src/app/virtual-form.service';
@@ -27,6 +28,10 @@ export class FormComponent implements AfterViewInit, OnDestroy {
 	private _core = inject(CoreService);
 	private _virtualFormService = inject(VirtualFormService);
 
+	// Injection context for effects
+	private _ei = inject(EnvironmentInjector);
+	private _stop?: ReturnType<typeof effect>;
+
 	readonly config = input.required<FormInterface>();
 	readonly submition = input<Record<string, any>>({}); // legacy compat
 
@@ -42,60 +47,68 @@ export class FormComponent implements AfterViewInit, OnDestroy {
 				(this.submition() as any).data || {};
 		}
 
-		effect(() => {
-			const cfg = this.config();
-			const id = (cfg?.formId as string) || crypto.randomUUID();
-			this._formId.set(id);
+		// Create the effect within a valid injection context
+		this._stop = runInInjectionContext(this._ei, () =>
+			effect(() => {
+				const cfg = this.config();
+				const id = (cfg?.formId as string) || crypto.randomUUID();
+				this._formId.set(id);
 
-			this._virtualFormService.getForm(id);
+				this._virtualFormService.getForm(id);
 
-			(cfg?.components || []).forEach((c) =>
-				this._registerFromSchema(id, c),
-			);
+				(cfg?.components || []).forEach((c) =>
+					this._registerFromSchema(id, c),
+				);
 
-			const initial = this.submition();
-			if (initial && Object.keys(initial).length) {
-				this._virtualFormService.patch(id, initial as any);
-			}
+				const initial = this.submition();
+				if (initial && Object.keys(initial).length) {
+					this._virtualFormService.patch(id, initial as any);
+				}
 
-			this._clearHandlers();
-			this._virtualFormService.setHandler(
-				id,
-				'onValidSubmit',
-				(values: any) => this.wSubmit.emit(values),
-			);
-			this._virtualFormService.setHandler(
-				id,
-				'onInvalidSubmit',
-				(_errors: any, values: any) => this._emitLegacyChange(values),
-			);
-			this._virtualFormService.setHandler(id, 'onPatch', () => {
-				this._emitLegacyChange(this._virtualFormService.getValues(id));
-			});
-
-			const onFieldChange = () => {
-				this._core.afterWhile(this, () => {
+				this._clearHandlers();
+				this._virtualFormService.setHandler(
+					id,
+					'onValidSubmit',
+					(values: any) => this.wSubmit.emit(values),
+				);
+				this._virtualFormService.setHandler(
+					id,
+					'onInvalidSubmit',
+					(_errors: any, values: any) =>
+						this._emitLegacyChange(values),
+				);
+				this._virtualFormService.setHandler(id, 'onPatch', () => {
 					this._emitLegacyChange(
 						this._virtualFormService.getValues(id),
 					);
 				});
-			};
-			this._virtualFormService.addListener(
-				id,
-				'onFieldChange',
-				onFieldChange,
-			);
-			this._unsubFns.push(() =>
-				this._virtualFormService.removeListener(
+
+				const onFieldChange = () => {
+					this._core.afterWhile(this, () => {
+						this._emitLegacyChange(
+							this._virtualFormService.getValues(id),
+						);
+					});
+				};
+				this._virtualFormService.addListener(
 					id,
 					'onFieldChange',
 					onFieldChange,
-				),
-			);
-		});
+				);
+				this._unsubFns.push(() =>
+					this._virtualFormService.removeListener(
+						id,
+						'onFieldChange',
+						onFieldChange,
+					),
+				);
+			}),
+		);
 	}
 
 	ngOnDestroy(): void {
+		// Stop the effect created in injection context
+		this._stop?.destroy();
 		this._clearHandlers();
 		const id = this._formId();
 		if (id) this._virtualFormService.destroyForm(id);

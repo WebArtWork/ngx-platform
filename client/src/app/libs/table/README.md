@@ -1,84 +1,67 @@
-# ngx-table
+# `wtable` — Table component
 
-`ngx-table` is an Angular component for creating customizable and responsive tables with features like sorting, pagination, search, and action buttons.
+Standalone, signal-friendly data table for Angular v20 with BEM classes, search, sort, pagination, and action slots.
 
-## Installation
+## ✨ Features
 
-To install the module, run:
+- Angular v20 `input()` signals; OnPush.
+- BEM styles: `.wtable`, elements like `__header`, `__search`, `__pagination`.
+- Client search (pipe) + sortable headers + pagination.
+- Header actions and per-row actions via templates.
+- Works with `<wbutton>` (or `button[wbutton]`).
 
-```cmd
+## 📦 Install
+
+```bash
 waw add ngx-table
 ```
 
-## Usage
+## 🧩 Import
 
-### Basic Usage
+```ts
+import { TableComponent } from 'src/app/libs/table/table.component';
 
-To use `ngx-table`, first import the module in your Angular application:
-
-```Typescript
-import { TableModule } from 'ngx-table';
-
-@NgModule({
-  imports: [TableModule],
+@Component({
+	imports: [TableComponent],
 })
-export class AppModule {}
+export class Page {}
 ```
 
-### Component Inputs
+## 🧪 Usage
 
-- `title`: The title of the table.
-- `columns`: Array of column definitions with properties `title` and `field`.
-- `rows`: Array of data rows to display in the table.
-- `config`: Configuration object for the table with options like `perPage`, `pageSizeOptions`, `searchable`, etc.
-
-### Example
-
-```Typescript
-<wtable [title]="'User List'" [columns]="columns" [rows]="rows" [config]="config"></wtable>
+```html
+<wtable
+	[title]="'Users'"
+	[columns]="[{title:'Name',field:'name'},{title:'Email',field:'email'}]"
+	[rows]="users"
+	[config]="{ searchable: true, pageSizeOptions:[10,20,50], perPage: 10, allDocs: true }"
+>
+</wtable>
 ```
 
-### Configuration
+### Custom cells / actions
 
-- `pageSizeOptions`: Array of numbers for items per page options.
-- `perPage`: Number of items to show per page (-1 for all).
-- `page`: Current page number.
-- `searchable`: Boolean, whether to enable search functionality.
-- `create`: Function to execute when the "Add New" button is clicked.
-
-### Custom Templates
-
-`ngx-table` allows you to use custom templates for cells and actions:
-
-```Typescript
+```html
 <ng-template cell="email" let-row>
-  <a [href]="'mailto:' + row.email">{{ row.email }}</a>
-</ng-template>
-<ng-template actions>
-  <button (click)="edit(row)">Edit</button>
-  <button (click)="delete(row)">Delete</button>
+	<a [href]="'mailto:'+row.email">{{ row.email }}</a>
 </ng-template>
 
-<ng-template customEdit>
-  <form (ngSubmit)="submit()">
-    <div>
-      <label *ngFor="let field of doc">
-        <span>{{field.label}}</span>
-        <input [(ngModel)]="field.name">
-      </label>
-    </div>
-    <div>
-      <button class="_cancel" type="button" (click)="doc=null;">Cancel</button>
-      <button class="_create" type="submit">{{doc._id && 'Save' || 'Create'}}</button>
-    </div>
-  </form>
+<ng-template actions>
+	<button wbutton (wClick)="edit(row)">edit</button>
+	<button wbutton (wClick)="remove(row)">delete</button>
 </ng-template>
 ```
 
-### Styling
+## 🎛️ Config (partial)
 
-Customize the appearance of the table using the available CSS variables.
+- `searchable: boolean`
+- `pageSizeOptions: number[]`
+- `perPage: number | -1`
+- `page: number`
+- `allDocs: boolean`
+- Optional callbacks: `paginate(page)`, `setPerPage(n)`, `create()`
+- `headerButtons: { text?: string; icon?: string; class?: string; click:()=>void }[]`
 
 ## License
 
-MIT License. See LICENSE file for details.
+MIT © Web Art Work

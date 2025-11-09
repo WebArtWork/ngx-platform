@@ -1,5 +1,5 @@
 {
-	"repo": "https://github.com/WebArtWork/ngx-table.git",,
+	"repo": "https://github.com/WebArtWork/ngx-table.git",
 	"lib": true,
 	"modules": {
 		"button": "*"

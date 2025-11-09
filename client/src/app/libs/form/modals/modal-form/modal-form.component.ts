@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { CoreService } from 'wacom';
 import { ButtonComponent } from '../../../button/button.component';
@@ -9,7 +8,7 @@ import { FormModalButton } from '../../services/form.service';
 @Component({
 	templateUrl: './modal-form.component.html',
 	styleUrl: './modal-form.component.scss',
-	imports: [FormComponent, ButtonComponent, NgClass],
+	imports: [FormComponent, ButtonComponent],
 })
 export class ModalFormComponent {
 	private _core = inject(CoreService);
@@ -35,7 +34,6 @@ export class ModalFormComponent {
 	}
 
 	handleSubmit(): void {
-		// Called when <wform> validated successfully
 		this.submitting.set(true);
 		try {
 			this._sync(this.submition);
@@ -47,7 +45,6 @@ export class ModalFormComponent {
 	}
 
 	handleChange(): void {
-		// Mirror current form values up to the modal consumer
 		this._sync(this.submition);
 		this.change(this.submition);
 	}

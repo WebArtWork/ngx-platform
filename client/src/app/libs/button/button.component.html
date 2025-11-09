@@ -1,18 +1,9 @@
-@let _type = type();
+@let _type = type(); @let _blocked = isBlocked;
 
 <button
-	[type]="click() || disableSubmit() ? 'button' : 'submit'"
-	[class]=" 'w-btn' + (class() ? ' ' + class() : '') "
-	[class._secondary]="_type === 'secondary'"
-	[class._primary]="_type === 'primary'"
-	[class._success]="_type === 'success'"
-	[class._warning]="_type === 'warning'"
-	[class._danger]="_type === 'danger'"
-	[class._light]="_type === 'light'"
-	[class._info]="_type === 'info'"
-	[class._dark]="_type === 'dark'"
-	[class._link]="_type === 'link'"
-	[disabled]="disabled()"
+	[type]="resolveType()"
+	class="wbutton{{ extraClass() ? ' ' + extraClass() : '' }}{{ _type ? ' wbutton--' + _type : '' }}{{ _blocked ? ' is-disabled' : '' }}"
+	[disabled]="_blocked"
 	(click)="clicked()"
 >
 	<ng-content></ng-content>

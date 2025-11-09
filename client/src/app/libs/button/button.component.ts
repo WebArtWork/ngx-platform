@@ -4,7 +4,6 @@ import {
 	Component,
 	inject,
 	input,
-	OnInit,
 	output,
 } from '@angular/core';
 
@@ -19,70 +18,52 @@ export type ButtonType =
 	| 'dark'
 	| 'link';
 
-/**
- * ButtonComponent is a reusable Angular component for buttons.
- * It supports multiple styles, custom classes, disabled states,
- * and emits events when clicked.
- */
 @Component({
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	selector: 'wbutton',
+	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './button.component.html',
+	styleUrl: './button.component.scss',
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent {
 	private _cdr = inject(ChangeDetectorRef);
 
+	// Inputs
 	readonly type = input<ButtonType>('primary');
-
-	/**
-	 * Additional CSS classes for the button.
-	 * Default: ''.
-	 */
-	readonly class = input<string>('');
-
-	/**
-	 * Controls whether the button is disabled.
-	 * Default: false.
-	 */
+	readonly extraClass = input<string>(''); // ⬅ rename from `class`
 	readonly disabled = input<boolean>(false);
-
-	/**
-	 * Determines whether the button prevents form submission.
-	 * If true, the button does not submit the form when inside a form.
-	 * Default: false.
-	 */
 	readonly disableSubmit = input<boolean>(false);
+	/** If false (default), blocks subsequent clicks for 2s */
+	readonly isMultipleClicksAllowed = input<boolean>(false);
 
-	/**
-	 * Custom function executed when the button is clicked.
-	 * If undefined, the button behaves normally.
-	 */
-	readonly click = input<(() => void) | undefined>(undefined);
-
-	/**
-	 * Event emitted when the button is clicked.
-	 */
+	// Outputs — prefer (wClick). (click) on <wbutton> still works via bubbling.
 	readonly wClick = output<void>();
 
-	ngOnInit() {
-		this._cdr.detectChanges();
+	private _cooling = false;
+
+	get isBlocked(): boolean {
+		return (
+			this.disabled() ||
+			(!this.isMultipleClicksAllowed() && this._cooling)
+		);
 	}
 
-	/**
-	 * Handles the click event.
-	 * If the button is disabled, the event is ignored.
-	 * Executes the custom click function if provided.
-	 * Emits the wClick event.
-	 */
 	clicked(): void {
-		if (this.disabled()) {
-			return;
-		}
-
-		if (typeof this.click() === 'function') {
-			this.click()?.();
-		}
+		if (this.isBlocked) return;
 
 		this.wClick.emit();
+
+		if (!this.isMultipleClicksAllowed()) {
+			this._cooling = true;
+			this._cdr.markForCheck(); // ⬅ reflect disabled state now
+			setTimeout(() => {
+				this._cooling = false;
+				this._cdr.markForCheck(); // ⬅ re-enable after 2s
+			}, 2000);
+		}
+	}
+
+	resolveType(): 'button' | 'submit' {
+		return this.disableSubmit() ? 'button' : 'submit';
 	}
 }
