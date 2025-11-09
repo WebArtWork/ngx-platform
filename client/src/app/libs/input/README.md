@@ -46,13 +46,7 @@ export class DemoComponent {}
 ### 1️⃣ Template-Driven Form (`ngModel`)
 
 ```html
-<winput
-	placeholder="Enter your password..."
-	type="password"
-	[(wModel)]="submission.password"
-	(wChange)="onChange()"
-	(wSubmit)="onSubmit()"
-></winput>
+<winput type="password" [(wModel)]="submission.password"></winput>
 ```
 
 ### 2️⃣ Reactive Form (`FormControl`)
@@ -69,22 +63,13 @@ form = new FormGroup({
 ```
 
 ```html
-<winput
-	placeholder="Enter your password..."
-	type="password"
-	[control]="form.get('password')"
-></winput>
+<winput type="password" [control]="form.get('password')"></winput>
 ```
 
 ### 3️⃣ WAW Virtual Form
 
 ```html
-<winput
-	placeholder="Enter your password..."
-	type="password"
-	wFormId="submission"
-	wFormKey="password"
-></winput>
+<winput type="password" wFormId="submission" wFormKey="password"></winput>
 ```
 
 ## ⚙️ Inputs
@@ -189,14 +174,6 @@ export type InputType =
 - **Autocomplete**
     - If `type='password'` and `autocomplete` not provided → use `'current-password'`.
     - If provided, component respects the given value.
-
----
-
-## 🪄 Roadmap
-
-- Add ControlValueAccessor wrapper (for automatic reactive forms binding).
-- Add `aria-*` accessibility attributes.
-- Add support for form validation messages and async validators.
 
 ---
 
