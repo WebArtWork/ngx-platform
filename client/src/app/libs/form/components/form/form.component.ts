@@ -2,6 +2,7 @@ import {
 	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
+	computed,
 	effect,
 	EnvironmentInjector,
 	inject,
@@ -39,6 +40,12 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	// Stable across the component lifecycle
 	readonly _formId = signal<string>('');
+
+	// Derived, reactive iterable (Flow 2)
+	readonly components = computed(() => this.config()?.components ?? []);
+	readonly visibleComponents = computed(() =>
+		this.components().filter((c) => !c?.hidden),
+	);
 
 	// guards
 	private _stop?: ReturnType<typeof effect>;
@@ -98,7 +105,6 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngAfterViewInit(): void {
 		// Keep only reactive bits that truly depend on config() CHANGES.
-		// IMPORTANT: No new UUIDs, no re-registering fields, no handler reattachment.
 		this._stop = runInInjectionContext(this._ei, () =>
 			effect(() => {
 				// If formId in config changes explicitly, allow a hard reset.

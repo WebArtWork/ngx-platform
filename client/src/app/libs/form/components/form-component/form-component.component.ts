@@ -24,6 +24,7 @@ export class FormComponentComponent {
 	private _form = inject(FormService);
 
 	readonly index = input<string>('');
+	readonly formId = input<string>(''); // runtime id from parent
 	readonly config = input.required<FormInterface>();
 	readonly component = input.required<FormComponentInterface>();
 	readonly submition = input<Record<string, unknown>>({}); // legacy pass-through
@@ -35,10 +36,12 @@ export class FormComponentComponent {
 	readonly template = signal<TemplateRef<unknown> | null>(null);
 
 	constructor() {
+		// Re-run when registry (templatesVersion) or component name changes.
 		effect(() => {
+			this._form.templatesVersion(); // dependency on registry readiness
 			const name = this.component().name as string | undefined;
 			this.template.set(
-				(name && this._form.getTemplateComponent(name)) || null,
+				name ? this._form.getTemplateComponent(name) : null,
 			);
 		});
 	}
@@ -60,11 +63,9 @@ export class FormComponentComponent {
 	submit(): void {
 		this.wSubmit.emit(this.submition());
 	}
-
 	change(): void {
 		this.wChange.emit();
 	}
-
 	click(): void {
 		this.wClick.emit();
 	}

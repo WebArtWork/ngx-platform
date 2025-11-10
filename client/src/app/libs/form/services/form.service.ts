@@ -6,6 +6,7 @@ import {
 	inject,
 	Injectable,
 	runInInjectionContext,
+	signal,
 	TemplateRef,
 	Type,
 } from '@angular/core';
@@ -19,7 +20,7 @@ import { FormInterface } from '../interfaces/form.interface';
 import { ModalFormComponent } from '../modals/modal-form/modal-form.component';
 import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.component';
 
-// 🔗 Virtual manager (new)
+// Virtual manager (new)
 import {
 	required,
 	VirtualFormFieldValue,
@@ -57,22 +58,34 @@ export class FormService {
 	}
 
 	/* --------------------------------------------------------------------------------------
-	   Template registry (name -> <ng-template>).
+	   Template registry (name -> <ng-template>) + reactive bump.
 	   -------------------------------------------------------------------------------------- */
-	private _templateComponent: Record<string, TemplateRef<unknown>> = {};
+	private _templateComponent = new Map<string, TemplateRef<unknown>>();
+	/** Bumps whenever a template is registered/unregistered to notify listeners */
+	readonly templatesVersion = signal(0);
 
 	addTemplateComponent<T>(name: string, template: TemplateRef<T>): void {
-		if (!this._templateComponent[name]) {
-			this._templateComponent[name] = template;
+		if (!this._templateComponent.has(name)) {
+			this._templateComponent.set(
+				name,
+				template as unknown as TemplateRef<unknown>,
+			);
+			this.templatesVersion.update((v) => v + 1);
 		}
 	}
 
-	getTemplateComponent(name: string): TemplateRef<unknown> | undefined {
-		return this._templateComponent[name];
+	removeTemplateComponent(name: string): void {
+		if (this._templateComponent.delete(name)) {
+			this.templatesVersion.update((v) => v + 1);
+		}
+	}
+
+	getTemplateComponent(name: string): TemplateRef<unknown> | null {
+		return this._templateComponent.get(name) ?? null;
 	}
 
 	getTemplateComponentsNames(): string[] {
-		return Object.keys(this._templateComponent);
+		return Array.from(this._templateComponent.keys());
 	}
 
 	/* --------------------------------------------------------------------------------------
@@ -108,7 +121,6 @@ export class FormService {
 	translateForm(form: FormInterface): void {
 		if (form.title) {
 			const titleSig = this._translate.translate(`${form.title}`);
-			// Create reactive effect inside injection context
 			runInInjectionContext(this._ei, () =>
 				effect(() => (form.title = titleSig())),
 			);
