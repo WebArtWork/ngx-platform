@@ -89,6 +89,8 @@ export class InputComponent implements AfterViewInit {
 	/** Error state (from control OR wForm OR local valid()). */
 	error = signal(false);
 
+	showPassword = signal(false);
+
 	/** Whether wForm integration is active. */
 	private _usewForm = signal(false);
 
@@ -167,16 +169,16 @@ export class InputComponent implements AfterViewInit {
 	}
 
 	/* ---------------- Lifecycle ---------------- */
-	ngAfterViewInit(): void {
+	ngAfterViewInit() {
 		if (this.focused()) this.focus();
 	}
 
-	focus(): void {
+	focus() {
 		this._inputEl().nativeElement.focus();
 	}
 
 	/* ---------------- Handlers ---------------- */
-	onChange(): void {
+	onChange() {
 		// optional replacement
 		const repl = this.replace();
 		const cur = this.model();
@@ -207,12 +209,12 @@ export class InputComponent implements AfterViewInit {
 		);
 	}
 
-	onChangeAfterWhile(): void {
+	onChangeAfterWhile() {
 		this.error.set(false);
 		this.onChange();
 	}
 
-	onBlur(): void {
+	onBlur() {
 		this.wBlur.emit();
 
 		if (this._usewForm() && this._fieldApi) {
@@ -228,13 +230,14 @@ export class InputComponent implements AfterViewInit {
 		}
 	}
 
-	onSubmit(): void {
+	onSubmit() {
 		this.onChange();
 
 		if (this._usewForm() && this._fieldApi) {
 			this._fieldApi.validate();
 			this.error.set(!!this._fieldApi.error());
 			this.wSubmit.emit(this.model());
+			this._virtualFormService.submit(this.formId()!);
 			return;
 		}
 
@@ -255,7 +258,7 @@ export class InputComponent implements AfterViewInit {
 	}
 
 	/* ---------------- Checkbox helpers ---------------- */
-	setCheckboxValue(add: boolean, i: number): void {
+	setCheckboxValue(add: boolean, i: number) {
 		const list = (Array.isArray(this.model()) ? this.model() : []) as Array<
 			string | number | boolean
 		>;
@@ -280,7 +283,7 @@ export class InputComponent implements AfterViewInit {
 		return type === 'password' ? 'current-password' : null;
 	}
 
-	private _reflectControlError(): void {
+	private _reflectControlError() {
 		const c = this.control();
 		if (!c) return;
 		this.error.set(!!(c.invalid && (c.touched || c.dirty)));

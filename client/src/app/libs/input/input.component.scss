@@ -83,6 +83,14 @@
 		user-select: none;
 	}
 
+	&__eye {
+		position: absolute;
+		right: 7px;
+		top: 6px;
+		cursor: pointer;
+		user-select: none;
+	}
+
 	&__error {
 		margin-top: 4px;
 		font-size: 12px;

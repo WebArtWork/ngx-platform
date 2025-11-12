@@ -1,8 +1,8 @@
 <wselect
-  placeholder="{{ ('Select file...' | translate)() }}"
-  [items]="items()"
-  bindLabel="name"
-  bindValue="_id"
-  [(wModel)]="wModel()"
-  (wChange)="wChange.emit($event as string | null)"
+	placeholder="{{ ('Select file...' | translate)() }}"
+	[items]="items()"
+	bindLabel="name"
+	bindValue="_id"
+	[(wModel)]="wModel()"
+	(wChange)="wChange.emit($event as string | null)"
 ></wselect>

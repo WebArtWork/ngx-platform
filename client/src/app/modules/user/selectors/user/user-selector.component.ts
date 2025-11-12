@@ -8,8 +8,8 @@ import {
 	SimpleChanges,
 	inject,
 } from '@angular/core';
-import { SelectComponent } from 'src/app/libs/select/select.component';
-import { UserService } from 'src/app/modules/user/services/user.service';
+import { SelectComponent } from '@lib/select';
+import { UserService } from '../../services/user.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

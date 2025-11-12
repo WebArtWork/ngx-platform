@@ -6,17 +6,8 @@ import {
 	input,
 	output,
 } from '@angular/core';
-
-export type ButtonType =
-	| 'primary'
-	| 'secondary'
-	| 'success'
-	| 'danger'
-	| 'warning'
-	| 'info'
-	| 'light'
-	| 'dark'
-	| 'link';
+import { VirtualFormService } from 'src/app/virtual-form.service';
+import { ButtonType } from './button.type';
 
 @Component({
 	selector: 'wbutton',
@@ -27,6 +18,10 @@ export type ButtonType =
 })
 export class ButtonComponent {
 	private _cdr = inject(ChangeDetectorRef);
+
+	formId = input<string>();
+
+	private _virtualFormService = inject(VirtualFormService);
 
 	// Inputs
 	readonly type = input<ButtonType>('primary');
@@ -50,6 +45,10 @@ export class ButtonComponent {
 
 	clicked(): void {
 		if (this.isBlocked) return;
+
+		if (this.formId()) {
+			this._virtualFormService.submit(this.formId()!);
+		}
 
 		this.wClick.emit();
 

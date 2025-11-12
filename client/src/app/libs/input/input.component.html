@@ -15,7 +15,7 @@ _model = model();
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
 			(ngModelChange)="model.set($event); onChangeAfterWhile()"
 			(keyup.enter)="onSubmit()"
-			[type]="_type || 'text'"
+			[type]="_type === 'password' ? (showPassword() ? 'text' : 'password')  : _type || 'text'"
 			(blur)="onBlur()"
 			[autocomplete]="getAutocompleteAttr(_type)"
 			[class.error]="_error"
@@ -31,6 +31,13 @@ _model = model();
 			(click)="model.set(null); onSubmit(); focus()"
 			>close</i
 		>
+		} @if (_type === 'password') {
+		<span
+			(click)="showPassword.set(!showPassword())"
+			class="winput__eye material-icons"
+		>
+			visibility
+		</span>
 		}
 	</div>
 

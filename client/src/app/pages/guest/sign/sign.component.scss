@@ -1,59 +1,50 @@
-/* src/app/pages/guest/sign/sign.component.scss */
 .sign {
-	/* tokens */
-	--wrap-max: 980px;
-	--panel-max: 360px;
-	--gap: 32px;
-	--gap-sm: 20px;
-	--pad: 20px;
-	--pad-card: 28px;
+	/* layout tokens */
+	--panel-max: 380px;
 	--logo-max: 320px;
 
-	position: fixed;
-	inset: 0;
-	background: var(--c-bg-primary);
-	color: var(--c-text-primary);
+	min-block-size: 100dvh;
 	display: grid;
 	place-items: center;
-	overflow: auto;
+	background: var(--c-bg-primary);
+	color: var(--c-text-primary);
+	padding: var(--sp-5);
 
-	/* layout */
+	/* grid layout */
 	&__container {
-		inline-size: min(100%, var(--wrap-max));
+		inline-size: min(100%, 980px);
 		display: grid;
 		grid-template-columns: 1fr minmax(0, var(--panel-max));
 		align-items: center;
-		gap: var(--gap);
-		padding: var(--pad);
+		gap: var(--sp-7);
 	}
 
-	/* brand / logo button */
+	/* brand */
 	&__brand {
 		display: grid;
 		place-items: center;
-		inline-size: 100%;
 		background: none;
 		border: 0;
-		padding: 0;
 		cursor: pointer;
-		text-align: center;
+		padding: 0;
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-ring);
+		}
 	}
 
-	/* shared logo root */
 	&__logo {
 		display: block;
 		margin-inline: auto;
 	}
 
-	/* image logo variant */
 	&__logo--img {
 		max-inline-size: min(100%, var(--logo-max));
-		inline-size: 100%;
 		height: auto;
 		object-fit: contain;
 	}
 
-	/* spider (icon) logo variant — respects CSS vars for sizing */
 	&__logo--icon {
 		inline-size: var(--spider-w, auto);
 		block-size: var(--spider-h, auto);
@@ -73,77 +64,102 @@
 		max-inline-size: min(var(--panel-max), 92vw);
 		background: var(--c-bg-secondary);
 		border-radius: var(--b-radius-card);
-		box-shadow: 0 0 6px var(--c-shadow);
-		padding: var(--pad-card);
+		box-shadow: var(--card-box-shadow);
+		padding: var(--sp-7);
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp-4);
 	}
 
-	/* theme icon */
 	&__theme {
 		position: absolute;
-		top: 10px;
-		right: 10px;
+		top: var(--sp-3);
+		right: var(--sp-3);
 		inline-size: 36px;
 		block-size: 36px;
-		display: inline-flex;
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		border: 0;
 		background: transparent;
+		color: var(--c-text-secondary);
 		cursor: pointer;
-		color: var(--c-white);
+		transition: color var(--motion) var(--easing);
 
 		.material-icons {
 			font-size: 22px;
-			color: inherit;
+		}
+
+		&:hover {
+			color: var(--c-primary);
+		}
+	}
+
+	/* title */
+	&__title {
+		margin: 0;
+		font-weight: 700;
+		font-size: clamp(22px, 3vw, 32px);
+		line-height: 1.1;
+		color: var(--c-text-secondary);
+	}
+
+	/* fields stack */
+	&__fields {
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp-3);
+
+		.winput__field {
+			background: transparent;
+			border: 1px solid var(--c-border);
+			border-radius: var(--b-radius);
+			color: var(--c-text-secondary);
+			transition: border-color var(--motion) var(--easing);
+
+			&:focus-within {
+				border-color: var(--c-primary);
+			}
+		}
+
+		.wbutton {
+			margin-top: var(--sp-2);
+			min-height: 42px;
+			border-radius: var(--b-radius-btn);
+			font-weight: 600;
 		}
 	}
 
 	/* mobile */
 	@media (max-width: 767px) {
-		--gap: var(--gap-sm);
-		--pad-card: 22px;
+		padding: var(--sp-4);
 
-		.sign__container {
+		&__container {
 			grid-template-columns: 1fr;
-			/* 20% viewport height for logo row; form uses only what it needs */
-			grid-template-rows: 20svh auto;
-			/* nice breathing room between logo and card */
-			row-gap: clamp(16px, 4svh, 32px);
+			grid-template-rows: auto auto;
+			gap: var(--sp-5);
 			justify-items: center;
-			min-block-size: 100dvh;
 		}
 
-		.sign__brand {
+		&__brand {
 			order: -1;
 			align-self: end;
-			justify-self: center;
 		}
 
-		/* size the spider via CSS vars */
-		.sign__brand icon-spider.sign__logo--icon {
-			--spider-w: auto;
-			--spider-h: 20svh; /* exact 20% height */
-			max-width: 70vw; /* safety cap */
-		}
-
-		/* image logo fallback sizing */
-		.sign__logo--img {
-			max-block-size: 20svh;
-			inline-size: auto;
+		&__brand icon-spider.sign__logo--icon {
+			--spider-h: 20svh;
 			max-inline-size: 70vw;
 		}
 
-		.sign__panel {
-			align-self: start;
-			inline-size: 100%;
+		&__logo--img {
+			max-block-size: 20svh;
+			max-inline-size: 70vw;
 		}
 
-		.sign__card {
+		&__card {
 			max-inline-size: 420px;
-			/* no min-height → form takes only needed space */
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
+			padding: var(--sp-6);
+			gap: var(--sp-3);
 		}
 	}
 }

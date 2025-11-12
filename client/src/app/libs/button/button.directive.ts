@@ -7,17 +7,7 @@ import {
 	Input,
 	Output,
 } from '@angular/core';
-
-export type ButtonType =
-	| 'primary'
-	| 'secondary'
-	| 'success'
-	| 'danger'
-	| 'warning'
-	| 'info'
-	| 'light'
-	| 'dark'
-	| 'link';
+import { ButtonType } from './button.type';
 
 @Directive({
 	selector: 'button[wbutton], a[wbutton]',

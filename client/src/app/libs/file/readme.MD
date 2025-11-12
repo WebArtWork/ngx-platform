@@ -9,21 +9,25 @@ Signal-based file picker/uploader with crop support, two-way `[(wModel)]`, CVA, 
 - `[formId]` + `[formKey]` Virtual Form sync
 
 ### Basic
+
 ```html
 <ngx-file [(wModel)]="avatarUrl"></ngx-file>
 ```
 
 ### Multiple + crop
+
 ```html
 <ngx-file
-  [multiple]="true"
-  [cropWidth]="1080"
-  [cropHeight]="1080"
-  [(wModel)]="galleryUrls">
+	[multiple]="true"
+	[cropWidth]="1080"
+	[cropHeight]="1080"
+	[(wModel)]="galleryUrls"
+>
 </ngx-file>
 ```
 
 ### Virtual form
+
 ```html
 <ngx-file [formId]="formId" [formKey]="'photoUrl'"></ngx-file>
 ```

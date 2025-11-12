@@ -9,6 +9,13 @@
 		"esModuleInterop": true,
 		"typeRoots": ["node_modules/@types"],
 		"noFallthroughCasesInSwitch": true,
+		"paths": {
+			"@page-component/*": ["src/app/page-componnets/*"],
+			"@env": ["src/environments/environment"],
+			"@module/*": ["src/app/modules/*"],
+			"@icon/*": ["src/app/icons/*"],
+			"@lib/*": ["src/app/libs/*"]
+		},
 		"experimentalDecorators": true,
 		"noImplicitOverride": true,
 		"outDir": "./dist/out-tsc",

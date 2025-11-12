@@ -5,10 +5,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import {
-	ButtonComponent,
-	ButtonType,
-} from 'src/app/libs/button/button.component';
+import { ButtonComponent, ButtonType } from '@lib/button';
 
 interface HeroButton {
 	text: string;

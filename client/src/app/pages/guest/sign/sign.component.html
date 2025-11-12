@@ -7,7 +7,7 @@
 			type="button"
 		>
 			@if (logo) {
-			<img class="sign__logo" [src]="logo" alt="Logo" />
+			<img class="sign__logo sign__logo--img" [src]="logo" alt="Logo" />
 			} @else {
 			<icon-spider class="sign__logo sign__logo--icon"></icon-spider>
 			}
@@ -27,11 +27,37 @@
 					</span>
 				</button>
 
-				<wform
-					(wSubmit)="submit()"
-					[submition]="user"
-					[config]="form"
-				></wform>
+				<h1 class="sign__title">Sign In / Sign Up</h1>
+
+				<div class="sign__fields">
+					<winput
+						type="email"
+						placeholder="Enter your email..."
+						formId="sign"
+						formKey="email"
+						[focused]="true"
+					></winput>
+
+					<winput
+						type="password"
+						placeholder="Enter your password..."
+						formId="sign"
+						formKey="password"
+					></winput>
+
+					@if (showCode()) {
+					<winput
+						type="number"
+						placeholder="Enter code from mailbox..."
+						formId="sign"
+						formKey="resetPin"
+					></winput>
+					}
+
+					<wbutton type="primary" (wClick)="wFormSubmit()"
+						>Let's go</wbutton
+					>
+				</div>
 			</div>
 		</div>
 	</div>

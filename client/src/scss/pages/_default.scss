@@ -1,35 +1,18 @@
-/* ============================================================
-   Global Template Layout (BEM block: .space)
-   - Desktop: sidebar is sticky; header hidden.
-   - Mobile (≤991px): header fixed; sidebar overlays and slides in on .space--open.
-   - Relies on theme vars: --c-bg-primary, --c-bg-secondary, --c-bg-tertiary,
-     --c-text-primary, --c-text-secondary, --c-white, --c-primary, --c-secondary,
-     --c-border, --header-doc
-   ============================================================ */
-
 .space {
-	/* -------- CSS Vars -------- */
 	--header-h: 56px;
 	--sidebar-w: 280px;
 	--gutter: 10px;
-
-	/* -------- Root Layout -------- */
 	position: relative;
 	inline-size: 100%;
 	block-size: 100%;
 	background: var(--c-bg-primary);
-	color: var(--c-white);
-
+	color: var(--c-text-primary);
 	display: flex;
-	flex-flow: row nowrap;
 	gap: var(--gutter);
 
-	/* -------- Header (hidden on desktop) -------- */
 	&__header {
 		display: none;
 	}
-
-	/* -------- Sidebar (sticky on desktop) -------- */
 	&__sidebar {
 		position: sticky;
 		top: 0;
@@ -38,11 +21,8 @@
 		background: var(--c-bg-secondary);
 		border-radius: 12px;
 		overflow: auto;
-
-		/* custom scrollbar (optional) */
 		scrollbar-width: thin;
 		scrollbar-color: var(--c-border) transparent;
-
 		&::-webkit-scrollbar {
 			inline-size: 8px;
 		}
@@ -51,157 +31,23 @@
 			border-radius: 8px;
 		}
 	}
-
 	&__sidebar-content {
 		padding: var(--gutter);
 		display: grid;
-		grid-auto-rows: min-content;
 		gap: 12px;
 	}
-
-	/* toolbar / rows inside sidebar */
-	&__sidebar-row {
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-		gap: 8px;
-		margin-block-start: 8px;
-
-		/* end-aligned variant */
-		&--end {
-			justify-content: flex-end;
-		}
-
-		.material-icons {
-			font-size: 20px;
-			line-height: 1;
-			color: var(--c-text-primary);
-			padding: 6px;
-			border-radius: 8px;
-			cursor: pointer;
-			transition:
-				background 0.2s ease,
-				color 0.2s ease;
-
-			&:hover {
-				background: rgba(0, 0, 0, 0.06);
-				color: var(--c-primary);
-			}
-
-			&.edit {
-				color: var(--c-primary);
-			}
-			&.delete {
-				color: var(--c-secondary);
-			}
-		}
-	}
-
-	/* close control (button; visible on mobile) */
-	&__sidebar-close {
-		display: none; /* shown on mobile */
-		background: transparent;
-		border: 0;
-		padding: 10px;
-		inline-size: 100%;
-		text-align: right;
-		cursor: pointer;
-	}
-
-	&__sidebar-img {
-		inline-size: 100%;
-		display: grid;
-		place-items: center;
-		margin-block: 8px 4px;
-
-		img {
-			inline-size: 120px;
-			block-size: 120px;
-			object-fit: cover;
-			border-radius: 16px;
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-		}
-	}
-
-	&__sidebar-title {
-		font-weight: 700;
-		font-size: 1.05rem;
-		color: var(--c-text-secondary);
-		line-height: 1.25;
-	}
-
-	&__sidebar-desc {
-		color: var(--c-text-primary);
-		line-height: 1.5;
-		font-size: 0.95rem;
-		opacity: 0.95;
-	}
-
-	/* Tighter layout on small phones */
-	@media (max-width: 420px) {
-		&__sidebar-content {
-			padding: calc(var(--gutter) + 6px) 12px 12px;
-			gap: 10px;
-		}
-		&__sidebar-img img {
-			inline-size: 96px;
-			block-size: 96px;
-			border-radius: 12px;
-		}
-	}
-
-	/* -------- Main (scroll owner) -------- */
 	&__main {
 		flex: 1 1 auto;
-		min-width: 0;
-		block-size: 100%;
-
-		/* core container */
 		display: grid;
 		gap: var(--gutter);
 		padding: var(--gutter);
-		min-inline-size: 0;
 		overflow: auto;
-
-		/* generic text helpers */
-		.section__title,
-		&__title {
-			font-size: 1.6rem;
-			font-weight: 700;
-			color: var(--c-text-secondary);
-		}
-		.section__desc,
-		&__desc {
-			color: var(--c-text-primary);
-			line-height: 1.6;
-			max-width: 75ch;
-		}
-	}
-
-	/* -------- Local footer -------- */
-	&__footer {
-		display: flex;
-		gap: 10px;
-		justify-content: space-between;
-		align-items: center;
-		color: var(--c-text-primary);
-	}
-	&__footer-right {
-		display: inline-flex;
-		gap: 12px;
-	}
-	&__footer a {
-		color: var(--c-text-secondary);
-		text-decoration: none;
 	}
 }
 
-/* =================== Mobile (≤991px) =================== */
 @media (max-width: 991px) {
 	.space {
 		gap: 0;
-
-		/* fixed header on mobile */
 		&__header {
 			display: flex;
 			align-items: center;
@@ -209,74 +55,31 @@
 			inset: 0 0 auto 0;
 			block-size: var(--header-h);
 			padding: 10px;
-			background: var(--header-doc);
+			background: var(--c-bg-secondary);
 			z-index: 8;
-
-			&-left,
-			&-right {
-				display: flex;
-				align-items: center;
-				min-inline-size: 56px;
-			}
-			&-left {
-				padding-inline-start: 4px;
-			}
-			&-right {
-				margin-inline-start: auto;
-				padding-inline-end: 4px;
-			}
-
-			&-title {
-				position: absolute;
-				left: 50%;
-				top: 50%;
-				transform: translate(-50%, -50%);
-				font-weight: 600;
-				color: var(--c-text-primary);
-				max-inline-size: 70%;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				pointer-events: none;
-			}
 		}
-
-		/* content offset under fixed header */
 		&__main {
 			padding-top: var(--header-h);
 		}
-
-		/* sidebar overlays on mobile */
 		&__sidebar {
-			flex: 0 0 100%;
 			inline-size: 100%;
 			block-size: calc(100dvh - var(--header-h));
 			position: fixed;
 			inset: var(--header-h) 0 0 0;
 			border-radius: 12px 12px 0 0;
 			transform: translateX(-100%);
-			transition: transform 0.25s ease;
+			transition: transform var(--motion) var(--easing);
 			z-index: 9;
 		}
-
-		/* show close button in overlay mode */
-		&__sidebar-close {
-			display: block;
+		&.space--open .space__sidebar {
+			transform: translateX(0);
 		}
+	}
+}
 
-		/* open state toggled by root modifier */
-		&.space--open {
-			.space__sidebar {
-				transform: translateX(0);
-			}
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			&__header *,
-			&__sidebar {
-				transition: none !important;
-				animation: none !important;
-			}
-		}
+@media (prefers-reduced-motion: reduce) {
+	.space * {
+		transition: none !important;
+		animation: none !important;
 	}
 }

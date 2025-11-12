@@ -26,7 +26,7 @@
 	}
 
 	&__avatar {
-		border-radius: vars.$b-radius-img;
+		border-radius: var(--b-radius-img);
 		border: 1px solid var(--c-border);
 		position: relative;
 		margin: 0 auto;

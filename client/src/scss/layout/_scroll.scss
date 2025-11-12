@@ -1,18 +1,13 @@
-@use 'src/scss/utils/mixins' as mixins;
-@use 'src/scss/utils/media' as media;
-@use 'src/scss/utils/vars' as vars;
-// ===== SCROLL CUSTOMIZE =====
-*::-webkit-scrollbar-track {
-	box-shadow: inset 0 0 6px var(--c-shadow);
-	background-color: vars.$c-white;
-	display: none;
-}
+/* Scrollbar using tokens */
 *::-webkit-scrollbar {
-	width: 5px;
-	height: 5px;
-	background-color: vars.$c-white;
+	width: 8px;
+	height: 8px;
 }
-* ::-webkit-scrollbar-thumb {
-	box-shadow: inset 0 0 6px var(--c-basic);
-	background-color: var(--c-basic);
+*::-webkit-scrollbar-thumb {
+	background-color: var(--c-border);
+	border-radius: 8px;
+}
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--c-border) transparent;
 }

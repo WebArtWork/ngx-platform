@@ -1,101 +1,35 @@
-// ===== BASE STYLE =====
-@use 'src/scss/utils/mixins' as mixins;
-@use 'src/scss/utils/media' as media;
-@use 'src/scss/utils/vars' as vars;
+@use 'src/scss/utils/vars' as *;
+
 html {
-	font-size: vars.$fs;
-	overflow: hidden;
+	font-size: var(--fs);
 	height: 100%;
 }
 body {
-	font-family: vars.$ff-base;
+	font-family: var(--ff-base);
 	color: var(--c-text-primary);
-	line-height: 1.4;
-	position: relative;
-	overflow: hidden;
+	background: var(--c-bg-primary);
+	line-height: 1.5;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	margin: 0;
 }
-/* === PAGE LAYOUT === */
+
 .container {
-	margin-left: auto;
-	margin-right: auto;
-	padding: vars.$padding;
-	max-width: 100%;
-	width: 100%;
-}
-.container-box {
-	display: flex;
-	align-items: center;
-	.w-input__checkbox {
-		margin-right: 5px;
-	}
+	inline-size: 100%;
+	max-inline-size: var(--container);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
 }
 
-.showTable {
-	padding: 20px 20px 0 20px !important;
+:focus-visible {
+	outline: none;
+	box-shadow: var(--focus-ring);
 }
 
-wform {
-	flex: 1 0;
-
-	@include media.bp-max(sm) {
-		flex: 0 0 100%;
-		padding: 0;
-	}
-}
-
-.w-forms {
-	position: relative;
-
-	&__level {
-		top: 5px;
-		right: 5px;
-		position: absolute;
-		display: inline-block;
-		color: var(--c-text-secondary);
-		// font-size: calc(#{$fs} - 6px);
-		font-size: 22px;
-		letter-spacing: vars.$letter-spacing;
-		transition: vars.$transition;
-
-		&._sky {
-			color: vars.$c-info;
-		}
-
-		&._orange {
-			color: vars.$c-warn;
-		}
-
-		&._green {
-			color: vars.$c-success;
-		}
-	}
-
-	&__input {
-		padding-right: 35px;
-	}
-
-	&__input-block {
-		position: relative;
-	}
-
-	&__toggle {
-		display: flex;
-		position: absolute;
-		right: 10px;
-		top: 50%;
-		color: var(--c-placeholder);
-		transform: translateY(-50%);
-		cursor: pointer;
-
-		i {
-			font-size: 21px;
-		}
-	}
-
-	.icon-visibility {
-		color: var(--c-primary);
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation: none !important;
+		transition: none !important;
 	}
 }

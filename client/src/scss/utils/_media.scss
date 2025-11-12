@@ -1,7 +1,4 @@
-// ===== MEDIA MIXINS FOR RESPONSIVE =====
-// USE: @include bp-max(sm)... bp-min... bp-only...
-
-// Мапа брейкпоінтів для відповідності
+// Media mixins
 $breakpoints-map: (
 	xs: 0,
 	sm: 576px,
@@ -11,48 +8,34 @@ $breakpoints-map: (
 	xxl: 1980px,
 ) !default;
 
-// Імпорт sass:map для роботи з мапами
+// Order we’ll use for responsive suffixes (-sm, -md, -lg, -xl)
+$bp-order: (sm, md, lg, xl) !default;
+
 @use 'sass:map';
 @use 'sass:list';
 
-// Функція для отримання наступного брейкпоінту
 @function breakpoint-next($name, $breakpoints: $breakpoints-map) {
-	$breakpoint-names: map.keys($breakpoints); // Отримуємо ключі з мапи
-	$n: list.index(
-		$breakpoint-names,
-		$name
-	); // Отримуємо індекс з іменем брейкпоінту
+	$breakpoint-names: map.keys($breakpoints);
+	$n: list.index($breakpoint-names, $name);
 	@return if(
 		$n < list.length($breakpoint-names),
 		list.nth($breakpoint-names, $n + 1),
 		null
-	); // Повертаємо наступний брейкпоінт
+	);
 }
 
-// Функція для отримання мінімального брейкпоінту
 @function breakpoint-min($name, $breakpoints: $breakpoints-map) {
-	$min: map.get(
-		$breakpoints,
-		$name
-	); // Отримуємо значення мінімального брейкпоінту
+	$min: map.get($breakpoints, $name);
 	@return if($min != 0, $min, null);
 }
 
-// Функція для отримання максимального брейкпоінту
 @function breakpoint-max($name, $breakpoints: $breakpoints-map) {
-	$next: breakpoint-next(
-		$name,
-		$breakpoints
-	); // Отримуємо наступний брейкпоінт
+	$next: breakpoint-next($name, $breakpoints);
 	@return if($next, breakpoint-min($next, $breakpoints) - 0.1, null);
 }
 
-// Міксін для мінімального брейкпоінту
 @mixin bp-min($name, $breakpoints: $breakpoints-map) {
-	$min: breakpoint-min(
-		$name,
-		$breakpoints
-	); // Отримуємо мінімальний брейкпоінт
+	$min: breakpoint-min($name, $breakpoints);
 	@if $min {
 		@media (min-width: $min) {
 			@content;
@@ -62,12 +45,8 @@ $breakpoints-map: (
 	}
 }
 
-// Міксін для максимального брейкпоінту
 @mixin bp-max($name, $breakpoints: $breakpoints-map) {
-	$max: breakpoint-max(
-		$name,
-		$breakpoints
-	); // Отримуємо максимальний брейкпоінт
+	$max: breakpoint-max($name, $breakpoints);
 	@if $max {
 		@media (max-width: $max) {
 			@content;
@@ -77,7 +56,6 @@ $breakpoints-map: (
 	}
 }
 
-// Міксін для точного брейкпоінту
 @mixin bp-only($name, $breakpoints: $breakpoints-map) {
 	@include bp-min($name, $breakpoints) {
 		@include bp-max($name, $breakpoints) {

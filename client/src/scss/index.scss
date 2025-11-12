@@ -1,40 +1,26 @@
-// src/scss/index.scss
-// ===== MAIN SCSS FILE =====
+// ===== MAIN SCSS ENTRY =====
+@use 'atom/flex';
+@use 'atom/text';
+@use 'atom/size';
+@use 'atom/spacing';
+@use 'atom/primitives';
+@use 'atom/typography';
+@use 'atom/containers';
+@use 'atom/state';
+@use 'atom/a11y';
+@use 'atom/color';
+@use 'atom/position';
 
-// ## VENDORS
-@use 'vendors/normalize';
+@use 'layout/base';
+@use 'layout/scroll';
+@use 'layout/grid';
 
-// ## UTILS
-@use 'utils/vars' as vars;
-@use 'utils/media' as media;
-@use 'utils/mixins' as mixins;
+@use 'pages/default';
+
+@use 'utils/vars';
+@use 'utils/media';
+@use 'utils/mixins';
 @use 'utils/fonts';
 @use 'utils/icons';
 
-// ## LAYOUT
-@use 'layout/base';
-@use 'layout/scroll';
-// @use 'layout/grid';
-
-// ## COMPONENTS
-@use 'components/w-alert';
-@use 'components/w-btn';
-@use 'components/w-switch';
-@use 'components/w-forms';
-@use 'components/w-card';
-@use 'components/w-checkbox';
-@use 'components/w-radio';
-@use 'components/w-table';
-@use 'components/w-select';
-@use 'components/w-modal';
-
-// ## ATOM
-@use 'atom/display';
-@use 'atom/margin';
-@use 'atom/padding';
-@use 'atom/size';
-@use 'atom/text';
-@use 'atom/other';
-
-// ## Pages
-@use 'pages/default';
+@use 'vendors/normalize';
