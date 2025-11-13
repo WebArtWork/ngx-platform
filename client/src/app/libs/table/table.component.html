@@ -1,17 +1,15 @@
 <div class="wtable">
 	<div class="wtable__header">
-		@if (headerTpl()) {
-		<div class="wtable__header-slot">
-			<ng-container
-				[ngTemplateOutlet]="headerTpl()?.template"
-			></ng-container>
-		</div>
-		}
-
 		<div class="wtable__header-main">
 			<h3 class="wtable__title">{{ title() }}</h3>
 
-			@if (config().searchable) {
+			@if (headerTpl()) {
+			<div class="wtable__header-slot">
+				<ng-container
+					[ngTemplateOutlet]="headerTpl()?.template"
+				></ng-container>
+			</div>
+			} @if (config().searchable) {
 			<div
 				[class.wtable__search--active]="searchShow"
 				class="wtable__search"

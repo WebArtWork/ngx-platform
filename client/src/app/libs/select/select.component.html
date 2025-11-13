@@ -18,9 +18,8 @@ searchableBy(); @let _q = search();
 			<span class="material-icons">unfold_more</span>
 
 			<ng-container
-				[ngTemplateOutlet]="t_view() ? t_view() : defaultView"
-			>
-			</ng-container>
+				[ngTemplateOutlet]="viewTpl() || defaultView"
+			></ng-container>
 
 			<ng-template #defaultView>
 				<div class="wselect__text">
@@ -80,9 +79,7 @@ searchableBy(); @let _q = search();
 		<div class="wselect__popup" [class._search]="_searchable">
 			@if (_searchable) {
 			<div>
-				<ng-container
-					[ngTemplateOutlet]="t_search() ? t_search() : defaultSearch"
-				>
+				<ng-container [ngTemplateOutlet]="searchTpl() || defaultSearch">
 				</ng-container>
 				<ng-template #defaultSearch>
 					<winput
@@ -98,7 +95,7 @@ searchableBy(); @let _q = search();
 				@for (item of (_all | search: _q: _searchBy + ' __search');
 				track item().id) {
 				<ng-container
-					[ngTemplateOutlet]="t_item() ? t_item() : defaultItem"
+					[ngTemplateOutlet]="itemTpl() || defaultItem"
 					[ngTemplateOutletContext]="{ item: item }"
 				/>
 				} @if (!(_all | search: _q: _searchBy + ' __search')?.length) {

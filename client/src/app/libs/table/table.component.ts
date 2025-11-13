@@ -4,7 +4,6 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	OnInit,
-	TemplateRef,
 	contentChild,
 	contentChildren,
 	inject,
@@ -31,7 +30,7 @@ import {
 	selector: 'wtable',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './table.component.html',
-	styleUrls: ['./table.component.scss'],
+	styleUrl: './table.component.scss',
 	imports: [
 		FormsModule,
 		ButtonComponent,
@@ -54,9 +53,6 @@ export class TableComponent implements OnInit, AfterContentInit {
 	readonly value = input<string>('_id');
 	readonly title = input<string>('');
 
-	// extra optional header input (TemplateRef passed from parent)
-	readonly t_header = input<TemplateRef<unknown> | null>(null);
-
 	// outputs (same name)
 	readonly onSearch = output<string>();
 
@@ -65,7 +61,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 	private readonly _sortDirs = contentChildren(SortDirective);
 	private readonly _actionDir = contentChild(ActionsDirective);
 	private readonly _editFormDir = contentChild(CustomEditDirective);
-	private readonly _headerDir = contentChild(TableHeaderDirective);
+
 	headerTpl = contentChild(TableHeaderDirective);
 
 	// used in template (not inputs)
@@ -129,9 +125,6 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 		this.action = this._actionDir() ?? undefined;
 		this.editForm = this._editFormDir() ?? undefined;
-
-		// prefer input t_header if provided, otherwise use <ng-template tableHeader>
-		// this.headerTpl = this.t_header() ?? this._headerDir()?.template ?? null;
 	}
 
 	refresh(): void {

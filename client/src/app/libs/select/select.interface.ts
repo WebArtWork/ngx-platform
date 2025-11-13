@@ -3,6 +3,7 @@ import { SelectId } from './select.type';
 export interface SelectItem {
 	name: string;
 	id: SelectId;
+	__search?: string;
 }
 
 export interface SelectButton {

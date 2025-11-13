@@ -5,6 +5,7 @@ import {
 	Signal,
 	TemplateRef,
 	computed,
+	contentChild,
 	effect,
 	forwardRef,
 	inject,
@@ -14,11 +15,16 @@ import {
 	signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { VirtualFormService } from 'src/app/virtual-form.service'; // ensure correct path
+import { VirtualFormService } from 'src/app/virtual-form.service';
 import { ClickOutsideDirective, CoreService, SearchPipe } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
+import {
+	WselectItemDirective,
+	WselectSearchDirective,
+	WselectViewDirective,
+} from './select.directives';
 import { SelectButton, SelectItem } from './select.interface';
 import { SelectId, SelectValue } from './select.type';
 
@@ -58,10 +64,16 @@ export class SelectComponent implements ControlValueAccessor {
 	readonly items = input<unknown[]>([]);
 	readonly buttons = input<SelectButton[]>([]);
 
-	/** Templates */
-	readonly t_view = input<TemplateRef<unknown>>();
-	readonly t_item = input<TemplateRef<unknown>>();
-	readonly t_search = input<TemplateRef<unknown>>();
+	/* ==== Projected templates (contentChild) ==== */
+	readonly viewTpl = contentChild(WselectViewDirective, {
+		read: TemplateRef<unknown>,
+	});
+	readonly itemTpl = contentChild(WselectItemDirective, {
+		read: TemplateRef<unknown>,
+	});
+	readonly searchTpl = contentChild(WselectSearchDirective, {
+		read: TemplateRef<unknown>,
+	});
 
 	/** Virtual Form */
 	readonly formId = input<string | null>(null);
@@ -114,24 +126,76 @@ export class SelectComponent implements ControlValueAccessor {
 	private _onTouched: () => void = () => {};
 
 	constructor() {
-		/* rebuild items mirror on input changes */
+		/* rebuild items mirror on input changes (supports plain items & signals) */
 		effect(() => {
 			const list = this.items();
-			this.allItems.update(() =>
-				list.map((raw) => {
-					const item: SelectItem = {
-						name:
-							typeof raw === 'object'
-								? (raw as any)[this.bindLabel()]
-								: (raw as any),
-						id:
-							typeof raw === 'object'
-								? (raw as any)[this.bindValue()]
-								: (raw as any),
-					};
-					this.allItem[item.id] = item.name;
-					return this._core.toSignal(item);
-				}),
+			const bindLabel = this.bindLabel();
+			const bindValue = this.bindValue();
+			const searchBy = this.searchableBy();
+
+			// reset id->label map
+			for (const key of Object.keys(this.allItem)) {
+				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+				delete (this.allItem as any)[key];
+			}
+
+			const normalized: SelectItem[] = list.map((raw) => {
+				// unwrap Angular signal if passed
+				let value: any = raw;
+				if (typeof raw === 'function') {
+					try {
+						value = (raw as any)();
+					} catch {
+						value = raw;
+					}
+				}
+
+				let id: SelectId;
+				let name: string;
+
+				if (
+					typeof value === 'string' ||
+					typeof value === 'number' ||
+					typeof value === 'boolean'
+				) {
+					id = value as SelectId;
+					name = String(value);
+				} else if (value && typeof value === 'object') {
+					const v: any = value;
+					id = (v[bindValue] ?? v._id) as SelectId;
+					name = (v[bindLabel] ??
+						v.name ??
+						v.title ??
+						String(id)) as string;
+				} else {
+					id = String(value) as SelectId;
+					name = String(value);
+				}
+
+				// build __search field from requested paths
+				let searchValue = name;
+				if (value && typeof value === 'object' && searchBy) {
+					const fields = searchBy.split(/\s+/).filter(Boolean);
+					const tokens: string[] = [];
+					for (const f of fields) {
+						const token = (value as any)[f];
+						if (token != null) tokens.push(String(token));
+					}
+					if (tokens.length) searchValue = tokens.join(' ');
+				}
+
+				const item: SelectItem = {
+					id,
+					name,
+					__search: searchValue,
+				};
+
+				this.allItem[id] = name;
+				return item;
+			});
+
+			this.allItems.set(
+				this._core.toSignalsArray<SelectItem>(normalized),
 			);
 
 			// sanitize selection when items change
@@ -142,11 +206,13 @@ export class SelectComponent implements ControlValueAccessor {
 				const next = (Array.isArray(val) ? val : []).filter((id) =>
 					ids.has(id as SelectId),
 				) as SelectId[];
-				if (JSON.stringify(next) !== JSON.stringify(val))
+				if (JSON.stringify(next) !== JSON.stringify(val)) {
 					this.wModel.set(next);
+				}
 			} else {
-				if (val != null && !ids.has(val as SelectId))
+				if (val != null && !ids.has(val as SelectId)) {
 					this.wModel.set(null);
+				}
 			}
 		});
 
@@ -178,7 +244,7 @@ export class SelectComponent implements ControlValueAccessor {
 			const val = this.wModel();
 			if (!syncing && !this._equal(this._vform.getValues(id)[key], val)) {
 				syncing = true;
-				this._vform.setValue(id, key, val ?? null); // ensure no undefined
+				this._vform.setValue(id, key, val ?? null);
 				syncing = false;
 			}
 		});
@@ -200,7 +266,7 @@ export class SelectComponent implements ControlValueAccessor {
 		if (this.isMulti()) {
 			const set = new Set(this.selectedIds());
 			set.has(item.id) ? set.delete(item.id) : set.add(item.id);
-			this.wModel.set([...set]); // SelectId[] fits SelectValue now
+			this.wModel.set([...set]);
 		} else {
 			this.wModel.set(item.id);
 			this.showOptions.set(false);

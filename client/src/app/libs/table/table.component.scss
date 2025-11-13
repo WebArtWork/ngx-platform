@@ -20,25 +20,25 @@
 	/* Header */
 
 	&__header {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
 		padding: 12px;
-	}
-
-	&__header-slot {
-		width: 100%;
 	}
 
 	&__header-main {
 		display: flex;
-		gap: 12px;
 		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
 	}
 
 	&__title {
 		margin: 0;
 		font-weight: 600;
+	}
+
+	/* optional header slot (e.g. language selector) */
+	&__header-slot {
+		flex: 0 1 auto;
+		min-width: 220px;
 	}
 
 	&__header-actions {
@@ -72,7 +72,7 @@
 		position: relative;
 		display: flex;
 		flex-grow: 1;
-		margin: 0 30px;
+		margin: 0 16px;
 	}
 
 	&__search--active &__search-input {
@@ -110,8 +110,19 @@
 	}
 
 	@media (max-width: 599px) {
+		&__header-main {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 8px;
+		}
+
+		&__header-slot {
+			min-width: 0;
+		}
+
 		&__search {
 			display: none;
+			margin: 0;
 		}
 
 		&__search.wtable__search--active {
