@@ -1,121 +1,36 @@
-/* Public layout (nested BEM) */
+/* Public layout (slim, relies on global utilities) */
 .public {
-	/* tokens */
 	--topbar-h: 56px;
-	--pad: 10px;
-	--pad-md: 20px;
 
-	position: fixed;
-	inset: 0;
-	display: flex;
-	flex-direction: column;
-	background: var(--c-bg-primary);
-	color: var(--c-text-primary);
-	overflow: hidden; /* main scrolls */
-
-	/* Topbar (optional) */
 	&__topbar {
-		position: sticky;
-		top: 0;
-		z-index: 100;
 		min-height: var(--topbar-h);
-		background: var(--c-basic);
-		box-shadow:
-			0 3px 5px -1px #0003,
-			0 6px 10px #00000024,
-			0 1px 18px #0000001f;
-		display: flex;
-		align-items: center;
-		padding-inline: var(--pad-md);
+		background: var(--c-bg-secondary);
 	}
 
-	/* Menu */
+	/* list reset (spacing handled via utilities in HTML) */
 	&__menu {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin: 0;
-		padding: 0;
 		list-style: none;
-		inline-size: 100%;
-	}
-	&__menu-item {
-		display: inline-block;
 	}
 
-	&__link {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 6px 10px;
-		border-radius: var(--b-radius-btn);
-		color: var(--c-white);
-		text-decoration: none;
-		transition: var(--transition);
-
-		.material-icons {
-			inline-size: 24px;
-			color: var(--c-white);
-		}
-
-		&._activeLink::before {
-			content: '';
-			position: absolute;
-			inline-size: 5px;
-			block-size: 5px;
-			background: var(--c-white);
-			border-radius: 50%;
-			inset-block-end: -2px;
-			transform: translateY(12px);
-			opacity: 0;
-			animation: publicLinkDot 0.75s forwards;
-		}
-	}
-
-	/* Main area */
+	/* main scroll area height */
 	&__main {
-		position: relative;
-		flex: 1 1 auto;
-		min-height: calc(100dvh - 56px);
-		overflow: auto;
-		padding: var(--pad);
+		min-height: calc(100dvh - var(--topbar-h));
 	}
 
-	@media (max-width: 991px) {
-		&__main {
-			padding: var(--pad-md);
-		}
-	}
-
-	/* Mobile: topbar becomes bottom bar; main gets bottom padding */
+	/* Mobile: dock bar to bottom and pad main */
 	@media (max-width: 767px) {
 		&__topbar {
 			position: fixed;
 			top: auto;
 			bottom: 0;
 			inline-size: 100%;
-			padding-inline: var(--pad);
+			padding-inline: var(--sp-3);
 		}
 		&__menu {
 			justify-content: space-around;
 		}
-
 		&__topbar + &__main {
-			padding-block-start: var(--pad);
-			padding-block-end: calc(var(--pad-md) + var(--topbar-h));
+			padding-block-end: calc(var(--sp-5) + var(--topbar-h));
 		}
-	}
-}
-
-/* keyframes */
-@keyframes publicLinkDot {
-	0% {
-		opacity: 0;
-		transform: translateY(12px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
 	}
 }

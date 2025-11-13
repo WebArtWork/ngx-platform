@@ -25,7 +25,7 @@ export class UserService extends CrudService<User> {
 
 	themes = (
 		(environment as unknown as { themes: string[] }).themes || []
-	).concat(['dark', 'white']);
+	).concat(['dark', 'light']);
 
 	users = signal<User[]>(this.getDocs());
 
@@ -122,11 +122,11 @@ export class UserService extends CrudService<User> {
 	}
 
 	toggleTheme() {
-		this.setTheme(this.theme === 'dark' ? 'white' : 'dark');
+		this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
 	}
 
-	setTheme(theme = 'white') {
-		if (theme === 'white') {
+	setTheme(theme = 'light') {
+		if (theme === 'light') {
 			this._storeService.remove('theme');
 
 			for (const localtheme of this.themes) {

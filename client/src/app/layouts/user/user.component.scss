@@ -1,5 +1,4 @@
 .user {
-	/* tokens */
 	--topbar-h: 56px;
 	--drawer-w: 260px;
 	--pad: 10px;
@@ -13,7 +12,6 @@
 	flex-direction: column;
 	overflow: hidden;
 
-	/* Top bar */
 	&__topbar {
 		position: sticky;
 		top: 0;
@@ -29,7 +27,6 @@
 		padding-inline: var(--pad-md);
 	}
 
-	/* Menu row */
 	&__menu {
 		display: flex;
 		align-items: center;
@@ -50,38 +47,21 @@
 		margin-inline-start: 4px;
 	}
 
-	/* Links + icon buttons */
-	&__link,
 	&__iconbtn {
-		position: relative;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		padding: 6px 10px;
 		border-radius: var(--b-radius-btn);
-		color: var(--c-white);
-		text-decoration: none;
-		transition: var(--transition);
 		background: transparent;
 		border: 0;
+		color: var(--c-white);
 		cursor: pointer;
+		transition: var(--transition);
 
 		.material-icons {
 			inline-size: 24px;
 			color: var(--c-white);
-		}
-
-		&._activeLink::before {
-			content: '';
-			position: absolute;
-			inline-size: 5px;
-			block-size: 5px;
-			background: var(--c-white);
-			border-radius: 50%;
-			inset-block-end: -2px;
-			transform: translateY(12px);
-			opacity: 0;
-			animation: userLinkDot 0.75s forwards;
 		}
 	}
 
@@ -97,12 +77,13 @@
 			0 3px 5px -1px #0003,
 			0 6px 10px #00000024,
 			0 1px 18px #0000001f;
-		transform: translateX(110%); /* hidden by default (mobile) */
+		transform: translateX(110%);
 		transition: var(--transition);
 		z-index: 90;
 		display: flex;
 		flex-direction: column;
 		padding: var(--pad-md);
+		padding-block-end: var(--pad); /* slightly closer to bottom */
 		overflow: auto;
 
 		&._open {
@@ -114,60 +95,91 @@
 		align-self: flex-end;
 	}
 
-	&__drawer-link {
-		display: inline-flex;
+	/* Smaller profile header */
+	&__drawer-header {
+		display: grid;
+		grid-template-columns: 32px 1fr;
 		align-items: center;
-		gap: 10px;
-		color: var(--c-text-primary);
+		gap: 8px;
 		text-decoration: none;
-		padding: 10px;
+		color: var(--c-text-primary);
+		padding: 4px 6px;
 		border-radius: var(--b-radius);
-		transition: var(--transition);
-
-		.material-icons {
-			font-size: 28px;
-			color: var(--c-text-primary);
-		}
 	}
-
-	&__drawer-user {
-		flex-direction: column;
-		align-items: center;
-		padding: 8px;
-		text-align: center;
-	}
-
 	&__avatar {
 		border-radius: 50%;
 	}
-	&__name {
-		word-break: break-word;
+	&__avatar--sm {
+		inline-size: 32px;
+		block-size: 32px;
+	}
+	&__title {
+		font-weight: 600;
+		font-size: 0.95rem;
 	}
 
 	&__hr {
 		border: none;
 		border-top: 2px solid var(--c-text-primary);
-		margin: 8px 0;
+		margin: 6px 0;
 	}
 
-	/* Main */
+	/* Drawer links via <material-icon> */
+	&__drawer .mi {
+		justify-content: flex-start;
+		inline-size: 100%;
+		padding: 8px 10px;
+		border-radius: var(--b-radius);
+		color: var(--c-text-primary);
+
+		.mi__icon {
+			font-size: 24px;
+		}
+	}
+
+	/* Bottom settings row (theme + language) */
+	&__drawer-bottom {
+		margin-top: auto;
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__drawer-btn {
+		flex: 1 1 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		color: var(--c-text-primary);
+		background: transparent;
+		border: 0;
+		padding: 6px 8px;
+		border-radius: var(--b-radius);
+		cursor: pointer;
+		font-size: 0.85rem;
+
+		.material-icons {
+			font-size: 20px;
+			color: var(--c-text-primary);
+		}
+	}
+
 	&__main {
 		position: relative;
 		flex: 1 1 auto;
 		min-height: calc(100dvh - var(--topbar-h));
 		overflow: auto;
 		padding: var(--pad-md);
-		/* mobile: no sidebar padding */
 	}
 
-	/* ========== Desktop (>=768px): burger hidden, sidebar always shown ========== */
 	@media (min-width: 768px) {
 		&__menu-burger {
 			display: none;
 		}
 
 		&__drawer {
-			/* keep it fixed on the right, but visible */
 			transform: none;
 			top: var(--topbar-h);
 			right: 0;
@@ -177,15 +189,13 @@
 
 		&__drawer-close {
 			display: none;
-		} /* close X not needed on desktop */
+		}
 
 		&__main {
-			/* make room for the always-visible drawer */
 			padding-right: calc(var(--pad-md) + var(--drawer-w));
 		}
 	}
 
-	/* ========== Mobile: topbar at bottom; drawer overlays ========== */
 	@media (max-width: 767px) {
 		&__topbar {
 			position: fixed;
@@ -209,17 +219,5 @@
 			padding-block-start: var(--pad);
 			padding-block-end: calc(var(--pad-md) + var(--topbar-h));
 		}
-	}
-}
-
-/* keyframes */
-@keyframes userLinkDot {
-	0% {
-		opacity: 0;
-		transform: translateY(12px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
 	}
 }

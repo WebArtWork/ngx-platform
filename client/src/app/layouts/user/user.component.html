@@ -2,124 +2,104 @@
 	<nav class="user__topbar">
 		<ul class="user__menu">
 			<li class="user__menu-item">
-				<a
+				<material-icon
 					routerLink="/profile"
-					routerLinkActive="_activeLink"
-					[routerLinkActiveOptions]="{ exact: true }"
-					class="user__link"
-					(click)="closeIfDesktop()"
-					aria-label="Home"
-				>
-					<span class="material-icons">home</span>
-				</a>
+					icon="home"
+				></material-icon>
 			</li>
 
 			<li class="user__menu-item user__menu-spacer"></li>
 
-			<li class="user__menu-item">
-				<button
-					class="user__iconbtn"
-					(click)="languageService.nextLanguage()"
-					aria-label="Switch language"
-				>
-					{{ languageService.language()?.name }}
-				</button>
-			</li>
-
-			<!-- Burger: visible only on mobile; (updated) keeps state in sync -->
 			<li class="user__menu-item user__menu-burger">
 				<icon-burger
-					#burger
 					(updated)="isOpen.set($event)"
 					aria-label="Menu"
+					#burger
 				></icon-burger>
 			</li>
 		</ul>
 	</nav>
 
-	<!-- Sidebar -->
 	<aside class="user__drawer" [class._open]="isOpen()">
-		<!-- Close (mobile only). One click: we only toggle the icon, state is updated via (updated) above -->
 		<button
-			type="button"
 			class="user__iconbtn user__drawer-close"
-			(click)="burger.toggle()"
 			aria-label="Close sidebar"
+			(click)="burger.toggle()"
+			type="button"
 		>
 			<span class="material-icons">close</span>
 		</button>
 
-		<!-- Profile -->
 		<a
-			class="user__drawer-link user__drawer-user"
+			class="user__drawer-header"
 			routerLink="/profile"
 			(click)="isOpen() && burger.toggle()"
 		>
 			<img
 				[src]="userService.thumb()"
 				alt=""
-				class="user__avatar"
-				height="50"
-				width="50"
+				class="user__avatar user__avatar--sm"
+				height="32"
+				width="32"
 			/>
-			<div class="user__name">
-				{{ userService.user().name || 'Profile' }}
-			</div>
+			<span class="user__title" translate>Profile</span>
 		</a>
-
-		<hr class="user__hr" />
-
-		<!-- Theme toggle MOVED here -->
-		<button
-			class="user__drawer-link"
-			type="button"
-			(click)="userService.toggleTheme()"
-		>
-			<span class="material-icons">
-				@if (userService.theme === 'dark') { dark_mode } @else {
-				light_mode }
-			</span>
-			<span>Theme</span>
-		</button>
 
 		<hr class="user__hr" />
 
 		@if (userService.role('admin')) {
-		<a
-			class="user__drawer-link"
+		<material-icon
 			routerLink="/admin/users"
-			routerLinkActive="_activeLink"
-			[routerLinkActiveOptions]="{ exact: true }"
+			icon="people"
+			name="Users"
 			(click)="isOpen() && burger.toggle()"
-		>
-			<span class="material-icons">people</span>
-			<span translate>Users</span>
-		</a>
-		<a
-			class="user__drawer-link"
+		></material-icon>
+
+		<material-icon
 			routerLink="/admin/forms"
-			routerLinkActive="_activeLink"
-			[routerLinkActiveOptions]="{ exact: true }"
+			icon="backup_table"
+			name="Forms"
 			(click)="isOpen() && burger.toggle()"
-		>
-			<span class="material-icons">backup_table</span>
-			<span translate>Forms</span>
-		</a>
-		<a
-			class="user__drawer-link"
+		></material-icon>
+
+		<material-icon
 			routerLink="/admin/translates"
-			routerLinkActive="_activeLink"
-			[routerLinkActiveOptions]="{ exact: true }"
+			icon="translate"
+			name="Translates"
 			(click)="isOpen() && burger.toggle()"
-		>
-			<span class="material-icons">translate</span>
-			<span translate>Translates</span>
-		</a>
+		></material-icon>
+
 		<hr class="user__hr" />
 		}
+
+		<div class="user__drawer-bottom">
+			<button
+				(click)="userService.toggleTheme()"
+				class="user__drawer-btn"
+				type="button"
+			>
+				<span class="material-icons">
+					@if (userService.theme === 'dark') { dark_mode } @else {
+					light_mode }
+				</span>
+				<span>{{userService.theme | titlecase}} theme</span>
+			</button>
+
+			@if (languageService.language()?.name) {
+			<button
+				(click)="languageService.nextLanguage()"
+				aria-label="Switch language"
+				class="user__drawer-btn"
+				type="button"
+			>
+				<span class="material-icons">language</span>
+				<span>{{ languageService.language()?.name }}</span>
+			</button>
+
+			}
+		</div>
 	</aside>
 
-	<!-- Main -->
 	<div class="user__main">
 		<router-outlet />
 	</div>

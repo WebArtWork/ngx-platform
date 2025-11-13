@@ -1,70 +1,61 @@
+@use 'src/scss/utils/media' as media;
+
 .sign {
-	/* layout tokens */
-	--panel-max: 380px;
-	--logo-max: 320px;
-
+	--cols: 2;
 	min-block-size: 100dvh;
-	display: grid;
-	place-items: center;
-	background: var(--c-bg-primary);
-	color: var(--c-text-primary);
-	padding: var(--sp-5);
+	align-items: stretch;
+	padding: var(--sp-6);
 
-	/* grid layout */
-	&__container {
-		inline-size: min(100%, 980px);
-		display: grid;
-		grid-template-columns: 1fr minmax(0, var(--panel-max));
-		align-items: center;
-		gap: var(--sp-7);
+	&__col {
+		display: flex;
+		min-inline-size: 0;
+
+		&--left {
+			grid-column: 1;
+			align-items: center;
+			justify-content: flex-end;
+			padding-inline-end: var(--sp-8); /* space on right */
+		}
+		&--right {
+			grid-column: 2;
+			align-items: center;
+			justify-content: flex-start;
+			padding-inline-start: var(--sp-8); /* space on left */
+		}
 	}
 
-	/* brand */
 	&__brand {
-		display: grid;
-		place-items: center;
 		background: none;
 		border: 0;
 		cursor: pointer;
 		padding: 0;
-
+		display: grid;
+		place-items: center;
 		&:focus-visible {
-			outline: none;
 			box-shadow: var(--focus-ring);
+			outline: none;
 		}
 	}
 
 	&__logo {
 		display: block;
 		margin-inline: auto;
-	}
-
-	&__logo--img {
-		max-inline-size: min(100%, var(--logo-max));
-		height: auto;
-		object-fit: contain;
-	}
-
-	&__logo--icon {
-		inline-size: var(--spider-w, auto);
-		block-size: var(--spider-h, auto);
-		max-inline-size: 100%;
-		max-block-size: 100%;
-	}
-
-	/* right panel */
-	&__panel {
-		display: flex;
-		justify-content: center;
+		&--img {
+			max-inline-size: 320px;
+			block-size: auto;
+			object-fit: contain;
+		}
+		&--icon {
+			inline-size: clamp(120px, 20vw, 260px);
+			block-size: auto;
+		}
 	}
 
 	&__card {
 		position: relative;
 		inline-size: 100%;
-		max-inline-size: min(var(--panel-max), 92vw);
+		max-inline-size: 420px;
 		background: var(--c-bg-secondary);
-		border-radius: var(--b-radius-card);
-		box-shadow: var(--card-box-shadow);
 		padding: var(--sp-7);
 		display: flex;
 		flex-direction: column;
@@ -77,89 +68,64 @@
 		right: var(--sp-3);
 		inline-size: 36px;
 		block-size: 36px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		display: grid;
+		place-items: center;
 		border: 0;
 		background: transparent;
 		color: var(--c-text-secondary);
 		cursor: pointer;
 		transition: color var(--motion) var(--easing);
-
 		.material-icons {
 			font-size: 22px;
 		}
-
 		&:hover {
 			color: var(--c-primary);
 		}
 	}
 
-	/* title */
 	&__title {
 		margin: 0;
-		font-weight: 700;
-		font-size: clamp(22px, 3vw, 32px);
-		line-height: 1.1;
 		color: var(--c-text-secondary);
 	}
 
-	/* fields stack */
 	&__fields {
-		display: flex;
-		flex-direction: column;
-		gap: var(--sp-3);
-
 		.winput__field {
 			background: transparent;
 			border: 1px solid var(--c-border);
 			border-radius: var(--b-radius);
 			color: var(--c-text-secondary);
 			transition: border-color var(--motion) var(--easing);
-
 			&:focus-within {
 				border-color: var(--c-primary);
 			}
 		}
-
 		.wbutton {
-			margin-top: var(--sp-2);
-			min-height: 42px;
+			min-block-size: 42px;
 			border-radius: var(--b-radius-btn);
 			font-weight: 600;
 		}
 	}
 
-	/* mobile */
-	@media (max-width: 767px) {
-		padding: var(--sp-4);
+	@include media.bp-max(md) {
+		--cols: 1;
+		grid-template-rows: 25% 75%;
 
-		&__container {
-			grid-template-columns: 1fr;
-			grid-template-rows: auto auto;
-			gap: var(--sp-5);
-			justify-items: center;
-		}
+		&__col {
+			grid-column: 1;
+			padding-inline: 0;
 
-		&__brand {
-			order: -1;
-			align-self: end;
-		}
-
-		&__brand icon-spider.sign__logo--icon {
-			--spider-h: 20svh;
-			max-inline-size: 70vw;
-		}
-
-		&__logo--img {
-			max-block-size: 20svh;
-			max-inline-size: 70vw;
-		}
-
-		&__card {
-			max-inline-size: 420px;
-			padding: var(--sp-6);
-			gap: var(--sp-3);
+			&--left {
+				grid-row: 1;
+				align-items: flex-end;
+				justify-content: center;
+				padding-bottom: var(--sp-4);
+			}
+			&--right {
+				grid-row: 2;
+				align-items: flex-start;
+				justify-content: center;
+				padding-top: var(--sp-4);
+			}
 		}
 	}
 }
