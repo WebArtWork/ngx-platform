@@ -98,7 +98,7 @@ export class InputComponent implements AfterViewInit {
 	private _inputEl = viewChild.required<ElementRef<HTMLElement>>('inputEl');
 
 	/* ---------------- Services ---------------- */
-	private _core = inject(CoreService);
+	private _coreService = inject(CoreService);
 	private _destroyRef = inject(DestroyRef);
 	private _virtualFormService = inject(VirtualFormService);
 
@@ -201,17 +201,14 @@ export class InputComponent implements AfterViewInit {
 			}
 		}
 
-		// debounced change
-		this._core.afterWhile(
-			this,
-			() => this.wChange.emit(this.model()),
-			2000,
-		);
+		this.wChange.emit(this.model());
 	}
 
 	onChangeAfterWhile() {
 		this.error.set(false);
-		this.onChange();
+		this._coreService.afterWhile(() => {
+			this.onChange();
+		});
 	}
 
 	onBlur() {

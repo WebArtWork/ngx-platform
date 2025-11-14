@@ -55,7 +55,6 @@
 	}
 
 	&__arrow {
-		margin-right: 15px;
 		transition: var(--transition);
 		display: flex;
 		align-items: center;
@@ -130,4 +129,9 @@
 
 .selected {
 	font-weight: bold;
+}
+
+._disabled-btn {
+	opacity: 0.4;
+	pointer-events: none;
 }

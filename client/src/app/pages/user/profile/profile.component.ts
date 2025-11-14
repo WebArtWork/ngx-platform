@@ -42,9 +42,8 @@ export class ProfileComponent {
 
 	constructor() {
 		this._emitterService.onComplete('us.user').subscribe(() => {
-			const user: any = {};
-			this._coreService.copy(this.userService.user(), user);
-			this.user = user;
+			this.user = {};
+			this._coreService.copy(this.userService.user(), this.user);
 			this._cdr.detectChanges();
 		});
 	}

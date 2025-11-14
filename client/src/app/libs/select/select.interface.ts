@@ -11,4 +11,5 @@ export interface SelectButton {
 	icon?: string;
 	text?: string;
 	class?: string;
+	disabled?: boolean;
 }

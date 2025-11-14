@@ -6,7 +6,7 @@ import {
 	inject,
 	signal,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
 import { BurgerComponent } from 'src/app/icons/burger/burger.component';
 import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
@@ -23,6 +23,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 		BurgerComponent,
 		MaterialComponent,
 		TitleCasePipe,
+		RouterLink,
 	],
 })
 export class UserComponent {

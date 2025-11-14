@@ -31,9 +31,9 @@
 		</button>
 
 		<a
+			(click)="isOpen() && burger.toggle()"
 			class="user__drawer-header"
 			routerLink="/profile"
-			(click)="isOpen() && burger.toggle()"
 		>
 			<img
 				[src]="userService.thumb()"

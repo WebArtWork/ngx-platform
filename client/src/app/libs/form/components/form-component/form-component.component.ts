@@ -60,13 +60,15 @@ export class FormComponentComponent {
 		return key.replace(/\[\]/g, `[${idx}]`);
 	}
 
-	submit(): void {
+	submit() {
 		this.wSubmit.emit(this.submition());
 	}
-	change(): void {
+
+	change() {
 		this.wChange.emit();
 	}
-	click(): void {
+
+	click() {
 		this.wClick.emit();
 	}
 }

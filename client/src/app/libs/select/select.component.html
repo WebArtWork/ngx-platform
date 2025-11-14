@@ -8,13 +8,13 @@ searchableBy(); @let _q = search();
 	<div class="wselect__label">{{ (_label | translate)() }}</div>
 	}
 
-	<div
-		class="wselect__body"
-		[class._disabled]="isDisabled()"
-		[class._active]="_show"
-	>
+	<div class="wselect__body" [class._active]="_show">
 		<!-- header -->
-		<div class="wselect__header" (click)="toggleOptions()">
+		<div
+			[class._disabled]="isDisabled()"
+			(click)="toggleOptions()"
+			class="wselect__header"
+		>
 			<span class="material-icons">unfold_more</span>
 
 			<ng-container
@@ -60,8 +60,9 @@ searchableBy(); @let _q = search();
 		<!-- dropdown caret -->
 		<div
 			class="wselect__arrow material-icons"
-			[class._active]="_show"
+			[class._disabled]="isDisabled()"
 			(click)="toggleOptions()"
+			[class._active]="_show"
 		>
 			expand_more
 		</div>
@@ -69,9 +70,16 @@ searchableBy(); @let _q = search();
 		<!-- extra buttons -->
 		@for (button of buttons() || []; track button.icon || button.text) { @if
 		(button.icon) {
-		<i class="material-icons" (click)="button.click()">{{ button.icon }}</i>
+		<i
+			class="material-icons"
+			(click)="button.click()"
+			[class._disabled-btn]="button.disabled"
+			>{{ button.icon }}</i
+		>
 		} @else if (button.text) {
-		<span (click)="button.click()">{{ button.text }}</span>
+		<span (click)="button.click()" [class._disabled-btn]="button.disabled"
+			>{{ button.text }}</span
+		>
 		} }
 
 		<!-- dropdown -->
