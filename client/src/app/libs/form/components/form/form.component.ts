@@ -33,7 +33,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 	private _ei = inject(EnvironmentInjector);
 
 	readonly config = input.required<FormInterface>();
-	readonly submition = input<Record<string, any>>({}); // legacy compat
+	readonly submition = input<Record<string, any>>({});
 
 	readonly wChange = output<Record<string, any>>();
 	readonly wSubmit = output<Record<string, any>>();
