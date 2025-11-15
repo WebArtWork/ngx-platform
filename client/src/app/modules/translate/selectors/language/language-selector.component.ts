@@ -2,6 +2,7 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	computed,
+	effect,
 	inject,
 	input,
 	model,
@@ -32,7 +33,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	FormInterface
 > {
 	/* ==== Injects ==== */
-	private _languageService = inject(LanguageService);
+	languageService = inject(LanguageService);
 	private _form = inject(FormService);
 
 	/* ==== Inputs ==== */
@@ -59,7 +60,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	readonly buttons = computed<SelectButton[]>(() => {
 		if (!this.isMutatable()) return [];
 
-		const hasCurrent = !!this._languageService.language()?._id;
+		const hasCurrent = !!this.languageService.language()?._id;
 
 		return [
 			{
@@ -87,11 +88,15 @@ export class LanguageSelectorComponent extends CrudComponent<
 		);
 
 		this.setDocuments();
+
+		effect(() => {
+			if (this.languageService.language()?._id) {
+				this.wModel.set(this.languageService.language()?._id);
+			}
+		});
 	}
 
 	mutate(current = true) {
-		console.log('called');
-
 		const selectedId = (this.wModel() as string | null) ?? null;
 		const docSig = current
 			? this.documents().find((d) => d()._id === selectedId)
@@ -101,23 +106,23 @@ export class LanguageSelectorComponent extends CrudComponent<
 			languageForm,
 			{
 				label: current ? 'Update' : 'Create',
-				click: (updated) => {
-					return console.log(updated);
-
-					if (current && this._languageService.language()) {
-						this._languageService.update({
-							...(this._languageService.language() as Language),
+				click: (updated, close: () => void) => {
+					if (current && this.languageService.language()) {
+						this.languageService.update({
+							...(this.languageService.language() as Language),
 							...(updated as Partial<Language>),
 						});
 					} else {
-						this._languageService
+						this.languageService
 							.create(updated as Language)
 							.subscribe((l) => {
-								this._languageService.setLanguage(l);
+								this.languageService.setLanguage(l);
 								this.wModel.set(l._id as SelectValue);
 								this.wChange.emit(l._id as SelectValue);
 							});
 					}
+
+					close();
 				},
 			},
 			docSig?.(),
@@ -125,9 +130,9 @@ export class LanguageSelectorComponent extends CrudComponent<
 	}
 
 	private deleteCurrent() {
-		const curr = this._languageService.language() as Language | null;
+		const curr = this.languageService.language() as Language | null;
 		if (!curr) return;
-		this._languageService.delete(curr);
-		this._languageService.nextLanguage();
+		this.languageService.delete(curr);
+		this.languageService.nextLanguage();
 	}
 }

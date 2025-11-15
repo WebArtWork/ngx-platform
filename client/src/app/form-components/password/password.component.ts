@@ -13,7 +13,7 @@ interface Interface {}
 
 @Component({
 	templateUrl: './password.component.html',
-	styleUrls: ['./password.component.scss'],
+	styleUrl: './password.component.scss',
 	imports: [InputComponent, NgClass],
 })
 export class PasswordComponent implements OnInit {

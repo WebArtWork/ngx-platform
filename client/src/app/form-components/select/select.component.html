@@ -2,12 +2,12 @@
 	<wselect
 		[formId]="data.wFormId"
 		[formKey]="data.wFormKey"
-		[multiple]="data.props?.Multiple || false"
-		[placeholder]="data.props?.Placeholder"
-		[bindValue]="data.props?.Value || '_id'"
-		[bindLabel]="data.props?.Name || 'name'"
+		[multiple]="data.props?.multiple || false"
+		[placeholder]="data.props?.placeholder"
+		[bindValue]="data.props?.value || '_id'"
+		[bindLabel]="data.props?.name || 'name'"
 		[ngClass]="data.component.class"
-		[items]="data.props?.Items"
+		[items]="data.props?.items"
 		[searchable]="true"
 		(wChange)="data.wChange()"
 	/>

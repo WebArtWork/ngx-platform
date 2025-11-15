@@ -183,8 +183,8 @@ export class FormService {
 				key: fullKey,
 				focused: i === 0,
 				props: {
-					Placeholder: `Enter your ${label}`,
-					Label: label.charAt(0).toUpperCase() + label.slice(1),
+					placeholder: `Enter your ${label}`,
+					label: label.charAt(0).toUpperCase() + label.slice(1),
 				},
 			};
 		});
@@ -305,7 +305,9 @@ export class FormService {
 						{
 							name: 'Code',
 							key: 'docs',
-							props: { Placeholder: 'fill content of documents' },
+							props: {
+								placeholder: 'fill content of documents',
+							},
 						},
 					],
 				},

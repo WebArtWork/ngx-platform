@@ -27,16 +27,25 @@ export class ModalFormComponent {
 	// ui state
 	submitting = signal(false);
 
-	/** Keep legacy shape and deep copy incoming changes into `submition`. */
-	private _sync(sub: Record<string, unknown>): void {
-		this._core.copy(sub, this.submition);
-		this._core.copy((sub as any)['data'], (this.submition as any)['data']);
+	/** Merge latest virtual-form values into `submition`. */
+	private _sync(update: Record<string, unknown> | undefined | null): void {
+		if (!update) return;
+
+		// flat fields (oldPass, newPass, etc.)
+		this._core.copy(update, this.submition);
+
+		// optional nested "data" payload (for legacy docs modals)
+		const updateData = (update as any).data;
+		if (updateData && typeof updateData === 'object') {
+			(this.submition as any).data = (this.submition as any).data || {};
+			this._core.copy(updateData, (this.submition as any).data);
+		}
 	}
 
-	handleSubmit(): void {
+	handleSubmit(values?: Record<string, unknown>): void {
 		this.submitting.set(true);
 		try {
-			this._sync(this.submition);
+			this._sync(values);
 			this.submit(this.submition);
 			this.close();
 		} finally {
@@ -44,8 +53,8 @@ export class ModalFormComponent {
 		}
 	}
 
-	handleChange(): void {
-		this._sync(this.submition);
+	handleChange(values: Record<string, unknown>): void {
+		this._sync(values);
 		this.change(this.submition);
 	}
 

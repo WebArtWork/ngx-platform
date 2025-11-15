@@ -206,6 +206,12 @@ export class InputComponent implements AfterViewInit {
 
 	onChangeAfterWhile() {
 		this.error.set(false);
+
+		if (this._usewForm() && this._fieldApi) {
+			this._fieldApi.setValue(this.model() as VirtualFormFieldValue);
+			this.error.set(!!this._fieldApi.error());
+		}
+
 		this._coreService.afterWhile(() => {
 			this.onChange();
 		});

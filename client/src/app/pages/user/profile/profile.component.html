@@ -47,9 +47,9 @@
 	<div class="profile-wrapper__body">
 		@if (user) {
 		<wform
-			(wChange)="update()"
 			[config]="formUser"
 			[submition]="user"
+			(wChange)="update($event)"
 		></wform>
 		}
 

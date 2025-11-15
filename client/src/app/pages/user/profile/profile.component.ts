@@ -38,11 +38,13 @@ export class ProfileComponent {
 	private _emitterService = inject(EmitterService);
 	private _cdr = inject(ChangeDetectorRef);
 
+	// Local editable snapshot passed into <wform>
 	user: Record<string, unknown>;
 
 	constructor() {
 		this._emitterService.onComplete('us.user').subscribe(() => {
 			this.user = {};
+			// clone current user into plain object
 			this._coreService.copy(this.userService.user(), this.user);
 			this._cdr.detectChanges();
 		});
@@ -56,27 +58,27 @@ export class ProfileComponent {
 				name: 'Text',
 				key: 'name',
 				focused: true,
+				required: true,
 				props: {
-					Placeholder: 'Enter your name ...',
-					Label: 'Name',
-					Required: true,
+					placeholder: 'Enter your name ...',
+					label: 'Name',
 				},
 			},
 			{
 				name: 'Text',
 				key: 'phone',
 				props: {
-					Placeholder: 'Enter your phone ...',
-					Label: 'Phone',
+					placeholder: 'Enter your phone ...',
+					label: 'Phone',
 				},
 			},
 			{
 				name: 'Text',
 				key: 'bio',
 				props: {
-					Placeholder: 'Enter your biography ...',
-					Label: 'Biography',
-					Textarea: true,
+					placeholder: 'Enter your biography ...',
+					label: 'Biography',
+					textarea: true,
 				},
 			},
 		],
@@ -90,26 +92,39 @@ export class ProfileComponent {
 				name: 'Password',
 				key: 'oldPass',
 				focused: true,
+				required: true,
 				props: {
-					Placeholder: 'Enter your old password ...',
-					Label: 'Old Password',
-					Required: true,
+					placeholder: 'Enter your old password ...',
+					label: 'Old Password',
 				},
 			},
 			{
 				name: 'Password',
 				key: 'newPass',
+				required: true,
 				props: {
-					Placeholder: 'Enter your new password ...',
-					Label: 'New Password',
-					Required: true,
+					placeholder: 'Enter your new password ...',
+					label: 'New Password',
 				},
 			},
 		],
 	});
 
-	update() {
-		this._coreService.copy(this.user, this.userService.user);
+	// gets called with VirtualFormService.getValues(formId)
+	update(values: Record<string, unknown>) {
+		if (!values) return;
+
+		// sync local snapshot used as [submition]
+		if (!this.user) this.user = {};
+		this._coreService.copy(values, this.user);
+
+		// sync user signal and push to backend
+		this.userService.user.update((current) => {
+			const next = { ...current };
+			this._coreService.copy(values, next as any);
+			return next;
+		});
+
 		this.userService.updateMe();
 	}
 

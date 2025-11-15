@@ -1,8 +1,8 @@
 <ng-template #templateRef let-data>
 	<div class="tags">
 		<winput
-			[label]="data.props?.Label"
-			[placeholder]="data.props?.Placeholder"
+			[label]="data.props?.label"
+			[placeholder]="data.props?.placeholder"
 			(wChange)="data.props.__name = $event"
 			(wSubmit)="addTag(data)"
 		/>
@@ -11,7 +11,7 @@
 			<!-- For manager-bound rendering, a dedicated tags component would read current form state by key. -->
 		</div>
 		<wbutton (click)="addTag(data)" [disableSubmit]="true">
-			{{ data.props?.Button || 'Add' }}
+			{{ data.props?.button || 'Add' }}
 		</wbutton>
 	</div>
 </ng-template>

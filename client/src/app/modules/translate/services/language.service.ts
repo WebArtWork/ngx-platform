@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { CrudService, EmitterService, StoreService } from 'wacom';
 import { Language } from '../interfaces/language.interface';
 
@@ -16,33 +16,52 @@ export class LanguageService extends CrudService<Language> {
 			unauthorized: true,
 		});
 
-		this._storeService.get('languageId', (languageId) => {
-			if (languageId) {
-				this.setLanguageId(languageId);
-			}
-		});
-
 		this.loaded.subscribe({
 			next: () => {
 				this.languages.set(this.getDocs());
+
+				this._loadLocal();
 			},
 		});
 
 		this.get().subscribe(() => {
 			this.languages.set(this.getDocs());
+
+			this._loadLocal();
+		});
+
+		// derive `language` from `_languageId` + `languages`
+		effect(() => {
+			const id = this._languageId();
+
+			const list = this.languages();
+
+			if (!id || !list.length) {
+				return;
+			}
+
+			const lang = list.find((l) => l._id === id);
+
+			if (!lang) {
+				return; // guard: unknown / not yet loaded id
+			}
+
+			// only valid language reaches here
+			this.language.set(lang);
+
+			this._storeService.set('languageId', id);
+			this._emitterService.emit('languageId', id);
 		});
 	}
 
-	setLanguage(language: Language) {
-		this.setLanguageId(language._id as string);
+	setLanguageId(languageId: string) {
+		this._languageId.set(languageId);
 	}
 
-	setLanguageId(languageId: string) {
-		this.language = this.getSignal(languageId);
-
-		this._storeService.setJson('languageId', languageId);
-
-		this._emitterService.emit('languageId', languageId);
+	setLanguage(language: Language) {
+		if (language._id) {
+			this._languageId.set(language._id);
+		}
 	}
 
 	nextLanguage() {
@@ -65,7 +84,17 @@ export class LanguageService extends CrudService<Language> {
 		}
 	}
 
+	private _loadLocal() {
+		this._storeService.get('languageId', (languageId) => {
+			if (languageId) {
+				this._languageId.set(languageId);
+			}
+		});
+	}
+
 	private _storeService = inject(StoreService);
 
 	private _emitterService = inject(EmitterService);
+
+	private _languageId = signal<string | null>(null);
 }
