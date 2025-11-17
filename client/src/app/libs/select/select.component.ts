@@ -128,6 +128,8 @@ export class SelectComponent implements ControlValueAccessor {
 	constructor() {
 		/* rebuild items mirror on input changes (supports plain items & signals) */
 		effect(() => {
+			console.log(this.wModel());
+
 			const list = this.items();
 			const bindLabel = this.bindLabel();
 			const bindValue = this.bindValue();
@@ -210,7 +212,11 @@ export class SelectComponent implements ControlValueAccessor {
 					this.wModel.set(next);
 				}
 			} else {
-				if (val != null && !ids.has(val as SelectId)) {
+				if (
+					val &&
+					this.allItems().length &&
+					!ids.has(val as SelectId)
+				) {
 					this.wModel.set(null);
 				}
 			}

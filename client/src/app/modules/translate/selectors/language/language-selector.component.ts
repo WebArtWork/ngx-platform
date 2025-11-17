@@ -1,5 +1,6 @@
 import {
 	ChangeDetectionStrategy,
+	ChangeDetectorRef,
 	Component,
 	computed,
 	effect,
@@ -35,6 +36,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	/* ==== Injects ==== */
 	languageService = inject(LanguageService);
 	private _form = inject(FormService);
+	private _cdr = inject(ChangeDetectorRef);
 
 	/* ==== Inputs ==== */
 	readonly searchable = input<boolean>(true);
@@ -92,6 +94,8 @@ export class LanguageSelectorComponent extends CrudComponent<
 		effect(() => {
 			if (this.languageService.language()?._id) {
 				this.wModel.set(this.languageService.language()?._id);
+
+				this._cdr.markForCheck();
 			}
 		});
 	}

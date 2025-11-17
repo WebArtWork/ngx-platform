@@ -28,9 +28,9 @@ module.exports = async (waw) => {
 			},
 			fetch: {
 				ensure: waw.next,
-				query: (resp) => {
+				query: (req) => {
 					return {
-						_id: resp._id,
+						_id: req.body._id,
 					};
 				},
 			},
@@ -39,17 +39,17 @@ module.exports = async (waw) => {
 			},
 			update: {
 				ensure: waw.next,
-				query: (resp) => {
+				query: (req) => {
 					return {
-						_id: resp._id,
+						_id: req.body._id,
 					};
 				},
 			},
 			delete: {
 				ensure: waw.next,
-				query: (resp) => {
+				query: (req) => {
 					return {
-						_id: resp._id,
+						_id: req.body._id,
 					};
 				},
 			},
