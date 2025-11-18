@@ -1,4 +1,4 @@
-@let _docs = documents(); {{wModel()}}
+@let _docs = documents();
 <wselect
 	(wChange)="wModel.set($event); wChange.emit($event)"
 	[placeholder]="(placeholder() | translate)()"

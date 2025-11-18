@@ -213,9 +213,8 @@ export class SelectComponent implements ControlValueAccessor {
 				}
 			} else {
 				if (
-					val &&
-					this.allItems().length &&
-					!ids.has(val as SelectId)
+					!val ||
+					(this.allItems().length && !ids.has(val as SelectId))
 				) {
 					this.wModel.set(null);
 				}

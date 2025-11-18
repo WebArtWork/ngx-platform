@@ -81,6 +81,8 @@ export class LanguageService extends CrudService<Language> {
 					? languages[0]
 					: languages[index],
 			);
+		} else {
+			this._languageId.set(null);
 		}
 	}
 
