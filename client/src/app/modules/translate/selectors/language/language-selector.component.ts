@@ -8,6 +8,7 @@ import {
 	input,
 	model,
 	output,
+	signal,
 } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
@@ -59,26 +60,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	);
 
 	/** buttons (only visible if mutatable = true) */
-	readonly buttons = computed<SelectButton[]>(() => {
-		if (!this.isMutatable()) return [];
-
-		const hasCurrent = !!this._languageService.language()?._id;
-
-		return [
-			{
-				icon: hasCurrent ? 'edit' : '',
-				click: () => this.mutate(true),
-			},
-			{
-				icon: hasCurrent ? 'delete' : '',
-				click: () => this.deleteCurrent(),
-			},
-			{
-				icon: 'add',
-				click: () => this.mutate(false),
-			},
-		];
-	});
+	buttons = signal<SelectButton[]>([]);
 
 	constructor(_lang: LanguageService) {
 		super(
@@ -92,11 +74,32 @@ export class LanguageSelectorComponent extends CrudComponent<
 		this.setDocuments();
 
 		effect(() => {
+			console.log('called change languege');
+
 			if (this._languageService.language()?._id) {
 				this.wModel.set(this._languageService.language()?._id);
-
-				this._cdr.markForCheck();
 			}
+
+			if (this.isMutatable()) {
+				const hasCurrent = !!this._languageService.language()?._id;
+
+				this.buttons.set([
+					{
+						icon: hasCurrent ? 'edit' : '',
+						click: () => this.mutate(true),
+					},
+					{
+						icon: hasCurrent ? 'delete' : '',
+						click: () => this.deleteCurrent(),
+					},
+					{
+						icon: 'add',
+						click: () => this.mutate(false),
+					},
+				]);
+			}
+
+			this._cdr.markForCheck();
 		});
 	}
 
@@ -122,13 +125,16 @@ export class LanguageSelectorComponent extends CrudComponent<
 								this.setDocuments();
 							});
 					} else {
+						console.log(this.documents().length);
 						this._languageService
 							.create(updated as Language)
 							.subscribe((l) => {
+								console.log(this.documents().length);
+								this.setDocuments();
+								console.log(this.documents().length);
 								this._languageService.setLanguage(l);
 								this.wModel.set(l._id as SelectValue);
 								this.wChange.emit(l._id as SelectValue);
-								this.setDocuments();
 							});
 					}
 

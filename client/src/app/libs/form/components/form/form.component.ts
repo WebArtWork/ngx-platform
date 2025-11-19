@@ -133,9 +133,14 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	onLegacyChange(): void {
 		const id = this._formId();
-		this._core.afterWhile(this, () => {
-			this._emitLegacyChange(this._virtualFormService.getValues(id));
-		});
+
+		this._core.afterWhile(
+			this,
+			() => {
+				this._emitLegacyChange(this._virtualFormService.getValues(id));
+			},
+			250,
+		);
 	}
 
 	onClick(): void {}

@@ -128,8 +128,6 @@ export class SelectComponent implements ControlValueAccessor {
 	constructor() {
 		/* rebuild items mirror on input changes (supports plain items & signals) */
 		effect(() => {
-			console.log(this.wModel());
-
 			const list = this.items();
 			const bindLabel = this.bindLabel();
 			const bindValue = this.bindValue();
