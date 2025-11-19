@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -20,7 +20,7 @@ type MediaSide = 'left' | 'right';
 @Component({
 	selector: 'page-hero',
 	standalone: true,
-	imports: [CommonModule, ButtonComponent],
+	imports: [ButtonComponent],
 	templateUrl: './hero.component.html',
 	styleUrl: './hero.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
