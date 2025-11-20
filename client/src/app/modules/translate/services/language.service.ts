@@ -10,6 +10,12 @@ export class LanguageService extends CrudService<Language> {
 
 	languages = signal<Language[]>(this.getDocs());
 
+	private _storeService = inject(StoreService);
+
+	private _emitterService = inject(EmitterService);
+
+	private _languageId = signal<string | null>(null);
+
 	constructor() {
 		super({
 			name: 'translatelanguage',
@@ -30,48 +36,44 @@ export class LanguageService extends CrudService<Language> {
 			this._loadLocal();
 		});
 
-		// derive `language` from `_languageId` + `languages`
+		this._emitterService.on('translatelanguage_changed').subscribe(() => {
+			this.languages.set(this.getDocs());
+		});
+
 		effect(() => {
 			const id = this._languageId();
 
-			const list = this.languages();
+			const languages = this.languages();
 
-			if (!id || !list.length) {
+			if (!id || !languages.length) {
+				this.language.set(undefined);
 				return;
 			}
 
-			const lang = list.find((l) => l._id === id);
+			const lang = languages.find((l) => l._id === id);
 
-			console.log('passwed', list, id, lang);
+			if (lang) {
+				this.language.set(lang);
 
-			setTimeout(() => {
-				console.log(list);
-			}, 5000);
+				this._storeService.set('languageId', id);
 
-			if (!lang) {
-				return; // guard: unknown / not yet loaded id
+				this._emitterService.emit('languageId', id);
 			}
-
-			// only valid language reaches here
-			this.language.set(lang);
-
-			this._storeService.set('languageId', id);
-			this._emitterService.emit('languageId', id);
 		});
 	}
 
-	setLanguageId(languageId: string) {
+	setLanguageId(languageId: string | null = null) {
 		this._languageId.set(languageId);
 	}
 
 	setLanguage(language: Language) {
-		if (language._id) {
+		if (language?._id) {
 			this._languageId.set(language._id);
 		}
 	}
 
 	nextLanguage() {
-		const languages = this.languages();
+		const languages = this.getDocs();
 
 		if (languages.length > 1) {
 			const language = this.language();
@@ -85,7 +87,7 @@ export class LanguageService extends CrudService<Language> {
 			this.setLanguage(
 				index === languages.length - 1
 					? languages[0]
-					: languages[index],
+					: languages[index + 1],
 			);
 		} else {
 			this._languageId.set(null);
@@ -99,10 +101,4 @@ export class LanguageService extends CrudService<Language> {
 			}
 		});
 	}
-
-	private _storeService = inject(StoreService);
-
-	private _emitterService = inject(EmitterService);
-
-	private _languageId = signal<string | null>(null);
 }

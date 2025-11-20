@@ -1,13 +1,8 @@
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertService } from '@lib/alert';
 import { environment } from 'src/environments/environment';
-import {
-	AlertService,
-	CrudService,
-	EmitterService,
-	HttpService,
-	StoreService,
-} from 'wacom';
+import { CrudService, EmitterService, HttpService, StoreService } from 'wacom';
 import { User } from '../interfaces/user.interface';
 @Injectable({
 	providedIn: 'root',

@@ -8,11 +8,12 @@ import {
 import { Router } from '@angular/router';
 import { environment } from '@env';
 import { SpiderComponent } from '@icon/spider';
+import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
 import { InputComponent } from '@lib/input';
 import { User, UserService } from '@module/user';
 import { VirtualFormService } from 'src/app/virtual-form.service';
-import { AlertService, HttpService, UtilService } from 'wacom';
+import { HttpService, UtilService } from 'wacom';
 
 interface RespStatus {
 	email: string;

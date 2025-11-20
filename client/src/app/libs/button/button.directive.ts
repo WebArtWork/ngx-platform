@@ -1,11 +1,10 @@
 import {
 	Directive,
 	ElementRef,
-	EventEmitter,
 	HostBinding,
 	HostListener,
-	Input,
-	Output,
+	input,
+	output,
 } from '@angular/core';
 import { ButtonType } from './button.type';
 
@@ -13,20 +12,20 @@ import { ButtonType } from './button.type';
 	selector: 'button[wbutton], a[wbutton]',
 	standalone: true,
 })
-export class WbuttonDirective {
+export class ButtonDirective {
 	constructor(private el: ElementRef<HTMLElement>) {}
 
-	@Input() type: ButtonType = 'primary';
-	@Input() disabled = false;
-	@Input() disableSubmit = false;
+	readonly type = input<ButtonType>('primary');
+	readonly disabled = input<boolean>(false);
+	readonly disableSubmit = input<boolean>(false);
 	/** If false (default), blocks subsequent clicks for 2s */
-	@Input() isMultipleClicksAllowed = false;
+	readonly isMultipleClicksAllowed = input<boolean>(false);
 
 	/** Extra classes without colliding with native `class` */
-	@Input() extraClass = '';
+	readonly extraClass = input<string>('');
 
 	/** Emits alongside the host’s native click */
-	@Output() wClick = new EventEmitter<void>();
+	readonly wClick = output<void>();
 
 	private cooling = false;
 
@@ -37,14 +36,16 @@ export class WbuttonDirective {
 		return this.tag === 'BUTTON';
 	}
 	private get isBlocked(): boolean {
-		return this.disabled || (!this.isMultipleClicksAllowed && this.cooling);
+		return (
+			this.disabled() || (!this.isMultipleClicksAllowed() && this.cooling)
+		);
 	}
 
 	// type only on <button>
 	@HostBinding('attr.type')
 	get hostType(): 'button' | 'submit' | null {
 		return this.isButton
-			? this.disableSubmit
+			? this.disableSubmit()
 				? 'button'
 				: 'submit'
 			: null;
@@ -65,24 +66,24 @@ export class WbuttonDirective {
 	get hostClass(): string {
 		return [
 			'wbutton',
-			`wbutton--${this.type}`,
+			`wbutton--${this.type()}`,
 			this.isBlocked ? 'is-disabled' : '',
-			this.extraClass || '',
+			this.extraClass() || '',
 		]
 			.filter(Boolean)
 			.join(' ');
 	}
 
 	@HostListener('click', ['$event'])
-	onClick(ev: MouseEvent) {
+	onClick(ev: Event) {
 		if (this.isBlocked) {
 			ev.preventDefault();
-			ev.stopImmediatePropagation();
+			(ev as any).stopImmediatePropagation?.();
 			return;
 		}
 		this.wClick.emit();
 
-		if (!this.isMultipleClicksAllowed) {
+		if (!this.isMultipleClicksAllowed()) {
 			this.cooling = true;
 			setTimeout(() => (this.cooling = false), 2000);
 		}

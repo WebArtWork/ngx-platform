@@ -1,14 +1,13 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
-	EventEmitter,
-	Input,
 	OnChanges,
-	Output,
 	SimpleChanges,
 	inject,
+	input,
+	output,
 } from '@angular/core';
-import { SelectComponent } from '@lib/select';
+import { SelectComponent, SelectValue } from '@lib/select';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -19,11 +18,11 @@ import { UserService } from '../../services/user.service';
 	styleUrls: ['./user-selector.component.scss'],
 })
 export class UserSelectorComponent implements OnChanges {
-	us = inject(UserService);
+	userService = inject(UserService);
 
-	@Input() value: string;
+	value = input('');
 
-	@Output() onChange = new EventEmitter();
+	onChange = output<SelectValue>();
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['value'] && !changes['value'].firstChange) {

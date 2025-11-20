@@ -12,9 +12,9 @@ import {
 	output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ModalService } from '@lib/modal';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { VirtualFormService } from 'src/app/virtual-form.service';
-import { ModalService } from 'wacom';
 import { FileService } from '../../services/file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
 

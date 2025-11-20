@@ -13,7 +13,7 @@ import {
 import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { environment } from 'src/environments/environment';
-import { EmitterService, Modal, ModalService, StoreService } from 'wacom';
+import { EmitterService, StoreService } from 'wacom';
 
 import { FormComponentInterface } from '../interfaces/component.interface';
 import { FormInterface } from '../interfaces/form.interface';
@@ -21,6 +21,7 @@ import { ModalFormComponent } from '../modals/modal-form/modal-form.component';
 import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.component';
 
 // Virtual manager (new)
+import { Modal, ModalService } from '@lib/modal';
 import {
 	required,
 	VirtualFormFieldValue,

@@ -10,6 +10,7 @@ import {
 	output,
 	signal,
 } from '@angular/core';
+import { take } from 'rxjs';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent } from 'src/app/libs/select/select.component';
@@ -34,6 +35,8 @@ export class LanguageSelectorComponent extends CrudComponent<
 	Language,
 	FormInterface
 > {
+	override configType: 'server' | 'local' = 'local';
+
 	/* ==== Injects ==== */
 	private _languageService = inject(LanguageService);
 	private _form = inject(FormService);
@@ -71,10 +74,12 @@ export class LanguageSelectorComponent extends CrudComponent<
 			'language',
 		);
 
-		this.setDocuments();
+		this._languageService.loaded.pipe(take(1)).subscribe(() => {
+			this.setDocuments();
+		});
 
 		effect(() => {
-			console.log('called change languege');
+			console.log('effect ' + this._languageService.language()?._id);
 
 			if (this._languageService.language()?._id) {
 				this.wModel.set(this._languageService.language()?._id);
@@ -125,13 +130,10 @@ export class LanguageSelectorComponent extends CrudComponent<
 								this.setDocuments();
 							});
 					} else {
-						console.log(this.documents().length);
 						this._languageService
 							.create(updated as Language)
 							.subscribe((l) => {
-								console.log(this.documents().length);
 								this.setDocuments();
-								console.log(this.documents().length);
 								this._languageService.setLanguage(l);
 								this.wModel.set(l._id as SelectValue);
 								this.wChange.emit(l._id as SelectValue);
@@ -148,9 +150,18 @@ export class LanguageSelectorComponent extends CrudComponent<
 	private deleteCurrent() {
 		const curr = this._languageService.language() as Language | null;
 		if (!curr) return;
-		this._languageService.delete(curr).subscribe(() => {
+
+		if (this._languageService.languages().length > 1) {
 			this._languageService.nextLanguage();
 
+			console.log(this._languageService.language());
+
+			this.wModel.set(this._languageService.language()?._id);
+		} else {
+			this._languageService.setLanguageId();
+		}
+
+		this._languageService.delete(curr).subscribe(() => {
 			this.setDocuments();
 		});
 	}
