@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { VirtualFormService } from 'src/app/virtual-form.service';
+// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { CoreService } from 'wacom';
 import { ButtonComponent } from '../../../button/button.component';
 import { FormComponent } from '../../components/form/form.component';
@@ -13,7 +13,7 @@ import { FormModalButton } from '../../services/form.service';
 })
 export class ModalFormComponent {
 	private _coreService = inject(CoreService);
-	private _virtualFormService = inject(VirtualFormService);
+	// private _virtualFormService = inject(VirtualFormService);
 
 	// from ModalService
 	form: FormInterface;
@@ -62,9 +62,9 @@ export class ModalFormComponent {
 
 	onButtonClick(button: FormModalButton): void {
 		if (this.submitting()) return;
-		this._sync(
-			this._virtualFormService.getValues(this.form.formId as string),
-		);
+		// this._sync(
+		// 	this._virtualFormService.getValues(this.form.formId as string),
+		// );
 		button.click(this.submition, this.close);
 	}
 }

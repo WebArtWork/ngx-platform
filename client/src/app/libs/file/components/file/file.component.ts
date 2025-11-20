@@ -14,7 +14,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalService } from '@lib/modal';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
-import { VirtualFormService } from 'src/app/virtual-form.service';
+// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { FileService } from '../../services/file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
 
@@ -65,7 +65,7 @@ export class FileComponent implements ControlValueAccessor {
 	readonly wModel = model<WFileValue>(null, { alias: 'wModel' });
 	readonly wChange = output<WFileValue>();
 
-	private _vf = inject(VirtualFormService);
+	// private _vf = inject(VirtualFormService);
 	private _modal = inject(ModalService);
 	private _fs = inject(FileService);
 
@@ -86,13 +86,13 @@ export class FileComponent implements ControlValueAccessor {
 			const id = this.formId();
 			const key = this.formKey();
 			if (!id || !key) return;
-			this._vf.registerField(id, key, null, []);
-			const vfVal = this._vf.getValues(id)[key] ?? null;
-			if (!syncing && !this._equal(vfVal, this.wModel())) {
-				syncing = true;
-				this.wModel.set(vfVal as WFileValue);
-				syncing = false;
-			}
+			// this._vf.registerField(id, key, null, []);
+			// const vfVal = this._vf.getValues(id)[key] ?? null;
+			// if (!syncing && !this._equal(vfVal, this.wModel())) {
+			// 	syncing = true;
+			// 	this.wModel.set(vfVal as WFileValue);
+			// 	syncing = false;
+			// }
 		});
 
 		// model → VF
@@ -101,9 +101,9 @@ export class FileComponent implements ControlValueAccessor {
 			const key = this.formKey();
 			if (!id || !key) return;
 			const val = this.wModel();
-			if (!this._equal(this._vf.getValues(id)[key], val)) {
-				this._vf.setValue(id, key, (val ?? null) as WFileValue);
-			}
+			// if (!this._equal(this._vf.getValues(id)[key], val)) {
+			// 	this._vf.setValue(id, key, (val ?? null) as WFileValue);
+			// }
 		});
 
 		// propagate to CVA + (wChange)

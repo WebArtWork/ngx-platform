@@ -15,7 +15,7 @@ import {
 	signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { VirtualFormService } from 'src/app/virtual-form.service';
+// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { ClickOutsideDirective, CoreService, SearchPipe } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
@@ -87,7 +87,7 @@ export class SelectComponent implements ControlValueAccessor {
 
 	/* ===== Internal state ===== */
 	private readonly _core = inject(CoreService);
-	private readonly _vform = inject(VirtualFormService);
+	// private readonly _vform = inject(VirtualFormService);
 
 	/** quick id->label map for header rendering */
 	readonly allItem: Record<SelectId, string> = {};
@@ -228,14 +228,14 @@ export class SelectComponent implements ControlValueAccessor {
 			const key = this.formKey();
 			if (!id || !key) return;
 
-			this._vform.registerField(id, key, null, []);
+			// this._vform.registerField(id, key, null, []);
 
-			const vfVal = this._vform.getValues(id)[key] ?? null;
-			if (!syncing && !this._equal(vfVal, this.wModel())) {
-				syncing = true;
-				this.wModel.set(vfVal as SelectValue);
-				syncing = false;
-			}
+			// const vfVal = this._vform.getValues(id)[key] ?? null;
+			// if (!syncing && !this._equal(vfVal, this.wModel())) {
+			// 	syncing = true;
+			// 	this.wModel.set(vfVal as SelectValue);
+			// 	syncing = false;
+			// }
 		});
 
 		// push wModel → VF
@@ -245,11 +245,11 @@ export class SelectComponent implements ControlValueAccessor {
 			if (!id || !key) return;
 
 			const val = this.wModel();
-			if (!syncing && !this._equal(this._vform.getValues(id)[key], val)) {
-				syncing = true;
-				this._vform.setValue(id, key, val ?? null);
-				syncing = false;
-			}
+			// if (!syncing && !this._equal(this._vform.getValues(id)[key], val)) {
+			// 	syncing = true;
+			// 	this._vform.setValue(id, key, val ?? null);
+			// 	syncing = false;
+			// }
 		});
 
 		/* propagate to CVA + legacy output */

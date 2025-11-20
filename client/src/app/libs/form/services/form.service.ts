@@ -1,6 +1,5 @@
 import {
 	ApplicationRef,
-	createComponent,
 	effect,
 	EnvironmentInjector,
 	inject,
@@ -8,9 +7,8 @@ import {
 	runInInjectionContext,
 	signal,
 	TemplateRef,
-	Type,
 } from '@angular/core';
-import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
+// import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
 import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { environment } from 'src/environments/environment';
 import { EmitterService, StoreService } from 'wacom';
@@ -22,11 +20,11 @@ import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.compon
 
 // Virtual manager (new)
 import { Modal, ModalService } from '@lib/modal';
-import {
-	required,
-	VirtualFormFieldValue,
-	VirtualFormService,
-} from 'src/app/virtual-form.service';
+// import {
+// 	required,
+// 	VirtualFormFieldValue,
+// 	VirtualFormService,
+// } from 'src/app/virtual-form.service';
 
 export interface FormModalButton {
 	click: (submition: unknown, close: () => void) => void;
@@ -43,7 +41,7 @@ export class FormService {
 	private _emitterService = inject(EmitterService);
 
 	// Virtual manager
-	private _vform = inject(VirtualFormService);
+	// private _vform = inject(VirtualFormService);
 
 	// Injection context for reactive translate effects
 	private _ei = inject(EnvironmentInjector);
@@ -220,7 +218,7 @@ export class FormService {
 		initial?: Record<string, any>,
 	): void {
 		const id = (form.formId as string) || crypto.randomUUID();
-		this._vform.getForm(id);
+		// this._vform.getForm(id);
 
 		if (!this._registeredFields.has(id))
 			this._registeredFields.set(id, new Set());
@@ -236,22 +234,22 @@ export class FormService {
 
 				if (registered.has(n.key)) continue; // idempotent guard
 
-				const init: VirtualFormFieldValue =
-					(initial || {})[n.key] ?? null;
+				// const init: VirtualFormFieldValue =
+				// 	(initial || {})[n.key] ?? null;
 
-				const composed = [
-					n.props && (n.props as any).Required ? required() : null,
-					...(n.validators || []),
-				].filter(Boolean);
+				// const composed = [
+				// 	n.props && (n.props as any).Required ? required() : null,
+				// 	...(n.validators || []),
+				// ].filter(Boolean);
 
-				this._vform.registerField(id, n.key, init, composed as any);
+				// this._vform.registerField(id, n.key, init, composed as any);
 				registered.add(n.key);
 			}
 		};
 		walk(form.components);
 
 		if (initial && Object.keys(initial).length) {
-			this._vform.patch(id, initial);
+			// this._vform.patch(id, initial);
 		}
 	}
 
@@ -410,16 +408,15 @@ export class FormService {
 	}
 
 	private async _addFormComponent(name: string) {
-		const component = (FORM_COMPONENTS as Record<string, Type<any>>)[name];
-		if (component && !this._addedFormComponent[name]) {
-			this._addedFormComponent[name] = true;
-
-			const compRef = createComponent(component, {
-				environmentInjector: this.appRef.injector,
-			});
-			this.appRef.attachView(compRef.hostView);
-			(compRef.hostView as any).detectChanges?.();
-		}
+		// const component = (FORM_COMPONENTS as Record<string, Type<any>>)[name];
+		// if (component && !this._addedFormComponent[name]) {
+		// 	this._addedFormComponent[name] = true;
+		// 	const compRef = createComponent(component, {
+		// 		environmentInjector: this.appRef.injector,
+		// 	});
+		// 	this.appRef.attachView(compRef.hostView);
+		// 	(compRef.hostView as any).detectChanges?.();
+		// }
 	}
 
 	private _rememberFormId(formId: string) {

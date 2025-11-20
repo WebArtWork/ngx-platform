@@ -6,7 +6,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import { VirtualFormService } from 'src/app/virtual-form.service';
+// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { ButtonType } from './button.type';
 
 @Component({
@@ -21,7 +21,7 @@ export class ButtonComponent {
 
 	formId = input<string>();
 
-	private _virtualFormService = inject(VirtualFormService);
+	// private _virtualFormService = inject(VirtualFormService);
 
 	// Inputs
 	readonly type = input<ButtonType>('primary');
@@ -47,7 +47,7 @@ export class ButtonComponent {
 		if (this.isBlocked) return;
 
 		if (this.formId()) {
-			this._virtualFormService.submit(this.formId()!);
+			// this._virtualFormService.submit(this.formId()!);
 		}
 
 		this.wClick.emit();

@@ -38,30 +38,27 @@
 				<winput
 					type="email"
 					placeholder="Enter your email..."
-					formId="sign"
-					formKey="email"
 					[focused]="true"
+					[field]="signForm.email"
 				></winput>
 
 				<winput
 					type="password"
 					placeholder="Enter your password..."
-					formId="sign"
-					formKey="password"
+					[field]="signForm.password"
 				></winput>
 
 				@if (showCode()) {
 				<winput
 					type="number"
 					placeholder="Enter code from mailbox..."
-					formId="sign"
-					formKey="resetPin"
+					[field]="signForm.resetPin"
 				></winput>
 				}
 
-				<wbutton type="primary" class="mt-2" (wClick)="wFormSubmit()"
-					>Let's go</wbutton
-				>
+				<wbutton type="primary" class="mt-2" (wClick)="wFormSubmit()">
+					Let's go
+				</wbutton>
 			</div>
 		</div>
 	</div>

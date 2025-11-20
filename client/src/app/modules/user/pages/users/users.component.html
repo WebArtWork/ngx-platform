@@ -7,11 +7,11 @@
 >
 	@for (role of roles; track role) {
 	<ng-template [cell]="role" let-element>
-		<winput
+		<!-- <winput
 			(wChange)="element.is[role] = $event; update(element)"
 			[value]="element.is[role]"
 			type="checkbox"
-		/>
+		/> -->
 	</ng-template>
 	}
 </wtable>

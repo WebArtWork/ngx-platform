@@ -1,4 +1,4 @@
-import { VirtualValidatorFn } from 'src/app/virtual-form.service';
+// import { VirtualValidatorFn } from 'src/app/virtual-form.service';
 
 /** Use props instead of array fields */
 export interface FormComponentInterface {
@@ -24,7 +24,7 @@ export interface FormComponentInterface {
 
 	/** Validation (preferred) */
 	required?: boolean;
-	validators?: VirtualValidatorFn[];
+	// validators?: VirtualValidatorFn[];
 
 	/** Basic disabled flag; for dynamic rules, consider disabledWhen */
 	disabled?: boolean;

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { TranslateService } from '@module/translate/services/translate.service';
 import { DomComponent, DomService } from 'wacom';
 import { AlertComponent } from '../components/alert/alert.component';
 import { WrapperComponent } from '../components/wrapper/wrapper.component';
@@ -8,6 +9,7 @@ import { Alert, AlertConfig } from '../interfaces/alert.interface';
 	providedIn: 'root',
 })
 export class AlertService {
+	private readonly _translateService = inject(TranslateService);
 	/**
 	 * Creates a new alert service.
 	 *
@@ -30,8 +32,8 @@ export class AlertService {
 	show(opts: Alert | string): Alert {
 		opts = this._opts(opts);
 
-		if (opts.text && typeof this._translate === 'function') {
-			opts.text = this._translate(opts.text);
+		if (opts.text) {
+			opts.text = this._translateService.translate(opts.text)();
 		}
 
 		if (opts.unique && this._alerts.find((m) => m.unique === opts.unique)) {
@@ -169,10 +171,6 @@ export class AlertService {
 		}
 	}
 
-	setTranslate(_translate: (phrase: string) => string) {
-		this._translate = _translate;
-	}
-
 	private _alerts: Alert[] = [];
 
 	/** Merged configuration applied to new alerts. */
@@ -209,6 +207,4 @@ export class AlertService {
 					...opts,
 				};
 	}
-
-	private _translate = (phrase: string) => '';
 }
