@@ -4,7 +4,7 @@
 	[type]="resolveType()"
 	class="wbutton{{ extraClass() ? ' ' + extraClass() : '' }}{{ _type ? ' wbutton--' + _type : '' }}{{ _blocked ? ' is-disabled' : '' }}"
 	[disabled]="_blocked"
-	(click)="clicked()"
+	(click)="clicked($event)"
 >
 	<ng-content></ng-content>
 </button>

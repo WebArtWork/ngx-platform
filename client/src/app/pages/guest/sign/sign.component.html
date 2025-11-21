@@ -56,7 +56,12 @@
 				></winput>
 				}
 
-				<wbutton type="primary" class="mt-2" (wClick)="wFormSubmit()">
+				<wbutton
+					[disabled]="isSubmitDisabled()"
+					(wClick)="wFormSubmit()"
+					type="primary"
+					class="mt-2"
+				>
 					Let's go
 				</wbutton>
 			</div>

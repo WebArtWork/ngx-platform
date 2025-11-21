@@ -6,7 +6,6 @@ import {
 	input,
 	output,
 } from '@angular/core';
-// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { ButtonType } from './button.type';
 
 @Component({
@@ -19,20 +18,16 @@ import { ButtonType } from './button.type';
 export class ButtonComponent {
 	private _cdr = inject(ChangeDetectorRef);
 
-	formId = input<string>();
-
-	// private _virtualFormService = inject(VirtualFormService);
-
 	// Inputs
 	readonly type = input<ButtonType>('primary');
-	readonly extraClass = input<string>(''); // ⬅ rename from `class`
+	readonly extraClass = input<string>(''); // extra CSS classes
 	readonly disabled = input<boolean>(false);
 	readonly disableSubmit = input<boolean>(false);
 	/** If false (default), blocks subsequent clicks for 2s */
 	readonly isMultipleClicksAllowed = input<boolean>(false);
 
-	// Outputs — prefer (wClick). (click) on <wbutton> still works via bubbling.
-	readonly wClick = output<void>();
+	// Outputs — prefer (wClick). (click) on <wbutton> will still work.
+	readonly wClick = output<MouseEvent>();
 
 	private _cooling = false;
 
@@ -43,21 +38,27 @@ export class ButtonComponent {
 		);
 	}
 
-	clicked(): void {
-		if (this.isBlocked) return;
-
-		if (this.formId()) {
-			// this._virtualFormService.submit(this.formId()!);
+	clicked(event: MouseEvent): void {
+		// Hard block when disabled / cooling: also stop host (click) handlers.
+		if (this.isBlocked) {
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			return;
 		}
 
-		this.wClick.emit();
+		// Emit custom output
+		this.wClick.emit(event);
 
+		// Let native bubbling continue so (click) on <wbutton> also fires.
+
+		// Apply 2s cooldown if needed
 		if (!this.isMultipleClicksAllowed()) {
 			this._cooling = true;
-			this._cdr.markForCheck(); // ⬅ reflect disabled state now
+			this._cdr.markForCheck();
+
 			setTimeout(() => {
 				this._cooling = false;
-				this._cdr.markForCheck(); // ⬅ re-enable after 2s
+				this._cdr.markForCheck();
 			}, 2000);
 		}
 	}

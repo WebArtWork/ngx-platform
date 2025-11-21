@@ -1,6 +1,7 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	computed,
 	inject,
 	signal,
 } from '@angular/core';
@@ -64,6 +65,19 @@ export class SignComponent {
 	signForm = form(this.signModel, signSchema);
 
 	showCode = signal(false);
+
+	// 🔒 Disable button while any core field is invalid
+	readonly isSubmitDisabled = computed(() => {
+		const formInvalid = this.signForm().invalid(); // root form validity
+
+		if (!this.showCode()) {
+			return formInvalid;
+		}
+
+		// when code step is shown, also require resetPin to be valid
+		const resetPinField = this.signForm.resetPin();
+		return formInvalid || resetPinField.invalid();
+	});
 
 	wFormSubmit() {
 		submit(this.signForm, (formTree) => {
