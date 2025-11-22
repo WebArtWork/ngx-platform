@@ -1,67 +1,78 @@
-@use 'src/scss/utils/mixins' as mixins;
 @use 'src/scss/utils/media' as media;
-@use 'src/scss/utils/vars' as vars;
 
-:host {
-	width: 100%;
+.profile {
+	display: block;
 
-	wcard {
-		width: 100%;
-		transition: all 0.3s;
-		display: block;
-	}
-}
-
-.profile-wrapper {
-	padding: unset;
-
-	&__header {
-		z-index: 9;
-		top: 20px;
-		position: absolute;
-		right: 30px;
-		@include mixins.text-default(0, 23px, 500, 20px, var(--c-text-primary));
-		@include mixins.flexBox(flex, null, space-between, center, null);
-		border-radius: 12px;
-	}
-
-	&__avatar {
-		border-radius: var(--b-radius-img);
-		border: 1px solid var(--c-border);
+	&__card {
 		position: relative;
-		margin: 0 auto;
-		padding: 3px;
-		width: 60px;
-		height: 60px;
+		inline-size: 100%;
+		max-inline-size: 100%; // stretch to container width
+		background: var(--c-bg-secondary);
+		padding: var(--sp-5) var(--sp-4); // was var(--sp-7)
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp-4);
 	}
 
-	&__footer {
-		margin-top: 20px;
-		@include mixins.flexBox(flex, null, space-between, center, wrap);
+	&__tabs {
+		display: flex;
+		gap: var(--sp-3);
+		border-bottom: 1px solid var(--c-border);
+		padding-bottom: var(--sp-3);
+		margin-bottom: var(--sp-3); // a bit tighter
+	}
 
-		@include media.bp-max(sm) {
-			flex-direction: column;
-			align-items: center;
+	&__tab {
+		border: 0;
+		background: transparent;
+		color: var(--c-text-secondary);
+		font-weight: 600;
+		font-size: 0.9rem;
+		padding: var(--sp-1_5) var(--sp-3); // slightly smaller
+		border-radius: var(--b-radius-btn);
+		cursor: pointer;
+		transition:
+			background-color var(--motion) var(--easing),
+			color var(--motion) var(--easing);
 
-			.profile-wrapper__logout {
-				order: 2;
-				margin-top: 20px;
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-ring);
+		}
+	}
+
+	&__body,
+	&__panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp-3);
+	}
+
+	&__fields {
+		.winput__field {
+			background: transparent;
+			border: 1px solid var(--c-border);
+			border-radius: var(--b-radius);
+			color: var(--c-text-secondary);
+			transition: border-color var(--motion) var(--easing);
+
+			&:focus-within {
+				border-color: var(--c-primary);
 			}
 		}
-	}
 
-	&__logout {
-		.w-btn {
-			margin: 0;
-			@include mixins.flexBox(flex, null, space-between, center, null);
-		}
-
-		.material-icons {
-			margin-right: 10px;
+		.wbutton {
+			min-block-size: 42px;
+			border-radius: var(--b-radius-btn);
+			font-weight: 600;
 		}
 	}
 
-	&__password {
-		cursor: pointer;
+	@include media.bp-max(md) {
+		padding: var(--sp-3);
+
+		&__card {
+			padding: var(--sp-4);
+		}
 	}
 }

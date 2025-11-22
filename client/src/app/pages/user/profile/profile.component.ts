@@ -1,151 +1,116 @@
 import {
 	ChangeDetectionStrategy,
-	ChangeDetectorRef,
 	Component,
+	computed,
 	inject,
+	signal,
 } from '@angular/core';
-import { ButtonComponent } from 'src/app/libs/button/button.component';
-import { FileComponent } from 'src/app/libs/file/components/file/file.component';
-import { FormComponent } from 'src/app/libs/form/components/form/form.component';
-import { FormService } from 'src/app/libs/form/services/form.service';
-import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
-import { UserService } from 'src/app/modules/user/services/user.service';
-import { environment } from 'src/environments/environment';
-import { CoreService, EmitterService } from 'wacom';
-
-interface ChangePassword {
-	oldPass: string;
-	newPass: string;
-}
+import { form, submit } from '@angular/forms/signals';
+import { AlertService } from '@lib/alert';
+import { ButtonComponent } from '@lib/button';
+import { FileComponent } from '@lib/file';
+import { InputComponent } from '@lib/input';
+import { UserService } from '@module/user';
+import { EmitterService } from 'wacom';
+import { ProfileModel, SecurityModel } from './profile.interface';
+import { profileSchema, securitySchema } from './profile.schema';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [
-		TranslateDirective,
-		ButtonComponent,
-		FileComponent,
-		FormComponent,
-	],
+	imports: [InputComponent, ButtonComponent, FileComponent],
 	templateUrl: './profile.component.html',
-	styleUrls: ['./profile.component.scss'],
+	styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-	userService = inject(UserService);
-	readonly url = environment.url;
+	readonly userService = inject(UserService);
+	private readonly _emitterService = inject(EmitterService);
+	private readonly _alertService = inject(AlertService);
 
-	private _formService = inject(FormService);
-	private _coreService = inject(CoreService);
-	private _emitterService = inject(EmitterService);
-	private _cdr = inject(ChangeDetectorRef);
+	readonly activeTab = signal<'profile' | 'security'>('profile');
 
-	// Local editable snapshot passed into <wform>
-	user: Record<string, unknown>;
+	// Profile
+	profileModel = signal<ProfileModel>({
+		name: this.userService.user().name || '',
+		email: this.userService.user().email || '',
+		phone: this.userService.user().phone || '',
+		bio: this.userService.user().bio || '',
+	});
+
+	profileForm = form(this.profileModel, profileSchema);
+
+	readonly isSubmitDisabled = computed(() => this.profileForm().invalid());
+
+	// Security
+	securityModel = signal<SecurityModel>({
+		currentPassword: '',
+		newPassword: '',
+		confirmPassword: '',
+	});
+
+	securityForm = form(this.securityModel, securitySchema);
+
+	readonly isSecurityDisabled = computed(
+		() =>
+			this.securityForm().invalid() ||
+			this.securityModel().newPassword !==
+				this.securityModel().confirmPassword,
+	);
 
 	constructor() {
 		this._emitterService.onComplete('us.user').subscribe(() => {
-			this.user = {};
-			// clone current user into plain object
-			this._coreService.copy(this.userService.user(), this.user);
-			this._cdr.detectChanges();
+			this.profileModel.set(this.userService.user());
+
+			this.profileForm().reset();
 		});
 	}
 
-	formUser = this._formService.prepareForm({
-		formId: 'user',
-		title: 'My profile',
-		components: [
-			{
-				name: 'Text',
-				key: 'name',
-				focused: true,
-				required: true,
-				props: {
-					placeholder: 'Enter your name ...',
-					label: 'Name',
-				},
-			},
-			{
-				name: 'Text',
-				key: 'phone',
-				props: {
-					placeholder: 'Enter your phone ...',
-					label: 'Phone',
-				},
-			},
-			{
-				name: 'Text',
-				key: 'bio',
-				props: {
-					placeholder: 'Enter your biography ...',
-					label: 'Biography',
-					textarea: true,
-				},
-			},
-		],
-	});
-
-	formPassword = this._formService.prepareForm({
-		formId: 'changePassword',
-		title: 'Change password',
-		components: [
-			{
-				name: 'Password',
-				key: 'oldPass',
-				focused: true,
-				required: true,
-				props: {
-					placeholder: 'Enter your old password ...',
-					label: 'Old Password',
-				},
-			},
-			{
-				name: 'Password',
-				key: 'newPass',
-				required: true,
-				props: {
-					placeholder: 'Enter your new password ...',
-					label: 'New Password',
-				},
-			},
-		],
-	});
-
-	// gets called with VirtualFormService.getValues(formId)
-	update(values: Record<string, unknown>) {
-		if (!values) return;
-
-		// sync local snapshot used as [submition]
-		if (!this.user) this.user = {};
-		this._coreService.copy(values, this.user);
-
-		// sync user signal and push to backend
-		this.userService.user.update((current) => {
-			const next = { ...current };
-			this._coreService.copy(values, next as any);
-			return next;
-		});
-
-		this.userService.updateMe();
+	setTab(tab: 'profile' | 'security'): void {
+		this.activeTab.set(tab);
 	}
 
-	changePassword() {
-		this._formService.modal<ChangePassword>(this.formPassword, {
-			label: 'Change',
-			click: (submition: unknown, close: () => void) => {
-				this.userService.changePassword(
-					(submition as ChangePassword).oldPass,
-					(submition as ChangePassword).newPass,
-				);
-				close();
-			},
+	wFormSubmit(): void {
+		submit(this.profileForm, (formTree) => {
+			this.userService.user.set({
+				...this.userService.user(),
+				...(formTree().value() as ProfileModel),
+			});
+
+			this.userService.updateMe();
+
+			return Promise.resolve();
 		});
 	}
 
-	updateThumb(thumb: string | string[]) {
-		this.userService.user.update((user) => {
-			user.thumb = Array.isArray(thumb) ? thumb[0] : thumb;
-			return user;
+	wSecuritySubmit(): void {
+		submit(this.securityForm, (formTree) => {
+			const payload = formTree().value() as SecurityModel;
+
+			this.userService
+				.changePassword(payload.currentPassword, payload.newPassword)
+				.subscribe({
+					next: () => {
+						this.securityForm().reset();
+
+						this.securityModel.set({
+							currentPassword: '',
+							newPassword: '',
+							confirmPassword: '',
+						});
+					},
+				});
+
+			return Promise.resolve();
 		});
+	}
+
+	updateThumb(thumb: string) {
+		this.userService.user.set({
+			...this.userService.user(),
+			thumb: thumb,
+		});
+
+		this.userService.thumb.set(thumb);
+
 		this.userService.updateMe();
 	}
 }

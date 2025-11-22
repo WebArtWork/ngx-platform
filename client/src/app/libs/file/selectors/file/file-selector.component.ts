@@ -5,6 +5,7 @@ import {
 	input,
 	output,
 	Signal,
+	signal,
 } from '@angular/core';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
@@ -20,9 +21,8 @@ import { FileService } from '../../services/file.service';
 })
 export class FileSelectorComponent {
 	private _files = inject(FileService);
-
 	readonly wModel = input<string | null>(null, { alias: 'wModel' });
 	readonly wChange = output<string | null>();
 
-	readonly items: Signal<File[]> = this._files.getDocs();
+	readonly items: Signal<File[]> = signal(this._files.getDocs());
 }

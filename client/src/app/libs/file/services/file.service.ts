@@ -1,34 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { CrudService, HttpService } from 'wacom';
 import { File } from '../interfaces/file.interface';
-import { WacomFileService } from './wacom.file.service';
 
 @Injectable({ providedIn: 'root' })
 export class FileService extends CrudService<File> {
-	private _file = inject(WacomFileService);
-	private _http = inject(HttpService);
-
-	files = this.getDocs();
-	setFile!: (dataUrl: string) => void;
+	private readonly _http = inject(HttpService);
 
 	constructor() {
 		super({ name: 'file' });
-
-		this._file.add({
-			id: 'formPhoto',
-			resize: 1920,
-			cb: (file: any) => typeof file === 'string' && this.setFile?.(file),
-		});
-
-		this._file.add({
-			id: 'formPhotos',
-			multiple: true,
-			resize: 1920,
-			cb: (file: any) => typeof file === 'string' && this.setFile?.(file),
-		});
 	}
 
-	/** Upload base64 to backend with optional container/name */
+	/**
+	 * Upload base64 (data URL) to backend with optional container/name.
+	 * Returns a URL string from the API.
+	 */
 	async uploadBase64(
 		dataUrl: string,
 		container = 'general',

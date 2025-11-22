@@ -4,21 +4,23 @@ import {
 	Component,
 	TemplateRef,
 	computed,
-	effect,
-	forwardRef,
 	inject,
 	input,
 	model,
-	output,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { fileToDataUrl } from '@lib/file/util/file.util';
 import { ModalService } from '@lib/modal';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
-// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { FileService } from '../../services/file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
 
-export type WFileValue = string | string[] | null;
+export type FileMode =
+	| 'single-image'
+	| 'single-file'
+	| 'multi-image'
+	| 'multi-file';
+
+export type FileView = 'dropzone' | 'list' | 'thumb-only';
 
 @Component({
 	selector: 'ngx-file',
@@ -27,115 +29,90 @@ export type WFileValue = string | string[] | null;
 	imports: [NgTemplateOutlet, TranslatePipe],
 	templateUrl: './file.component.html',
 	styleUrl: './file.component.scss',
-	providers: [
-		{
-			provide: NG_VALUE_ACCESSOR,
-			useExisting: forwardRef(() => FileComponent),
-			multi: true,
-		},
-	],
 })
-export class FileComponent implements ControlValueAccessor {
-	/* UI props */
+export class FileComponent {
+	/** UI props */
 	readonly label = input<string>('');
 	readonly placeholder = input<string>('Select file');
 	readonly disabled = input<boolean>(false);
 	readonly clearable = input<boolean>(true);
 	readonly accept = input<string>('*/*');
-	readonly multiple = input<boolean>(false);
 	readonly preview = input<boolean>(true);
 
-	/* Crop */
+	/** Behaviour */
+	readonly mode = input<FileMode>('single-image');
+	readonly view = input<FileView>('dropzone');
+
+	/** Optional crop box (for image modes) */
 	readonly cropWidth = input<number | null>(null);
 	readonly cropHeight = input<number | null>(null);
 
-	/* Custom templates */
-	readonly t_item = input<TemplateRef<any>>();
-	readonly t_empty = input<TemplateRef<any>>();
+	/** Custom templates */
+	readonly t_item = input<TemplateRef<unknown>>();
+	readonly t_empty = input<TemplateRef<unknown>>();
 
-	/* Virtual Form */
-	readonly formId = input<string | null>(null);
-	readonly formKey = input<string | null>(null);
-
-	/* Back-compat upload routing */
+	/** Back-end routing */
 	readonly container = input<string>('general');
 	readonly name = input<string>('');
 
-	/* Model */
-	readonly wModel = model<WFileValue>(null, { alias: 'wModel' });
-	readonly wChange = output<WFileValue>();
+	/** Separate models for each mode */
+	readonly wImage = model<string | null>(null, { alias: 'wImage' });
+	readonly wFile = model<string | null>(null, { alias: 'wFile' });
+	readonly wImages = model<string[]>([], { alias: 'wImages' });
+	readonly wFiles = model<string[]>([], { alias: 'wFiles' });
 
-	// private _vf = inject(VirtualFormService);
-	private _modal = inject(ModalService);
-	private _fs = inject(FileService);
+	private readonly _modal = inject(ModalService);
+	private readonly _fs = inject(FileService);
 
-	private _onChange: (v: any) => void = () => {};
-	private _onTouched: () => void = () => {};
-	private _disabledCva = false;
+	readonly isDisabled = computed(() => this.disabled());
+	readonly isMultiple = computed(() => this.mode().startsWith('multi-'));
+	readonly isImageMode = computed(() => this.mode().includes('image'));
 
-	readonly isDisabled = computed(() => this.disabled() || this._disabledCva);
+	/** Normalized list of URLs for rendering */
 	readonly files = computed<string[]>(() => {
-		const v = this.wModel();
-		return Array.isArray(v) ? (v as string[]) : v ? [v as string] : [];
+		const mode = this.mode();
+		switch (mode) {
+			case 'single-image':
+				return this.wImage() ? [this.wImage() as string] : [];
+			case 'single-file':
+				return this.wFile() ? [this.wFile() as string] : [];
+			case 'multi-image':
+				return this.wImages();
+			case 'multi-file':
+				return this.wFiles();
+			default:
+				return [];
+		}
 	});
 
-	constructor() {
-		// VF → model
-		let syncing = false;
-		effect(() => {
-			const id = this.formId();
-			const key = this.formKey();
-			if (!id || !key) return;
-			// this._vf.registerField(id, key, null, []);
-			// const vfVal = this._vf.getValues(id)[key] ?? null;
-			// if (!syncing && !this._equal(vfVal, this.wModel())) {
-			// 	syncing = true;
-			// 	this.wModel.set(vfVal as WFileValue);
-			// 	syncing = false;
-			// }
-		});
-
-		// model → VF
-		effect(() => {
-			const id = this.formId();
-			const key = this.formKey();
-			if (!id || !key) return;
-			const val = this.wModel();
-			// if (!this._equal(this._vf.getValues(id)[key], val)) {
-			// 	this._vf.setValue(id, key, (val ?? null) as WFileValue);
-			// }
-		});
-
-		// propagate to CVA + (wChange)
-		effect(() => {
-			const v = this.wModel();
-			this._onChange(v);
-			this.wChange.emit(v);
-		});
-	}
-
-	triggerPick(input: HTMLInputElement) {
-		if (!this.isDisabled()) input.click();
+	triggerPick(input: HTMLInputElement): void {
+		if (!this.isDisabled()) {
+			input.click();
+		}
 	}
 
 	isImage(src: string): boolean {
 		return /\.(png|jpe?g|webp|gif)(\?|$)/i.test(src ?? '');
 	}
 
-	async onPicked(input: HTMLInputElement) {
+	async onPicked(input: HTMLInputElement): Promise<void> {
 		const list = input.files;
 		if (!list || !list.length) return;
 
-		const doCrop = !!(this.cropWidth() && this.cropHeight());
+		const doCrop =
+			this.isImageMode() && !!this.cropWidth() && !!this.cropHeight();
 		const urls: string[] = [];
 		const container = this.container();
 		const name = this.name();
 
 		for (let i = 0; i < list.length; i++) {
 			const f = list.item(i)!;
-			const dataUrl = await fToDataURL(f);
+
+			// Always read file as data URL
+			const dataUrl = await fileToDataUrl(f);
 
 			if (doCrop) {
+				// Open crop modal for each image
 				await new Promise<void>((resolve) => {
 					this._modal.show({
 						component: FileCropperComponent,
@@ -160,57 +137,78 @@ export class FileComponent implements ControlValueAccessor {
 				);
 				urls.push(url);
 			}
+
+			// If single mode, ignore extra files after first
+			if (!this.isMultiple()) {
+				break;
+			}
 		}
 
-		const next = this.multiple()
-			? [...this.files(), ...urls]
-			: (urls[0] ?? null);
-		this.wModel.set(next as WFileValue);
+		this._applyNewUrls(urls);
 		input.value = '';
-		this._onTouched();
 	}
 
-	removeAt(i: number) {
-		if (!this.multiple()) {
-			this.wModel.set(null);
+	removeAt(index: number): void {
+		const mode = this.mode();
+
+		if (mode === 'single-image') {
+			this.wImage.set(null);
 			return;
 		}
-		const arr = [...this.files()];
-		arr.splice(i, 1);
-		this.wModel.set(arr.length ? arr : []);
+
+		if (mode === 'single-file') {
+			this.wFile.set(null);
+			return;
+		}
+
+		// Multi modes
+		const current = [...this.files()];
+		current.splice(index, 1);
+
+		if (mode === 'multi-image') {
+			this.wImages.set(current);
+		} else if (mode === 'multi-file') {
+			this.wFiles.set(current);
+		}
 	}
 
-	clear() {
-		this.wModel.set(this.multiple() ? [] : null);
+	clear(): void {
+		const mode = this.mode();
+		if (mode === 'single-image') {
+			this.wImage.set(null);
+		} else if (mode === 'single-file') {
+			this.wFile.set(null);
+		} else if (mode === 'multi-image') {
+			this.wImages.set([]);
+		} else if (mode === 'multi-file') {
+			this.wFiles.set([]);
+		}
 	}
 
-	// CVA
-	writeValue(obj: WFileValue): void {
-		if (!this._equal(this.wModel(), obj)) this.wModel.set(obj);
-	}
-	registerOnChange(fn: any): void {
-		this._onChange = fn;
-	}
-	registerOnTouched(fn: any): void {
-		this._onTouched = fn;
-	}
-	setDisabledState(isDisabled: boolean): void {
-		this._disabledCva = isDisabled;
-	}
+	private _applyNewUrls(urls: string[]): void {
+		const mode = this.mode();
 
-	private _equal(a: any, b: any) {
-		return Array.isArray(a) || Array.isArray(b)
-			? JSON.stringify(a) === JSON.stringify(b)
-			: a === b;
-	}
-}
+		if (!urls.length) {
+			return;
+		}
 
-/* helpers */
-function fToDataURL(file: File): Promise<string> {
-	return new Promise((res, rej) => {
-		const r = new FileReader();
-		r.onload = () => res(r.result as string);
-		r.onerror = rej;
-		r.readAsDataURL(file);
-	});
+		if (mode === 'single-image') {
+			this.wImage.set(urls[0] ?? null);
+			return;
+		}
+
+		if (mode === 'single-file') {
+			this.wFile.set(urls[0] ?? null);
+			return;
+		}
+
+		if (mode === 'multi-image') {
+			this.wImages.set([...this.wImages(), ...urls]);
+			return;
+		}
+
+		if (mode === 'multi-file') {
+			this.wFiles.set([...this.wFiles(), ...urls]);
+		}
+	}
 }

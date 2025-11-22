@@ -1,11 +1,58 @@
 @let _label = label(); @let _ph = placeholder(); @let _files = files(); @let
-_disabled = isDisabled();
+_disabled = isDisabled(); @let _view = view();
 
 <div class="wfile" [class._disabled]="_disabled">
 	@if (_label) {
 	<div class="wfile__label">{{ (_label | translate)() }}</div>
 	}
 
+	<!-- shared file input -->
+	<input
+		#fileInput
+		type="file"
+		[attr.accept]="accept()"
+		[attr.multiple]="isMultiple() ? '' : null"
+		(change)="onPicked(fileInput)"
+		hidden
+	/>
+
+	@if (_view === 'thumb-only') {
+	<!-- avatar / thumb-only view -->
+	<div
+		class="wfile__body wfile__body--thumb-only"
+		(click)="triggerPick(fileInput)"
+	>
+		@if (_files.length === 0) {
+		<ng-container [ngTemplateOutlet]="t_empty() || emptyTpl"></ng-container>
+		<ng-template #emptyTpl>
+			<div class="wfile__empty">{{ (_ph | translate)() }}</div>
+		</ng-template>
+		} @else {
+		<!-- show only first item -->
+		<ng-container
+			[ngTemplateOutlet]="t_item() || itemTpl"
+			[ngTemplateOutletContext]="{ $implicit: _files[0], index: 0 }"
+		></ng-container>
+
+		<ng-template #itemTpl let-src let-index="index">
+			@if (preview() && isImage(src)) {
+			<img class="wfile__thumb" [src]="src" alt="preview" />
+			} @else {
+			<span class="wfile__name">{{ src }}</span>
+			}
+		</ng-template>
+		} @if (clearable() && _files.length) {
+		<button
+			type="button"
+			class="wfile__remove material-icons"
+			(click)="clear(); $event.stopPropagation()"
+		>
+			close
+		</button>
+		}
+	</div>
+	} @else {
+	<!-- dropzone / list views -->
 	<div class="wfile__body">
 		<div class="wfile__list">
 			@if (_files.length === 0) {
@@ -25,11 +72,9 @@ _disabled = isDisabled();
 					></ng-container>
 					<ng-template #itemTpl let-src let-index="index">
 						<span class="wfile__name">{{ src }}</span>
-						<!-- replace the regex expression with the helper -->
 						@if (preview() && isImage(src)) {
 						<img class="wfile__thumb" [src]="src" alt="preview" />
 						}
-
 						<button
 							type="button"
 							class="wfile__remove material-icons"
@@ -45,14 +90,6 @@ _disabled = isDisabled();
 		</div>
 
 		<div class="wfile__actions">
-			<input
-				#fileInput
-				type="file"
-				[attr.accept]="accept()"
-				[attr.multiple]="multiple() ? '' : null"
-				(change)="onPicked(fileInput)"
-				hidden
-			/>
 			<button
 				type="button"
 				class="wfile__btn"
@@ -76,4 +113,5 @@ _disabled = isDisabled();
 			}
 		</div>
 	</div>
+	}
 </div>

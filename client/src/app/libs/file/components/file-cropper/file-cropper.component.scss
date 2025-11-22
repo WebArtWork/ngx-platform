@@ -1,0 +1,37 @@
+:host {
+	display: block;
+	padding: var(--sp-4);
+}
+
+/* BEM root */
+.file-cropper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-3);
+
+	/* center and limit size */
+	inline-size: min(90vw, 640px);
+	max-block-size: 90vh;
+	margin-inline: auto;
+
+	&__cropper {
+		border-radius: var(--b-radius-card);
+		overflow: hidden;
+		background: var(--c-bg-secondary);
+		/* prevent huge vertical growth */
+		max-block-size: 70vh;
+
+		/* make inner cropper responsive */
+		image-cropper {
+			display: block;
+			inline-size: 100%;
+			block-size: auto;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: var(--sp-2);
+	}
+}

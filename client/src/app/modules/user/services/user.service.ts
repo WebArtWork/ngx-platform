@@ -8,6 +8,16 @@ import { User } from '../interfaces/user.interface';
 	providedIn: 'root',
 })
 export class UserService extends CrudService<User> {
+	private readonly _httpService = inject(HttpService);
+
+	private readonly _storeService = inject(StoreService);
+
+	private readonly _alertService = inject(AlertService);
+
+	private readonly _router = inject(Router);
+
+	private readonly _emitterService = inject(EmitterService);
+
 	readonly url = environment.url;
 
 	roles = (
@@ -138,7 +148,7 @@ export class UserService extends CrudService<User> {
 		this.theme = theme;
 	}
 
-	setUser(user: User): void {
+	setUser(user: User) {
 		this.user.set(user);
 
 		localStorage.setItem('waw_user', JSON.stringify(user));
@@ -146,32 +156,32 @@ export class UserService extends CrudService<User> {
 		this._emitterService.complete('us.user');
 	}
 
-	updateMe(): void {
+	updateMe() {
 		this.setUser(this.user());
 
-		this.update(this.user());
+		return this.update(this.user()).subscribe(() => {
+			() => {
+				this._alertService.info({
+					text: 'Profile information has been updated',
+				});
+			};
+		});
 	}
 
-	updateMeAfterWhile(): void {
+	updateMeAfterWhile() {
 		this.setUser(this.user());
 
 		this.updateAfterWhile(this.user());
 	}
 
-	changePassword(oldPass: string, newPass: string): void {
-		if (this._changingPassword) return;
-
-		this._changingPassword = true;
-
-		this._httpService.post(
+	changePassword(oldPass: string, newPass: string) {
+		return this._httpService.post(
 			'/api/user/changePassword',
 			{
 				newPass: newPass,
 				oldPass: oldPass,
 			},
 			(resp: boolean) => {
-				this._changingPassword = false;
-
 				if (resp) {
 					this._alertService.info({
 						text: 'Successfully changed password',
@@ -185,7 +195,7 @@ export class UserService extends CrudService<User> {
 		);
 	}
 
-	logout(): void {
+	logout() {
 		this.user.set(this.new());
 
 		localStorage.removeItem('waw_user');
@@ -201,27 +211,15 @@ export class UserService extends CrudService<User> {
 		}, 100);
 	}
 
-	updateAdmin(user: User): void {
+	updateAdmin(user: User) {
 		this.update(user, {
 			name: 'admin',
 		});
 	}
 
-	deleteAdmin(user: User): void {
+	deleteAdmin(user: User) {
 		this.delete(user, {
 			name: 'admin',
 		});
 	}
-
-	private _changingPassword = false;
-
-	private _httpService = inject(HttpService);
-
-	private _storeService = inject(StoreService);
-
-	private _alertService = inject(AlertService);
-
-	private _router = inject(Router);
-
-	private _emitterService = inject(EmitterService);
 }

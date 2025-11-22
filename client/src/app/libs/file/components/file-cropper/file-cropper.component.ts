@@ -1,23 +1,32 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ButtonComponent } from '@lib/button';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
-import { ButtonComponent } from 'src/app/libs/button/button.component';
 
 @Component({
 	selector: 'app-file-cropper',
 	templateUrl: './file-cropper.component.html',
+	styleUrl: './file-cropper.component.scss',
 	imports: [ImageCropperComponent, ButtonComponent],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileCropperComponent {
-	close!: () => void;
+	// Provided by modal
+	close: () => void = () => {};
+	uploadImage: (croppedDataUrl: string) => void = () => {};
+
+	// Cropper config
 	maintainAspectRatio = true;
 	aspectRatio = 1;
-	croppedDataUrl!: string;
-	dataUrl!: string;
-	width!: number;
-	height!: number;
-	uploadImage!: (croppedDataUrl: string) => void;
+
+	// Data from caller
+	dataUrl = '';
+	width = 0;
+	height = 0;
+
+	// Result
+	croppedDataUrl = '';
 
 	imageCropped(event: ImageCroppedEvent): void {
-		this.croppedDataUrl = event.base64 as string;
+		this.croppedDataUrl = (event.base64 as string) || '';
 	}
 }

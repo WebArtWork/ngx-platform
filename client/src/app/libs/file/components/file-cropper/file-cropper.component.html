@@ -1,14 +1,18 @@
-<image-cropper
-	[maintainAspectRatio]="maintainAspectRatio"
-	(imageCropped)="imageCropped($event)"
-	[cropperStaticHeight]="height"
-	[cropperStaticWidth]="width"
-	[aspectRatio]="aspectRatio"
-	[imageBase64]="dataUrl"
-	output="base64"
-	format="png"
-></image-cropper>
+<div class="file-cropper">
+	<div class="file-cropper__cropper">
+		<image-cropper
+			[maintainAspectRatio]="maintainAspectRatio"
+			(imageCropped)="imageCropped($event)"
+			[cropperStaticHeight]="height"
+			[cropperStaticWidth]="width"
+			[aspectRatio]="aspectRatio"
+			[imageBase64]="dataUrl"
+			output="base64"
+			format="png"
+		></image-cropper>
+	</div>
 
-<wbutton class="mt10" (click)="uploadImage(croppedDataUrl); close()">
-	Crop
-</wbutton>
+	<div class="file-cropper__actions">
+		<wbutton (click)="uploadImage(croppedDataUrl); close()"> Crop </wbutton>
+	</div>
+</div>
