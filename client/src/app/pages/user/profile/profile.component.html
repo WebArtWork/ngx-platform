@@ -2,17 +2,19 @@
 	<div class="profile__card shadow rounded-card">
 		<div class="profile__tabs">
 			<wbutton
-				class="profile__tab"
 				[type]="activeTab() === 'profile' ? 'primary' : 'link'"
+				[isMultipleClicksAllowed]="true"
 				(click)="setTab('profile')"
+				class="profile__tab"
 			>
 				Profile
 			</wbutton>
 
 			<wbutton
-				class="profile__tab"
 				[type]="activeTab() === 'security' ? 'primary' : 'link'"
+				[isMultipleClicksAllowed]="true"
 				(click)="setTab('security')"
+				class="profile__tab"
 			>
 				Security
 			</wbutton>
@@ -21,6 +23,20 @@
 		<div class="profile__body">
 			@if (activeTab() === 'profile') {
 			<div class="profile__panel profile__panel--profile">
+				<ngx-file
+					mode="single-image"
+					view="thumb-only"
+					[wImage]="userService.thumb()"
+					(wImageChange)="updateThumb($event || '')"
+					[container]="'user'"
+					[name]="userService.user()._id + '.jpg'"
+					[accept]="'image/*'"
+					[clearable]="false"
+					[preview]="true"
+					[cropWidth]="512"
+					[cropHeight]="512"
+				></ngx-file>
+
 				<form
 					(submit)="wFormSubmit(); $event.preventDefault()"
 					class="profile__fields stack"
@@ -47,20 +63,6 @@
 						[field]="profileForm.bio"
 						type="textarea"
 					></winput>
-
-					<ngx-file
-						mode="single-image"
-						view="thumb-only"
-						[wImage]="userService.thumb()"
-						(wImageChange)="updateThumb($event || '')"
-						[container]="'user'"
-						[name]="userService.user()._id + '.jpg'"
-						[accept]="'image/*'"
-						[clearable]="false"
-						[preview]="true"
-						[cropWidth]="512"
-						[cropHeight]="512"
-					></ngx-file>
 
 					<wbutton
 						[disabled]="isSubmitDisabled()"

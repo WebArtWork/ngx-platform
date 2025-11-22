@@ -1,123 +1,116 @@
-import { inject, Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import { DomComponent, DomService } from 'wacom';
 import { ModalComponent } from './modal.component';
-import { Modal, ModalConfig } from './modal.interface';
+import { DEFAULT_MODAL_CONFIG, Modal, ModalConfig } from './modal.interface';
+
 @Injectable({
 	providedIn: 'root',
 })
 export class ModalService {
-	private _dom = inject(DomService);
+	private readonly _dom = inject(DomService);
+
+	private _modals: Modal[] = [];
+	private _config: ModalConfig = { ...DEFAULT_MODAL_CONFIG };
 
 	show(opts: Modal | Type<unknown>): Modal {
-		opts = this._opts(opts);
+		const config = this._withConfig(opts);
 
-		if (opts.unique && this._modals.find((m) => m.unique === opts.unique)) {
-			return this._modals.find((m) => m.unique === opts.unique) as Modal;
+		if (
+			config.unique &&
+			this._modals.find((m) => m.unique === config.unique)
+		) {
+			return this._modals.find(
+				(m) => m.unique === config.unique,
+			) as Modal;
 		}
 
-		this._modals.push(opts);
+		this._modals.push(config);
 
-		opts.class ||= '';
-
-		opts.id ||= Math.floor(Math.random() * Date.now()) + Date.now();
+		config.class ||= '';
+		config.id ||= Math.floor(Math.random() * Date.now()) + Date.now();
 
 		document.body.classList.add('modalOpened');
 
-		let component!: DomComponent<ModalComponent> | undefined;
+		let shell!: DomComponent<ModalComponent> | undefined;
+		let content!: DomComponent<unknown> | undefined;
 
-		let content!: DomComponent<any> | undefined;
-
-		opts.close = () => {
+		config.close = () => {
 			content?.remove();
-
 			content = undefined;
 
-			component?.remove();
+			shell?.remove();
+			shell = undefined;
 
-			component = undefined;
+			if (typeof config.onClose === 'function') {
+				config.onClose();
+			}
 
-			if (typeof opts.onClose === 'function') opts.onClose();
-
-			this._modals.splice(
-				this._modals.findIndex((m) => m.id === opts.id),
-				1,
-			);
+			this._modals = this._modals.filter((m) => m.id !== config.id);
 
 			if (!this._modals.length) {
 				document.body.classList.remove('modalOpened');
 			}
 		};
 
-		if (typeof opts.timeout === 'number' && opts.timeout > 0) {
-			setTimeout(opts.close, opts.timeout);
+		if (typeof config.timeout === 'number' && config.timeout > 0) {
+			setTimeout(() => config.close?.(), config.timeout);
 		}
 
-		component = this._dom.appendComponent(ModalComponent, opts)!;
+		// Shell modal (overlay + container)
+		shell = this._dom.appendComponent(ModalComponent, config)!;
+
+		// Content component injected into inner body div
+		const host = shell.nativeElement.children[0].children[0]
+			.children[0] as HTMLElement;
 
 		content = this._dom.appendComponent(
-			opts.component,
-			opts as Partial<{ providedIn?: string | undefined }>,
-			component.nativeElement.children[0].children[0]
-				.children[0] as HTMLElement,
+			config.component,
+			config as Partial<{ providedIn?: string }>,
+			host,
 		)!;
 
-		return opts;
+		return config;
 	}
 
-	open(opts: Modal | Type<unknown>) {
+	open(opts: Modal | Type<unknown>): void {
 		this.show(opts);
 	}
 
-	small(opts: Modal) {
-		opts = this._opts(opts);
-
-		opts.size = 'small';
-
-		this.show(opts);
+	small(opts: Modal): void {
+		this.show({ ...opts, size: 'small' });
 	}
 
-	mid(opts: Modal) {
-		opts = this._opts(opts);
-
-		opts.size = 'mid';
-
-		this.show(opts);
+	mid(opts: Modal): void {
+		this.show({ ...opts, size: 'mid' });
 	}
 
-	big(opts: Modal) {
-		opts = this._opts(opts);
-
-		opts.size = 'big';
-
-		this.show(opts);
+	big(opts: Modal): void {
+		this.show({ ...opts, size: 'big' });
 	}
 
-	full(opts: Modal) {
-		opts = this._opts(opts);
-
-		opts.size = 'full';
-
-		this.show(opts);
+	full(opts: Modal): void {
+		this.show({ ...opts, size: 'full' });
 	}
 
-	destroy() {
+	destroy(): void {
 		for (let i = this._modals.length - 1; i >= 0; i--) {
 			this._modals[i].close?.();
 		}
 	}
 
-	private _modals: Modal[] = [];
-
-	/** Merged configuration applied to new alerts. */
-	private _config: ModalConfig;
-
-	setConfig(config: ModalConfig) {
-		this._config = config;
+	setConfig(config: ModalConfig): void {
+		this._config = {
+			...this._config,
+			...config,
+		};
 	}
 
-	private _opts(opts: Modal | Type<unknown>): Modal {
+	private _withConfig(opts: Modal | Type<unknown>): Modal {
 		return typeof opts === 'function'
-			? { ...this._config, component: opts }
+			? {
+					...this._config,
+					component: opts,
+				}
 			: {
 					...this._config,
 					...opts,

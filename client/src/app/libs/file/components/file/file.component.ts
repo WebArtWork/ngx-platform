@@ -116,6 +116,7 @@ export class FileComponent {
 				await new Promise<void>((resolve) => {
 					this._modal.show({
 						component: FileCropperComponent,
+						size: 'big',
 						dataUrl,
 						width: this.cropWidth()!,
 						height: this.cropHeight()!,

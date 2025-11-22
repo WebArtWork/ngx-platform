@@ -1,45 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	OnDestroy,
+	OnInit,
+} from '@angular/core';
 
 @Component({
 	selector: 'lib-modal',
 	templateUrl: './modal.component.html',
-	styleUrls: ['./modal.component.scss'],
+	styleUrl: './modal.component.scss',
 	standalone: true,
-	imports: [],
+	imports: [NgClass],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent implements OnInit {
-	closable: boolean = true;
-	close: any;
-	onOpen: any;
-	timestart: any;
-	timeout: any;
-	allowClose = true;
-	onClickOutside: any;
-	ngOnInit() {
+export class ModalComponent implements OnInit, OnDestroy {
+	closable = true;
+	close: () => void = () => {};
+	onOpen?: () => void;
+	onClickOutside?: () => void;
+
+	// used in template for size modifiers
+	size: 'small' | 'mid' | 'big' | 'full' = 'mid';
+
+	private readonly _popStateHandler = (e: PopStateEvent) =>
+		this.popStateListener(e);
+
+	ngOnInit(): void {
 		if (typeof this.onClickOutside !== 'function') {
 			this.onClickOutside = this.close;
-			// this.onClickOutside = () => {
-			// 	if (this.allowClose) {
-			// 		this.close();
-			// 	}
-
-			// 	this.allowClose = true;
-			// };
 		}
 
-		if (typeof this.onOpen == 'function') this.onOpen();
+		if (typeof this.onOpen === 'function') {
+			this.onOpen();
+		}
 
-		window.addEventListener('popstate', this.popStateListener.bind(this));
+		window.addEventListener('popstate', this._popStateHandler);
 	}
 
 	ngOnDestroy(): void {
-		window.removeEventListener(
-			'popstate',
-			this.popStateListener.bind(this),
-		);
+		window.removeEventListener('popstate', this._popStateHandler);
 	}
 
-	popStateListener(e: Event) {
-		this.close();
+	onBackdropClick(): void {
+		this.onClickOutside?.();
+	}
+
+	private popStateListener(_: Event): void {
+		this.close?.();
 	}
 }
