@@ -34,37 +34,39 @@
 				Sign In / Sign Up
 			</h1>
 
-			<div class="sign__fields stack">
+			<form
+				(submit)="wFormSubmit(); $event.preventDefault()"
+				class="sign__fields stack"
+			>
 				<winput
-					type="email"
 					placeholder="Enter your email..."
-					[focused]="true"
 					[field]="signForm.email"
+					[focused]="true"
+					type="email"
 				></winput>
 
 				<winput
-					type="password"
 					placeholder="Enter your password..."
 					[field]="signForm.password"
+					type="password"
 				></winput>
 
 				@if (showCode()) {
 				<winput
-					type="number"
 					placeholder="Enter code from mailbox..."
 					[field]="signForm.resetPin"
+					type="number"
 				></winput>
 				}
 
 				<wbutton
 					[disabled]="isSubmitDisabled()"
-					(wClick)="wFormSubmit()"
 					type="primary"
 					class="mt-2"
 				>
 					Let's go
 				</wbutton>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>

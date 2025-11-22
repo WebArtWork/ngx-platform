@@ -1,4 +1,4 @@
-@keyframes iziT-bounceInUp {
+@keyframes alert-lib-bounce-in-up {
 	0% {
 		opacity: 0;
 		transform: translateY(200px);
@@ -15,20 +15,20 @@
 	}
 }
 
-@keyframes wacom-alert-progress {
+@keyframes alert-lib-progress {
 	from {
 		width: 100%;
 	}
-
 	to {
 		width: 0%;
 	}
 }
 
-.wacom-alert {
+.alert-lib {
 	font-size: 0;
-	height: 100px;
-	width: 100%;
+	width: auto;
+	max-width: 100%;
+	height: auto;
 	transform: translateZ(0);
 	backface-visibility: hidden;
 	transition: 0.3s all ease-in-out;
@@ -44,15 +44,17 @@
 	}
 
 	&__content {
-		display: inline-block;
+		display: flex; /* center inner body vertically */
+		align-items: center;
+		justify-content: center;
 		clear: both;
 		position: relative;
 		font-family: 'Lato', Tahoma, Arial;
 		font-size: 14px;
-		padding: 8px 0 9px 0;
+		padding: 8px 16px;
 		background: rgba(238, 238, 238, 0.9);
 		border-color: rgba(238, 238, 238, 0.9);
-		width: 100%;
+		max-width: 100%;
 		pointer-events: all;
 		cursor: default;
 		transform: translateX(0);
@@ -62,24 +64,24 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
-		min-height: 54px;
+		min-height: 40px;
 
 		&:hover {
-			.wacom-alert__progress-bar {
+			.alert-lib__progress-bar {
 				animation-play-state: paused;
 			}
 		}
 
 		&--bounce-in-up {
-			-webkit-animation: iziT-bounceInUp 0.7s ease-in-out both;
-			animation: iziT-bounceInUp 0.7s ease-in-out both;
+			-webkit-animation: alert-lib-bounce-in-up 0.7s ease-in-out both;
+			animation: alert-lib-bounce-in-up 0.7s ease-in-out both;
 		}
 
 		&--theme-dark {
 			background: #565c70;
 			border-color: #565c70;
 
-			.wacom-alert__message {
+			.alert-lib__message {
 				color: rgba(255, 255, 255, 0.7);
 				font-weight: 300;
 			}
@@ -87,19 +89,19 @@
 
 		&--color {
 			&-info {
-				background-color: var(--wacom-info);
+				background-color: var(--alert-lib-info-bg, #9ddeff);
 			}
 			&-error {
-				background-color: var(--wacom-error);
+				background-color: var(--alert-lib-error-bg, #ffafb4);
 			}
 			&-success {
-				background-color: var(--wacom-success);
+				background-color: var(--alert-lib-success-bg, #a6efb8);
 			}
 			&-warning {
-				background-color: var(--wacom-warning);
+				background-color: var(--alert-lib-warning-bg, #ffcfa5);
 			}
 			&-question {
-				background-color: var(--wacom-question);
+				background-color: var(--alert-lib-question-bg, #fff9b2);
 			}
 		}
 	}
@@ -125,7 +127,7 @@
 			content: ' ';
 			height: 12px;
 			width: 2px;
-			background-color: var(--wacom-secondary);
+			background-color: var(--alert-lib-close-color, rgba(0, 0, 0, 0.6));
 		}
 
 		&:before {
@@ -145,7 +147,7 @@
 		border-radius: 50px;
 
 		&:hover {
-			.wacom-alert__progress-bar {
+			.alert-lib__progress-bar {
 				animation-play-state: paused;
 			}
 		}
@@ -156,44 +158,46 @@
 		width: 100%;
 		height: 2px;
 		background-color: #a5a5a5ed;
-		animation-name: wacom-alert-progress;
+		animation-name: alert-lib-progress;
 		animation-duration: 10s;
 		border-radius: 50px;
 
 		&--info {
-			background-color: var(--wacom-info);
+			background-color: var(--alert-lib-info-bg, #9ddeff);
 		}
 		&--error {
-			background-color: var(--wacom-error);
+			background-color: var(--alert-lib-error-bg, #ffafb4);
 		}
 		&--success {
-			background-color: var(--wacom-success);
+			background-color: var(--alert-lib-success-bg, #a6efb8);
 		}
 		&--warning {
-			background-color: var(--wacom-warning);
+			background-color: var(--alert-lib-warning-bg, #ffcfa5);
 		}
 		&--question {
-			background-color: var(--wacom-question);
+			background-color: var(--alert-lib-question-bg, #fff9b2);
 		}
 	}
 
 	&__body {
 		position: relative;
-		padding: 0 0 0 10px;
-		min-height: 36px;
-		margin: 0 0 0 15px;
-		text-align: left;
+		margin: 0;
+		padding: 0;
+		width: 100%;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		align-items: center; /* vertical center inside content */
+		justify-content: center; /* center horizontally as well */
+		text-align: left;
+		gap: 12px;
 	}
 
 	&__texts {
-		margin: 10px 0 0 0;
-		padding-right: 2px;
+		margin: 0;
+		padding-right: 0;
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
+		justify-content: center;
+		gap: 8px;
 	}
 
 	&__message {
@@ -201,7 +205,7 @@
 		font-size: 14px;
 		line-height: 16px;
 		text-align: left;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--alert-lib-text-color, rgba(0, 0, 0, 0.6));
 		white-space: normal;
 
 		&--slide-in {

@@ -11,13 +11,14 @@ import {
 	viewChild,
 } from '@angular/core';
 import { Field } from '@angular/forms/signals';
-import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
+import { TranslatePipe } from '@module/translate/pipes/translate.pipe';
+import { ManualTypeDirective } from 'wacom';
 import { InputType } from './input.type';
 
 @Component({
 	selector: 'winput',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [Field, NgClass, TranslatePipe],
+	imports: [Field, NgClass, TranslatePipe, ManualTypeDirective],
 	templateUrl: './input.component.html',
 	styleUrl: './input.component.scss',
 })
@@ -55,7 +56,8 @@ export class InputComponent implements AfterViewInit {
 	/* ---------------- Internal state ---------------- */
 	showPassword = signal(false);
 
-	private readonly _inputEl = viewChild<ElementRef<HTMLElement>>('inputEl');
+	private readonly _inputEl =
+		viewChild<ElementRef<HTMLInputElement>>('inputEl');
 
 	/* ---------------- Derived state ---------------- */
 	readonly fieldState = computed(() => {
@@ -106,6 +108,12 @@ export class InputComponent implements AfterViewInit {
 	ngAfterViewInit() {
 		if (this.focused() && this._inputEl()) {
 			this._inputEl()!.nativeElement.focus();
+		}
+
+		if (!this.field()) {
+			console.warn(
+				'[winput] No "field" input provided. Running in legacy mode. Prefer `[field]="form.control"` with Signal Forms.',
+			);
 		}
 	}
 

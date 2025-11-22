@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
 	selector: 'lib-wrapper',
 	templateUrl: './wrapper.component.html',
 	styleUrls: ['./wrapper.component.scss'],
-	imports: [],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 /**
  * Container component that provides placeholder elements for alert instances

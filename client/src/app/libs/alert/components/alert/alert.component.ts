@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	Component,
+	ElementRef,
+	viewChild,
+} from '@angular/core';
 import {
 	AlertButton,
 	AlertPosition,
@@ -11,15 +17,16 @@ import {
 	templateUrl: './alert.component.html',
 	styleUrls: ['./alert.component.scss'],
 	imports: [CommonModule],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 /**
  * Displays an individual alert message with optional icon, actions and
- * auto‑dismiss behaviour. All inputs are configured by the service when the
+ * auto-dismiss behaviour. All inputs are configured by the service when the
  * component is created dynamically.
  */
 export class AlertComponent implements AfterViewInit {
 	/** Reference to the DOM element hosting the alert. */
-	@ViewChild('alertRef') alertRef!: ElementRef<HTMLDivElement>;
+	alertRef = viewChild<ElementRef<HTMLDivElement>>('alertRef');
 
 	/** Callback invoked to remove the alert from the DOM. */
 	close!: () => void;
@@ -55,43 +62,44 @@ export class AlertComponent implements AfterViewInit {
 	buttons: AlertButton[] = [];
 
 	/**
-	 * Starts the auto‑dismiss timer and pauses it while the alert is
+	 * Starts the auto-dismiss timer and pauses it while the alert is
 	 * hovered, resuming when the mouse leaves.
 	 */
 	ngAfterViewInit(): void {
-		if (this.timeout) {
-			let remaining = JSON.parse(JSON.stringify(this.timeout));
+		const elRef = this.alertRef();
+		if (!elRef || !this.timeout) return;
 
-			let timer: number = window.setTimeout(() => {
-				this.remove();
-			}, remaining);
+		let remaining = JSON.parse(JSON.stringify(this.timeout));
 
-			let start = new Date();
+		let timer: number = window.setTimeout(() => {
+			this.remove();
+		}, remaining);
 
-			this.alertRef.nativeElement.addEventListener(
-				'mouseenter',
-				() => {
-					clearTimeout(timer);
+		let start = new Date();
 
-					remaining -= new Date().getTime() - start.getTime();
-				},
-				false,
-			);
+		elRef.nativeElement.addEventListener(
+			'mouseenter',
+			() => {
+				clearTimeout(timer);
 
-			this.alertRef.nativeElement.addEventListener(
-				'mouseleave',
-				() => {
-					start = new Date();
+				remaining -= new Date().getTime() - start.getTime();
+			},
+			false,
+		);
 
-					clearTimeout(timer);
+		elRef.nativeElement.addEventListener(
+			'mouseleave',
+			() => {
+				start = new Date();
 
-					timer = window.setTimeout(() => {
-						this.remove();
-					}, remaining);
-				},
-				false,
-			);
-		}
+				clearTimeout(timer);
+
+				timer = window.setTimeout(() => {
+					this.remove();
+				}, remaining);
+			},
+			false,
+		);
 	}
 
 	/**
@@ -113,5 +121,6 @@ export class AlertComponent implements AfterViewInit {
 			this.delete_animation = false;
 		}, 350);
 	}
+
 	private _removed = false;
 }

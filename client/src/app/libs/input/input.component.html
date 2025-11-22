@@ -20,6 +20,11 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			[class.error]="_error"
 			[ngClass]="_wClass"
 			[field]="_field"
+			[manualType]="
+				_type === 'password'
+					? (showPassword() ? 'text' : 'password')
+					: _type || 'text'
+			"
 			#inputEl
 		/>
 		} @else {
@@ -43,7 +48,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		/>
 		} @if (_clearable) {
 		<i class="material-icons winput__clear" (click)="onClear()">close</i>
-		} @if (_type === 'password' && !_field) {
+		} @if (_type === 'password') {
 		<span
 			(click)="showPassword.set(!showPassword())"
 			class="winput__eye material-icons"

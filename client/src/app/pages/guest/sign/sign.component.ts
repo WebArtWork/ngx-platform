@@ -80,6 +80,8 @@ export class SignComponent {
 	});
 
 	wFormSubmit() {
+		console.log('called');
+
 		submit(this.signForm, (formTree) => {
 			const payload = formTree().value() as SignModel;
 

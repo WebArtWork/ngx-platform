@@ -1,6 +1,10 @@
-.wacom-wrapper {
+:root {
+	--alert-lib-z-index: 99999;
+}
+
+.alert-lib-wrapper {
 	&__alert {
-		z-index: 99999;
+		z-index: var(--alert-lib-z-index);
 		position: fixed;
 		width: 100%;
 		pointer-events: none;
@@ -10,20 +14,20 @@
 		&--top-left {
 			top: 0;
 			left: 0;
-			text-align: left;
+			align-items: flex-start;
 		}
 
 		&--top {
 			top: 0;
 			left: 0;
 			right: 0;
-			text-align: center;
+			align-items: center;
 		}
 
 		&--top-right {
 			top: 0;
 			right: 0;
-			text-align: right;
+			align-items: flex-end;
 		}
 
 		&--left {
@@ -31,7 +35,7 @@
 			bottom: 0;
 			left: 0;
 			justify-content: center;
-			text-align: left;
+			align-items: flex-start;
 		}
 
 		&--center {
@@ -39,9 +43,7 @@
 			bottom: 0;
 			left: 0;
 			right: 0;
-			text-align: center;
 			justify-content: center;
-			flex-flow: column;
 			align-items: center;
 		}
 
@@ -50,43 +52,35 @@
 			bottom: 0;
 			right: 0;
 			justify-content: center;
-			text-align: right;
+			align-items: flex-end;
 		}
 
 		&--bottom-left {
 			bottom: 0;
 			left: 0;
-			text-align: left;
+			align-items: flex-start;
 		}
 
 		&--bottom {
 			bottom: 0;
 			left: 0;
 			right: 0;
-			text-align: center;
+			align-items: center;
 		}
 
 		&--bottom-right {
 			bottom: 0;
 			right: 0;
-			text-align: right;
+			align-items: flex-end;
 		}
 	}
 
 	/* Mobile: show all positions full width */
 	@media only screen and (max-width: 567px) {
 		&__alert {
-			&--top-left,
-			&--top-right,
-			&--left,
-			&--right,
-			&--bottom-left,
-			&--bottom-right,
-			&--center {
-				left: 0;
-				right: 0;
-				text-align: center;
-			}
+			left: 0;
+			right: 0;
+			align-items: center;
 
 			&--center {
 				align-items: stretch;
@@ -95,7 +89,6 @@
 			&--left,
 			&--right {
 				flex-flow: column;
-				align-items: center;
 			}
 		}
 	}

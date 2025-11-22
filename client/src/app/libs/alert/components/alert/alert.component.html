@@ -1,33 +1,31 @@
 @if (text) {
 <div
-	class="wacom-alert wacom-alert--auto-height"
-	[class.wacom-alert--closing]="delete_animation"
+	class="alert-lib alert-lib--auto-height"
+	[class.alert-lib--closing]="delete_animation"
 	[ngClass]="class"
 >
 	<div
-		[ngClass]="'wacom-alert__content--color-' + type"
-		class="wacom-alert__content wacom-alert__content--bounce-in-up"
+		[ngClass]="'alert-lib__content--color-' + type"
+		class="alert-lib__content alert-lib__content--bounce-in-up"
 		#alertRef
 	>
 		@if (progress) {
-		<div class="wacom-alert__progress">
+		<div class="alert-lib__progress">
 			<span
-				class="wacom-alert__progress-bar"
-				[ngClass]="'wacom-alert__progress-bar--' + type"
+				class="alert-lib__progress-bar"
+				[ngClass]="'alert-lib__progress-bar--' + type"
 				[ngStyle]="{
-							'animation-duration': (timeout + 350) / 1000 + 's',
-						}"
+					'animation-duration': (timeout + 350) / 1000 + 's'
+				}"
 			></span>
 		</div>
 		}
-		<div class="wacom-alert__body">
-			<div class="wacom-alert__texts">
+		<div class="alert-lib__body">
+			<div class="alert-lib__texts">
 				@if (icon) {
 				<div class="{{ icon }}"></div>
 				}
-				<div
-					class="wacom-alert__message wacom-alert__message--slide-in"
-				>
+				<div class="alert-lib__message alert-lib__message--slide-in">
 					{{ text }}
 				</div>
 			</div>
@@ -36,14 +34,14 @@
 				@for (button of buttons; track button.text) {
 				<button
 					(click)="remove(button.callback)"
-					class="wacom-alert__button"
+					class="alert-lib__button"
 				>
 					{{ button.text }}
 				</button>
 				}
 			</div>
 			} @if (closable) {
-			<div class="wacom-alert__close" (click)="remove()"></div>
+			<div class="alert-lib__close" (click)="remove()"></div>
 			}
 		</div>
 	</div>

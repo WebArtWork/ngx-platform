@@ -174,7 +174,9 @@ export class AlertService {
 	private _alerts: Alert[] = [];
 
 	/** Merged configuration applied to new alerts. */
-	private _config: AlertConfig = {};
+	private _config: AlertConfig = {
+		position: 'bottomRight',
+	};
 
 	setConfig(config: AlertConfig) {
 		this._config = config;
