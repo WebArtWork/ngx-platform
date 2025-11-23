@@ -11,7 +11,7 @@ export class CellDirective {
 export class SortDirective {
 	template = inject<TemplateRef<any>>(TemplateRef);
 
-	cell = input();
+	sort = input();
 }
 
 @Directive({ selector: 'ng-template[actions]' })

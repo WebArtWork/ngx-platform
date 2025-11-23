@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
@@ -13,7 +14,7 @@ import { UserService } from '../../services/user.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [TableComponent, CellDirective, InputComponent],
+	imports: [TableComponent, CellDirective, InputComponent, JsonPipe],
 	templateUrl: './users.component.html',
 })
 export class UsersComponent extends CrudComponent<
@@ -52,5 +53,7 @@ export class UsersComponent extends CrudComponent<
 		for (const role of this.userService.roles) {
 			this.columns.push(role);
 		}
+
+		console.log(this);
 	}
 }

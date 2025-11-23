@@ -6,6 +6,7 @@ import {
 	ElementRef,
 	computed,
 	input,
+	model,
 	output,
 	signal,
 	viewChild,
@@ -13,7 +14,7 @@ import {
 import { Field } from '@angular/forms/signals';
 import { TranslatePipe } from '@module/translate/pipes/translate.pipe';
 import { ManualTypeDirective } from 'wacom';
-import { InputType } from './input.type';
+import { InputType, InputValue } from './input.type';
 
 @Component({
 	selector: 'winput',
@@ -32,6 +33,9 @@ export class InputComponent implements AfterViewInit {
 	 */
 	readonly field = input<any | null>(null);
 
+	/* ---------------- Template-model mode ---------------- */
+	readonly wModel = model<InputValue | null>(null, { alias: 'wModel' });
+
 	/* ---------------- Inputs ---------------- */
 	readonly type = input<InputType>('text');
 	readonly name = input('name');
@@ -49,7 +53,7 @@ export class InputComponent implements AfterViewInit {
 	readonly error = input<string | null>(null);
 
 	/* ---------------- Outputs ---------------- */
-	readonly wChange = output<unknown>();
+	readonly wChange = output<InputValue | null>();
 	readonly wSubmit = output<void>();
 	readonly wBlur = output<void>();
 
@@ -109,22 +113,50 @@ export class InputComponent implements AfterViewInit {
 		if (this.focused() && this._inputEl()) {
 			this._inputEl()!.nativeElement.focus();
 		}
-
-		if (!this.field()) {
-			console.warn(
-				'[winput] No "field" input provided. Running in legacy mode. Prefer `[field]="form.control"` with Signal Forms.',
-			);
-		}
 	}
 
 	/* ---------------- Handlers ---------------- */
-	onInput(event: Event) {
+	onInput(event: Event, option?: string) {
 		const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-		const type = target.type;
+		const nativeType = (target as HTMLInputElement).type;
 
-		let value: unknown = target.value;
-		if (type === 'checkbox' && target instanceof HTMLInputElement) {
-			value = target.checked;
+		let value: InputValue | null = null;
+
+		if (nativeType === 'checkbox' && target instanceof HTMLInputElement) {
+			// Multi-checkbox list with items → wModel as string[]
+			if (option != null && this.items().length && !this.field()) {
+				const current = this.wModel() as InputValue;
+				const list = Array.isArray(current)
+					? [...(current as any[])]
+					: [];
+				const idx = list.indexOf(option);
+
+				if (target.checked && idx === -1) {
+					list.push(option);
+				} else if (!target.checked && idx !== -1) {
+					list.splice(idx, 1);
+				}
+
+				value = list as InputValue;
+			} else {
+				// Single checkbox (field or standalone boolean)
+				value = target.checked;
+			}
+		} else if (nativeType === 'radio') {
+			// Radio always emits selected option (string)
+			if (option != null) {
+				value = option;
+			} else {
+				value = target.value;
+			}
+		} else {
+			// text / textarea / others
+			value = target.value;
+		}
+
+		// standalone mode → keep wModel in sync
+		if (!this.field()) {
+			this.wModel.set(value);
 		}
 
 		this.wChange.emit(value);
@@ -139,6 +171,9 @@ export class InputComponent implements AfterViewInit {
 	}
 
 	onClear() {
+		if (!this.field()) {
+			this.wModel.set(null);
+		}
 		this.wChange.emit(null);
 		this.onSubmit();
 		if (this._inputEl()) {
@@ -151,5 +186,10 @@ export class InputComponent implements AfterViewInit {
 		const auto = this.autocomplete();
 		if (auto !== undefined && auto !== null) return auto;
 		return type === 'password' ? 'current-password' : null;
+	}
+
+	isItemChecked(item: any): boolean {
+		const model = this.wModel();
+		return Array.isArray(model) ? (model as any[]).includes(item) : !!model;
 	}
 }

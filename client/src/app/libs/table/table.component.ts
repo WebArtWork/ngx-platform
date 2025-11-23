@@ -4,10 +4,12 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	OnInit,
+	Signal,
 	contentChild,
 	contentChildren,
 	inject,
 	input,
+	isSignal,
 	model,
 	output,
 } from '@angular/core';
@@ -45,7 +47,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 	private readonly _router = inject(Router);
 	private readonly _storeService = inject(StoreService);
 
-	// existing inputs, function-based API
+	// inputs (function-based API)
 	readonly bindValue = input<string>('_id');
 	readonly rows = input<unknown[]>([]);
 	readonly config = input<any>({});
@@ -53,18 +55,21 @@ export class TableComponent implements OnInit, AfterContentInit {
 	readonly value = input<string>('_id');
 	readonly title = input<string>('');
 
-	// outputs (same name)
+	// outputs
 	readonly onSearch = output<string>();
 
-	// content queries (same semantics)
-	private readonly _cellDirs = contentChildren(CellDirective);
-	private readonly _sortDirs = contentChildren(SortDirective);
+	// projected templates
+	private readonly _cellDirs = contentChildren(CellDirective, {
+		descendants: true,
+	});
+	private readonly _sortDirs = contentChildren(SortDirective, {
+		descendants: true,
+	});
 	private readonly _actionDir = contentChild(ActionsDirective);
 	private readonly _editFormDir = contentChild(CustomEditDirective);
 
 	headerTpl = contentChild(TableHeaderDirective);
 
-	// used in template (not inputs)
 	action?: ActionsDirective;
 	editForm?: CustomEditDirective;
 
@@ -87,17 +92,29 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	private _search_timeout: any;
 
+	/**
+	 * Normalized view rows: always plain objects,
+	 * supports both Document[] and Signal<Document>[].
+	 */
+	get viewRows(): any[] {
+		const raw = this.rows() || [];
+		if (!Array.isArray(raw)) return [];
+
+		return raw.map((row: any) =>
+			isSignal(row) ? (row as Signal<any>)() : row,
+		);
+	}
+
 	ngOnInit(): void {
 		this.default_config();
 
-		// keep original "string column" handling but work off the input signal
+		// normalize string columns => { title, field }
 		const cols = this.columns();
 		for (let i = 0; i < cols.length; i++) {
 			if (typeof cols[i] === 'string') {
 				cols[i] = { title: cols[i], field: cols[i] };
 			}
 		}
-		// write back to the signal so template sees objects
 		this.columns.set(cols);
 
 		this._storeService.get(this.tableId + 'perPage', (perPage) => {
@@ -117,7 +134,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	ngAfterContentInit(): void {
 		const sortDirs = this._sortDirs();
-		for (const dir of sortDirs) this.sortable[dir.cell() as string] = true;
+		for (const dir of sortDirs) this.sortable[dir.sort() as string] = true;
 
 		const cellDirs = this._cellDirs();
 		for (const c of cellDirs)
@@ -153,7 +170,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	next(): void {
 		const cfg = this.config();
-		const rows = this.rows();
+		const rows = this.viewRows;
 
 		if (
 			typeof cfg.paginate === 'function' ||
@@ -194,7 +211,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 		this._storeService.set(this.tableId + 'perPage', row.toString());
 
-		const rows = this.rows();
+		const rows = this.viewRows;
 		if (rows && (cfg.page - 1) * cfg.perPage > rows.length) {
 			this.lastPage();
 		}
@@ -205,13 +222,13 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	lastPage(): void {
 		const cfg = this.config();
-		const rows = this.rows();
+		const rows = this.viewRows;
 		cfg.page = Math.ceil(rows.length / cfg.perPage);
 	}
 
 	isLast(): boolean {
 		const cfg = this.config();
-		const rows = this.rows();
+		const rows = this.viewRows;
 
 		return !!rows && cfg.page === Math.ceil(rows.length / cfg.perPage);
 	}
