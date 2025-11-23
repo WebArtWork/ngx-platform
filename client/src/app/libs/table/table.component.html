@@ -61,9 +61,9 @@
 				<wbutton
 					(wClick)="config().create()"
 					[disableSubmit]="true"
-					class="wtable__create"
+					class="wtable__header-button"
 				>
-					+ <span translate>Common.Add new</span>
+					<i class="material-icons" title="Add"> add </i>
 				</wbutton>
 				}
 			</div>
@@ -111,12 +111,12 @@
 		</thead>
 
 		<tbody class="wtable__tbody">
-			@let _rows = viewRows; @let _config = config(); @let _displayRows =
-			_config.allDocs ? (_rows | search: filter_filter : (_config.searchBy
-			|| 'title') | perPage: _config : sort_type : (filter_filter + now))
-			: _rows; @for (row of _displayRows; track row[bindValue()]) {
+			@let _cfg = config(); @for (row of _cfg.allDocs ? (normalizedRows |
+			search: filter_filter : (_cfg.searchBy || 'title') | perPage: _cfg :
+			sort_type : (filter_filter + now)) : normalizedRows; track
+			row[bindValue()] ) {
 			<tr>
-				@if (_config.num) {
+				@if (_cfg.num) {
 				<td>{{ row.num }}</td>
 				} @for (column of columns(); track column) { @if
 				(custom_cell[column.field]) {
@@ -129,13 +129,12 @@
 				<td [attr.data-label]="column.title + ': '">
 					{{ row[column.field] }}
 				</td>
-				} } @if (_config.delete || _config.update ||
-				_config.buttons?.length) {
+				} } @if (_cfg.delete || _cfg.update || _cfg.buttons?.length) {
 				<td class="wtable__cell--actions" data-label="Actions: ">
 					<div class="wtable__actions">
-						@for (button of _config.buttons || []; track button) {
-						@if (button) { @if (!button.ahref && !button.ahrefFunc
-						&& !button.href && !button.hrefFunc) {
+						@for (button of _cfg.buttons || []; track button) { @if
+						(button) { @if (!button.ahref && !button.ahrefFunc &&
+						!button.href && !button.hrefFunc) {
 						<i
 							(click)="button.click(row)"
 							class="material-icons"
@@ -173,17 +172,17 @@
 								{{ button.icon }}
 							</i>
 						</a>
-						} } } @if (_config.update) {
+						} } } @if (_cfg.update) {
 						<i
-							(click)="_config.update(row)"
+							(click)="_cfg.update(row)"
 							class="material-icons"
 							title="Edit"
 						>
 							edit
 						</i>
-						} @if (_config.delete) {
+						} @if (_cfg.delete) {
 						<i
-							(click)="_config.delete(row)"
+							(click)="_cfg.delete(row)"
 							class="material-icons"
 							title="Delete"
 						>
@@ -197,10 +196,9 @@
 			}
 		</tbody>
 
-		@if (_config.perPage || (_config.formCreate && _config.create)) {
+		@if (_cfg.perPage || (_cfg.formCreate && _cfg.create)) {
 		<tfoot class="wtable__tfoot">
-			@if (_config.perPage) { @let _totalRows = viewRows.length;
-
+			@if (_cfg.perPage) {
 			<div class="wtable__perpage">
 				<div class="wtable__perpage-text">Showing items per page</div>
 				<div
@@ -212,23 +210,23 @@
 						class="caption"
 						(click)="select_page_size = !select_page_size"
 					>
-						{{ _config.perPage === -1 ? 'All' : _config.perPage }}
+						{{ _cfg.perPage === -1 ? 'All' : _cfg.perPage }}
 					</div>
 					<div class="list">
-						@for (pageSize of _config.pageSizeOptions; track
-						pageSize) {
+						@for (pageSize of _cfg.pageSizeOptions; track pageSize)
+						{
 						<div class="item">
 							<div
-								[class.selected]="_config.perPage === pageSize"
+								[class.selected]="_cfg.perPage === pageSize"
 								(click)="changePerPage(pageSize)"
 							>
 								{{ pageSize }}
 							</div>
 						</div>
-						} @if (_config.allDocs) {
+						} @if (_cfg.allDocs) {
 						<div class="item">
 							<div
-								[class.selected]="_config.perPage === -1"
+								[class.selected]="_cfg.perPage === -1"
 								(click)="changePerPage(-1)"
 							>
 								All
@@ -238,31 +236,29 @@
 					</div>
 				</div>
 
-				@if (_config.perPage >= 0 && !_config.allDocs) {
-				<div class="wtable__perpage-result">
-					Page {{ _config.page }}
-				</div>
-				} @if (_config.perPage >= 0 && _config.allDocs) {
+				@if (_cfg.perPage >= 0 && !_cfg.allDocs) {
+				<div class="wtable__perpage-result">Page {{ _cfg.page }}</div>
+				} @if (_cfg.perPage >= 0 && _cfg.allDocs) {
 				<div class="wtable__perpage-result">
 					<span>
-						{{ ((_config.page - 1) * _config.perPage) + 1 }} - {{
-						(_config.page * _config.perPage > _totalRows &&
-						_totalRows) || (_config.page * _config.perPage) }}
+						{{ ((_cfg.page - 1) * _cfg.perPage) + 1 }} - {{
+						(_cfg.page * _cfg.perPage > normalizedRows.length &&
+						normalizedRows.length) || (_cfg.page * _cfg.perPage) }}
 					</span>
 					<span> of </span>
 					<span>
-						{{ (viewRows | search : searching_text :
-						(_config.searchBy || 'title'))?.length }}
+						{{ (normalizedRows | search : searching_text :
+						(_cfg.searchBy || 'title'))?.length }}
 					</span>
 				</div>
 				}
 			</div>
-			} @if (_config.perPage !== -1 && _config.allDocs) {
+			} @if (_cfg.perPage !== -1 && _cfg.allDocs) {
 			<div class="wtable__pagination">
 				<wbutton
 					class="wtable__arrow wtable__arrow--start"
-					[disabled]="_config.page === 1"
-					(wClick)="_config.page = 1"
+					[disabled]="_cfg.page === 1"
+					(wClick)="_cfg.page = 1"
 				>
 					<span class="material-icons">
 						keyboard_double_arrow_left
@@ -270,15 +266,16 @@
 				</wbutton>
 				<wbutton
 					class="wtable__arrow wtable__arrow--left"
-					[disabled]="_config.page === 1"
-					(wClick)="previous()"
+					[disabled]="_cfg.page === 1"
+					(wClick)="previous()
+					"
 				>
 					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
 					class="wtable__arrow wtable__arrow--right"
-					[disabled]="_config.page * _config.perPage >
-						viewRows.length"
+					[disabled]="_cfg.page * _cfg.perPage >
+						normalizedRows.length"
 					(wClick)="next()"
 				>
 					<span class="material-icons">chevron_right</span>
@@ -293,18 +290,18 @@
 					</span>
 				</wbutton>
 			</div>
-			} @if (!_config.allDocs) {
+			} @if (!_cfg.allDocs) {
 			<div class="wtable__pagination">
 				<wbutton
 					class="wtable__arrow wtable__arrow--left"
-					[disabled]="_config.page === 1"
+					[disabled]="_cfg.page === 1"
 					(wClick)="previous()"
 				>
 					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
 					class="wtable__arrow wtable__arrow--right"
-					[disabled]="viewRows.length !== _config.perPage"
+					[disabled]="normalizedRows.length === 0"
 					(wClick)="next()"
 				>
 					<span class="material-icons">chevron_right</span>

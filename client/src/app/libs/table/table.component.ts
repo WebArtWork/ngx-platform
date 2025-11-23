@@ -7,6 +7,7 @@ import {
 	Signal,
 	contentChild,
 	contentChildren,
+	effect,
 	inject,
 	input,
 	isSignal,
@@ -83,6 +84,9 @@ export class TableComponent implements OnInit, AfterContentInit {
 	sort_type: any = {};
 	sortable: Record<string, boolean> = {};
 
+	/** Always plain objects, even if input rows are Signal<T>[] */
+	normalizedRows: any[] = [];
+
 	tableId =
 		'table_' +
 		this._router.url
@@ -92,17 +96,16 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	private _search_timeout: any;
 
-	/**
-	 * Normalized view rows: always plain objects,
-	 * supports both Document[] and Signal<Document>[].
-	 */
-	get viewRows(): any[] {
-		const raw = this.rows() || [];
-		if (!Array.isArray(raw)) return [];
-
-		return raw.map((row: any) =>
-			isSignal(row) ? (row as Signal<any>)() : row,
-		);
+	constructor() {
+		// react to rows() changes and unwrap signals
+		effect(() => {
+			const raw = this.rows() || [];
+			this.normalizedRows = Array.isArray(raw)
+				? raw.map((row: any) =>
+						isSignal(row) ? (row as Signal<any>)() : row,
+					)
+				: [];
+		});
 	}
 
 	ngOnInit(): void {
@@ -170,48 +173,59 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	next(): void {
 		const cfg = this.config();
-		const rows = this.viewRows;
+		const rows = this.normalizedRows;
 
-		if (
-			typeof cfg.paginate === 'function' ||
-			(rows && cfg.page * cfg.perPage < rows.length)
-		) {
-			cfg.page += 1;
+		if (cfg.perPage === -1) return;
+
+		// client mode – we have all docs in memory
+		if (cfg.allDocs || typeof cfg.paginate !== 'function') {
+			if (rows && cfg.page * cfg.perPage < rows.length) {
+				cfg.page += 1;
+				this.refresh();
+			}
+			return;
 		}
 
-		if (typeof cfg.paginate === 'function') {
-			cfg.paginate(cfg.page);
-		}
+		// server mode – delegate to backend
+		cfg.page += 1;
+		cfg.paginate(cfg.page);
 		this.refresh();
 	}
 
 	previous(): void {
 		const cfg = this.config();
 
-		if (cfg.page > 1) {
-			cfg.page -= 1;
+		if (cfg.page <= 1) return;
 
-			if (typeof cfg.paginate === 'function') {
-				cfg.paginate(cfg.page);
-			}
-			this.refresh();
+		cfg.page -= 1;
+
+		// only call backend when we are in server mode
+		if (!cfg.allDocs && typeof cfg.paginate === 'function') {
+			cfg.paginate(cfg.page);
 		}
+
+		this.refresh();
 	}
 
 	changePerPage(row: number): void {
 		const cfg = this.config();
 
 		cfg.perPage = row;
-
-		if (typeof cfg.setPerPage === 'function') cfg.setPerPage(cfg.perPage);
-
 		cfg.page = 1;
 
-		if (typeof cfg.paginate === 'function') cfg.paginate(cfg.page);
+		// server mode: sync per-page + reload page 1
+		if (!cfg.allDocs) {
+			if (typeof cfg.setPerPage === 'function') {
+				cfg.setPerPage(cfg.perPage);
+			}
+			if (typeof cfg.paginate === 'function') {
+				cfg.paginate(cfg.page);
+			}
+		}
 
 		this._storeService.set(this.tableId + 'perPage', row.toString());
 
-		const rows = this.viewRows;
+		const rows = this.normalizedRows;
 		if (rows && (cfg.page - 1) * cfg.perPage > rows.length) {
 			this.lastPage();
 		}
@@ -222,15 +236,20 @@ export class TableComponent implements OnInit, AfterContentInit {
 
 	lastPage(): void {
 		const cfg = this.config();
-		const rows = this.viewRows;
+		const rows = this.normalizedRows;
+
+		if (!rows || !rows.length || cfg.perPage <= 0) return;
 		cfg.page = Math.ceil(rows.length / cfg.perPage);
 	}
 
 	isLast(): boolean {
 		const cfg = this.config();
-		const rows = this.viewRows;
+		const rows = this.normalizedRows;
 
-		return !!rows && cfg.page === Math.ceil(rows.length / cfg.perPage);
+		if (!rows || !rows.length || cfg.perPage <= 0 || !cfg.allDocs)
+			return false;
+
+		return cfg.page >= Math.ceil(rows.length / cfg.perPage);
 	}
 
 	sort(column: any): void {

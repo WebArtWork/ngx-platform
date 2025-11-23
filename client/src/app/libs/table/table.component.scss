@@ -20,7 +20,8 @@
 	/* Header */
 
 	&__header {
-		padding: 12px;
+		padding: 12px 12px 12px 12px;
+		padding-right: 0;
 	}
 
 	&__header-main {
@@ -44,26 +45,16 @@
 	&__header-actions {
 		margin-left: auto;
 		display: flex;
-		gap: 8px;
 		align-items: center;
 	}
 
 	&__header-button {
 		height: 45px;
-	}
-
-	&__create {
-		cursor: pointer;
-		min-width: 140px;
-		height: 45px;
-		border-radius: 4px;
-		padding: 5px 12px;
-
-		@media (max-width: 599px) {
-			min-width: 38px;
-			max-width: 38px;
-			height: 38px;
-		}
+		min-width: 45px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 5px;
 	}
 
 	/* Search */

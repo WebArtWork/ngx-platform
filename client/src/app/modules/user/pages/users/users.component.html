@@ -1,5 +1,3 @@
-{{documents()[0]().name}} {{documents()[0]().email}}
-
 <!--==== Table Module ====-->
 <wtable
 	[rows]="documents()"
@@ -8,13 +6,12 @@
 	title="Users"
 >
 	@for (role of roles; track role) {
-	<ng-template [cell]="role" let-element>
-		q{{element|json}}q
-		<!-- <winput
+	<ng-template [cell]="role" let-user>
+		<winput
 			(wChange)="user.is[role] = $event; update(user)"
 			[wModel]="user.is[role]"
 			type="checkbox"
-		/> -->
+		/>
 	</ng-template>
 	}
 </wtable>
