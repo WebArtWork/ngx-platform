@@ -8,7 +8,9 @@
 		[component]="child"
 		[config]="config()"
 		[submition]="submition()"
-		(wSubmit)="wSubmit.emit(submition())"
+		[model]="model()"
+		[fieldTree]="fieldTree()"
+		(wSubmit)="wSubmit.emit(submition() || {})"
 		(wChange)="wChange.emit()"
 		(wClick)="wClick.emit()"
 		[index]="index() + '_' + i"
@@ -19,20 +21,23 @@
 <div class="wformc">
 	<ng-container
 		*ngTemplateOutlet="
-				template();
-				context: {
-					$implicit: {
-						props: component().props || {},
-						config: config(),
-						component: component(),
-						wFormId: formId(),
-						wFormKey: effectiveKey(),
-						wSubmit: submit.bind(this),
-						wChange: change.bind(this),
-						wClick: click.bind(this)
-					}
+			template();
+			context: {
+				$implicit: {
+					props: component().props || {},
+					config: config(),
+					component: component(),
+					wFormId: formId(),
+					wFormKey: effectiveKey(),
+					wSubmit: submit.bind(this),
+					wChange: change.bind(this),
+					wClick: click.bind(this),
+					model: model(),
+					fieldTree: fieldTree(),
+					field: field
 				}
-			"
+			}
+		"
 	/>
 </div>
 }

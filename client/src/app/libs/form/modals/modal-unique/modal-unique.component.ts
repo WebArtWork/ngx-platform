@@ -27,7 +27,8 @@ export class ModalUniqueComponent {
 		return this.doc();
 	}
 
-	change(): void {
+	// values are emitted by wform now (Signal Form model), but we still rely on doc() for now
+	change(_values?: Record<string, unknown>): void {
 		this._http
 			.post(
 				`/api/${this.module()}/unique${this.field() || ''}`,

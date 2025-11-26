@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { CoreService } from 'wacom';
+
 import { ButtonComponent } from '../../../button/button.component';
 import { FormComponent } from '../../components/form/form.component';
 import { FormInterface } from '../../interfaces/form.interface';
@@ -13,7 +13,6 @@ import { FormModalButton } from '../../services/form.service';
 })
 export class ModalFormComponent {
 	private _coreService = inject(CoreService);
-	// private _virtualFormService = inject(VirtualFormService);
 
 	// from ModalService
 	form: FormInterface;
@@ -29,11 +28,11 @@ export class ModalFormComponent {
 	// ui state
 	submitting = signal(false);
 
-	/** Merge latest virtual-form values into `submition`. */
+	/** Merge latest values into `submition`. */
 	private _sync(update: Record<string, unknown> | undefined | null): void {
 		if (!update) return;
 
-		// flat fields (oldPass, newPass, etc.)
+		// flat fields
 		this._coreService.copy(update, this.submition);
 
 		// optional nested "data" payload (for legacy docs modals)
@@ -62,9 +61,8 @@ export class ModalFormComponent {
 
 	onButtonClick(button: FormModalButton): void {
 		if (this.submitting()) return;
-		// this._sync(
-		// 	this._virtualFormService.getValues(this.form.formId as string),
-		// );
+
+		// `submition` is always kept in sync via wChange
 		button.click(this.submition, this.close);
 	}
 }

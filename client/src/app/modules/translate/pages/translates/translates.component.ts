@@ -45,7 +45,31 @@ export class TranslatesComponent extends CrudComponent<
 		doc.translation = this._translateService.translate(doc.text)();
 
 		this._formService.modal<Phrase>(
-			this.form,
+			{
+				formId: 'phrase',
+				title: 'Phrase',
+				components: [
+					{
+						name: 'Input',
+						key: 'text',
+						focused: true,
+						props: {
+							label: 'Origin text',
+							placeholder: 'Enter origin text...',
+							type: 'textarea',
+						},
+					},
+					{
+						name: 'Input',
+						key: 'translation',
+						props: {
+							label: 'Translation',
+							placeholder: 'Enter translation text...',
+							type: 'textarea',
+						},
+					},
+				],
+			},
 			{
 				label: 'Update',
 				click: (updated: unknown, close: () => void) => {

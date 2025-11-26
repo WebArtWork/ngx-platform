@@ -8,7 +8,9 @@ import {
 	output,
 	signal,
 	TemplateRef,
+	WritableSignal,
 } from '@angular/core';
+
 import { FormComponentInterface } from '../../interfaces/component.interface';
 import { FormInterface } from '../../interfaces/form.interface';
 import { FormService } from '../../services/form.service';
@@ -27,7 +29,15 @@ export class FormComponentComponent {
 	readonly formId = input<string>(''); // runtime id from parent
 	readonly config = input.required<FormInterface>();
 	readonly component = input.required<FormComponentInterface>();
-	readonly submition = input<Record<string, unknown>>({}); // legacy pass-through
+
+	// allow null (parent's @let sub = submition())
+	readonly submition = input<Record<string, unknown> | null>({});
+
+	/** Signal Form model + field tree (new) */
+	readonly model = input<WritableSignal<Record<string, unknown>> | null>(
+		null,
+	);
+	readonly fieldTree = input<any | null>(null);
 
 	readonly wSubmit = output<Record<string, unknown>>();
 	readonly wChange = output<void>();
@@ -36,7 +46,6 @@ export class FormComponentComponent {
 	readonly template = signal<TemplateRef<unknown> | null>(null);
 
 	constructor() {
-		// Re-run when registry (templatesVersion) or component name changes.
 		effect(() => {
 			this._form.templatesVersion(); // dependency on registry readiness
 			const name = this.component().name as string | undefined;
@@ -60,15 +69,23 @@ export class FormComponentComponent {
 		return key.replace(/\[\]/g, `[${idx}]`);
 	}
 
-	submit() {
-		this.wSubmit.emit(this.submition());
+	/** Field instance from Signal Form (if available) */
+	get field(): unknown {
+		const tree = this.fieldTree();
+		const key = this.effectiveKey();
+		if (!tree || !key) return null;
+		return (tree as any)[key];
 	}
 
-	change() {
+	submit(): void {
+		this.wSubmit.emit(this.submition() || {});
+	}
+
+	change(): void {
 		this.wChange.emit();
 	}
 
-	click() {
+	click(): void {
 		this.wClick.emit();
 	}
 }

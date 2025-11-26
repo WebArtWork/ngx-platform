@@ -19,9 +19,6 @@ export interface FormComponentInterface {
 	focus?: () => void;
 	focused?: boolean;
 
-	/** Arbitrary props passed to the template (label, placeholder, items, etc.) */
-	props?: Record<string, unknown>;
-
 	/** Validation (preferred) */
 	required?: boolean;
 	// validators?: VirtualValidatorFn[];
@@ -29,13 +26,15 @@ export interface FormComponentInterface {
 	/** Basic disabled flag; for dynamic rules, consider disabledWhen */
 	disabled?: boolean;
 	disabledWhen?: (values: Record<string, unknown>) => boolean;
+
+	/** Arbitrary props passed to the template (label, placeholder, items, etc.) */
+	props?: Record<string, unknown>;
 }
 
 /** @deprecated Replaced by props: Record<string, unknown> */
 export interface TemplateFieldInterface {
 	name: string;
 	value: unknown;
-	skipTranslation?: boolean;
 }
 
 /** Registry entry kept simple: name + component */

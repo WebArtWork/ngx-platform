@@ -41,23 +41,21 @@ export class PhraseService extends CrudService<Phrase> {
 			},
 		});
 
-		this.loaded.subscribe(() => {
-			this._initialized = true;
-			this._readyResolve?.();
-			this.phrases.set(this.getDocs());
-		});
-
 		this.get().subscribe(() => {
 			this.phrases.set(this.getDocs());
+
+			this._initialized = true;
+
+			this._readyResolve?.();
 		});
 	}
 
-	getByText(text: string): Phrase | undefined {
+	getByText(text: string) {
 		const list = this._phrasesByText[text];
 		return list?.[0];
 	}
 
-	hasText(text: string): boolean {
+	hasText(text: string) {
 		return !!this.getByText(text);
 	}
 
@@ -67,7 +65,7 @@ export class PhraseService extends CrudService<Phrase> {
 	 * - checks if phrase already exists
 	 * - creates once per text
 	 */
-	async ensurePhrase(text: string): Promise<void> {
+	async ensurePhrase(text: string) {
 		if (!text) return;
 
 		if (!this._initialized) {
@@ -79,6 +77,7 @@ export class PhraseService extends CrudService<Phrase> {
 		}
 
 		if (this.hasText(text)) return;
+
 		if (this._creating[text]) return;
 
 		this._creating[text] = true;

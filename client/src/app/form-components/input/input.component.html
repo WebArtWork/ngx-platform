@@ -1,0 +1,9 @@
+<ng-template #templateRef let-data>
+	<winput
+		[field]="data.field"
+		[label]="data.props.label || ''"
+		[placeholder]="data.props.placeholder || ''"
+		[type]="data.props.type || 'text'"
+		[disabled]="data.component.disabled === true"
+	></winput>
+</ng-template>

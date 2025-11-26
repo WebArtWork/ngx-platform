@@ -1,17 +1,13 @@
 import {
-	ApplicationRef,
-	effect,
-	EnvironmentInjector,
 	inject,
 	Injectable,
-	runInInjectionContext,
 	signal,
 	TemplateRef,
+	WritableSignal,
 } from '@angular/core';
-// import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
-import { TranslateService } from 'src/app/modules/translate/services/translate.service';
+import { form as buildSignalForm, required } from '@angular/forms/signals';
 import { environment } from 'src/environments/environment';
-import { EmitterService, StoreService } from 'wacom';
+import { StoreService } from 'wacom';
 
 import { FormComponentInterface } from '../interfaces/component.interface';
 import { FormInterface } from '../interfaces/form.interface';
@@ -20,11 +16,6 @@ import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.compon
 
 // Virtual manager (new)
 import { Modal, ModalService } from '@lib/modal';
-// import {
-// 	required,
-// 	VirtualFormFieldValue,
-// 	VirtualFormService,
-// } from 'src/app/virtual-form.service';
 
 export interface FormModalButton {
 	click: (submition: unknown, close: () => void) => void;
@@ -32,32 +23,30 @@ export interface FormModalButton {
 	class?: string;
 }
 
+export interface JsonSignalForm {
+	id: string;
+	model: WritableSignal<Record<string, unknown>>;
+	form: any; // Signal Forms FieldTree, dynamic keys so we keep it as any
+}
+
 @Injectable({ providedIn: 'root' })
 export class FormService {
-	private _translate = inject(TranslateService);
-	private appRef = inject(ApplicationRef);
-	private _modal = inject(ModalService);
-	private _store = inject(StoreService);
-	private _emitterService = inject(EmitterService);
-
-	// Virtual manager
-	// private _vform = inject(VirtualFormService);
-
-	// Injection context for reactive translate effects
-	private _ei = inject(EnvironmentInjector);
+	private _modalService = inject(ModalService);
+	private _storeService = inject(StoreService);
 
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
 
 	constructor() {
 		// restore known form IDs
-		this._store.getJson('formIds', (formIds: unknown) => {
+		this._storeService.getJson('formIds', (formIds: unknown) => {
 			if (Array.isArray(formIds)) this.formIds.push(...formIds);
 		});
 	}
 
 	/* --------------------------------------------------------------------------------------
 	   Template registry (name -> <ng-template>) + reactive bump.
+	   Templates are now provided via app.formcomponents.ts (APP_INITIALIZER).
 	   -------------------------------------------------------------------------------------- */
 	private _templateComponent = new Map<string, TemplateRef<unknown>>();
 	/** Bumps whenever a template is registered/unregistered to notify listeners */
@@ -88,8 +77,8 @@ export class FormService {
 	}
 
 	/* --------------------------------------------------------------------------------------
-	   (Legacy helper API) “template fields” – kept for compatibility with older code paths.
-	   With the new schema, prefer component.props over fields[].
+	   (Legacy helper API) “template fields”
+	   Still available for builders / editors; runtime prefers props.
 	   -------------------------------------------------------------------------------------- */
 	templateFields: Record<string, string[]> = {};
 	customTemplateFields: Record<string, Record<string, string>> = {};
@@ -115,54 +104,20 @@ export class FormService {
 	}
 
 	/* --------------------------------------------------------------------------------------
-	   Translation helpers (updated to props-first, recursive, string-only).
-	   -------------------------------------------------------------------------------------- */
-	translateForm(form: FormInterface): void {
-		if (form.title) {
-			const titleSig = this._translate.translate(`${form.title}`);
-			runInInjectionContext(this._ei, () =>
-				effect(() => (form.title = titleSig())),
-			);
-		}
-		this._translateComponents(form.components);
-	}
-
-	private _translateComponents(list: FormComponentInterface[] = []) {
-		for (const c of list) {
-			if (c.props) {
-				for (const [k, v] of Object.entries(c.props)) {
-					if (typeof v === 'string') {
-						const ts = this._translate.translate(`${v}`);
-						runInInjectionContext(this._ei, () =>
-							effect(() => (c.props![k] = ts())),
-						);
-					} else if (Array.isArray(v)) {
-						const arr = v as unknown[];
-						arr.forEach((item, i) => {
-							if (typeof item === 'string') {
-								const ts = this._translate.translate(`${item}`);
-								runInInjectionContext(this._ei, () =>
-									effect(() => ((arr[i] as any) = ts())),
-								);
-							}
-						});
-					}
-				}
-			}
-			if (Array.isArray(c.components) && c.components.length) {
-				this._translateComponents(c.components);
-			}
-		}
-	}
-
-	/* --------------------------------------------------------------------------------------
 	   Public state
 	   -------------------------------------------------------------------------------------- */
 	forms: FormInterface[] = [];
 	formIds: string[] = [];
 
+	/** Internal registry: formId -> Signal Form instance */
+	private _signalForms = new Map<string, JsonSignalForm>();
+
+	getSignalForm(formId: string): JsonSignalForm | undefined {
+		return this._signalForms.get(formId);
+	}
+
 	/* --------------------------------------------------------------------------------------
-	   Defaults / builders (now using props instead of fields)
+	   Defaults / builders (using props)
 	   -------------------------------------------------------------------------------------- */
 	getDefaultForm(
 		formId: string,
@@ -191,70 +146,129 @@ export class FormService {
 		return { formId, components };
 	}
 
-	prepareForm(form: FormInterface): FormInterface {
+	/**
+	 * Prepare schema + ensure a Signal Form exists for this definition.
+	 * `initial` is merged into the Signal Form model (useful for edit modals).
+	 */
+	prepareForm(
+		form: FormInterface,
+		initial?: Record<string, unknown>,
+	): FormInterface {
 		const formId = `${form.formId ?? ''}`;
 		this._rememberFormId(formId);
 
 		form = form || this.getDefaultForm(formId);
 		form.formId = formId;
 
-		this._emitterService.onComplete('form_loaded').subscribe(() => {
-			this.translateForm(form);
-			this._addFormComponents(form.components);
-			this.ensureVirtualForm(form);
-		});
-
-		this.translateForm(form);
-		this._addFormComponents(form.components);
-		this.ensureVirtualForm(form);
+		// component templates are now registered via APP_INITIALIZER,
+		// so we no longer need dynamic component creation here
+		this.ensureSignalForm(form, initial);
 
 		return form;
 	}
 
-	private _registeredFields = new Map<string, Set<string>>(); // formId -> keys
+	/* --------------------------------------------------------------------------------------
+	   Signal Forms: JSON schema -> Signal Form
+	   -------------------------------------------------------------------------------------- */
 
+	ensureSignalForm(
+		form: FormInterface,
+		initial?: Record<string, unknown>,
+	): JsonSignalForm {
+		const id = (form.formId as string) || crypto.randomUUID();
+		form.formId = id;
+		this._rememberFormId(id);
+
+		const existing = this._signalForms.get(id);
+		if (existing) {
+			if (initial && Object.keys(initial).length) {
+				existing.model.update((current) => ({
+					...current,
+					...initial,
+				}));
+			}
+			return existing;
+		}
+
+		const modelValue = this._buildInitialModel(form, initial ?? {});
+		const model = signal<Record<string, unknown>>(modelValue);
+
+		const formTree = buildSignalForm(model, (schema) => {
+			this._applyValidators(schema, form);
+		});
+
+		const instance: JsonSignalForm = {
+			id,
+			model,
+			form: formTree,
+		};
+
+		this._signalForms.set(id, instance);
+		return instance;
+	}
+
+	/** @deprecated Use ensureSignalForm instead; kept for backward compatibility. */
 	ensureVirtualForm(
 		form: FormInterface,
-		initial?: Record<string, any>,
-	): void {
-		const id = (form.formId as string) || crypto.randomUUID();
-		// this._vform.getForm(id);
+		initial?: Record<string, unknown>,
+	): JsonSignalForm {
+		return this.ensureSignalForm(form, initial);
+	}
 
-		if (!this._registeredFields.has(id))
-			this._registeredFields.set(id, new Set());
-		const registered = this._registeredFields.get(id)!;
+	private _buildInitialModel(
+		form: FormInterface,
+		initial: Record<string, unknown> = {},
+	): Record<string, unknown> {
+		const model: Record<string, unknown> = { ...initial };
 
-		const walk = (nodes: FormComponentInterface[] = []) => {
-			for (const n of nodes) {
-				if (n.components?.length) {
-					walk(n.components);
-					continue;
-				}
-				if (!n.key) continue;
-
-				if (registered.has(n.key)) continue; // idempotent guard
-
-				// const init: VirtualFormFieldValue =
-				// 	(initial || {})[n.key] ?? null;
-
-				// const composed = [
-				// 	n.props && (n.props as any).Required ? required() : null,
-				// 	...(n.validators || []),
-				// ].filter(Boolean);
-
-				// this._vform.registerField(id, n.key, init, composed as any);
-				registered.add(n.key);
+		this._traverseComponents(form.components, (component) => {
+			if (!component.key) return;
+			if (!(component.key in model)) {
+				model[component.key] = null;
 			}
-		};
-		walk(form.components);
+		});
 
-		if (initial && Object.keys(initial).length) {
-			// this._vform.patch(id, initial);
+		return model;
+	}
+
+	private _applyValidators(schema: any, form: FormInterface): void {
+		this._traverseComponents(form.components, (component) => {
+			if (!component.key) return;
+
+			const field = (schema as any)[component.key];
+			if (!field) return;
+
+			const label =
+				(component.props?.['label'] as string | undefined) ??
+				component.key;
+
+			if (component.required) {
+				required(field, {
+					message: `${label} is required`,
+				});
+			}
+
+			// place for more rules from props, e.g. minLength/maxLength/etc.
+		});
+	}
+
+	private _traverseComponents(
+		components: FormComponentInterface[] | undefined,
+		visitor: (component: FormComponentInterface) => void,
+	): void {
+		if (!components?.length) return;
+
+		for (const component of components) {
+			visitor(component);
+
+			if (component.components?.length) {
+				this._traverseComponents(component.components, visitor);
+			}
 		}
 	}
 
 	/* --------------------------------------------------------------------------------------
-	   Modal helpers (wire virtual manager automatically)
+	   Modal helpers (wire Signal Forms automatically)
 	   -------------------------------------------------------------------------------------- */
 
 	modal<T>(
@@ -267,13 +281,15 @@ export class FormService {
 		modalOptions: unknown = {},
 	): Promise<T> {
 		const forms = Array.isArray(form) ? form : [form];
-		forms.forEach((f) => this.ensureVirtualForm(f, submition as any));
+
+		// Ensure Signal Form exists for each schema
+		forms.forEach((f) => this.ensureSignalForm(f, submition as any));
 
 		return new Promise((resolve) => {
-			this._modal.show({
+			this._modalService.show({
 				...(modalOptions as Modal),
 				component: ModalFormComponent,
-				class: 'forms_modal',
+				class: 'forms_modalService',
 				size: 'big',
 				form,
 				modalButtons: Array.isArray(buttons) ? buttons : [buttons],
@@ -293,9 +309,9 @@ export class FormService {
 				docs: JSON.stringify(docs.length ? docs : [], null, 4),
 			};
 
-			this._modal.show({
+			this._modalService.show({
 				component: ModalFormComponent,
-				class: 'forms_modal',
+				class: 'forms_modalService',
 				size: 'big',
 				submition,
 				form: {
@@ -336,21 +352,22 @@ export class FormService {
 		const form = this.getDefaultForm('unique', [
 			field + (component ? '.' + component : ''),
 		]);
-		this.ensureVirtualForm(form, doc as any);
 
-		this._modal.show({
+		this.ensureSignalForm(form, doc as any);
+
+		this._modalService.show({
 			component: ModalUniqueComponent,
 			form,
 			module,
 			field,
 			doc,
-			class: 'forms_modal',
+			class: 'forms_modalService',
 			onClose,
 		});
 	}
 
 	/* --------------------------------------------------------------------------------------
-	   Schema utilities (updated to props)
+	   Schema utilities (props-based)
 	   -------------------------------------------------------------------------------------- */
 
 	getComponent(form: FormInterface, key: string): FormComponentInterface {
@@ -397,33 +414,11 @@ export class FormService {
 	   Internal helpers
 	   -------------------------------------------------------------------------------------- */
 
-	private _addedFormComponent: Record<string, boolean> = {};
-
-	private async _addFormComponents(components: FormComponentInterface[]) {
-		for (const c of components || []) {
-			if (c.name) await this._addFormComponent(c.name);
-			if (c.components?.length)
-				await this._addFormComponents(c.components);
-		}
-	}
-
-	private async _addFormComponent(name: string) {
-		// const component = (FORM_COMPONENTS as Record<string, Type<any>>)[name];
-		// if (component && !this._addedFormComponent[name]) {
-		// 	this._addedFormComponent[name] = true;
-		// 	const compRef = createComponent(component, {
-		// 		environmentInjector: this.appRef.injector,
-		// 	});
-		// 	this.appRef.attachView(compRef.hostView);
-		// 	(compRef.hostView as any).detectChanges?.();
-		// }
-	}
-
 	private _rememberFormId(formId: string) {
 		if (!formId) return;
 		if (!this.formIds.includes(formId)) {
 			this.formIds.push(formId);
-			this._store.setJson('formIds', this.formIds);
+			this._storeService.setJson('formIds', this.formIds);
 		}
 	}
 }
