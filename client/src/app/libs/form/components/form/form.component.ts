@@ -54,10 +54,7 @@ export class FormComponent {
 
 			if (!cfg) return;
 
-			const inst = this._formService.ensureSignalForm(
-				cfg,
-				initial ?? undefined,
-			);
+			const inst = this._formService.form(cfg, initial ?? undefined);
 			this.instance.set(inst);
 		});
 

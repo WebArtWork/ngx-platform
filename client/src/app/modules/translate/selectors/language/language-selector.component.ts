@@ -19,10 +19,8 @@ import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { CrudComponent } from 'wacom';
 import { languageForm } from '../../form/language.form';
-import { LanguageFormcomponent } from '../../form/language/language.formcomponent';
 import { Language } from '../../interfaces/language.interface';
 import { LanguageService } from '../../services/language.service';
-import { TranslateService } from '../../services/translate.service';
 
 @Component({
 	selector: 'language-selector',
@@ -66,13 +64,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	buttons = signal<SelectButton[]>([]);
 
 	constructor(_lang: LanguageService) {
-		super(
-			LanguageFormcomponent,
-			inject(FormService),
-			inject(TranslateService),
-			_lang,
-			'language',
-		);
+		super(languageForm, inject(FormService), _lang, 'language');
 
 		this._languageService.loaded.pipe(take(1)).subscribe(() => {
 			this.setDocuments();
@@ -113,7 +105,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 			? this._languageService.getSignal(selectedId as string)
 			: undefined;
 
-		console.log(selectedId, docSig?.());
+		console.log(selectedId, docSig?.(), languageForm);
 
 		this._form.modal<Language>(
 			languageForm,

@@ -1,6 +1,8 @@
 import {
+	Injector,
 	inject,
 	Injectable,
+	runInInjectionContext,
 	signal,
 	TemplateRef,
 	WritableSignal,
@@ -33,6 +35,7 @@ export interface JsonSignalForm {
 export class FormService {
 	private _modalService = inject(ModalService);
 	private _storeService = inject(StoreService);
+	private _injector = inject(Injector);
 
 	/** Application ID from the environment configuration */
 	readonly appId = (environment as unknown as { appId: string }).appId;
@@ -112,10 +115,6 @@ export class FormService {
 	/** Internal registry: formId -> Signal Form instance */
 	private _signalForms = new Map<string, JsonSignalForm>();
 
-	getSignalForm(formId: string): JsonSignalForm | undefined {
-		return this._signalForms.get(formId);
-	}
-
 	/* --------------------------------------------------------------------------------------
 	   Defaults / builders (using props)
 	   -------------------------------------------------------------------------------------- */
@@ -146,32 +145,15 @@ export class FormService {
 		return { formId, components };
 	}
 
-	/**
-	 * Prepare schema + ensure a Signal Form exists for this definition.
-	 * `initial` is merged into the Signal Form model (useful for edit modals).
-	 */
-	prepareForm(
-		form: FormInterface,
-		initial?: Record<string, unknown>,
-	): FormInterface {
-		const formId = `${form.formId ?? ''}`;
-		this._rememberFormId(formId);
-
-		form = form || this.getDefaultForm(formId);
-		form.formId = formId;
-
-		// component templates are now registered via APP_INITIALIZER,
-		// so we no longer need dynamic component creation here
-		this.ensureSignalForm(form, initial);
-
-		return form;
-	}
-
 	/* --------------------------------------------------------------------------------------
 	   Signal Forms: JSON schema -> Signal Form
 	   -------------------------------------------------------------------------------------- */
 
-	ensureSignalForm(
+	/**
+	 * Main entry: get or create a Signal Form instance for the given schema.
+	 * Also merges `initial` into the model if provided.
+	 */
+	form(
 		form: FormInterface,
 		initial?: Record<string, unknown>,
 	): JsonSignalForm {
@@ -193,9 +175,12 @@ export class FormService {
 		const modelValue = this._buildInitialModel(form, initial ?? {});
 		const model = signal<Record<string, unknown>>(modelValue);
 
-		const formTree = buildSignalForm(model, (schema) => {
-			this._applyValidators(schema, form);
-		});
+		// Signal Forms require an injection context; run creation inside the service injector
+		const formTree = runInInjectionContext(this._injector, () =>
+			buildSignalForm(model, (schema) => {
+				this._applyValidators(schema, form);
+			}),
+		);
 
 		const instance: JsonSignalForm = {
 			id,
@@ -205,14 +190,6 @@ export class FormService {
 
 		this._signalForms.set(id, instance);
 		return instance;
-	}
-
-	/** @deprecated Use ensureSignalForm instead; kept for backward compatibility. */
-	ensureVirtualForm(
-		form: FormInterface,
-		initial?: Record<string, unknown>,
-	): JsonSignalForm {
-		return this.ensureSignalForm(form, initial);
 	}
 
 	private _buildInitialModel(
@@ -283,7 +260,7 @@ export class FormService {
 		const forms = Array.isArray(form) ? form : [form];
 
 		// Ensure Signal Form exists for each schema
-		forms.forEach((f) => this.ensureSignalForm(f, submition as any));
+		forms.forEach((f) => this.form(f, submition as any));
 
 		return new Promise((resolve) => {
 			this._modalService.show({
@@ -353,7 +330,7 @@ export class FormService {
 			field + (component ? '.' + component : ''),
 		]);
 
-		this.ensureSignalForm(form, doc as any);
+		this.form(form, doc as any);
 
 		this._modalService.show({
 			component: ModalUniqueComponent,

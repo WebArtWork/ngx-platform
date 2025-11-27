@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
-import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { CrudComponent } from 'wacom';
 import { birdForm } from '../../forms/bird.form';
 import { Bird } from '../../interfaces/bird.interface';
@@ -23,12 +22,8 @@ export class BirdsComponent extends CrudComponent<
 
 	config = this.getConfig();
 
-	constructor(
-		_birdService: BirdService,
-		_translate: TranslateService,
-		_form: FormService,
-	) {
-		super(birdForm, _form, _translate, _birdService, 'bird');
+	constructor(_birdService: BirdService, _form: FormService) {
+		super(birdForm, _form, _birdService, 'bird');
 
 		this.setDocuments();
 	}

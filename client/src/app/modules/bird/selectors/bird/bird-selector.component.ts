@@ -9,7 +9,6 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { SelectValue } from 'src/app/libs/select/select.type';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
-import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { CrudComponent } from 'wacom';
 import { birdForm } from '../../forms/bird.form';
 import { Bird } from '../../interfaces/bird.interface';
@@ -36,12 +35,8 @@ export class BirdSelectorComponent extends CrudComponent<
 
 	readonly wChange = output<SelectValue>();
 
-	constructor(
-		_birdService: BirdService,
-		_translate: TranslateService,
-		_form: FormService,
-	) {
-		super(birdForm, _form, _translate, _birdService, 'bird');
+	constructor(_birdService: BirdService, _form: FormService) {
+		super(birdForm, _form, _birdService, 'bird');
 
 		this.setDocuments();
 	}

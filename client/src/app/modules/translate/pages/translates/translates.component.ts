@@ -104,13 +104,7 @@ export class TranslatesComponent extends CrudComponent<
 		private _phraseService: PhraseService,
 		private _formService: FormService,
 	) {
-		super(
-			phraseForm,
-			_formService,
-			_translateService,
-			_phraseService,
-			'phrase',
-		);
+		super(phraseForm, _formService, _phraseService, 'phrase');
 
 		this.setDocuments();
 	}

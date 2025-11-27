@@ -23,7 +23,7 @@ export class ClientsComponent {
 
 	columns = ['name', 'email'];
 
-	form: FormInterface = this._form.prepareForm(userFormComponents);
+	form: FormInterface = this._form.form(userFormComponents);
 
 	users: User[] = [];
 

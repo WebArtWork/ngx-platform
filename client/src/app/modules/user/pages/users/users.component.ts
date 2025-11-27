@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
-import { TranslateService } from 'src/app/modules/translate/services/translate.service';
 import { CrudComponent } from 'wacom';
 import { InputComponent } from '../../../../libs/input/input.component';
 import { TableComponent } from '../../../../libs/table/table.component';
@@ -35,17 +34,10 @@ export class UsersComponent extends CrudComponent<
 
 	constructor(
 		_userService: UserService,
-		_translate: TranslateService,
 		_form: FormService,
 		_formService: FormService,
 	) {
-		super(
-			_formService.prepareForm(userFormComponents),
-			_form,
-			_translate,
-			_userService,
-			'user',
-		);
+		super(userFormComponents, _form, _userService, 'user');
 
 		this.setDocuments();
 

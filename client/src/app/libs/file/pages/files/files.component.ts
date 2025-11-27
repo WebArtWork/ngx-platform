@@ -23,7 +23,7 @@ export class FilesComponent {
 
 	columns = ['img', 'url'];
 
-	form: FormInterface = this._form.prepareForm(fileFormComponents);
+	form: FormInterface = this._form.form(fileFormComponents);
 
 	config = {
 		paginate: this.setRows.bind(this),
