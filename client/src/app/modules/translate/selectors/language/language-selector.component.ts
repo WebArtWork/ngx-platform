@@ -79,8 +79,6 @@ export class LanguageSelectorComponent extends CrudComponent<
 		});
 
 		effect(() => {
-			console.log('effect ' + this._languageService.language()?._id);
-
 			if (this._languageService.language()?._id) {
 				this.wModel.set(this._languageService.language()?._id);
 			}
@@ -114,6 +112,8 @@ export class LanguageSelectorComponent extends CrudComponent<
 		const docSig = current
 			? this._languageService.getSignal(selectedId as string)
 			: undefined;
+
+		console.log(selectedId, docSig?.());
 
 		this._form.modal<Language>(
 			languageForm,

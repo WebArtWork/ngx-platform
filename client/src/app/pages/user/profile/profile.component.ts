@@ -58,7 +58,14 @@ export class ProfileComponent {
 
 	constructor() {
 		this._emitterService.onComplete('us.user').subscribe(() => {
-			this.profileModel.set(this.userService.user());
+			const user = this.userService.user();
+
+			this.profileModel.set({
+				name: user.name || '',
+				email: user.email || '',
+				phone: user.phone || '',
+				bio: user.bio || '',
+			});
 
 			this.profileForm().reset();
 		});

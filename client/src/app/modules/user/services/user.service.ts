@@ -160,11 +160,9 @@ export class UserService extends CrudService<User> {
 		this.setUser(this.user());
 
 		return this.update(this.user()).subscribe(() => {
-			() => {
-				this._alertService.info({
-					text: 'Profile information has been updated',
-				});
-			};
+			this._alertService.info({
+				text: 'Profile information has been updated',
+			});
 		});
 	}
 
