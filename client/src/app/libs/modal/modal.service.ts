@@ -27,6 +27,7 @@ export class ModalService {
 		this._modals.push(config);
 
 		config.class ||= '';
+		config.panelClass ||= config.class || '';
 		config.id ||= Math.floor(Math.random() * Date.now()) + Date.now();
 
 		document.body.classList.add('modalOpened');
@@ -106,15 +107,17 @@ export class ModalService {
 	}
 
 	private _withConfig(opts: Modal | Type<unknown>): Modal {
-		return typeof opts === 'function'
-			? {
-					...this._config,
-					component: opts,
-				}
-			: {
-					...this._config,
-					...opts,
-					component: opts.component,
-				};
+		const config =
+			typeof opts === 'function'
+				? { ...this._config, component: opts }
+				: { ...this._config, ...opts, component: opts.component };
+
+		const normalized = config as Modal;
+
+		if (!normalized.panelClass && normalized.class) {
+			normalized.panelClass = normalized.class;
+		}
+
+		return normalized;
 	}
 }

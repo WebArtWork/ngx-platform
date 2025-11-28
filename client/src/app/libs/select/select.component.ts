@@ -20,6 +20,7 @@ import { ClickOutsideDirective, CoreService, SearchPipe } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
+import { selectDefaults } from './select.const';
 import {
 	WselectItemDirective,
 	WselectSearchDirective,
@@ -52,17 +53,17 @@ import { SelectId, SelectValue } from './select.type';
 })
 export class SelectComponent implements ControlValueAccessor {
 	/* ===== Inputs ===== */
-	readonly disabled = input(false);
-	readonly clearable = input(false);
-	readonly placeholder = input('');
-	readonly multiple = input(false);
-	readonly bindLabel = input('name');
-	readonly bindValue = input('_id');
-	readonly label = input('');
-	readonly searchable = input(false);
-	readonly searchableBy = input('name');
-	readonly items = input<unknown[]>([]);
-	readonly buttons = input<SelectButton[]>([]);
+	readonly disabled = input(selectDefaults.disabled);
+	readonly clearable = input(selectDefaults.clearable);
+	readonly placeholder = input(selectDefaults.placeholder);
+	readonly multiple = input(selectDefaults.multiple);
+	readonly bindLabel = input(selectDefaults.bindLabel);
+	readonly bindValue = input(selectDefaults.bindValue);
+	readonly label = input(selectDefaults.label);
+	readonly searchable = input(selectDefaults.searchable);
+	readonly searchableBy = input(selectDefaults.searchableBy);
+	readonly items = input<unknown[]>(selectDefaults.items);
+	readonly buttons = input<SelectButton[]>(selectDefaults.buttons);
 
 	/* ==== Projected templates (contentChild) ==== */
 	readonly viewTpl = contentChild(WselectViewDirective, {
@@ -76,8 +77,8 @@ export class SelectComponent implements ControlValueAccessor {
 	});
 
 	/** Virtual Form */
-	readonly formId = input<string | null>(null);
-	readonly formKey = input<string | null>(null);
+	readonly formId = input<string | null>(selectDefaults.formId);
+	readonly formKey = input<string | null>(selectDefaults.formKey);
 
 	/** Two-way model (single source of truth) */
 	readonly wModel = model<SelectValue>(null, { alias: 'wModel' });
@@ -133,14 +134,12 @@ export class SelectComponent implements ControlValueAccessor {
 			const bindValue = this.bindValue();
 			const searchBy = this.searchableBy();
 
-			// reset id->label map
 			for (const key of Object.keys(this.allItem)) {
 				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 				delete (this.allItem as any)[key];
 			}
 
 			const normalized: SelectItem[] = list.map((raw) => {
-				// unwrap Angular signal if passed
 				let value: any = raw;
 				if (typeof raw === 'function') {
 					try {
@@ -172,7 +171,6 @@ export class SelectComponent implements ControlValueAccessor {
 					name = String(value);
 				}
 
-				// build __search field from requested paths
 				let searchValue = name;
 				if (value && typeof value === 'object' && searchBy) {
 					const fields = searchBy.split(/\s+/).filter(Boolean);
@@ -198,7 +196,6 @@ export class SelectComponent implements ControlValueAccessor {
 				this._core.toSignalsArray<SelectItem>(normalized),
 			);
 
-			// sanitize selection when items change
 			const ids = new Set(this.allItems().map((s) => s().id));
 			const val = this.wModel();
 
@@ -222,34 +219,20 @@ export class SelectComponent implements ControlValueAccessor {
 		/* Virtual Form <-> wModel sync (with guard) */
 		let syncing = false;
 
-		// pull from VF → wModel
 		effect(() => {
 			const id = this.formId();
 			const key = this.formKey();
 			if (!id || !key) return;
 
-			// this._vform.registerField(id, key, null, []);
-
-			// const vfVal = this._vform.getValues(id)[key] ?? null;
-			// if (!syncing && !this._equal(vfVal, this.wModel())) {
-			// 	syncing = true;
-			// 	this.wModel.set(vfVal as SelectValue);
-			// 	syncing = false;
-			// }
+			// VF → wModel sync spot (kept commented for now)
 		});
 
-		// push wModel → VF
 		effect(() => {
 			const id = this.formId();
 			const key = this.formKey();
 			if (!id || !key) return;
 
-			const val = this.wModel();
-			// if (!syncing && !this._equal(this._vform.getValues(id)[key], val)) {
-			// 	syncing = true;
-			// 	this._vform.setValue(id, key, val ?? null);
-			// 	syncing = false;
-			// }
+			// wModel → VF sync spot (kept commented for now)
 		});
 
 		/* propagate to CVA + legacy output */

@@ -6,7 +6,11 @@ import {
 	Type,
 	createComponent,
 } from '@angular/core';
+import { AceFormComponent } from './form-components/ace/ace.component';
+import { ButtonFormComponent } from './form-components/button/button.component';
+import { FileFormComponent } from './form-components/file/file.component';
 import { InputFormComponent } from './form-components/input/input.component';
+import { SelectFormComponent } from './form-components/select/select.component';
 /* componnets */
 
 /**
@@ -16,6 +20,10 @@ import { InputFormComponent } from './form-components/input/input.component';
  */
 export const FORM_TEMPLATE_COMPONENTS: Record<string, Type<unknown>> = {
 	Input: InputFormComponent,
+	Select: SelectFormComponent,
+	File: FileFormComponent,
+	Button: ButtonFormComponent,
+	Ace: AceFormComponent,
 	/* addComponents */
 };
 

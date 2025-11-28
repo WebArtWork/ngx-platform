@@ -5,11 +5,11 @@ import { TranslateService } from '../services/translate.service';
 export class TranslatePipe implements PipeTransform {
 	/**
 	 * Transforms the given slug into its corresponding translated string.
-	 * @param slug - The translation key to be translated.
+	 * @param text - The translation text to be translated.
 	 * @returns The translated Signal<string>.
 	 */
-	transform(slug: string) {
-		return this._translateService.translate(slug);
+	transform(text: string) {
+		return this._translateService.translate(text);
 	}
 
 	private _translateService = inject(TranslateService);

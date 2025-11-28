@@ -13,44 +13,47 @@ import {
 } from '@angular/core';
 import { Field } from '@angular/forms/signals';
 import { TranslatePipe } from '@module/translate/pipes/translate.pipe';
-import { ManualTypeDirective } from 'wacom';
+import { ManualDisabledDirective, ManualTypeDirective } from 'wacom';
+import { inputDefaults } from './input.const';
 import { InputType, InputValue } from './input.type';
 
 @Component({
 	selector: 'winput',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [Field, NgClass, TranslatePipe, ManualTypeDirective],
+	imports: [
+		Field,
+		NgClass,
+		TranslatePipe,
+		ManualTypeDirective,
+		ManualDisabledDirective,
+	],
 	templateUrl: './input.component.html',
 	styleUrl: './input.component.scss',
 })
 export class InputComponent implements AfterViewInit {
 	/* ---------------- Signal forms ---------------- */
-	/**
-	 * Angular Signal Forms field node.
-	 *
-	 * Usage:
-	 *   <winput [field]="form.email" ...></winput>
-	 */
 	readonly field = input<any | null>(null);
 
 	/* ---------------- Template-model mode ---------------- */
 	readonly wModel = model<InputValue | null>(null, { alias: 'wModel' });
 
-	/* ---------------- Inputs ---------------- */
-	readonly type = input<InputType>('text');
-	readonly name = input('name');
-	readonly label = input('');
-	readonly placeholder = input('');
-	readonly items = input<string[]>([]); // for radio/checkbox lists
+	/* ---------------- Inputs (all via shared defaults) ---------------- */
+	readonly type = input<InputType>(inputDefaults.type);
+	readonly name = input(inputDefaults.name);
+	readonly label = input(inputDefaults.label);
+	readonly placeholder = input(inputDefaults.placeholder);
+	readonly items = input<string[]>(inputDefaults.items); // radio/checkbox
 
-	readonly disabled = input(false);
-	readonly focused = input(false);
-	readonly clearable = input(false);
-	readonly wClass = input('');
-	readonly autocomplete = input<string | null | undefined>(undefined);
+	readonly disabled = input(inputDefaults.disabled);
+	readonly focused = input(inputDefaults.focused);
+	readonly clearable = input(inputDefaults.clearable);
+	readonly wClass = input(inputDefaults.wClass);
+	readonly autocomplete = input<string | null | undefined>(
+		inputDefaults.autocomplete,
+	);
 
-	// Optional external error override (rarely needed when using Signal Forms)
-	readonly error = input<string | null>(null);
+	// Optional external error override
+	readonly error = input<string | null>(inputDefaults.error);
 
 	/* ---------------- Outputs ---------------- */
 	readonly wChange = output<InputValue | null>();
@@ -123,7 +126,6 @@ export class InputComponent implements AfterViewInit {
 		let value: InputValue | null = null;
 
 		if (nativeType === 'checkbox' && target instanceof HTMLInputElement) {
-			// Multi-checkbox list with items → wModel as string[]
 			if (option != null && this.items().length && !this.field()) {
 				const current = this.wModel() as InputValue;
 				const list = Array.isArray(current)
@@ -139,22 +141,14 @@ export class InputComponent implements AfterViewInit {
 
 				value = list as InputValue;
 			} else {
-				// Single checkbox (field or standalone boolean)
 				value = target.checked;
 			}
 		} else if (nativeType === 'radio') {
-			// Radio always emits selected option (string)
-			if (option != null) {
-				value = option;
-			} else {
-				value = target.value;
-			}
+			value = option != null ? option : target.value;
 		} else {
-			// text / textarea / others
 			value = target.value;
 		}
 
-		// standalone mode → keep wModel in sync
 		if (!this.field()) {
 			this.wModel.set(value);
 		}

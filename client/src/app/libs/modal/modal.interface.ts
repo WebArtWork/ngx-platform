@@ -11,7 +11,18 @@ export interface ModalButton {
 export interface ModalConfig {
 	size?: ModalSizes;
 	buttons?: ModalButton[];
+
+	/**
+	 * Legacy API: extra class for the panel.
+	 * Prefer `panelClass`, kept for backwards compatibility.
+	 */
 	class?: string;
+
+	/**
+	 * New API: class applied to the modal content panel.
+	 */
+	panelClass?: string;
+
 	unique?: string;
 	progress?: boolean;
 	timeout?: number;
@@ -33,5 +44,6 @@ export const DEFAULT_MODAL_CONFIG: ModalConfig = {
 	size: 'mid',
 	timeout: 0,
 	class: '',
+	panelClass: '',
 	closable: true,
 };

@@ -1,0 +1,29 @@
+<ng-template #templateRef let-data>
+	<wselect
+		[items]="data.props.items ?? selectDefaults.items"
+		[placeholder]="
+			data.props.placeholder ?? selectDefaults.placeholder
+		"
+		[label]="data.props.label ?? selectDefaults.label"
+		[bindLabel]="data.props.bindLabel ?? selectDefaults.bindLabel"
+		[bindValue]="data.props.bindValue ?? selectDefaults.bindValue"
+		[multiple]="data.props.multiple ?? selectDefaults.multiple"
+		[clearable]="data.props.clearable ?? selectDefaults.clearable"
+		[searchable]="data.props.searchable ?? selectDefaults.searchable"
+		[searchableBy]="
+			data.props.searchableBy ?? selectDefaults.searchableBy
+		"
+		[buttons]="data.props.buttons ?? selectDefaults.buttons"
+		[disabled]="
+			data.props.disabled === true ||
+			data.component.disabled === true
+		"
+		[formId]="data.props.formId ?? selectDefaults.formId"
+		[formKey]="
+			data.props.formKey ??
+			data.props.key ??
+			selectDefaults.formKey
+		"
+		(wChange)="data.props.onChange?.($event)"
+	></wselect>
+</ng-template>

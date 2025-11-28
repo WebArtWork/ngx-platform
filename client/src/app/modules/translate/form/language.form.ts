@@ -2,7 +2,7 @@ export const languageForm = {
 	formId: 'language',
 	components: [
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'name',
 			focused: true,
 			props: {

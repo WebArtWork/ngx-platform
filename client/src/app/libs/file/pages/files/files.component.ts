@@ -5,8 +5,8 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
 import { TranslateService } from 'src/app/libs/translate/translate.service';
 import { AlertService, CoreService } from 'wacom';
+import { File } from '../../file.interface';
 import { fileFormComponents } from '../../formcomponents/file.formcomponents';
-import { File } from '../../interfaces/file.interface';
 import { FileService } from '../../services/file.service';
 
 @Component({

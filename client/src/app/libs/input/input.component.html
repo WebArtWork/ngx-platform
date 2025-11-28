@@ -14,6 +14,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			class="winput__field"
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
 			[autocomplete]="getAutocompleteAttr(_type)"
+			[manualDisabled]="_disabled"
 			(keyup.enter)="onSubmit()"
 			(input)="onInput($event)"
 			[class.error]="_error"
@@ -74,6 +75,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		<textarea
 			class="winput__field winput__field--textarea"
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
+			[manualDisabled]="_disabled"
 			(keyup.enter)="onSubmit()"
 			(input)="onInput($event)"
 			[class.error]="_error"
@@ -107,14 +109,15 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 <label class="winput__choice" [class.disabled]="_disabled">
 	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
+		[manualDisabled]="_disabled"
+		(input)="onInput($event)"
 		class="winput__native"
-		type="radio"
 		[class.error]="_error"
 		[ngClass]="_wClass"
-		[value]="item"
 		(blur)="onBlur()"
-		(input)="onInput($event)"
 		[field]="_field"
+		[value]="item"
+		type="radio"
 		#inputEl
 	/>
 	<span class="winput__choice-mark winput__choice-mark--radio"></span>
@@ -143,16 +146,16 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 <label class="winput__choice" [class.disabled]="_disabled">
 	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
+		(input)="onInput($event, item)"
+		[checked]="isItemChecked(item)"
+		[name]="_name + $index"
 		class="winput__native"
-		type="checkbox"
 		[disabled]="_disabled"
 		[class.error]="_error"
 		[ngClass]="_wClass"
-		[value]="item"
-		[name]="_name + $index"
 		(blur)="onBlur()"
-		(input)="onInput($event, item)"
-		[checked]="isItemChecked(item)"
+		type="checkbox"
+		[value]="item"
 		#inputEl
 	/>
 	<span class="winput__choice-mark"></span>
@@ -164,26 +167,27 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 	<span class="winput__choice-text"> {{ (_label | translate)() }} </span>
 	} @if (_field) {
 	<input
+		[manualDisabled]="_disabled"
+		(input)="onInput($event)"
 		class="winput__native"
-		type="checkbox"
 		[class.error]="_error"
 		[ngClass]="_wClass"
 		(blur)="onBlur()"
-		(input)="onInput($event)"
 		[field]="_field"
+		type="checkbox"
 		#inputEl
 	/>
 	} @else {
 	<input
-		class="winput__native"
-		type="checkbox"
+		(input)="onInput($event)"
 		[disabled]="_disabled"
 		[class.error]="_error"
-		[ngClass]="_wClass"
-		[name]="_name"
-		(blur)="onBlur()"
-		(input)="onInput($event)"
+		class="winput__native"
 		[checked]="!!wModel()"
+		[ngClass]="_wClass"
+		(blur)="onBlur()"
+		type="checkbox"
+		[name]="_name"
 		#inputEl
 	/>
 	}

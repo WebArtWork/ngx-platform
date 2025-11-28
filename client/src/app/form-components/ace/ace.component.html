@@ -1,0 +1,18 @@
+<ng-template #templateRef let-data>
+	<div class="w-ace" [ngClass]="data.component?.class">
+		<ace
+			class="w-ace__editor"
+			[config]="data.field?.Config || {}"
+			[mode]="data.field?.Mode || 'text'"
+			[theme]="data.field?.Theme || 'github'"
+			[disabled]="data.field?.Disabled || false"
+			[useAceClass]="
+				data.field?.UseAceClass !== undefined
+					? data.field.UseAceClass
+					: true
+			"
+			[value]="data.submition[data.key] ?? ''"
+			(valueChange)="onValueChange(data, $event)"
+		></ace>
+	</div>
+</ng-template>

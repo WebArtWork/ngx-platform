@@ -1,4 +1,4 @@
-import { ImageResizeBounds } from '../interfaces/file.interface';
+import { ImageResizeBounds } from './file.interface';
 
 /**
  * Read a File as base64 data URL.

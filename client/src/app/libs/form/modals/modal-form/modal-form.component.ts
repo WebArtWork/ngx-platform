@@ -1,4 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	inject,
+	signal,
+} from '@angular/core';
 import { CoreService } from 'wacom';
 
 import { ButtonComponent } from '../../../button/button.component';
@@ -10,6 +15,7 @@ import { FormModalButton } from '../../services/form.service';
 	templateUrl: './modal-form.component.html',
 	styleUrl: './modal-form.component.scss',
 	imports: [FormComponent, ButtonComponent],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalFormComponent {
 	private _coreService = inject(CoreService);

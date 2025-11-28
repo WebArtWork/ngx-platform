@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { CrudService, HttpService } from 'wacom';
-import { File } from '../interfaces/file.interface';
+import { File } from './file.interface';
 
 @Injectable({ providedIn: 'root' })
 export class FileService extends CrudService<File> {

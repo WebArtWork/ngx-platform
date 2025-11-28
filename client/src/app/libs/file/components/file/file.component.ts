@@ -8,10 +8,11 @@ import {
 	input,
 	model,
 } from '@angular/core';
-import { fileToDataUrl } from '@lib/file/util/file.util';
+import { fileToDataUrl } from '@lib/file/file.util';
 import { ModalService } from '@lib/modal';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
-import { FileService } from '../../services/file.service';
+import { fileDefaults } from '../../file.const';
+import { FileService } from '../../file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
 
 export type FileMode =
@@ -32,28 +33,28 @@ export type FileView = 'dropzone' | 'list' | 'thumb-only';
 })
 export class FileComponent {
 	/** UI props */
-	readonly label = input<string>('');
-	readonly placeholder = input<string>('Select file');
-	readonly disabled = input<boolean>(false);
-	readonly clearable = input<boolean>(true);
-	readonly accept = input<string>('*/*');
-	readonly preview = input<boolean>(true);
+	readonly label = input<string>(fileDefaults.label);
+	readonly placeholder = input<string>(fileDefaults.placeholder);
+	readonly disabled = input<boolean>(fileDefaults.disabled);
+	readonly clearable = input<boolean>(fileDefaults.clearable);
+	readonly accept = input<string>(fileDefaults.accept);
+	readonly preview = input<boolean>(fileDefaults.preview);
 
 	/** Behaviour */
-	readonly mode = input<FileMode>('single-image');
-	readonly view = input<FileView>('dropzone');
+	readonly mode = input<FileMode>(fileDefaults.mode as FileMode);
+	readonly view = input<FileView>(fileDefaults.view as FileView);
 
 	/** Optional crop box (for image modes) */
-	readonly cropWidth = input<number | null>(null);
-	readonly cropHeight = input<number | null>(null);
+	readonly cropWidth = input<number | null>(fileDefaults.cropWidth);
+	readonly cropHeight = input<number | null>(fileDefaults.cropHeight);
 
 	/** Custom templates */
 	readonly t_item = input<TemplateRef<unknown>>();
 	readonly t_empty = input<TemplateRef<unknown>>();
 
 	/** Back-end routing */
-	readonly container = input<string>('general');
-	readonly name = input<string>('');
+	readonly container = input<string>(fileDefaults.container);
+	readonly name = input<string>(fileDefaults.name);
 
 	/** Separate models for each mode */
 	readonly wImage = model<string | null>(null, { alias: 'wImage' });

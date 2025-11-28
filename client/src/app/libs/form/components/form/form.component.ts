@@ -7,6 +7,7 @@ import {
 	input,
 	output,
 	signal,
+	untracked,
 	WritableSignal,
 } from '@angular/core';
 
@@ -54,7 +55,10 @@ export class FormComponent {
 
 			if (!cfg) return;
 
-			const inst = this._formService.form(cfg, initial ?? undefined);
+			// Form creation installs internal effects; run outside reactive context
+			const inst = untracked(() =>
+				this._formService.form(cfg, initial ?? undefined),
+			);
 			this.instance.set(inst);
 		});
 

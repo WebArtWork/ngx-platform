@@ -1,7 +1,7 @@
 import {
-	Injector,
 	inject,
 	Injectable,
+	Injector,
 	runInInjectionContext,
 	signal,
 	TemplateRef,
@@ -295,7 +295,7 @@ export class FormService {
 					title: 'Modify content of documents',
 					components: [
 						{
-							name: 'Code',
+							name: 'Ace',
 							key: 'docs',
 							props: {
 								placeholder: 'fill content of documents',

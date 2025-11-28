@@ -13,7 +13,7 @@
 		/>
 	</ng-template>
 	<ng-template cell="phrase" let-data>{{ data.text }}</ng-template>
-	<ng-template cell="translation" let-data
-		>{{ data.translation }}</ng-template
-	>
+	<ng-template cell="translation" let-data>
+		<span [translate]="data.text"></span>
+	</ng-template>
 </wtable>

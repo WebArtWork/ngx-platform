@@ -23,6 +23,9 @@ export class ModalComponent implements OnInit, OnDestroy {
 	// used in template for size modifiers
 	size: 'small' | 'mid' | 'big' | 'full' = 'mid';
 
+	// optional custom class applied to the content panel
+	panelClass = '';
+
 	private readonly _popStateHandler = (e: PopStateEvent) =>
 		this.popStateListener(e);
 

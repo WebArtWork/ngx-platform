@@ -105,8 +105,6 @@ export class LanguageSelectorComponent extends CrudComponent<
 			? this._languageService.getSignal(selectedId as string)
 			: undefined;
 
-		console.log(selectedId, docSig?.(), languageForm);
-
 		this._form.modal<Language>(
 			languageForm,
 			{

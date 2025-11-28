@@ -44,6 +44,9 @@
 		flex: 1 1 auto;
 		min-block-size: 0;
 		overflow: auto;
+		padding: var(--sp-4);
+		/* extra space on the right so content never touches the close icon */
+		padding-inline-end: calc(var(--sp-4) + 3rem);
 	}
 
 	&__close {
@@ -69,5 +72,10 @@
 @media (max-width: 768px) {
 	.wacom-modal {
 		padding: var(--sp-4);
+
+		&__body {
+			padding: var(--sp-3);
+			padding-inline-end: calc(var(--sp-3) + 3rem);
+		}
 	}
 }

@@ -6,6 +6,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
+import { buttonDefaults } from './button.const';
 import { ButtonType } from './button.type';
 
 @Directive({
@@ -15,14 +16,16 @@ import { ButtonType } from './button.type';
 export class ButtonDirective {
 	constructor(private el: ElementRef<HTMLElement>) {}
 
-	readonly type = input<ButtonType>('primary');
-	readonly disabled = input<boolean>(false);
-	readonly disableSubmit = input<boolean>(false);
+	readonly type = input<ButtonType>(buttonDefaults.type);
+	readonly disabled = input<boolean>(buttonDefaults.disabled);
+	readonly disableSubmit = input<boolean>(buttonDefaults.disableSubmit);
 	/** If false (default), blocks subsequent clicks for 2s */
-	readonly isMultipleClicksAllowed = input<boolean>(false);
+	readonly isMultipleClicksAllowed = input<boolean>(
+		buttonDefaults.isMultipleClicksAllowed,
+	);
 
 	/** Extra classes without colliding with native `class` */
-	readonly extraClass = input<string>('');
+	readonly extraClass = input<string>(buttonDefaults.extraClass);
 
 	/** Emits alongside the host’s native click */
 	readonly wClick = output<void>();
@@ -30,7 +33,7 @@ export class ButtonDirective {
 	private cooling = false;
 
 	private get tag(): string {
-		return this.el.nativeElement.tagName; // 'BUTTON' | 'A' | ...
+		return this.el.nativeElement.tagName;
 	}
 	private get isButton(): boolean {
 		return this.tag === 'BUTTON';
@@ -41,7 +44,6 @@ export class ButtonDirective {
 		);
 	}
 
-	// type only on <button>
 	@HostBinding('attr.type')
 	get hostType(): 'button' | 'submit' | null {
 		return this.isButton
@@ -51,7 +53,6 @@ export class ButtonDirective {
 			: null;
 	}
 
-	// disabled only on <button>
 	@HostBinding('attr.disabled')
 	get nativeDisabled(): '' | null {
 		return this.isButton && this.isBlocked ? '' : null;

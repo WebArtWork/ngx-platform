@@ -6,6 +6,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
+import { buttonDefaults } from './button.const';
 import { ButtonType } from './button.type';
 
 @Component({
@@ -19,12 +20,14 @@ export class ButtonComponent {
 	private _cdr = inject(ChangeDetectorRef);
 
 	// Inputs
-	readonly type = input<ButtonType>('primary');
-	readonly extraClass = input<string>(''); // extra CSS classes
-	readonly disabled = input<boolean>(false);
-	readonly disableSubmit = input<boolean>(false);
+	readonly type = input<ButtonType>(buttonDefaults.type);
+	readonly extraClass = input<string>(buttonDefaults.extraClass);
+	readonly disabled = input<boolean>(buttonDefaults.disabled);
+	readonly disableSubmit = input<boolean>(buttonDefaults.disableSubmit);
 	/** If false (default), blocks subsequent clicks for 2s */
-	readonly isMultipleClicksAllowed = input<boolean>(false);
+	readonly isMultipleClicksAllowed = input<boolean>(
+		buttonDefaults.isMultipleClicksAllowed,
+	);
 
 	// Outputs — prefer (wClick). (click) on <wbutton> will still work.
 	readonly wClick = output<MouseEvent>();
@@ -39,19 +42,14 @@ export class ButtonComponent {
 	}
 
 	clicked(event: MouseEvent): void {
-		// Hard block when disabled / cooling: also stop host (click) handlers.
 		if (this.isBlocked) {
 			event.preventDefault();
 			event.stopImmediatePropagation();
 			return;
 		}
 
-		// Emit custom output
 		this.wClick.emit(event);
 
-		// Let native bubbling continue so (click) on <wbutton> also fires.
-
-		// Apply 2s cooldown if needed
 		if (!this.isMultipleClicksAllowed()) {
 			this._cooling = true;
 			this._cdr.markForCheck();

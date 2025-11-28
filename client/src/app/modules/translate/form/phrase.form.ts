@@ -3,41 +3,24 @@ export const phraseForm = {
 	title: 'Phrase',
 	components: [
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'text',
-			focused: true,
-			fields: [
-				{
-					name: 'Label',
-					value: 'Origin text',
-				},
-				{
-					name: 'Placeholder',
-					value: 'fill origin text...',
-				},
-				{
-					name: 'Textarea',
-					value: true,
-				},
-			],
+			props: {
+				label: 'Origin text',
+				placeholder: 'Enter origin text...',
+				type: 'textarea',
+				disabled: true,
+			},
 		},
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'translation',
-			fields: [
-				{
-					name: 'Label',
-					value: 'Translation',
-				},
-				{
-					name: 'Placeholder',
-					value: 'fill translation...',
-				},
-				{
-					name: 'Textarea',
-					value: true,
-				},
-			],
+			focused: true,
+			props: {
+				label: 'Translation',
+				placeholder: 'Enter translation text...',
+				type: 'textarea',
+			},
 		},
 	],
 };

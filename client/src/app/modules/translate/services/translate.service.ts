@@ -50,8 +50,8 @@ export class TranslateService extends CrudService<Translate> {
 	translate(text: string): WritableSignal<string> {
 		if (!this._signalTranslates[text]) {
 			this._signalTranslates[text] = signal(this._getTranslation(text));
-			// fire-and-forget; PhraseService handles awaiting initial load inside
-			void this._phraseService.ensurePhrase(text);
+			// fire-and-forget outside the current render tick to avoid signal writes during render
+			queueMicrotask(() => void this._phraseService.ensurePhrase(text));
 		}
 
 		return this._signalTranslates[text];

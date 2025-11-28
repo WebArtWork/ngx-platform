@@ -5,12 +5,15 @@ import {
 	OnInit,
 	effect,
 	inject,
+	input,
 	runInInjectionContext,
 } from '@angular/core';
 import { TranslateService } from '../services/translate.service';
 
 @Directive({ selector: '[translate]' })
 export class TranslateDirective implements OnInit {
+	translate = input.required<string>();
+
 	private readonly _el = inject(ElementRef<HTMLElement>);
 
 	private readonly _translateService = inject(TranslateService);
@@ -20,7 +23,9 @@ export class TranslateDirective implements OnInit {
 	ngOnInit() {
 		const original = this._el.nativeElement.textContent ?? '';
 
-		const translated = this._translateService.translate(original);
+		const translated = this._translateService.translate(
+			this.translate() || original,
+		);
 
 		runInInjectionContext(this._inj, () => {
 			effect(() => {

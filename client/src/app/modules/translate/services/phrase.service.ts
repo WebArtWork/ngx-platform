@@ -14,6 +14,8 @@ export class PhraseService extends CrudService<Phrase> {
 
 	/** avoid duplicate create() calls per text */
 	private _creating: Record<string, boolean> = {};
+	/** queue updates to signals outside render */
+	private _syncPending = false;
 
 	/** initial load state */
 	private _initialized = false;
@@ -35,15 +37,11 @@ export class PhraseService extends CrudService<Phrase> {
 		// keep phrases grouped by text and notify others on any change
 		this.filteredDocuments(this._phrasesByText, {
 			field: 'text',
-			filtered: () => {
-				this.phrases.set(this.getDocs());
-				this._emitter.emit('translatephrase_changed');
-			},
+			filtered: () => this._scheduleSync(),
 		});
 
 		this.get().subscribe(() => {
-			this.phrases.set(this.getDocs());
-
+			this._scheduleSync();
 			this._initialized = true;
 
 			this._readyResolve?.();
@@ -89,6 +87,17 @@ export class PhraseService extends CrudService<Phrase> {
 			complete: () => {
 				delete this._creating[text];
 			},
+		});
+	}
+
+	private _scheduleSync() {
+		if (this._syncPending) return;
+		this._syncPending = true;
+
+		queueMicrotask(() => {
+			this._syncPending = false;
+			this.phrases.set(this.getDocs());
+			this._emitter.emit('translatephrase_changed');
 		});
 	}
 }
