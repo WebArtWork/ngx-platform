@@ -57,6 +57,28 @@ export class TranslateService extends CrudService<Translate> {
 		return this._signalTranslates[text];
 	}
 
+	async updateTranslation(text: string, phrase: string, language: string) {
+		const translate = await this.getDoc((_translate: Translate) => {
+			return (
+				_translate.language === language && _translate.phrase === phrase
+			);
+		});
+
+		if (translate) {
+			translate.text = text;
+
+			if (translate.text !== text) {
+				this.update(translate);
+			}
+		} else {
+			this.create({
+				language,
+				phrase,
+				text,
+			});
+		}
+	}
+
 	/* ──────────────────────────────────────────────────────────────────────────
 	   Internal
 	   ────────────────────────────────────────────────────────────────────────── */

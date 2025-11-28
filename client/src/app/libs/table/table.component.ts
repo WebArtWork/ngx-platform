@@ -16,8 +16,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { StoreService } from 'wacom';
-import { SearchPipe } from '../../search.pipe';
+import { SearchPipe, StoreService } from 'wacom';
 import { ButtonComponent } from '../button/button.component';
 import { PerPagePipe } from './per-page.pipe';
 import {

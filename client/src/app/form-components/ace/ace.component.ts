@@ -33,12 +33,6 @@ export class AceFormComponent implements OnInit {
 	templateRef: TemplateRef<Interface>;
 
 	ngOnInit(): void {
-		// "Ace" here is the component name you will use in form JSON
 		this._form.addTemplateComponent<Interface>('Ace', this.templateRef);
-	}
-
-	onValueChange(data: any, value: string): void {
-		data.submition[data.key] = value;
-		data.wChange();
 	}
 }

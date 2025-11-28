@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AlertService } from '@lib/alert';
 import { FormService } from '@lib/form';
 import { TranslateDirective } from '@module/translate/directives/translate.directive';
-import { Translate } from '@module/translate/interfaces/translate.interface';
 import { TranslateService } from '@module/translate/services/translate.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { TableComponent } from 'src/app/libs/table/table.component';
@@ -34,6 +33,8 @@ export class TranslatesComponent extends CrudComponent<
 	FormInterface
 > {
 	private _translateService = inject(TranslateService);
+
+	override updatableFields = ['_id', 'text'];
 
 	private _languageService = inject(LanguageService);
 
@@ -71,31 +72,13 @@ export class TranslatesComponent extends CrudComponent<
 						const text = (updated as Phrase).translation as string;
 
 						if (translationSignal() !== text) {
+							await this._translateService.updateTranslation(
+								text,
+								phrase,
+								language,
+							);
+
 							translationSignal.set(text);
-
-							const translate =
-								await this._translateService.getDoc(
-									(_translate: Translate) => {
-										return (
-											_translate.language ===
-												this._languageService.language()
-													?._id &&
-											_translate.phrase === phrase
-										);
-									},
-								);
-
-							if (translate) {
-								translate.text = text;
-
-								this._translateService.update(translate);
-							} else {
-								this._translateService.create({
-									language,
-									phrase,
-									text,
-								});
-							}
 						}
 					},
 				},
@@ -116,8 +99,65 @@ export class TranslatesComponent extends CrudComponent<
 
 	config = this.getConfig();
 
-	constructor(private _formService: FormService) {
-		super(phraseForm, _formService, inject(PhraseService), 'phrase');
+	constructor(
+		private _formService: FormService,
+		private _phraseService: PhraseService,
+	) {
+		super(phraseForm, _formService, _phraseService, 'phrase');
+
+		this.config.headerButtons.unshift({
+			icon: 'edit',
+			click: () => {
+				const language = this._languageService.language()?._id ?? '';
+
+				if (language) {
+					const translations = [];
+
+					for (const phrase of this._phraseService.getDocs()) {
+						translations.push(
+							this._translateService.translate(phrase.text)(),
+						);
+					}
+
+					this._formService
+						.modalDocs<string>(
+							translations,
+							'Update translations for ' +
+								this._languageService.language()?.name,
+						)
+						.then(async (translated: string[]) => {
+							console.log(translated);
+
+							for (const [index, phrase] of this._phraseService
+								.getDocs()
+								.entries()) {
+								const text = translated[index];
+
+								if (text === undefined) continue;
+
+								const translationSignal =
+									this._translateService.translate(
+										phrase.text,
+									);
+
+								if (translationSignal() !== text) {
+									await this._translateService.updateTranslation(
+										text,
+										phrase._id as string,
+										language,
+									);
+
+									translationSignal.set(text);
+								}
+							}
+						});
+				} else {
+					this._alertService.show({
+						text: 'Please select language first',
+					});
+				}
+			},
+		});
 
 		this.setDocuments();
 	}

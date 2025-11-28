@@ -280,7 +280,10 @@ export class FormService {
 		});
 	}
 
-	modalDocs<T>(docs: T[]): Promise<T[]> {
+	modalDocs<T>(
+		docs: T[],
+		title = 'Modify content of documents',
+	): Promise<T[]> {
 		return new Promise((resolve) => {
 			const submition = {
 				docs: JSON.stringify(docs.length ? docs : [], null, 4),
@@ -292,29 +295,29 @@ export class FormService {
 				size: 'big',
 				submition,
 				form: {
-					title: 'Modify content of documents',
+					title,
 					components: [
 						{
 							name: 'Ace',
 							key: 'docs',
 							props: {
-								placeholder: 'fill content of documents',
+								placeholder: 'Fill content of documents...',
 							},
 						},
 					],
 				},
-				onClose: () => {
-					const out: T[] = submition.docs
-						? JSON.parse(submition.docs)
-						: [];
-					resolve(out);
-				},
-				submit: () => {
-					const out: T[] = submition.docs
-						? JSON.parse(submition.docs)
-						: [];
-					resolve(out);
-				},
+				modalButtons: [
+					{
+						label: 'Update',
+						click: () => {
+							const out: T[] = submition.docs
+								? JSON.parse(submition.docs)
+								: [];
+
+							resolve(out);
+						},
+					},
+				],
 			});
 		});
 	}
