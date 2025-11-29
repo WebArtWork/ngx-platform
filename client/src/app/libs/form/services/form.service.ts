@@ -309,7 +309,12 @@ export class FormService {
 				modalButtons: [
 					{
 						label: 'Update',
-						click: () => {
+						click: (
+							_submition: Record<string, unknown>,
+							close: () => void,
+						) => {
+							close();
+
 							const out: T[] = submition.docs
 								? JSON.parse(submition.docs)
 								: [];

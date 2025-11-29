@@ -79,10 +79,12 @@
 				type="button"
 			>
 				<span class="material-icons">
-					@if (userService.theme === 'dark') { dark_mode } @else {
+					@if (userService.theme() === 'dark') { dark_mode } @else {
 					light_mode }
 				</span>
-				<span>{{userService.theme | titlecase}} theme</span>
+				<span
+					[translate]="((userService.theme() || 'dark') | titlecase) + ' theme'"
+				></span>
 			</button>
 
 			@if (languageService.language()?.name) {
@@ -93,7 +95,9 @@
 				type="button"
 			>
 				<span class="material-icons">language</span>
-				<span>{{ languageService.language()?.name }}</span>
+				<span
+					[translate]="languageService.language()?.name || ''"
+				></span>
 			</button>
 
 			}

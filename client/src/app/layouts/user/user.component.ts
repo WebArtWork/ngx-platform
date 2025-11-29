@@ -24,6 +24,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 		MaterialComponent,
 		TitleCasePipe,
 		RouterLink,
+		TranslateDirective,
 	],
 })
 export class UserComponent {

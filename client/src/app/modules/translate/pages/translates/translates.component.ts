@@ -126,8 +126,6 @@ export class TranslatesComponent extends CrudComponent<
 								this._languageService.language()?.name,
 						)
 						.then(async (translated: string[]) => {
-							console.log(translated);
-
 							for (const [index, phrase] of this._phraseService
 								.getDocs()
 								.entries()) {

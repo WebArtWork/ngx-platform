@@ -26,7 +26,7 @@ export class UserService extends CrudService<User> {
 
 	employees = (environment as unknown as { roles: string[] }).roles || [];
 
-	theme = 'dark';
+	theme = signal('dark');
 
 	themes = (
 		(environment as unknown as { themes: string[] }).themes || []
@@ -127,7 +127,7 @@ export class UserService extends CrudService<User> {
 	}
 
 	toggleTheme() {
-		this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
+		this.setTheme(this.theme() === 'dark' ? 'light' : 'dark');
 	}
 
 	setTheme(theme = 'light') {
@@ -145,7 +145,7 @@ export class UserService extends CrudService<User> {
 			(document.body.parentNode as HTMLElement).classList.add(theme);
 		}
 
-		this.theme = theme;
+		this.theme.set(theme);
 	}
 
 	setUser(user: User) {
