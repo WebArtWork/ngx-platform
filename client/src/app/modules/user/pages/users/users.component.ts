@@ -44,7 +44,5 @@ export class UsersComponent extends CrudComponent<
 		for (const role of this.userService.roles) {
 			this.columns.push(role);
 		}
-
-		console.log(this);
 	}
 }
