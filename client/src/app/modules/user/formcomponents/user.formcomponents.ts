@@ -6,51 +6,39 @@ export const userFormComponents = {
 	title: 'Profile Settings',
 	components: [
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'name',
 			focused: true,
-			fields: [
-				{
-					name: 'Placeholder',
-					value: 'Enter your name',
-				},
-				{
-					name: 'Label',
-					value: 'Name',
-				},
-			],
+			props: {
+				placeholder: 'Enter name...',
+				label: 'Name',
+			},
 		},
 		{
-			name: 'Text',
+			name: 'Input',
+			key: 'email',
+			props: {
+				placeholder: 'Enter email...',
+				label: 'Email',
+				type: 'email',
+			},
+		},
+		{
+			name: 'Input',
 			key: 'phone',
-			fields: [
-				{
-					name: 'Placeholder',
-					value: 'Enter your phone',
-				},
-				{
-					name: 'Label',
-					value: 'Phone',
-				},
-			],
+			props: {
+				placeholder: 'Enter phone...',
+				label: 'Phone',
+			},
 		},
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'bio',
-			fields: [
-				{
-					name: 'Placeholder',
-					value: 'Enter your bio',
-				},
-				{
-					name: 'Label',
-					value: 'Bio',
-				},
-				{
-					name: 'Textarea',
-					value: true,
-				},
-			],
+			props: {
+				placeholder: 'Enter bio...',
+				label: 'Biography',
+				type: 'textarea',
+			},
 		},
 		...((
 			environment as unknown as {

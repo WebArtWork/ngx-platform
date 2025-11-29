@@ -57,8 +57,8 @@ export class UserService extends CrudService<User> {
 			name: 'user',
 			replace: (user) => {
 				user.roles = [];
-
 				user.data = user.data || {};
+				user.is = user.is || {};
 
 				for (const field of (
 					environment as unknown as { userFields: string[] }

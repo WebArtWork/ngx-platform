@@ -20,6 +20,8 @@ export class UsersComponent extends CrudComponent<
 	User,
 	FormInterface
 > {
+	protected override configType: 'server' | 'local' = 'local';
+
 	private _router = inject(Router);
 
 	userService = inject(UserService);

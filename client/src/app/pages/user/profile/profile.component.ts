@@ -31,7 +31,6 @@ export class ProfileComponent {
 	// Profile
 	profileModel = signal<ProfileModel>({
 		name: this.userService.user().name || '',
-		email: this.userService.user().email || '',
 		phone: this.userService.user().phone || '',
 		bio: this.userService.user().bio || '',
 	});
@@ -62,7 +61,6 @@ export class ProfileComponent {
 
 			this.profileModel.set({
 				name: user.name || '',
-				email: user.email || '',
 				phone: user.phone || '',
 				bio: user.bio || '',
 			});
