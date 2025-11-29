@@ -11,6 +11,7 @@ import { ButtonFormComponent } from './form-components/button/button.component';
 import { FileFormComponent } from './form-components/file/file.component';
 import { InputFormComponent } from './form-components/input/input.component';
 import { SelectFormComponent } from './form-components/select/select.component';
+import { TinymceFormComponent } from './form-components/tinymce/tinymce.component';
 /* componnets */
 
 /**
@@ -24,6 +25,7 @@ export const FORM_TEMPLATE_COMPONENTS: Record<string, Type<unknown>> = {
 	File: FileFormComponent,
 	Button: ButtonFormComponent,
 	Ace: AceFormComponent,
+	Tinymce: TinymceFormComponent,
 	/* addComponents */
 };
 
