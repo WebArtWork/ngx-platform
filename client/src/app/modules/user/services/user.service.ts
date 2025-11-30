@@ -210,13 +210,13 @@ export class UserService extends CrudService<User> {
 	}
 
 	updateAdmin(user: User) {
-		this.update(user, {
+		return this.update(user, {
 			name: 'admin',
 		});
 	}
 
 	deleteAdmin(user: User) {
-		this.delete(user, {
+		return this.delete(user, {
 			name: 'admin',
 		});
 	}

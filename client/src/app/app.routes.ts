@@ -117,6 +117,19 @@ export const routes: Routes = [
 					),
 			},
 			{
+				path: 'clients',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Clients',
+					},
+				},
+				loadChildren: () =>
+					import('./modules/user/pages/clients/clients.routes').then(
+						(m) => m.routes,
+					),
+			},
+			{
 				path: 'translates',
 				canActivate: [MetaGuard],
 				data: {

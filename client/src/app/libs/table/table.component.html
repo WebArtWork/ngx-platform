@@ -338,7 +338,7 @@
 
 							<wbutton
 								class="wtable__arrow wtable__arrow--right"
-								[disabled]="normalizedRows().length === 0"
+								[disabled]="normalizedRows().length !== _cfg.perPage"
 								[isMultipleClicksAllowed]="true"
 								(wClick)="next()"
 							>

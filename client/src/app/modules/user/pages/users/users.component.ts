@@ -22,6 +22,16 @@ export class UsersComponent extends CrudComponent<
 > {
 	protected override configType: 'server' | 'local' = 'local';
 
+	protected override allowUrl(): boolean {
+		return false;
+	}
+
+	protected override async delete(doc: User) {
+		this.userService.deleteAdmin(doc).subscribe(() => {
+			this.setDocuments();
+		});
+	}
+
 	private _router = inject(Router);
 
 	userService = inject(UserService);

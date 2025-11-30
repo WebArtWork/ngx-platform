@@ -95,17 +95,26 @@
 		align-self: flex-end;
 	}
 
-	/* Smaller profile header */
+	/* Profile header + logout */
 	&__drawer-header {
-		display: grid;
-		grid-template-columns: 32px 1fr;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 4px 6px;
+		border-radius: var(--b-radius);
+	}
+
+	&__drawer-profile {
+		display: inline-flex;
 		align-items: center;
 		gap: 8px;
 		text-decoration: none;
 		color: var(--c-text-primary);
-		padding: 4px 6px;
-		border-radius: var(--b-radius);
+		flex: 1 1 auto;
+		min-width: 0;
 	}
+
 	&__avatar {
 		border-radius: 50%;
 	}
@@ -116,6 +125,17 @@
 	&__title {
 		font-weight: 600;
 		font-size: 0.95rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__logout {
+		padding-inline: 6px;
+
+		.material-icons {
+			color: var(--c-text-primary);
+		}
 	}
 
 	&__hr {
@@ -204,6 +224,7 @@
 			inline-size: 100%;
 			padding-inline: var(--pad);
 		}
+
 		&__menu {
 			justify-content: space-around;
 		}
@@ -215,7 +236,9 @@
 			block-size: 100dvh;
 		}
 
-		&__topbar + &__main {
+		/* reserve space for bottom bar on mobile */
+		&__main {
+			margin-bottom: 56px;
 			padding-block-start: var(--pad);
 			padding-block-end: calc(var(--pad-md) + var(--topbar-h));
 		}

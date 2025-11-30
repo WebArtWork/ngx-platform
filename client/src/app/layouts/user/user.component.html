@@ -30,28 +30,46 @@
 			<span class="material-icons">close</span>
 		</button>
 
-		<a
-			(click)="isOpen() && burger.toggle()"
-			class="user__drawer-header"
-			routerLink="/profile"
-		>
-			<img
-				[src]="userService.thumb()"
-				alt=""
-				class="user__avatar user__avatar--sm"
-				height="32"
-				width="32"
-			/>
-			<span class="user__title" translate>Profile</span>
-		</a>
+		<div class="user__drawer-header">
+			<a
+				(click)="isOpen() && burger.toggle()"
+				class="user__drawer-profile"
+				routerLink="/profile"
+			>
+				<img
+					[src]="userService.thumb()"
+					alt=""
+					class="user__avatar user__avatar--sm"
+					height="32"
+					width="32"
+				/>
+				<span class="user__title" translate>Profile</span>
+			</a>
+
+			<wbutton
+				class="user__iconbtn user__logout"
+				type="link"
+				aria-label="Logout"
+				(click)="userService.logout(); isOpen() && burger.toggle()"
+			>
+				<span class="material-icons">logout</span>
+			</wbutton>
+		</div>
 
 		<hr class="user__hr" />
 
 		@if (userService.role('admin')) {
 		<material-icon
 			routerLink="/admin/users"
-			icon="people"
+			icon="manage_accounts"
 			name="Users"
+			(click)="isOpen() && burger.toggle()"
+		></material-icon>
+
+		<material-icon
+			routerLink="/admin/clients"
+			icon="people"
+			name="Clients"
 			(click)="isOpen() && burger.toggle()"
 		></material-icon>
 

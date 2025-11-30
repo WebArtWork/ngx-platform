@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
+import { ButtonComponent } from '@lib/button';
 import { BurgerComponent } from 'src/app/icons/burger/burger.component';
 import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
 import { LanguageService } from 'src/app/modules/translate/services/language.service';
@@ -25,6 +26,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 		TitleCasePipe,
 		RouterLink,
 		TranslateDirective,
+		ButtonComponent,
 	],
 })
 export class UserComponent {

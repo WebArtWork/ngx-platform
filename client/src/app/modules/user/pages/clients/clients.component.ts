@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
-import { TranslateService } from 'src/app/libs/translate/translate.service';
-import { AlertService, CoreService } from 'wacom';
+import { CrudComponent } from 'wacom';
 import { userFormComponents } from '../../formcomponents/user.formcomponents';
 import { User } from '../../interfaces/user.interface';
 import { UserService } from '../../services/user.service';
@@ -14,92 +13,34 @@ import { UserService } from '../../services/user.service';
 	templateUrl: './clients.component.html',
 	styleUrls: ['./clients.component.scss'],
 })
-export class ClientsComponent {
-	private _translate = inject(TranslateService);
-	private _userService = inject(UserService);
-	private _alertService = inject(AlertService);
-	private _core = inject(CoreService);
-	private _form = inject(FormService);
+export class ClientsComponent extends CrudComponent<
+	UserService,
+	User,
+	FormInterface
+> {
+	/** Use server-side pagination for clients */
+	protected override configType: 'server' | 'local' = 'server';
 
+	/** Basic columns for clients table */
 	columns = ['name', 'email'];
 
-	form: FormInterface = this._form.form(userFormComponents);
+	/** wtable config built by CrudComponent, aware of server mode */
+	config = this.getConfig();
 
-	users: User[] = [];
-
-	private _page = 1;
-
-	setUsers(page = this._page) {
-		this._page = page;
-
-		this._core.afterWhile(
-			this,
-			() => {
-				this._userService.get({ page }).subscribe((users) => {
-					this.users.splice(0, this.users.length);
-
-					this.users.push(...users);
-				});
-			},
-			250,
-		);
+	protected override allowUrl(): boolean {
+		// no URL-driven filters for now, same as UsersComponent
+		return false;
 	}
 
-	config = {
-		paginate: this.setUsers.bind(this),
-		perPage: 20,
-		setPerPage: this._userService.setPerPage.bind(this._userService),
-		allDocs: false,
-		create: () => {
-			this._form
-				.modal<User>(this.form, {
-					label: 'Create',
-					click: (created: unknown, close: () => void) => {
-						this._userService.create(created as User, {
-							alert: 'Client has been created',
-							callback: () => {
-								this.setUsers();
-								close();
-							},
-						});
-					},
-				})
-				.then(this._userService.create.bind(this));
-		},
-		update: (doc: User) => {
-			this._form.modal<User>(this.form, [], doc).then((updated: User) => {
-				this._core.copy(updated, doc);
+	constructor(
+		_userService: UserService,
+		_form: FormService,
+		_formService: FormService,
+	) {
+		// 'user' docType reuses existing user form components
+		super(userFormComponents, _form, _userService, 'user');
 
-				this._userService.update(doc, {
-					alert: 'Client has been updated',
-				});
-			});
-		},
-		delete: (user: User) => {
-			this._alertService.question({
-				text: 'Are you sure you want to delete this client?',
-				buttons: [
-					{
-						text: 'No',
-					},
-					{
-						text: 'Yes',
-						callback: () => {
-							this._userService.delete(user, {
-								name: 'admin',
-								alert: 'Client has been deleted',
-								callback: () => {
-									this.setUsers();
-								},
-							});
-						},
-					},
-				],
-			});
-		},
-	};
-
-	constructor() {
-		this.setUsers();
+		// fetch first page from server using CrudComponent logic
+		this.setDocuments();
 	}
 }
