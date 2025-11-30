@@ -1,3 +1,4 @@
+import { CrudDocument } from 'wacom';
 import { FormComponentInterface } from './component.interface';
 
 export interface FormInterface {
@@ -10,4 +11,8 @@ export interface FormInterface {
 
 	/** Schema tree */
 	components: FormComponentInterface[];
+}
+
+export interface Form extends CrudDocument<Form> {
+	name: string;
 }

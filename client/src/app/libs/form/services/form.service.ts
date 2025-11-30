@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { form as buildSignalForm, required } from '@angular/forms/signals';
 import { environment } from 'src/environments/environment';
-import { StoreService } from 'wacom';
+import { CrudService, StoreService } from 'wacom';
 
 import { FormComponentInterface } from '../interfaces/component.interface';
-import { FormInterface } from '../interfaces/form.interface';
+import { Form, FormInterface } from '../interfaces/form.interface';
 import { ModalFormComponent } from '../modals/modal-form/modal-form.component';
 import { ModalUniqueComponent } from '../modals/modal-unique/modal-unique.component';
 
@@ -32,7 +32,7 @@ export interface JsonSignalForm {
 }
 
 @Injectable({ providedIn: 'root' })
-export class FormService {
+export class FormService extends CrudService<Form> {
 	private _modalService = inject(ModalService);
 	private _storeService = inject(StoreService);
 	private _injector = inject(Injector);
@@ -41,10 +41,16 @@ export class FormService {
 	readonly appId = (environment as unknown as { appId: string }).appId;
 
 	constructor() {
+		super({
+			name: 'form',
+		});
+
 		// restore known form IDs
 		this._storeService.getJson('formIds', (formIds: unknown) => {
 			if (Array.isArray(formIds)) this.formIds.push(...formIds);
 		});
+
+		this.get();
 	}
 
 	/* --------------------------------------------------------------------------------------
