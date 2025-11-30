@@ -288,8 +288,9 @@
 						<div class="wtable__pagination">
 							<wbutton
 								class="wtable__arrow wtable__arrow--start"
+								[isMultipleClicksAllowed]="true"
 								[disabled]="_cfg.page === 1"
-								(wClick)="_cfg.page = 1"
+								(wClick)="firstPage()"
 							>
 								<span class="material-icons">
 									keyboard_double_arrow_left
@@ -298,6 +299,7 @@
 
 							<wbutton
 								class="wtable__arrow wtable__arrow--left"
+								[isMultipleClicksAllowed]="true"
 								[disabled]="_cfg.page === 1"
 								(wClick)="previous()"
 							>
@@ -308,6 +310,7 @@
 
 							<wbutton
 								class="wtable__arrow wtable__arrow--right"
+								[isMultipleClicksAllowed]="true"
 								[disabled]="_cfg.page * _cfg.perPage >
 									normalizedRows.length"
 								(wClick)="next()"
@@ -319,6 +322,7 @@
 
 							<wbutton
 								class="wtable__arrow wtable__arrow--end"
+								[isMultipleClicksAllowed]="true"
 								[disabled]="isLast()"
 								(wClick)="lastPage()"
 							>
@@ -331,6 +335,7 @@
 						<div class="wtable__pagination">
 							<wbutton
 								class="wtable__arrow wtable__arrow--left"
+								[isMultipleClicksAllowed]="true"
 								[disabled]="_cfg.page === 1"
 								(wClick)="previous()"
 							>
@@ -342,6 +347,7 @@
 							<wbutton
 								class="wtable__arrow wtable__arrow--right"
 								[disabled]="normalizedRows.length === 0"
+								[isMultipleClicksAllowed]="true"
 								(wClick)="next()"
 							>
 								<span class="material-icons">

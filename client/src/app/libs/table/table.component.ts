@@ -105,7 +105,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		});
 	}
 
-	ngOnInit(): void {
+	ngOnInit() {
 		this.default_config();
 
 		// normalize string columns => { title, field }
@@ -122,7 +122,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		});
 	}
 
-	default_config(): void {
+	default_config() {
 		const cfg = this.config();
 
 		if (!cfg.pageSizeOptions) cfg.pageSizeOptions = [1, 10, 20, 50];
@@ -132,7 +132,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		if (typeof cfg.allDocs !== 'boolean') cfg.allDocs = true;
 	}
 
-	ngAfterContentInit(): void {
+	ngAfterContentInit() {
 		const sortDirs = this._sortDirs();
 		for (const dir of sortDirs) this.sortable[dir.sort() as string] = true;
 
@@ -144,11 +144,11 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this.editForm = this._editFormDir() ?? undefined;
 	}
 
-	refresh(): void {
+	refresh() {
 		this.now = Date.now();
 	}
 
-	searching(): void {
+	searching() {
 		setTimeout(() => {
 			if (!this.config().globalSearch)
 				this.filter_filter = this.searching_text;
@@ -158,7 +158,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this._search_timeout = setTimeout(this.searching.bind(this), 2000);
 	}
 
-	search(): void {
+	search() {
 		clearTimeout(this._search_timeout);
 		setTimeout(() => {
 			if (!this.config().globalSearch)
@@ -168,7 +168,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this.onSearch.emit(this.searching_text);
 	}
 
-	next(): void {
+	next() {
 		const cfg = this.config();
 		const rows = this.normalizedRows;
 
@@ -189,7 +189,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this.refresh();
 	}
 
-	previous(): void {
+	previous() {
 		const cfg = this.config();
 
 		if (cfg.page <= 1) return;
@@ -204,7 +204,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this.refresh();
 	}
 
-	changePerPage(row: number): void {
+	changePerPage(row: number) {
 		const cfg = this.config();
 
 		cfg.perPage = row;
@@ -231,12 +231,23 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this.refresh();
 	}
 
-	lastPage(): void {
+	firstPage() {
+		const cfg = this.config();
+		const rows = this.normalizedRows;
+
+		if (!rows || !rows.length || cfg.perPage <= 0) return;
+
+		cfg.page = 1;
+		this.refresh();
+	}
+
+	lastPage() {
 		const cfg = this.config();
 		const rows = this.normalizedRows;
 
 		if (!rows || !rows.length || cfg.perPage <= 0) return;
 		cfg.page = Math.ceil(rows.length / cfg.perPage);
+		this.refresh();
 	}
 
 	isLast(): boolean {
@@ -249,7 +260,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		return cfg.page >= Math.ceil(rows.length / cfg.perPage);
 	}
 
-	sort(column: any): void {
+	sort(column: any) {
 		if (this.sort_type.title !== column.field) this.sort_type = {};
 
 		if (this.sortable[column.field]) {
