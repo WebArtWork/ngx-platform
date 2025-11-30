@@ -112,10 +112,8 @@
 		</thead>
 
 		<tbody class="wtable__tbody">
-			@let _cfg = config(); @for (row of _cfg.allDocs ? (normalizedRows |
-			search : filter_filter : (_cfg.searchBy || 'title') | perPage : _cfg
-			: sort_type : (filter_filter + now)) : normalizedRows; track
-			row[bindValue()] ) {
+			@let _cfg = config(); @for (row of _cfg.allDocs ? paginatedRows() :
+			normalizedRows(); track row[bindValue()] ) {
 			<tr>
 				@if (_cfg.num) {
 				<td>{{ row.num }}</td>
@@ -123,10 +121,7 @@
 				(custom_cell[column.field]) {
 				<td [attr.data-label]="column.title + ': '">
 					<ng-container
-						*ngTemplateOutlet="
-							custom_cell[column.field];
-							context: { $implicit: row }
-						"
+						*ngTemplateOutlet="custom_cell[column.field]; context: { $implicit: row }"
 					></ng-container>
 				</td>
 				} @else {
@@ -271,16 +266,12 @@
 							<div class="wtable__perpage-result">
 								<span>
 									{{ ((_cfg.page - 1) * _cfg.perPage) + 1 }} -
-									{{ (_cfg.page * _cfg.perPage >
-									normalizedRows.length &&
-									normalizedRows.length) || (_cfg.page *
+									{{ (_cfg.page * _cfg.perPage > totalCount()
+									&& totalCount()) || (_cfg.page *
 									_cfg.perPage) }}
 								</span>
 								<span> of </span>
-								<span>
-									{{ (normalizedRows | search : searching_text
-									: (_cfg.searchBy || 'title')) ?.length }}
-								</span>
+								<span> {{ totalCount() }} </span>
 							</div>
 							}
 						</div>
@@ -290,7 +281,8 @@
 								class="wtable__arrow wtable__arrow--start"
 								[isMultipleClicksAllowed]="true"
 								[disabled]="_cfg.page === 1"
-								(wClick)="firstPage()"
+								(wClick)="firstPage()
+								"
 							>
 								<span class="material-icons">
 									keyboard_double_arrow_left
@@ -312,7 +304,7 @@
 								class="wtable__arrow wtable__arrow--right"
 								[isMultipleClicksAllowed]="true"
 								[disabled]="_cfg.page * _cfg.perPage >
-									normalizedRows.length"
+									totalCount()"
 								(wClick)="next()"
 							>
 								<span class="material-icons">
@@ -346,7 +338,7 @@
 
 							<wbutton
 								class="wtable__arrow wtable__arrow--right"
-								[disabled]="normalizedRows.length === 0"
+								[disabled]="normalizedRows().length === 0"
 								[isMultipleClicksAllowed]="true"
 								(wClick)="next()"
 							>
