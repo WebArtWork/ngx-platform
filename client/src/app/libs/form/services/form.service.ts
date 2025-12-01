@@ -47,7 +47,7 @@ export class FormService extends CrudService<Form> {
 
 		// restore known form IDs
 		this._storeService.getJson('formIds', (formIds: unknown) => {
-			if (Array.isArray(formIds)) this.formIds.push(...formIds);
+			if (Array.isArray(formIds)) this.formIds.set(formIds);
 		});
 
 		this.get({
@@ -118,7 +118,8 @@ export class FormService extends CrudService<Form> {
 	   Public state
 	   -------------------------------------------------------------------------------------- */
 	forms: FormInterface[] = [];
-	formIds: string[] = [];
+
+	formIds = signal<string[]>([]);
 
 	/** Internal registry: formId -> Signal Form instance */
 	private _signalForms = new Map<string, JsonSignalForm>();
@@ -413,12 +414,15 @@ export class FormService extends CrudService<Form> {
 
 	private _rememberFormId(formId: string) {
 		if (!formId) return;
-		console.log(formId);
 
-		if (!this.formIds.includes(formId)) {
-			this.formIds.push(formId);
+		if (!this.formIds().includes(formId)) {
+			this.formIds.update((formIds) => {
+				formIds.push(formId);
 
-			this._storeService.setJson('formIds', this.formIds);
+				return formIds;
+			});
+
+			this._storeService.setJson('formIds', this.formIds());
 		}
 	}
 }

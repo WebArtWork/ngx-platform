@@ -143,6 +143,19 @@ export const routes: Routes = [
 					),
 			},
 			{
+				path: 'form/:formId',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Forms',
+					},
+				},
+				loadChildren: () =>
+					import('./libs/form/pages/form/form.routes').then(
+						(m) => m.routes,
+					),
+			},
+			{
 				path: 'translates',
 				canActivate: [MetaGuard],
 				data: {

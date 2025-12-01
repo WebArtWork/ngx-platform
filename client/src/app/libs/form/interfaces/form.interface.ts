@@ -14,5 +14,6 @@ export interface FormInterface {
 }
 
 export interface Form extends CrudDocument<Form> {
-	name: string;
+	title: string;
+	formId: string;
 }

@@ -1,5 +1,7 @@
 // import { VirtualValidatorFn } from 'src/app/virtual-form.service';
 
+import { CrudDocument } from 'wacom';
+
 /** Use props instead of array fields */
 export interface FormComponentInterface {
 	/** Container/grouping */
@@ -41,4 +43,12 @@ export interface TemplateFieldInterface {
 export interface TemplateComponentInterface {
 	name: string;
 	component: unknown;
+}
+
+export interface Formcomponent extends CrudDocument<Formcomponent> {
+	formId: string;
+	name: string;
+	key: string;
+	props: Record<string, unknown>;
+	components: string[];
 }

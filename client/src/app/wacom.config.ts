@@ -1,4 +1,5 @@
 import { environment } from '@env';
+import { DEFAULT_NETWORK_CONFIG } from 'wacom';
 
 export const wacomConfig = {
 	store: {},
@@ -6,6 +7,12 @@ export const wacomConfig = {
 		url: environment.url,
 	},
 	socket: environment.production,
+	network: environment.production
+		? DEFAULT_NETWORK_CONFIG
+		: {
+				...DEFAULT_NETWORK_CONFIG,
+				endpoints: ['http://localhost:4200/status'],
+			},
 	meta: {
 		warnMissingGuard: false,
 		useTitleSuffix: true,

@@ -1,14 +1,14 @@
-export const formFormComponents = {
+export const formForm = {
 	formId: 'form',
 	title: 'Form',
 	components: [
 		{
 			name: 'Input',
-			key: 'name',
+			key: 'title',
 			focused: true,
 			props: {
-				placeholder: 'Enter name...',
-				label: 'Name',
+				placeholder: 'Enter form title...',
+				label: 'Title',
 			},
 		},
 	],

@@ -1,10 +1,15 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	effect,
 	inject,
 	signal,
 } from '@angular/core';
+import { environment } from '@env';
+import { formForm } from '@lib/form/forms/form.form';
+import { Phrase } from '@module/translate';
 import { TableComponent } from '../../../../libs/table/table.component';
+import { Form } from '../../interfaces/form.interface';
 import { FormService } from '../../services/form.service';
 
 @Component({
@@ -15,13 +20,65 @@ import { FormService } from '../../services/form.service';
 export class FormsComponent {
 	private _formService = inject(FormService);
 
-	columns: string[] = ['name'];
+	columns: string[] = ['formId', 'title'];
 
-	config = {};
+	config = {
+		buttons: [
+			{
+				icon: 'edit',
+				click: (form: Form) => {
+					this._formService.modal<Phrase>(
+						formForm,
+						{
+							label: 'Update',
+							click: async (
+								updated: unknown,
+								close: () => void,
+							) => {
+								close();
 
-	documents = signal([]);
+								if (form._id) {
+									this._formService.update(updated as Form);
+								} else {
+									this._formService
+										.create({
+											...(updated as Form),
+											appId: environment.appId,
+										})
+										.subscribe((created) => {
+											form._id = created._id;
+										});
+								}
+							},
+						},
+						form,
+					);
+				},
+			},
+			{
+				icon: 'build',
+				hrefFunc: (form: Form) => {
+					return '/admin/form/' + form.formId;
+				},
+			},
+		],
+	};
+
+	documents = signal<Form[]>([]);
 
 	constructor() {
-		console.log(this._formService);
+		effect(() => {
+			// TODO need to add here signal use of document, so we call effect on document update too
+			this.documents.set(
+				this._formService.formIds().map((formId) => {
+					return {
+						formId,
+						...(this._formService.getDoc((doc: Form) => {
+							return doc.formId === formId;
+						}) || {}),
+					} as Form;
+				}),
+			);
+		});
 	}
 }

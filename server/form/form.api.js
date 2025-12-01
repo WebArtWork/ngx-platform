@@ -1,4 +1,8 @@
 module.exports = async function (waw) {
+	waw.app.get("/status", (req, res) => {
+		res.status(200).send(true);
+	});
+
 	const crud = {
 		create: {
 			ensure: waw.role("admin", (req, res, next) => {
