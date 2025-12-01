@@ -50,7 +50,9 @@ export class FormService extends CrudService<Form> {
 			if (Array.isArray(formIds)) this.formIds.push(...formIds);
 		});
 
-		this.get();
+		this.get({
+			query: 'appId=' + environment.appId,
+		});
 	}
 
 	/* --------------------------------------------------------------------------------------
@@ -163,9 +165,13 @@ export class FormService extends CrudService<Form> {
 		form: FormInterface,
 		initial?: Record<string, unknown>,
 	): JsonSignalForm {
+		if (form.formId) {
+			this._rememberFormId(form.formId);
+		}
+
 		const id = (form.formId as string) || crypto.randomUUID();
+
 		form.formId = id;
-		this._rememberFormId(id);
 
 		const existing = this._signalForms.get(id);
 		if (existing) {
@@ -407,8 +413,11 @@ export class FormService extends CrudService<Form> {
 
 	private _rememberFormId(formId: string) {
 		if (!formId) return;
+		console.log(formId);
+
 		if (!this.formIds.includes(formId)) {
 			this.formIds.push(formId);
+
 			this._storeService.setJson('formIds', this.formIds);
 		}
 	}

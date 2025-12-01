@@ -16,8 +16,7 @@
 	"modules": {
 		"wjst": "waw",
 		"core": "waw",
-		"sem": "waw",
-		"form": "waw"
+		"sem": "waw"
 	},
 	"wjst": {
 		"templates": [

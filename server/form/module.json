@@ -1,0 +1,11 @@
+{
+	"repo": "https://github.com/WebArtWork/waw-form.git",
+    "name": "Form",
+    "crud": {
+        "update": {
+            "keys": ["title", "formId", "active", "components"]
+        },
+        "delete": [""]
+    },
+    "dependencies": {}
+}

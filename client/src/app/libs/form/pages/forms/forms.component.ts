@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { formFormComponents } from '@lib/form/formcomponents/form.formcomponents';
 import {
-	Form,
-	FormInterface,
-} from 'src/app/libs/form/interfaces/form.interface';
-import { CrudComponent } from 'wacom';
+	ChangeDetectionStrategy,
+	Component,
+	inject,
+	signal,
+} from '@angular/core';
 import { TableComponent } from '../../../../libs/table/table.component';
 import { FormService } from '../../services/form.service';
 
@@ -13,27 +12,16 @@ import { FormService } from '../../services/form.service';
 	imports: [TableComponent],
 	templateUrl: './forms.component.html',
 })
-export class FormsComponent extends CrudComponent<
-	FormService,
-	Form,
-	FormInterface
-> {
-	// local pagination (we assume forms count is manageable)
-	protected override configType: 'server' | 'local' = 'local';
+export class FormsComponent {
+	private _formService = inject(FormService);
 
 	columns: string[] = ['name'];
 
-	config = this.getConfig();
+	config = {};
 
-	protected override allowUrl(): boolean {
-		return false;
-	}
+	documents = signal([]);
 
-	constructor(_formService: FormService, _form: FormService) {
-		super(formFormComponents, _form, _formService, 'form');
-
-		this.setDocuments();
-
-		console.log(_formService);
+	constructor() {
+		console.log(this._formService);
 	}
 }
