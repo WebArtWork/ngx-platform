@@ -80,7 +80,10 @@ export class FormsComponent {
 
 	constructor() {
 		effect(() => {
-			// TODO need to add here signal use of document, so we call effect on document update too
+			const docs = this._formService.getFieldSignals('formId');
+
+			console.log(docs());
+
 			this.documents.set(
 				this._formService.formIds().map((formId) => {
 					return {
