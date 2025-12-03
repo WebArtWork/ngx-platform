@@ -8,6 +8,11 @@
 	padding: 0 0 16px;
 	position: relative;
 
+	.material-icons,
+	.material-symbols-outlined {
+		color: var(--c-text-primary);
+	}
+
 	@media (max-width: 991px) {
 		padding-left: 10px;
 		padding-right: 10px;

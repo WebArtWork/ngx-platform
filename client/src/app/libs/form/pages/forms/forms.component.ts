@@ -38,7 +38,14 @@ export class FormsComponent {
 								close();
 
 								if (form._id) {
-									this._formService.update(updated as Form);
+									this._formService
+										.update(updated as Form)
+										.subscribe(() => {
+											// TODO this should be removed and managed by effect only from form service
+											this._formService.formIds.set(
+												this._formService.formIds(),
+											);
+										});
 								} else {
 									this._formService
 										.create({
@@ -46,7 +53,12 @@ export class FormsComponent {
 											appId: environment.appId,
 										})
 										.subscribe((created) => {
+											// TODO this should be removed and managed by effect only from form service
 											form._id = created._id;
+
+											this._formService.formIds.set(
+												this._formService.formIds(),
+											);
 										});
 								}
 							},
