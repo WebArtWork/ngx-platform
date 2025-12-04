@@ -1,5 +1,6 @@
 <ng-template #templateRef let-data>
 	<wselect
+		[field]="data.field"
 		[items]="data.props.items ?? selectDefaults.items"
 		[placeholder]="
 			data.props.placeholder ?? selectDefaults.placeholder
@@ -17,12 +18,6 @@
 		[disabled]="
 			data.props.disabled === true ||
 			data.component.disabled === true
-		"
-		[formId]="data.props.formId ?? selectDefaults.formId"
-		[formKey]="
-			data.props.formKey ??
-			data.props.key ??
-			selectDefaults.formKey
 		"
 		(wChange)="data.props.onChange?.($event)"
 	></wselect>

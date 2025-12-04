@@ -15,7 +15,6 @@ import {
 	signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-// import { VirtualFormService } from 'src/app/virtual-form.service';
 import { ClickOutsideDirective, CoreService, SearchPipe } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
@@ -76,10 +75,6 @@ export class SelectComponent implements ControlValueAccessor {
 		read: TemplateRef<unknown>,
 	});
 
-	/** Virtual Form */
-	readonly formId = input<string | null>(selectDefaults.formId);
-	readonly formKey = input<string | null>(selectDefaults.formKey);
-
 	/** Two-way model (single source of truth) */
 	readonly wModel = model<SelectValue>(null, { alias: 'wModel' });
 
@@ -88,7 +83,6 @@ export class SelectComponent implements ControlValueAccessor {
 
 	/* ===== Internal state ===== */
 	private readonly _core = inject(CoreService);
-	// private readonly _vform = inject(VirtualFormService);
 
 	/** quick id->label map for header rendering */
 	readonly allItem: Record<SelectId, string> = {};
@@ -214,25 +208,6 @@ export class SelectComponent implements ControlValueAccessor {
 					this.wModel.set(null);
 				}
 			}
-		});
-
-		/* Virtual Form <-> wModel sync (with guard) */
-		let syncing = false;
-
-		effect(() => {
-			const id = this.formId();
-			const key = this.formKey();
-			if (!id || !key) return;
-
-			// VF → wModel sync spot (kept commented for now)
-		});
-
-		effect(() => {
-			const id = this.formId();
-			const key = this.formKey();
-			if (!id || !key) return;
-
-			// wModel → VF sync spot (kept commented for now)
 		});
 
 		/* propagate to CVA + legacy output */

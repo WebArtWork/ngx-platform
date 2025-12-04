@@ -12,6 +12,4 @@ export const selectDefaults = {
 	searchableBy: 'name',
 	items: [] as unknown[],
 	buttons: [] as SelectButton[],
-	formId: null as string | null,
-	formKey: null as string | null,
 };

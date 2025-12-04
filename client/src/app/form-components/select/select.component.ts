@@ -5,13 +5,14 @@ import {
 	TemplateRef,
 	ViewChild,
 } from '@angular/core';
+import { Field } from '@angular/forms/signals';
 import { FormService } from '@lib/form';
 import { SelectComponent, selectDefaults } from '@lib/select';
 
 interface SelectTemplateContext {}
 
 @Component({
-	imports: [SelectComponent],
+	imports: [SelectComponent, Field],
 	templateUrl: './select.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })

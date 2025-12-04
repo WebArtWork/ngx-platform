@@ -45,10 +45,8 @@ export class FormComponent extends CrudComponent<
 		_formcomponentService: FormcomponentService,
 		_formService: FormService,
 	) {
-		// 'user' docType reuses existing user form components
 		super(formcomponentForm, _formService, _formcomponentService, 'user');
 
-		// fetch first page from server using CrudComponent logic
 		this.setDocuments();
 	}
 }

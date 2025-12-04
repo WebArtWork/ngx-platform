@@ -9,7 +9,7 @@ A lightweight, signal-driven select with:
 - search
 - custom templates
 - `[(wModel)]` two-way binding
-- Virtual Form integration via `formId` + `formKey`
+- Signal Forms support via `[field]`
 - Full Angular Forms (CVA) support
 
 ## Install
@@ -34,14 +34,27 @@ export class DemoComponent {}
 
 ---
 
-### 1️⃣ Template-Driven Form
+### 1️⃣ Signal Forms (`[field]`)
+
+```html
+<form>
+	<wselect
+		[field]="form.assignee"
+		[items]="users"
+		bindLabel="name"
+		bindValue="_id"
+	></wselect>
+</form>
+```
+
+### 2️⃣ Template-Driven Form
 
 ```html
 <wselect [items]="users" bindLabel="name" bindValue="_id" [(wModel)]="assignee">
 </wselect>
 ```
 
-### 2️⃣ Reactive Form
+### 3️⃣ Reactive Form (CVA)
 
 ```html
 <wselect
@@ -52,22 +65,6 @@ export class DemoComponent {}
 >
 </wselect>
 ```
-
-### 3️⃣ Virtual Form
-
-```html
-<wselect
-	[items]="users"
-	bindLabel="fullName"
-	bindValue="_id"
-	placeholder="Choose user"
-	[formId]="formId"
-	[formKey]="'assigneeId'"
->
-</wselect>
-```
-
-> When `formId` + `formKey` are provided, the component syncs with `VirtualFormService` (registers the field, updates value on change/patch, etc.).
 
 ## Search
 
@@ -121,11 +118,10 @@ export class DemoComponent {}
 - `disabled: boolean`
 - `searchable: boolean`
 - `searchableBy: string` (space-separated paths)
+- `buttons: SelectButton[]`
 - `t_view: TemplateRef`
 - `t_item: TemplateRef`
 - `t_search: TemplateRef`
-- `formId?: string` — Virtual Form id
-- `formKey?: string` — Virtual Form field key
 
 ### Two-way
 
@@ -137,5 +133,5 @@ export class DemoComponent {}
 
 ## Notes
 
-- Priority of value sources: **VirtualForm** (`formId` + `formKey`) → `[(wModel)]` → Angular Forms (CVA).
-- Works seamlessly inside WAW `wform` flows alongside `winput`.
+- With Signal Forms, use `[field]="form.myField"` on `<wselect>`. `Field` will bind through `ControlValueAccessor` (no extra wiring needed).
+- Without Signal Forms, use `[(wModel)]`, `formControlName`, or `ngModel` as usual.

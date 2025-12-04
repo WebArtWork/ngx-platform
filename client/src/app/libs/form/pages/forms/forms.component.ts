@@ -70,7 +70,7 @@ export class FormsComponent {
 				this._formService.formIds().map((formId) => {
 					return {
 						formId,
-						...(byFormId[formId].length
+						...(byFormId[formId]?.length
 							? byFormId[formId][0]()
 							: {}),
 					} as Form;
