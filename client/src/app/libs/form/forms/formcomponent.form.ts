@@ -1,14 +1,17 @@
+import { items } from 'src/app/app.formcomponents';
+
 export const formcomponentForm = {
 	formId: 'form',
 	title: 'Form',
 	components: [
 		{
-			name: 'Input',
+			name: 'Select',
 			key: 'name',
 			focused: true,
 			props: {
 				placeholder: 'Enter form name...',
 				label: 'Name',
+				items,
 			},
 		},
 		{

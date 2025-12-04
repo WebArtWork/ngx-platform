@@ -38,28 +38,12 @@ export class FormsComponent {
 								close();
 
 								if (form._id) {
-									this._formService
-										.update(updated as Form)
-										.subscribe(() => {
-											// TODO this should be removed and managed by effect only from form service
-											this._formService.formIds.set(
-												this._formService.formIds(),
-											);
-										});
+									this._formService.update(updated as Form);
 								} else {
-									this._formService
-										.create({
-											...(updated as Form),
-											appId: environment.appId,
-										})
-										.subscribe((created) => {
-											// TODO this should be removed and managed by effect only from form service
-											form._id = created._id;
-
-											this._formService.formIds.set(
-												this._formService.formIds(),
-											);
-										});
+									this._formService.create({
+										...(updated as Form),
+										appId: environment.appId,
+									});
 								}
 							},
 						},
@@ -80,17 +64,15 @@ export class FormsComponent {
 
 	constructor() {
 		effect(() => {
-			const docs = this._formService.getFieldSignals('formId');
-
-			console.log(docs());
+			const byFormId = this._formService.getFieldSignals('formId')();
 
 			this.documents.set(
 				this._formService.formIds().map((formId) => {
 					return {
 						formId,
-						...(this._formService.getDoc((doc: Form) => {
-							return doc.formId === formId;
-						}) || {}),
+						...(byFormId[formId].length
+							? byFormId[formId][0]()
+							: {}),
 					} as Form;
 				}),
 			);

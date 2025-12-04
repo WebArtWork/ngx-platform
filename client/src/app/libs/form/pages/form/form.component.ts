@@ -19,15 +19,21 @@ export class FormComponent extends CrudComponent<
 	Formcomponent,
 	FormInterface
 > {
+	private _router = inject(Router);
+
+	readonly formId = this._router.url.split('form/')[1];
+
 	protected override configType: 'server' | 'local' = 'local';
 
 	protected override preCreate(doc: Formcomponent): void {
-		doc.formId = this._router.url.split('form/')[1];
+		doc.formId = this.formId;
 
 		doc.appId = environment.appId;
 	}
 
-	private _router = inject(Router);
+	protected override localDocumentsFilter = (doc: Formcomponent) => {
+		return doc.formId === this.formId;
+	};
 
 	/** Basic columns for clients table */
 	columns = ['name', 'key'];

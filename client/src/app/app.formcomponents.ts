@@ -14,6 +14,8 @@ import { SelectFormComponent } from './form-components/select/select.component';
 import { TinymceFormComponent } from './form-components/tinymce/tinymce.component';
 /* componnets */
 
+export const items = ['Input', 'Select', 'File', 'Button', 'Ace', 'Tinymce'];
+
 /**
  * Central registry: template name → component class.
  * Names must match `component.name` in form schema (e.g. `{ name: 'Input', ... }`)
