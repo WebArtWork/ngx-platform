@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { environment } from '@env';
+import { formForm } from '@lib/form/forms/form.form';
 import { TableComponent } from '@lib/table';
+import { Phrase } from '@module/translate';
 import { CrudComponent } from 'wacom';
 import { formcomponentForm } from '../../forms/formcomponent.form';
 import { Formcomponent } from '../../interfaces/component.interface';
@@ -25,7 +28,7 @@ export class FormComponent extends CrudComponent<
 
 	protected override configType: 'server' | 'local' = 'local';
 
-	protected override preCreate(doc: Formcomponent): void {
+	protected override preCreate(doc: Formcomponent) {
 		doc.formId = this.formId;
 
 		doc.appId = environment.appId;
@@ -34,6 +37,10 @@ export class FormComponent extends CrudComponent<
 	protected override localDocumentsFilter = (doc: Formcomponent) => {
 		return doc.formId === this.formId;
 	};
+
+	protected override allowUrl() {
+		return false;
+	}
 
 	/** Basic columns for clients table */
 	columns = ['name', 'key'];
@@ -47,6 +54,33 @@ export class FormComponent extends CrudComponent<
 	) {
 		super(formcomponentForm, _formService, _formcomponentService, 'user');
 
-		this.setDocuments();
+		_formcomponentService.loaded.subscribe(() => {
+			this.setDocuments();
+		});
+
+		this.config.buttons.unshift({
+			icon: 'settings',
+			click: () => {
+				_formService.modal<Phrase>(
+					formForm,
+					{
+						label: 'Update',
+						click: async (updated: unknown, close: () => void) => {
+							close();
+
+							// if (form._id) {
+							// 	_formService.update(updated as Form);
+							// } else {
+							// 	_formService.create({
+							// 		...(updated as Form),
+							// 		appId: environment.appId,
+							// 	});
+							// }
+						},
+					},
+					form,
+				);
+			},
+		});
 	}
 }
