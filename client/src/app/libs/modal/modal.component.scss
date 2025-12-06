@@ -43,7 +43,7 @@
 	&__body {
 		flex: 1 1 auto;
 		min-block-size: 0;
-		overflow: auto;
+		overflow: auto; // keep global modal scroll
 		padding: var(--sp-4);
 		/* extra space on the right so content never touches the close icon */
 		padding-inline-end: calc(var(--sp-4) + 3rem);
@@ -51,7 +51,7 @@
 
 	&__close {
 		position: absolute;
-		inset-block-start: var(--sp-2);
+		inset-block-start: var(--sp-3); // a bit more air for the cross
 		inset-inline-end: var(--sp-2);
 		border: 0;
 		background: transparent;

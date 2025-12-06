@@ -11,6 +11,7 @@ import {
 	WritableSignal,
 } from '@angular/core';
 
+import { FormcomponentService } from '@lib/form/services/formcomponent.service';
 import { CoreService } from 'wacom';
 import { FormComponentInterface } from '../../interfaces/component.interface';
 import { FormInterface } from '../../interfaces/form.interface';
@@ -25,8 +26,9 @@ import { FormComponentComponent } from '../form-component/form-component.compone
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormComponent {
-	private _core = inject(CoreService);
+	private _coreService = inject(CoreService);
 	private _formService = inject(FormService);
+	private _formcomponentService = inject(FormcomponentService);
 
 	readonly config = input.required<FormInterface>();
 	readonly submition = input<Record<string, unknown> | null>({});
@@ -41,7 +43,15 @@ export class FormComponent {
 
 	/** Filtered by hidden flag */
 	readonly visibleComponents = computed<FormComponentInterface[]>(() =>
-		this._components().filter((c) => !c?.hidden),
+		this._components()
+			.filter((c) => !c?.hidden)
+			.concat(
+				this._formcomponentService
+					.components()
+					.filter(
+						(c) => c.formId === this.formId,
+					) as FormComponentInterface[],
+			),
 	);
 
 	/** Signal Form instance for this schema */
@@ -104,7 +114,11 @@ export class FormComponent {
 		const inst = this.instance();
 		const values = inst ? inst.model() : {};
 		// debounce a bit like old code did via CoreService
-		this._core.afterWhile(this, () => this.wChange.emit(values), 150);
+		this._coreService.afterWhile(
+			this,
+			() => this.wChange.emit(values),
+			150,
+		);
 	}
 
 	onClick(): void {

@@ -12,24 +12,23 @@
 		flex: 1 1 auto;
 		min-block-size: 0;
 
-		// reserve space so content never hides behind the sticky footer
-		padding-block-end: calc(var(--sp-4) + 4rem);
+		// reserve space so last fields don't go under the sticky footer
+		// ~ button height + spacing
+		padding-block-end: 6rem;
 	}
 
 	&__actions {
 		position: sticky;
-		inset-block-end: 0;
+
+		// stick to the *visual* bottom of the modal (into .wacom-modal__body padding-bottom)
+		inset-block-end: calc(-1 * var(--sp-4));
 
 		margin-top: var(--sp-4);
-		padding-top: var(--sp-3);
-		padding-bottom: var(--sp-2);
 
-		background: linear-gradient(
-			to bottom,
-			rgba(0, 0, 0, 0),
-			var(--c-bg-secondary) 40%,
-			var(--c-bg-secondary) 100%
-		);
+		padding-block-start: var(--sp-3);
+		padding-block-end: var(--sp-3);
+
+		background: var(--c-bg-secondary);
 
 		.w-btn {
 			width: 100%;

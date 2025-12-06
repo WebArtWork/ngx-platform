@@ -56,7 +56,10 @@ export class FormComponentComponent {
 	}
 
 	hasChildren(): boolean {
-		return Array.isArray(this.component().components);
+		return (
+			Array.isArray(this.component().components) &&
+			!!this.component().components?.length
+		);
 	}
 
 	effectiveKey(): string | null {
