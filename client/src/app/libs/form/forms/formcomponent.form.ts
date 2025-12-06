@@ -1,4 +1,4 @@
-import { items } from 'src/app/app.formcomponents';
+import { FORM_COMPONENTS } from 'src/app/app.formcomponents';
 
 export const formcomponentForm = {
 	formId: 'form',
@@ -11,7 +11,7 @@ export const formcomponentForm = {
 			props: {
 				placeholder: 'Enter form name...',
 				label: 'Name',
-				items,
+				items: FORM_COMPONENTS,
 			},
 		},
 		{

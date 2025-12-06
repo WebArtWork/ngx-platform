@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { form } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { environment } from '@env';
-import { formForm } from '@lib/form/forms/form.form';
 import { TableComponent } from '@lib/table';
 import { Phrase } from '@module/translate';
+import { FORM_COMPONENT_FORM } from 'src/app/app.formcomponents';
 import { CrudComponent } from 'wacom';
 import { formcomponentForm } from '../../forms/formcomponent.form';
 import { Formcomponent } from '../../interfaces/component.interface';
@@ -60,25 +59,23 @@ export class FormComponent extends CrudComponent<
 
 		this.config.buttons.unshift({
 			icon: 'settings',
-			click: () => {
+			click: (doc: Formcomponent) => {
 				_formService.modal<Phrase>(
-					formForm,
+					FORM_COMPONENT_FORM(doc.name),
 					{
 						label: 'Update',
 						click: async (updated: unknown, close: () => void) => {
 							close();
 
-							// if (form._id) {
-							// 	_formService.update(updated as Form);
-							// } else {
-							// 	_formService.create({
-							// 		...(updated as Form),
-							// 		appId: environment.appId,
-							// 	});
-							// }
+							doc.props = {
+								...doc.props,
+								...(updated as object),
+							};
+
+							_formcomponentService.update(doc);
 						},
 					},
-					form,
+					doc.props || {},
 				);
 			},
 		});

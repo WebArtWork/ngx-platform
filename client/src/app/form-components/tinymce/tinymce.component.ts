@@ -24,7 +24,6 @@ export class TinymceFormComponent implements OnInit {
 	templateRef!: TemplateRef<unknown>;
 
 	ngOnInit(): void {
-		// Register template under "Tinymce" name for JSON schema:
 		// { name: 'Tinymce', key: 'fieldName', props: { ... } }
 		this._form.addTemplateComponent('Tinymce', this.templateRef);
 	}
@@ -82,7 +81,121 @@ export class TinymceFormComponent implements OnInit {
 	// ---- Props helpers (all via component.props) -----------------------------
 
 	getConfig(data: any): any {
-		return (data.props?.config as any) ?? {};
+		const props = (data && data.props) || {};
+
+		const toNumber = (v: unknown): number | undefined => {
+			if (v === null || v === undefined || v === '') return undefined;
+			const n = Number(v);
+			return Number.isNaN(n) ? undefined : n;
+		};
+
+		// Base config from simple props
+		const config: any = {};
+
+		// Layout
+		const height = toNumber(props.height);
+		const minHeight = toNumber(props.minHeight);
+		const maxHeight = toNumber(props.maxHeight);
+		if (height !== undefined) config.height = height;
+		if (minHeight !== undefined) config.min_height = minHeight;
+		if (maxHeight !== undefined) config.max_height = maxHeight;
+
+		// Toggles
+		if (typeof props.menubar === 'boolean') {
+			config.menubar = props.menubar;
+		}
+		if (typeof props.statusbar === 'boolean') {
+			config.statusbar = props.statusbar;
+		}
+		if (typeof props.branding === 'boolean') {
+			config.branding = props.branding;
+		}
+		if (typeof props.pasteAsText === 'boolean') {
+			config.paste_as_text = props.pasteAsText;
+		}
+
+		// Toolbar presets
+		if (props.toolbarPreset) {
+			const preset = String(props.toolbarPreset);
+			const toolbarMap: Record<string, string> = {
+				basic: 'undo redo | bold italic underline | bullist numlist | link',
+				standard:
+					'undo redo | styles | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image table',
+				full: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table | forecolor backcolor | removeformat',
+			};
+			if (preset !== 'custom' && toolbarMap[preset]) {
+				config.toolbar = toolbarMap[preset];
+			}
+		}
+
+		// Plugins presets
+		if (props.pluginsPreset) {
+			const preset = String(props.pluginsPreset);
+			const pluginsMap: Record<string, string> = {
+				minimal: 'lists link',
+				standard: 'lists link image table code',
+				media: 'lists link image media table code',
+				all: 'advlist anchor autolink charmap code emoticons image link lists media searchreplace table visualblocks wordcount',
+			};
+			if (preset !== 'custom' && pluginsMap[preset]) {
+				config.plugins = pluginsMap[preset];
+			}
+		}
+
+		// Content behavior
+		if (props.forceRootBlock) {
+			const value = String(props.forceRootBlock);
+			if (value === 'false') {
+				config.forced_root_block = false;
+			} else if (value === 'default') {
+				// let TinyMCE decide; do not set
+			} else {
+				config.forced_root_block = value;
+			}
+		}
+
+		// Uploads / assets
+		if (props.imageUploadUrl) {
+			config.images_upload_url = String(props.imageUploadUrl);
+		}
+
+		// Styling
+		if (props.contentCss) {
+			config.content_css = String(props.contentCss);
+		}
+		if (props.contentStyle) {
+			config.content_style = String(props.contentStyle);
+		}
+		if (props.bodyClass) {
+			config.body_class = String(props.bodyClass);
+		}
+
+		// Localization
+		if (props.language) {
+			config.language = String(props.language);
+		}
+		if (props.skin) {
+			config.skin = String(props.skin);
+		}
+
+		// Raw config (object)
+		if (props.config && typeof props.config === 'object') {
+			Object.assign(config, props.config as Record<string, unknown>);
+		}
+
+		// Raw config JSON (string)
+		if (typeof props.configJson === 'string' && props.configJson.trim()) {
+			try {
+				const json = JSON.parse(props.configJson);
+				if (json && typeof json === 'object') {
+					Object.assign(config, json);
+				}
+			} catch {
+				// invalid JSON -> silently ignore, keep safe
+			}
+		}
+
+		return config;
 	}
 
 	isDisabled(data: any): boolean {

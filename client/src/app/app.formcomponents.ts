@@ -6,15 +6,40 @@ import {
 	Type,
 	createComponent,
 } from '@angular/core';
+import { FormInterface } from '@lib/form';
 import { AceFormComponent } from './form-components/ace/ace.component';
+import { aceForm } from './form-components/ace/ace.form';
 import { ButtonFormComponent } from './form-components/button/button.component';
+import { buttonForm } from './form-components/button/button.form';
 import { FileFormComponent } from './form-components/file/file.component';
+import { fileForm } from './form-components/file/file.form';
 import { InputFormComponent } from './form-components/input/input.component';
+import { inputForm } from './form-components/input/input.form';
 import { SelectFormComponent } from './form-components/select/select.component';
+import { selectForm } from './form-components/select/select.form';
 import { TinymceFormComponent } from './form-components/tinymce/tinymce.component';
+import { tinymceForm } from './form-components/tinymce/tinymce.form';
 /* componnets */
 
-export const items = ['Input', 'Select', 'File', 'Button', 'Ace', 'Tinymce'];
+export const FORM_COMPONENTS = [
+	'Input',
+	'Select',
+	'File',
+	'Button',
+	'Ace',
+	'Tinymce',
+];
+
+export const FORM_COMPONENT_FORM = (key: string): FormInterface => {
+	return {
+		Input: inputForm,
+		Select: selectForm,
+		File: fileForm,
+		Button: buttonForm,
+		Ace: aceForm,
+		Tinymce: tinymceForm,
+	}[key] as FormInterface;
+};
 
 /**
  * Central registry: template name → component class.

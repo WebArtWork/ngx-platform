@@ -2,26 +2,13 @@
 	<div class="w-ace" [ngClass]="data.component?.class">
 		<ace
 			class="w-ace__editor"
-			(valueChange)="
-				data.field
-					? data.field().value.set($event)
-					: (data.submition[data.key] = $event);
-				data.wChange()
-			"
-			[value]="
-				data.field
-					? data.field().value()
-					: data.submition[data.key]
-			"
-			[config]="data.field?.Config || {}"
-			[mode]="data.field?.Mode || 'text'"
-			[theme]="data.field?.Theme || 'github'"
-			[disabled]="data.field?.Disabled || false"
-			[useAceClass]="
-				data.field?.UseAceClass !== undefined
-					? data.field.UseAceClass
-					: true
-			"
+			(valueChange)="onValueChange(data, $event)"
+			[value]="getValue(data)"
+			[config]="getConfig(data)"
+			[mode]="getMode(data)"
+			[theme]="getTheme(data)"
+			[disabled]="isDisabled(data)"
+			[useAceClass]="getUseAceClass(data)"
 		></ace>
 	</div>
 </ng-template>
