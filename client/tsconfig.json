@@ -28,7 +28,7 @@
 		"module": "es2020",
 		"sourceMap": true,
 		"baseUrl": "./",
-    "strict": true,
+		"strict": true,
 		"useDefineForClassFields": false
 	},
 	"angularCompilerOptions": {
