@@ -2,7 +2,7 @@ import {
 	importProvidersFrom,
 	provideZonelessChangeDetection,
 } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import {
 	PreloadAllModules,
 	provideRouter,
@@ -34,6 +34,6 @@ export const appConfig = {
 			routes,
 			withPreloading(PreloadAllModules),
 			withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
-		),
+		), provideClientHydration(withEventReplay()),
 	],
 };
