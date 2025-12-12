@@ -34,9 +34,9 @@
 				routerLink="/profile"
 			>
 				<img
-					[src]="userService.thumb()"
-					alt=""
 					class="user__avatar user__avatar--sm"
+					[src]="userService.thumb()"
+					alt="User avatar"
 					height="32"
 					width="32"
 				/>
@@ -44,10 +44,10 @@
 			</a>
 
 			<wbutton
-				class="user__iconbtn user__logout"
-				type="link"
-				aria-label="Logout"
 				(click)="userService.logout(); isOpen() && burger.toggle()"
+				class="user__iconbtn user__logout"
+				aria-label="Logout"
+				type="link"
 			>
 				<span class="material-icons">logout</span>
 			</wbutton>
@@ -57,35 +57,42 @@
 
 		@if (userService.role('admin')) {
 		<material-icon
+			(click)="isOpen() && burger.toggle()"
 			routerLink="/admin/users"
 			icon="manage_accounts"
 			name="Users"
-			(click)="isOpen() && burger.toggle()"
 		></material-icon>
 
 		<material-icon
+			(click)="isOpen() && burger.toggle()"
 			routerLink="/admin/clients"
 			icon="people"
 			name="Clients"
-			(click)="isOpen() && burger.toggle()"
 		></material-icon>
 
 		<material-icon
+			(click)="isOpen() && burger.toggle()"
 			routerLink="/admin/forms"
 			icon="backup_table"
 			name="Forms"
-			(click)="isOpen() && burger.toggle()"
 		></material-icon>
 
 		<material-icon
+			(click)="isOpen() && burger.toggle()"
 			routerLink="/admin/translates"
 			icon="translate"
 			name="Translates"
-			(click)="isOpen() && burger.toggle()"
 		></material-icon>
 
 		<hr class="user__hr" />
 		}
+
+		<material-icon
+			(click)="isOpen() && burger.toggle()"
+			routerLink="/birds"
+			icon="translate"
+			name="Birds"
+		></material-icon>
 
 		<div class="user__drawer-bottom">
 			<button
