@@ -61,11 +61,7 @@
 						"stylePreprocessorOptions": {
 							"includePaths": ["src/scss/utils", "."]
 						},
-						"allowedCommonJsDependencies": [
-							"brace",
-							"brace/mode/json",
-							"brace/theme/monokai"
-						],
+						"allowedCommonJsDependencies": ["brace", "ace-builds"],
 						"browser": "src/main.ts",
 						"server": "src/main.server.ts"
 					},

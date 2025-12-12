@@ -5,8 +5,8 @@
 			(valueChange)="onValueChange(data, $event)"
 			[value]="getValue(data)"
 			[config]="getConfig(data)"
-			[mode]="getMode(data)"
-			[theme]="getTheme(data)"
+			[mode]="$any(getMode(data))"
+			[theme]="$any(getTheme(data))"
 			[disabled]="isDisabled(data)"
 			[useAceClass]="getUseAceClass(data)"
 		></ace>

@@ -3,7 +3,8 @@ import {
 	Component,
 	OnInit,
 	TemplateRef,
-	ViewChild,
+	inject,
+	viewChild,
 } from '@angular/core';
 import { ButtonComponent, buttonDefaults } from '@lib/button';
 import { FormService } from '@lib/form';
@@ -11,22 +12,22 @@ import { FormService } from '@lib/form';
 interface ButtonTemplateContext {}
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [ButtonComponent],
 	templateUrl: './button.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonFormComponent implements OnInit {
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<ButtonTemplateContext>;
+	private readonly _formService = inject(FormService);
+
+	readonly templateRef =
+		viewChild.required<TemplateRef<ButtonTemplateContext>>('templateRef');
 
 	readonly buttonDefaults = buttonDefaults;
-
-	constructor(private _formService: FormService) {}
 
 	ngOnInit(): void {
 		this._formService.addTemplateComponent<ButtonTemplateContext>(
 			'Button',
-			this.templateRef,
+			this.templateRef(),
 		);
 	}
 }

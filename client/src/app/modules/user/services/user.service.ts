@@ -131,6 +131,8 @@ export class UserService extends CrudService<User> {
 	}
 
 	setTheme(theme = 'light') {
+		if (!document.body) return; // SSR block
+
 		if (theme === 'light') {
 			this._storeService.remove('theme');
 

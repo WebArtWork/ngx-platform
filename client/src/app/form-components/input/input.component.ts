@@ -1,25 +1,33 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	OnInit,
+	TemplateRef,
+	inject,
+	viewChild,
+} from '@angular/core';
 import { FormService } from '@lib/form';
 import { InputComponent, inputDefaults } from '@lib/input';
 
 interface Interface {}
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [InputComponent],
 	templateUrl: './input.component.html',
 })
 export class InputFormComponent implements OnInit {
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<Interface>;
+	private readonly _formService = inject(FormService);
+
+	readonly templateRef =
+		viewChild.required<TemplateRef<Interface>>('templateRef');
 
 	readonly inputDefaults = inputDefaults;
-
-	constructor(private _formService: FormService) {}
 
 	ngOnInit(): void {
 		this._formService.addTemplateComponent<Interface>(
 			'Input',
-			this.templateRef,
+			this.templateRef(),
 		);
 	}
 }

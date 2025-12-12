@@ -1,8 +1,12 @@
-import { RenderMode, ServerRoute } from '@angular/ssr';
+import { RenderMode, type ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
-  {
-    path: '**',
-    renderMode: RenderMode.Prerender
-  }
+	// prerendered routes
+	{ path: '', renderMode: RenderMode.Prerender }, // '/'
+
+	// everything else stays CSR-only
+	{
+		path: '**',
+		renderMode: RenderMode.Client,
+	},
 ];

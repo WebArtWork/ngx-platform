@@ -4,8 +4,8 @@ import {
 	Component,
 	OnInit,
 	TemplateRef,
-	ViewChild,
 	inject,
+	viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TinymceComponent } from 'ngx-tinymce';
@@ -18,14 +18,13 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 	imports: [NgClass, FormsModule, TinymceComponent],
 })
 export class TinymceFormComponent implements OnInit {
-	private _form = inject(FormService);
+	private readonly _form = inject(FormService);
 
-	@ViewChild('templateRef', { static: true })
-	templateRef!: TemplateRef<unknown>;
+	readonly templateRef =
+		viewChild.required<TemplateRef<unknown>>('templateRef');
 
 	ngOnInit(): void {
-		// { name: 'Tinymce', key: 'fieldName', props: { ... } }
-		this._form.addTemplateComponent('Tinymce', this.templateRef);
+		this._form.addTemplateComponent('Tinymce', this.templateRef());
 	}
 
 	/** Read current value: prefer Signal Form field, fallback to raw submition. */

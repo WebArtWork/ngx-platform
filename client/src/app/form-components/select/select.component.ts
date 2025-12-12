@@ -3,7 +3,8 @@ import {
 	Component,
 	OnInit,
 	TemplateRef,
-	ViewChild,
+	inject,
+	viewChild,
 } from '@angular/core';
 import { Field } from '@angular/forms/signals';
 import { FormService } from '@lib/form';
@@ -12,22 +13,22 @@ import { SelectComponent, selectDefaults } from '@lib/select';
 interface SelectTemplateContext {}
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SelectComponent, Field],
 	templateUrl: './select.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectFormComponent implements OnInit {
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<SelectTemplateContext>;
+	private readonly _formService = inject(FormService);
+
+	readonly templateRef =
+		viewChild.required<TemplateRef<SelectTemplateContext>>('templateRef');
 
 	readonly selectDefaults = selectDefaults;
-
-	constructor(private _formService: FormService) {}
 
 	ngOnInit(): void {
 		this._formService.addTemplateComponent<SelectTemplateContext>(
 			'Select',
-			this.templateRef,
+			this.templateRef(),
 		);
 	}
 }

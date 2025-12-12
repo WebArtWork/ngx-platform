@@ -3,7 +3,8 @@ import {
 	Component,
 	OnInit,
 	TemplateRef,
-	ViewChild,
+	inject,
+	viewChild,
 } from '@angular/core';
 import { FileComponent, fileDefaults } from '@lib/file';
 import { FormService } from '@lib/form';
@@ -11,22 +12,22 @@ import { FormService } from '@lib/form';
 interface FileTemplateContext {}
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [FileComponent],
 	templateUrl: './file.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileFormComponent implements OnInit {
-	@ViewChild('templateRef', { static: true })
-	templateRef: TemplateRef<FileTemplateContext>;
+	private readonly _formService = inject(FormService);
+
+	readonly templateRef =
+		viewChild.required<TemplateRef<FileTemplateContext>>('templateRef');
 
 	readonly fileDefaults = fileDefaults;
-
-	constructor(private _formService: FormService) {}
 
 	ngOnInit(): void {
 		this._formService.addTemplateComponent<FileTemplateContext>(
 			'File',
-			this.templateRef,
+			this.templateRef(),
 		);
 	}
 }
