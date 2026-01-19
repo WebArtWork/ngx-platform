@@ -11,7 +11,7 @@ import {
 	signal,
 	viewChild,
 } from '@angular/core';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { TranslatePipe } from '@module/translate/pipes/translate.pipe';
 import { ManualDisabledDirective, ManualTypeDirective } from 'wacom';
 import { inputDefaults } from './input.const';
@@ -21,7 +21,7 @@ import { InputType, InputValue } from './input.type';
 	selector: 'winput',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
-		Field,
+		FormField,
 		NgClass,
 		TranslatePipe,
 		ManualTypeDirective,

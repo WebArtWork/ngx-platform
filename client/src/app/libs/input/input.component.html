@@ -19,7 +19,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			(input)="onInput($event)"
 			[class.error]="_error"
 			[ngClass]="_wClass"
-			[field]="_field"
+			[formField]="_field"
 			(blur)="onBlur()"
 			[manualType]="
 						_type === 'password'
@@ -79,8 +79,8 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			(keyup.enter)="onSubmit()"
 			(input)="onInput($event)"
 			[class.error]="_error"
+			[formField]="_field"
 			[ngClass]="_wClass"
-			[field]="_field"
 			(blur)="onBlur()"
 			#inputEl
 		></textarea>
@@ -115,7 +115,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		[class.error]="_error"
 		[ngClass]="_wClass"
 		(blur)="onBlur()"
-		[field]="_field"
+		[formField]="_field"
 		[value]="item"
 		type="radio"
 		#inputEl
@@ -126,16 +126,16 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 <label class="winput__choice" [class.disabled]="_disabled">
 	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
+		(input)="onInput($event, item)"
+		[checked]="wModel() === item"
 		class="winput__native"
-		type="radio"
 		[disabled]="_disabled"
 		[class.error]="_error"
 		[ngClass]="_wClass"
+		(blur)="onBlur()"
 		[value]="item"
 		[name]="_name"
-		[checked]="wModel() === item"
-		(blur)="onBlur()"
-		(input)="onInput($event, item)"
+		type="radio"
 		#inputEl
 	/>
 	<span class="winput__choice-mark winput__choice-mark--radio"></span>
@@ -171,9 +171,9 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		(input)="onInput($event)"
 		class="winput__native"
 		[class.error]="_error"
+		[formField]="_field"
 		[ngClass]="_wClass"
 		(blur)="onBlur()"
-		[field]="_field"
 		type="checkbox"
 		#inputEl
 	/>

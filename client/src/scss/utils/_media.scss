@@ -17,21 +17,25 @@ $bp-order: (sm, md, lg, xl) !default;
 @function breakpoint-next($name, $breakpoints: $breakpoints-map) {
 	$breakpoint-names: map.keys($breakpoints);
 	$n: list.index($breakpoint-names, $name);
+
 	@return if(
-		$n < list.length($breakpoint-names),
-		list.nth($breakpoint-names, $n + 1),
+		sass($n < list.length($breakpoint-names)): list.nth(
+				$breakpoint-names,
+				$n + 1
+			),
 		null
 	);
 }
 
 @function breakpoint-min($name, $breakpoints: $breakpoints-map) {
 	$min: map.get($breakpoints, $name);
-	@return if($min != 0, $min, null);
+	@return if(sass($min != 0): $min, null);
 }
 
 @function breakpoint-max($name, $breakpoints: $breakpoints-map) {
 	$next: breakpoint-next($name, $breakpoints);
-	@return if($next, breakpoint-min($next, $breakpoints) - 0.1, null);
+
+	@return if(sass($next): breakpoint-min($next, $breakpoints) - 0.1, null);
 }
 
 @mixin bp-min($name, $breakpoints: $breakpoints-map) {

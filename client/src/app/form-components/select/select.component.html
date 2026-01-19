@@ -1,6 +1,6 @@
 <ng-template #templateRef let-data>
 	<wselect
-		[field]="data.field"
+		[formField]="data.field"
 		[items]="data.props.items ?? selectDefaults.items"
 		[placeholder]="
 			data.props.placeholder ?? selectDefaults.placeholder
