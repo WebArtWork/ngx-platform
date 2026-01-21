@@ -9,7 +9,7 @@
 		"typeRoots": ["node_modules/@types"],
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
-			"@page-component/*": ["src/app/page-componnets/*"],
+			"@pageComponent/*": ["src/app/page-components/*"],
 			"@env": ["src/environments/environment"],
 			"@module/*": ["src/app/modules/*"],
 			"@icon/*": ["src/app/icons/*"],

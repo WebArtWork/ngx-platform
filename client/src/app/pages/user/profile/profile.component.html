@@ -1,11 +1,13 @@
-<div class="profile grid g-4">
-	<div class="profile__card shadow rounded-card">
-		<div class="profile__tabs">
+<div class="grid gap-4">
+	<div
+		class="shadow rounded-card bg-[var(--c-bg-secondary)] p-5 sm:p-4 flex flex-col gap-4"
+	>
+		<div class="flex gap-3 border-b border-[var(--c-border)] pb-3 mb-3">
 			<wbutton
 				[type]="activeTab() === 'profile' ? 'primary' : 'link'"
 				[isMultipleClicksAllowed]="true"
 				(click)="setTab('profile')"
-				class="profile__tab"
+				class="!font-semibold !text-[0.9rem]"
 			>
 				Profile
 			</wbutton>
@@ -14,15 +16,15 @@
 				[type]="activeTab() === 'security' ? 'primary' : 'link'"
 				[isMultipleClicksAllowed]="true"
 				(click)="setTab('security')"
-				class="profile__tab"
+				class="!font-semibold !text-[0.9rem]"
 			>
 				Security
 			</wbutton>
 		</div>
 
-		<div class="profile__body">
+		<div class="flex flex-col gap-3">
 			@if (activeTab() === 'profile') {
-			<div class="profile__panel profile__panel--profile">
+			<div class="flex flex-col gap-3">
 				<ngx-file
 					mode="single-image"
 					view="thumb-only"
@@ -39,7 +41,7 @@
 
 				<form
 					(submit)="wFormSubmit(); $event.preventDefault()"
-					class="profile__fields stack"
+					class="flex flex-col gap-3"
 				>
 					<winput
 						placeholder="Enter your name..."
@@ -68,10 +70,10 @@
 				</form>
 			</div>
 			} @else {
-			<div class="profile__panel profile__panel--security">
+			<div class="flex flex-col gap-3">
 				<form
 					(submit)="wSecuritySubmit(); $event.preventDefault()"
-					class="profile__fields stack"
+					class="flex flex-col gap-3"
 				>
 					<winput
 						placeholder="Enter your current password..."

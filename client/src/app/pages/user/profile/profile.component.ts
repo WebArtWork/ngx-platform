@@ -2,9 +2,11 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	computed,
+	effect,
 	inject,
 	signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, submit } from '@angular/forms/signals';
 import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
@@ -16,6 +18,8 @@ import { ProfileModel, SecurityModel } from './profile.interface';
 import { profileSchema, securitySchema } from './profile.schema';
 
 @Component({
+	selector: 'app-profile',
+	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [InputComponent, ButtonComponent, FileComponent],
 	templateUrl: './profile.component.html',
@@ -29,43 +33,50 @@ export class ProfileComponent {
 	readonly activeTab = signal<'profile' | 'security'>('profile');
 
 	// Profile
-	profileModel = signal<ProfileModel>({
-		name: this.userService.user().name || '',
-		phone: this.userService.user().phone || '',
-		bio: this.userService.user().bio || '',
+	private readonly _initialProfile = computed<ProfileModel>(() => {
+		const u = this.userService.user();
+		return {
+			name: u.name || '',
+			phone: u.phone || '',
+			bio: u.bio || '',
+		};
 	});
 
-	profileForm = form(this.profileModel, profileSchema);
-
+	readonly profileModel = signal<ProfileModel>(this._initialProfile());
+	readonly profileForm = form(this.profileModel, profileSchema);
 	readonly isSubmitDisabled = computed(() => this.profileForm().invalid());
 
 	// Security
-	securityModel = signal<SecurityModel>({
+	readonly securityModel = signal<SecurityModel>({
 		currentPassword: '',
 		newPassword: '',
 		confirmPassword: '',
 	});
 
-	securityForm = form(this.securityModel, securitySchema);
+	readonly securityForm = form(this.securityModel, securitySchema);
 
-	readonly isSecurityDisabled = computed(
-		() =>
-			this.securityForm().invalid() ||
-			this.securityModel().newPassword !==
-				this.securityModel().confirmPassword,
-	);
+	readonly isSecurityDisabled = computed(() => {
+		const m = this.securityModel();
+		return (
+			this.securityForm().invalid() || m.newPassword !== m.confirmPassword
+		);
+	});
 
 	constructor() {
-		this._emitterService.onComplete('us.user').subscribe(() => {
-			const user = this.userService.user();
-
-			this.profileModel.set({
-				name: user.name || '',
-				phone: user.phone || '',
-				bio: user.bio || '',
+		// Keep model in sync when user changes via emitter event.
+		this._emitterService
+			.onComplete('us.user')
+			.pipe(takeUntilDestroyed())
+			.subscribe(() => {
+				this.profileModel.set(this._initialProfile());
+				this.profileForm().reset();
 			});
 
-			this.profileForm().reset();
+		// Optional: if userService.user() can change without emitter, this keeps it synced.
+		// If you *only* want emitter-driven sync, remove this effect.
+		effect(() => {
+			// Read to track
+			void this.userService.user();
 		});
 	}
 
@@ -81,7 +92,6 @@ export class ProfileComponent {
 			});
 
 			this.userService.updateMe();
-
 			return Promise.resolve();
 		});
 	}
@@ -92,10 +102,10 @@ export class ProfileComponent {
 
 			this.userService
 				.changePassword(payload.currentPassword, payload.newPassword)
+				.pipe(takeUntilDestroyed())
 				.subscribe({
 					next: () => {
 						this.securityForm().reset();
-
 						this.securityModel.set({
 							currentPassword: '',
 							newPassword: '',
@@ -108,14 +118,13 @@ export class ProfileComponent {
 		});
 	}
 
-	updateThumb(thumb: string) {
+	updateThumb(thumb: string): void {
 		this.userService.user.set({
 			...this.userService.user(),
-			thumb: thumb,
+			thumb,
 		});
 
 		this.userService.thumb.set(thumb);
-
 		this.userService.updateMe();
 	}
 }

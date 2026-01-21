@@ -18,12 +18,12 @@ export const routes: Routes = [
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Components',
+						title: 'Landing',
 					},
 				},
 				loadChildren: () =>
-					import('./pages/public/components/components.routes').then(
-						(m) => m.componentsRoutes,
+					import('./pages/public/landing/landing.routes').then(
+						(m) => m.routes,
 					),
 			},
 		],

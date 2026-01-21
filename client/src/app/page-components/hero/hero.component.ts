@@ -1,47 +1,17 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	input,
-	output,
-} from '@angular/core';
-import { ButtonComponent, ButtonType } from '@lib/button';
-
-interface HeroButton {
-	text: string;
-	type?: ButtonType;
-	click?: () => void;
-	href?: () => void;
-	routerLink?: () => void;
-}
-
-type MediaSide = 'left' | 'right';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-	selector: 'page-hero',
-	standalone: true,
-	imports: [ButtonComponent],
+	selector: 'page-component-hero',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './hero.component.html',
 	styleUrl: './hero.component.scss',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroComponent {
-	// Texts
-	title = input<string>('');
-	description = input<string>('');
+export class HeroSectionComponent {
+	scrollTo(id: string): void {
+		const el = document.getElementById(id);
 
-	// Buttons
-	buttons = input<HeroButton[]>([]);
+		if (!el) return;
 
-	// Media
-	mediaUrl = input<string>('');
-	mediaAlt = input<string>('Hero');
-	mediaSide = input<MediaSide>('right'); // 'left' places media before text
-
-	// Layout
-	cols = input<string>('1.1fr 0.9fr'); // grid-template-columns
-
-	// Outputs
-	primaryClick = output<void>();
-	secondaryClick = output<void>();
-	mediaClick = output<void>();
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
 }
