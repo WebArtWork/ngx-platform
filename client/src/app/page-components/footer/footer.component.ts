@@ -23,7 +23,7 @@ export interface FooterLink {
 })
 export class FooterComponent {
 	/** Left copyright / note */
-	leftText = input<string>('© 2025 Web Art Work');
+	leftText = input<string>('© 2026 Web Art Work');
 
 	/** Right side links */
 	links = input<FooterLink[]>([

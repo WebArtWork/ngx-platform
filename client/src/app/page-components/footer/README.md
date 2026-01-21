@@ -6,7 +6,7 @@ Angular v20 standalone local footer with signal inputs/outputs and BEM styles.
 
 ```html
 <page-footer
-	[leftText]="'© 2025 Web Art Work'"
+	[leftText]="'© 2026 Web Art Work'"
 	[links]="[{label:'Terms',href:'#'},{label:'Privacy',href:'#'},{label:'Contact',href:'#'}]"
 	[justify]="'space-between'"
 	[ariaLabel]="'Local footer'"
@@ -16,7 +16,7 @@ Angular v20 standalone local footer with signal inputs/outputs and BEM styles.
 
 ## Inputs (signals)
 
-- `leftText = input<string>('© 2025 Web Art Work')`
+- `leftText = input<string>('© 2026 Web Art Work')`
 - `links = input<FooterLink[]>(...)`
 - `justify = input<'space-between' | 'start' | 'center' | 'end'>('space-between')`
 - `ariaLabel = input<string>('Local footer')`

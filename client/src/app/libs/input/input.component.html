@@ -22,10 +22,10 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			[formField]="_field"
 			(blur)="onBlur()"
 			[manualType]="
-						_type === 'password'
-							? (showPassword() ? 'text' : 'password')
-							: _type || 'text'
-					"
+					_type === 'password'
+						? (showPassword() ? 'text' : 'password')
+						: _type || 'text'
+				"
 			#inputEl
 		/>
 		} @else {
@@ -42,21 +42,32 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			[attr.name]="_name"
 			(blur)="onBlur()"
 			[attr.type]="
-						_type === 'password'
-							? (showPassword() ? 'text' : 'password')
-							: _type || 'text'
-					"
+					_type === 'password'
+						? (showPassword() ? 'text' : 'password')
+						: _type || 'text'
+				"
 			#inputEl
 		/>
 		} @if (_clearable) {
-		<i class="material-icons winput__clear" (click)="onClear()">close</i>
+		<button
+			type="button"
+			class="winput__icon-btn winput__clear material-icons"
+			(click)="onClear()"
+			[attr.aria-label]="('Clear' | translate)()"
+		>
+			close
+		</button>
 		} @if (_type === 'password') {
-		<span
-			class="winput__eye material-icons"
+		<button
+			type="button"
+			class="winput__icon-btn winput__eye material-icons"
 			(click)="showPassword.set(!showPassword())"
+			[attr.aria-label]="
+					(showPassword() ? 'Hide password' : 'Show password') | translate
+				"
 		>
 			visibility
-		</span>
+		</button>
 		}
 	</div>
 
@@ -107,7 +118,6 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 </label>
 } @if (_type === 'radio') { @if (_field) { @for (item of _items; track $index) {
 <label class="winput__choice" [class.disabled]="_disabled">
-	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
 		[manualDisabled]="_disabled"
 		(input)="onInput($event)"
@@ -121,10 +131,10 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		#inputEl
 	/>
 	<span class="winput__choice-mark winput__choice-mark--radio"></span>
+	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 </label>
 } } @else { @for (item of _items; track $index) {
 <label class="winput__choice" [class.disabled]="_disabled">
-	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 	<input
 		(input)="onInput($event, item)"
 		[checked]="wModel() === item"
@@ -139,12 +149,11 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		#inputEl
 	/>
 	<span class="winput__choice-mark winput__choice-mark--radio"></span>
-</label>
-} } } @if (_type === 'checkbox') { @if (_items.length) {
-<!-- Multi-checkbox list (wModel as string[] in standalone mode) -->
-@for (item of _items; track $index) {
-<label class="winput__choice" [class.disabled]="_disabled">
 	<span class="winput__choice-text">{{ (item | translate)() }}</span>
+</label>
+} } } @if (_type === 'checkbox') { @if (_items.length) { @for (item of _items;
+track $index) {
+<label class="winput__choice" [class.disabled]="_disabled">
 	<input
 		(input)="onInput($event, item)"
 		[checked]="isItemChecked(item)"
@@ -159,13 +168,11 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		#inputEl
 	/>
 	<span class="winput__choice-mark"></span>
+	<span class="winput__choice-text">{{ (item | translate)() }}</span>
 </label>
 } } @else {
-<!-- Single checkbox (field OR wModel<boolean>) -->
 <label class="winput__choice" [class.disabled]="_disabled">
-	@if (_label) {
-	<span class="winput__choice-text"> {{ (_label | translate)() }} </span>
-	} @if (_field) {
+	@if (_field) {
 	<input
 		[manualDisabled]="_disabled"
 		(input)="onInput($event)"
@@ -191,6 +198,11 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		#inputEl
 	/>
 	}
+
 	<span class="winput__choice-mark"></span>
+
+	@if (_label) {
+	<span class="winput__choice-text">{{ (_label | translate)() }}</span>
+	}
 </label>
 } }

@@ -28,12 +28,12 @@ export class TimelineComponent {
 	items = input<TimelineEvent[]>([
 		{
 			title: 'Launched v1',
-			meta: 'Apr 2025',
+			meta: 'Apr 2026',
 			desc: 'Initial public release.',
 		},
 		{
 			title: 'Added e-commerce blocks',
-			meta: 'Jun 2025',
+			meta: 'Jun 2026',
 			desc: 'Products, pricing, and checkout UI.',
 		},
 	]);

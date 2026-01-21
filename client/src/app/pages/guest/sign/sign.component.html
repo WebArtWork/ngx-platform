@@ -1,42 +1,46 @@
-<div class="sign grid g-4">
-	<!-- Desktop: middle-right; Mobile row 1: bottom-center -->
-	<div class="sign__col sign__col--left">
+<div
+	class="min-h-dvh grid p-6 md:p-10 md:grid-cols-2 md:items-stretch md:gap-12"
+>
+	<!-- Brand / Logo -->
+	<div class="flex items-center justify-center md:justify-end">
 		<button
 			(click)="userService.toggleTheme()"
 			aria-label="Toggle theme"
-			class="sign__brand"
+			class="grid place-items-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(37,110,255,0.35)] rounded-xl"
 			type="button"
 		>
 			@if (logo) {
-			<img class="sign__logo sign__logo--img" [src]="logo" alt="Logo" />
+			<img class="sign__logo-img" [src]="logo" alt="Logo" />
 			} @else {
-			<icon-spider class="sign__logo sign__logo--icon"></icon-spider>
+			<icon-spider class="sign__logo-icon"></icon-spider>
 			}
 		</button>
 	</div>
 
-	<!-- Desktop: middle-left; Mobile row 2: top-center -->
-	<div class="sign__col sign__col--right">
-		<div class="sign__card shadow rounded-card">
+	<!-- Card -->
+	<div class="flex items-center justify-center md:justify-start">
+		<div
+			class="relative w-full max-w-[420px] bg-[var(--c-bg-secondary)] rounded-[var(--b-radius-card)] shadow p-8 md:p-10"
+		>
 			<button
 				(click)="userService.toggleTheme()"
 				aria-label="Toggle theme"
-				class="sign__theme"
 				type="button"
+				class="absolute top-3 right-3 grid place-items-center w-9 h-9 rounded-lg text-[var(--c-text-secondary)] hover:text-[var(--c-primary)] transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(37,110,255,0.35)]"
 			>
-				<span class="material-icons">
+				<span class="material-icons text-[22px] leading-none">
 					@if (userService.theme() === 'dark') { dark_mode } @else {
 					light_mode }
 				</span>
 			</button>
 
-			<h1 class="sign__title fs-6 lh-1 fw-700 ls-normal ta-l">
+			<h1 class="m-0 text-2xl font-bold text-[var(--c-text-secondary)]">
 				Sign In / Sign Up
 			</h1>
 
 			<form
 				(submit)="wFormSubmit(); $event.preventDefault()"
-				class="sign__fields stack"
+				class="mt-6 space-y-3"
 			>
 				<winput
 					placeholder="Enter your email..."
@@ -59,13 +63,15 @@
 				></winput>
 				}
 
-				<wbutton
-					[disabled]="isSubmitDisabled()"
-					type="primary"
-					class="mt-2"
-				>
-					Let's go
-				</wbutton>
+				<div class="pt-2">
+					<wbutton
+						[disabled]="isSubmitDisabled()"
+						type="primary"
+						class="w-full"
+					>
+						Let's go
+					</wbutton>
+				</div>
 			</form>
 		</div>
 	</div>

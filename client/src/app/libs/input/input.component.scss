@@ -1,25 +1,14 @@
-@use 'src/scss/utils/mixins' as mixins;
-@use 'src/scss/utils/media' as media;
-@use 'src/scss/utils/vars' as vars;
-
-/* =========================
-   winput (BEM)
-   ========================= */
 .winput {
-	position: relative;
-	padding: 10px 0;
 	display: block;
+	padding: var(--sp-2) 0;
 
 	&__label {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 10px;
+		display: block;
+		margin: 0 0 var(--sp-2);
 		font-weight: 500;
-		font-size: 20px;
-		line-height: 23px;
+		font-size: 14px;
+		line-height: 1.2;
 		color: var(--c-text-primary);
-		border-radius: var(--b-radius);
 		letter-spacing: 0;
 	}
 
@@ -28,133 +17,139 @@
 	}
 
 	&__field {
-		width: 100%;
 		display: block;
+		inline-size: 100%;
 		background-color: transparent;
 		border: 1px solid var(--c-border);
 		border-radius: var(--b-radius);
 		color: var(--c-text-secondary);
-		font-size: calc(#{var(--fs)} - 2px);
-		line-height: calc(#{var(--fs)} + 4px);
+		font-size: 14px;
+		line-height: 20px;
 		letter-spacing: var(--letter-spacing);
-		padding: 8px 12px;
-		transition: var(--transition);
+		padding: var(--sp-2) var(--sp-3);
 
-		appearance: textfield;
-		-webkit-appearance: textfield;
-		-moz-appearance: textfield;
+		transition:
+			border-color var(--motion) var(--easing),
+			box-shadow var(--motion) var(--easing);
 
 		&::placeholder {
 			color: var(--c-placeholder);
-			transition: var(--transition);
 		}
 
 		&:focus {
 			outline: none;
 			border-color: var(--c-primary);
-			transition: var(--transition);
+			box-shadow: var(--focus-ring);
 		}
 
 		&:disabled {
-			background-color: var(--c-grey);
-			border-color: var(--c-grey);
-			color: var(--c-grey);
-			cursor: default;
 			opacity: 0.6;
-		}
-
-		&[type='time'] {
-			appearance: textfield;
-			-webkit-appearance: textfield;
-			-moz-appearance: textfield;
+			cursor: not-allowed;
 		}
 
 		&--textarea {
-			min-height: 88px;
+			min-block-size: 88px;
 			resize: vertical;
 		}
 	}
 
-	&__clear {
+	/* Right-side icon buttons */
+	&__icon-btn {
 		position: absolute;
-		right: 7px;
-		bottom: 8px;
+		top: 50%;
+		transform: translateY(-50%);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 4px;
+		border: 0;
+		background: transparent;
+		border-radius: 6px;
+
+		color: var(--c-text-muted);
 		cursor: pointer;
 		user-select: none;
+		line-height: 1;
+
+		&:hover {
+			color: var(--c-text-secondary);
+		}
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-ring);
+		}
+	}
+
+	&__clear {
+		right: 8px;
 	}
 
 	&__eye {
-		position: absolute;
-		right: 7px;
-		top: 6px;
-		cursor: pointer;
-		user-select: none;
+		right: 8px;
+	}
+
+	/* If both clear + eye exist, you can add this class via wClass if needed later */
+	&__field.has-right-icons {
+		padding-right: 44px;
 	}
 
 	&__error {
 		margin-top: 4px;
 		font-size: 12px;
-		color: red;
+		line-height: 1.2;
+		color: #ef4444;
 	}
 
 	/* Choices: radio & checkbox */
 	&__choice {
 		display: flex;
-		column-gap: 5px;
 		align-items: center;
+		gap: var(--sp-2);
+		padding: 4px 0;
 		cursor: pointer;
 
 		&.disabled {
-			opacity: 0.5;
-
-			.winput__choice-mark {
-				background-color: grey !important;
-			}
+			cursor: not-allowed;
+			opacity: 0.6;
 		}
 	}
 
 	&__choice-text {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		font-weight: 500;
-		font-size: 18px;
+		font-size: 14px;
 		line-height: 1.2;
+		color: var(--c-text-secondary);
 	}
 
 	/* Visually hidden native control */
 	&__native {
-		width: 0;
-		height: 0;
-		overflow: hidden;
 		position: absolute;
 		opacity: 0;
 		pointer-events: none;
-
-		/* checked state controls the mark */
-		&:checked ~ .winput__choice-mark {
-			&::before {
-				opacity: 1;
-			}
-		}
-		&:checked ~ .winput__choice-mark--radio {
-			&::before {
-				opacity: 1;
-			}
-		}
+		inline-size: 1px;
+		block-size: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 	}
 
+	/* Custom mark */
 	&__choice-mark {
-		order: -1;
 		position: relative;
-		width: 26px;
-		height: 26px;
 		display: inline-block;
+		inline-size: 24px;
+		block-size: 24px;
 		border-radius: 4px;
 		background-color: var(--c-primary);
 		border: 1px solid var(--c-border);
 		box-shadow: 0 1px 1px var(--c-shadow);
-		transition: var(--transition);
-		transform: scale(1);
 
 		&::before {
 			content: '';
@@ -167,27 +162,32 @@
 			border-right: 3px solid #fff;
 			transform: translate(-50%, -71%) rotate(45deg);
 			opacity: 0;
-			transition: var(--transition);
+			transition: opacity 0.15s ease;
 			display: block;
 		}
 
 		&--radio {
-			border-radius: 120px;
+			border-radius: 9999px;
 
 			&::before {
 				width: 12px;
 				height: 12px;
-				border-radius: 120px;
+				border-radius: 9999px;
 				background: #fff;
 				border: none;
 				transform: translate(-50%, -50%);
 			}
 		}
 	}
+
+	/* Checked drives mark (requires input right before mark in HTML) */
+	&__native:checked + .winput__choice-mark::before {
+		opacity: 1;
+	}
 }
 
 /* Error class for direct style hooks */
 input.error,
 textarea.error {
-	border: 1px solid red;
+	border-color: #ef4444;
 }

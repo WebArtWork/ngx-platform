@@ -19,8 +19,8 @@ Angular v20 standalone vertical timeline with signal inputs/outputs and BEM styl
 import { TimelineEvent } from './timeline.component';
 
 events: TimelineEvent[] = [
-  { title: 'Launched v1', meta: 'Apr 2025', desc: 'Initial public release.' },
-  { title: 'Added e-commerce blocks', meta: 'Jun 2025', desc: 'Products, pricing, and checkout UI.' },
+  { title: 'Launched v1', meta: 'Apr 2026', desc: 'Initial public release.' },
+  { title: 'Added e-commerce blocks', meta: 'Jun 2026', desc: 'Products, pricing, and checkout UI.' },
 ];
 ```
 
