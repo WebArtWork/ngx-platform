@@ -6,7 +6,6 @@ _disabled = isDisabled(); @let _view = view();
 	<div class="wfile__label">{{ (_label | translate)() }}</div>
 	}
 
-	<!-- shared file input -->
 	<input
 		#fileInput
 		type="file"
@@ -17,10 +16,13 @@ _disabled = isDisabled(); @let _view = view();
 	/>
 
 	@if (_view === 'thumb-only') {
-	<!-- avatar / thumb-only view -->
 	<div
 		class="wfile__body wfile__body--thumb-only"
-		(click)="triggerPick(fileInput)"
+		role="button"
+		tabindex="0"
+		(click)="!_disabled && triggerPick(fileInput)"
+		(keydown.enter)="!_disabled && triggerPick(fileInput)"
+		(keydown.space)="!_disabled && triggerPick(fileInput); $event.preventDefault()"
 	>
 		@if (_files.length === 0) {
 		<ng-container [ngTemplateOutlet]="t_empty() || emptyTpl"></ng-container>
@@ -28,7 +30,6 @@ _disabled = isDisabled(); @let _view = view();
 			<div class="wfile__empty">{{ (_ph | translate)() }}</div>
 		</ng-template>
 		} @else {
-		<!-- show only first item -->
 		<ng-container
 			[ngTemplateOutlet]="t_item() || itemTpl"
 			[ngTemplateOutletContext]="{ $implicit: _files[0], index: 0 }"
@@ -46,13 +47,13 @@ _disabled = isDisabled(); @let _view = view();
 			type="button"
 			class="wfile__remove material-icons"
 			(click)="clear(); $event.stopPropagation()"
+			aria-label="Clear file"
 		>
 			close
 		</button>
 		}
 	</div>
 	} @else {
-	<!-- dropzone / list views -->
 	<div class="wfile__body">
 		<div class="wfile__list">
 			@if (_files.length === 0) {
@@ -70,15 +71,20 @@ _disabled = isDisabled(); @let _view = view();
 						[ngTemplateOutlet]="t_item() || itemTpl"
 						[ngTemplateOutletContext]="{ $implicit: src, index: i }"
 					></ng-container>
+
 					<ng-template #itemTpl let-src let-index="index">
 						<span class="wfile__name">{{ src }}</span>
+
 						@if (preview() && isImage(src)) {
 						<img class="wfile__thumb" [src]="src" alt="preview" />
 						}
+
 						<button
 							type="button"
 							class="wfile__remove material-icons"
-							(click)="removeAt(index)"
+							(click)="removeAt(index); $event.stopPropagation()"
+							[disabled]="_disabled"
+							aria-label="Remove file"
 						>
 							close
 						</button>
@@ -90,26 +96,26 @@ _disabled = isDisabled(); @let _view = view();
 		</div>
 
 		<div class="wfile__actions">
-			<button
-				type="button"
-				class="wfile__btn"
-				(click)="triggerPick(fileInput)"
+			<wbutton
+				type="primary"
+				[disableSubmit]="true"
 				[disabled]="_disabled"
+				(wClick)="triggerPick(fileInput)"
 			>
 				<span class="material-icons">upload_file</span>
 				<span>{{ ('Browse' | translate)() }}</span>
-			</button>
+			</wbutton>
 
 			@if (clearable() && _files.length) {
-			<button
-				type="button"
-				class="wfile__btn wfile__btn--ghost"
-				(click)="clear()"
+			<wbutton
+				type="light"
+				[disableSubmit]="true"
 				[disabled]="_disabled"
+				(wClick)="clear()"
 			>
 				<span class="material-icons">close</span>
 				<span>{{ ('Clear' | translate)() }}</span>
-			</button>
+			</wbutton>
 			}
 		</div>
 	</div>

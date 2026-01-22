@@ -13,15 +13,36 @@
 	}
 
 	&__body {
-		border: 2px solid var(--c-text-primary);
-		border-radius: 12px;
-		padding: 12px;
+		border: 1px solid var(--c-border);
+		border-radius: var(--b-radius-card);
+		padding: var(--sp-3);
 		background: var(--c-bg-secondary);
 		color: var(--c-text-primary);
+		transition: var(--motion-fast) var(--easing);
+
+		&--thumb-only {
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			gap: var(--sp-2);
+			min-height: 72px;
+		}
+	}
+
+	/* keyboard focus for clickable zones */
+	&__body:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+	}
+
+	/* hover affordance (only when enabled) */
+	&:not(._disabled) &__body:hover {
+		border-color: var(--c-primary);
 	}
 
 	&__list {
-		margin-bottom: 10px;
+		margin-bottom: var(--sp-3);
+
 		ul {
 			margin: 0;
 			padding: 0;
@@ -30,23 +51,24 @@
 	}
 
 	&__empty {
-		color: var(--c-text-primary);
-		opacity: 0.8;
+		color: var(--c-text-muted, var(--c-text-secondary));
 	}
 
 	&__item {
 		display: flex;
 		align-items: center;
-		gap: 10px;
-		padding: 6px 0;
+		gap: var(--sp-2);
+		padding: var(--sp-2) 0;
 		border-bottom: 1px solid var(--c-border);
+
 		&:last-child {
 			border-bottom: 0;
 		}
 	}
 
 	&__name {
-		max-width: 50%;
+		flex: 1 1 auto;
+		min-width: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -56,41 +78,41 @@
 		width: 64px;
 		height: 64px;
 		object-fit: cover;
-		border-radius: 8px;
+		border-radius: var(--b-radius);
 		border: 1px solid var(--c-border);
+		flex: 0 0 auto;
 	}
 
 	&__remove {
 		border: 0;
 		background: transparent;
 		cursor: pointer;
-		color: var(--c-text-primary);
+		color: var(--c-text-secondary);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 8px;
+		border-radius: var(--b-radius-btn);
 		padding: 4px;
+
+		&:hover {
+			color: var(--c-text-primary);
+			background: var(--c-bg-tertiary);
+		}
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-ring);
+		}
+
+		&:disabled {
+			opacity: 0.6;
+			pointer-events: none;
+		}
 	}
 
 	&__actions {
 		display: flex;
-		gap: 8px;
-	}
-
-	&__btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		padding: 8px 12px;
-		border-radius: 10px;
-		border: 2px solid var(--c-primary);
-		background: var(--c-primary);
-		color: var(--c-white);
-		cursor: pointer;
-
-		&--ghost {
-			background: transparent;
-			color: var(--c-primary);
-		}
+		gap: var(--sp-2);
+		flex-wrap: wrap;
 	}
 }

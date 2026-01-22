@@ -8,6 +8,7 @@ import {
 	input,
 	model,
 } from '@angular/core';
+import { ButtonComponent } from '@lib/button';
 import { fileToDataUrl } from '@lib/file/file.util';
 import { ModalService } from '@lib/modal';
 import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
@@ -27,7 +28,7 @@ export type FileView = 'dropzone' | 'list' | 'thumb-only';
 	selector: 'ngx-file',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [NgTemplateOutlet, TranslatePipe],
+	imports: [NgTemplateOutlet, TranslatePipe, ButtonComponent],
 	templateUrl: './file.component.html',
 	styleUrl: './file.component.scss',
 })

@@ -1,4 +1,11 @@
+:host {
+	display: inline-flex;
+	align-items: stretch;
+}
+
 .wbutton {
+	height: 100%;
+
 	/* Keep minimal “design system” behaviors here */
 	border: 0;
 	text-decoration: none;
@@ -55,7 +62,6 @@
 	&--link {
 		background: transparent;
 		color: var(--c-text-primary);
-		padding: 0; /* Tailwind gives padding; link should override */
 	}
 
 	/* Hover behavior: keep token-consistent */
