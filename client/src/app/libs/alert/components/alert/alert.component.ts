@@ -4,16 +4,14 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	ElementRef,
+	OnDestroy,
 	viewChild,
 } from '@angular/core';
-import {
-	AlertButton,
-	AlertPosition,
-	AlertType,
-} from '../../interfaces/alert.interface';
+import { AlertButton, AlertPosition, AlertType } from '../../interfaces/alert.interface';
 
 @Component({
 	selector: 'alert',
+	standalone: true,
 	templateUrl: './alert.component.html',
 	styleUrls: ['./alert.component.scss'],
 	imports: [CommonModule],
@@ -24,7 +22,7 @@ import {
  * auto-dismiss behaviour. All inputs are configured by the service when the
  * component is created dynamically.
  */
-export class AlertComponent implements AfterViewInit {
+export class AlertComponent implements AfterViewInit, OnDestroy {
 	/** Reference to the DOM element hosting the alert. */
 	alertRef = viewChild<ElementRef<HTMLDivElement>>('alertRef');
 
@@ -61,6 +59,24 @@ export class AlertComponent implements AfterViewInit {
 	/** Optional action buttons rendered within the alert. */
 	buttons: AlertButton[] = [];
 
+	private _timer: number | null = null;
+	private _start = 0;
+	private _remaining = 0;
+
+	private readonly _onEnter = () => {
+		if (this._timer) {
+			window.clearTimeout(this._timer);
+			this._timer = null;
+		}
+		this._remaining -= Date.now() - this._start;
+	};
+
+	private readonly _onLeave = () => {
+		this._start = Date.now();
+		if (this._timer) window.clearTimeout(this._timer);
+		this._timer = window.setTimeout(() => this.remove(), this._remaining);
+	};
+
 	/**
 	 * Starts the auto-dismiss timer and pauses it while the alert is
 	 * hovered, resuming when the mouse leaves.
@@ -69,37 +85,26 @@ export class AlertComponent implements AfterViewInit {
 		const elRef = this.alertRef();
 		if (!elRef || !this.timeout) return;
 
-		let remaining = JSON.parse(JSON.stringify(this.timeout));
+		this._remaining = this.timeout;
+		this._start = Date.now();
+		this._timer = window.setTimeout(() => this.remove(), this._remaining);
 
-		let timer: number = window.setTimeout(() => {
-			this.remove();
-		}, remaining);
+		const el = elRef.nativeElement;
+		el.addEventListener('mouseenter', this._onEnter, false);
+		el.addEventListener('mouseleave', this._onLeave, false);
+	}
 
-		let start = new Date();
+	ngOnDestroy(): void {
+		const elRef = this.alertRef();
 
-		elRef.nativeElement.addEventListener(
-			'mouseenter',
-			() => {
-				clearTimeout(timer);
+		if (this._timer) window.clearTimeout(this._timer);
+		this._timer = null;
 
-				remaining -= new Date().getTime() - start.getTime();
-			},
-			false,
-		);
-
-		elRef.nativeElement.addEventListener(
-			'mouseleave',
-			() => {
-				start = new Date();
-
-				clearTimeout(timer);
-
-				timer = window.setTimeout(() => {
-					this.remove();
-				}, remaining);
-			},
-			false,
-		);
+		if (elRef) {
+			const el = elRef.nativeElement;
+			el.removeEventListener('mouseenter', this._onEnter, false);
+			el.removeEventListener('mouseleave', this._onLeave, false);
+		}
 	}
 
 	/**

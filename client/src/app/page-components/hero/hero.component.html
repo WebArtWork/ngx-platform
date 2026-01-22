@@ -1,0 +1,157 @@
+@let _content = content(); @if (_content?.title || _content?.description ||
+_content?.badge || _content?.card || _content?.ctas?.length) {
+<section class="hero">
+	<div
+		class="mx-auto w-full max-w-[var(--container)] px-[var(--gutter)] py-12 md:py-16"
+	>
+		<div class="grid gap-10 md:grid-cols-2 md:items-center">
+			<div class="space-y-6">
+				@if (_content.badge?.text) {
+				<div
+					class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm"
+					style="
+						border-color: var(--c-border);
+						color: var(--c-text-secondary);
+					"
+				>
+					@if (_content.badge?.icon) {
+					<span class="material-icons" aria-hidden="true"
+						>{{ _content.badge!.icon }}</span
+					>
+					}
+					<span>{{ _content.badge!.text }}</span>
+				</div>
+				} @if (_content.title) {
+				<h1
+					class="text-4xl md:text-5xl font-semibold leading-tight"
+					style="color: var(--c-text-primary)"
+				>
+					{{ _content.title }}
+				</h1>
+				} @if (_content.description) {
+				<p
+					class="text-base md:text-lg"
+					style="color: var(--c-text-secondary)"
+				>
+					{{ _content.description }}
+				</p>
+				} @if (_content.ctas?.length || _content.meta?.text) {
+				<div class="flex flex-wrap items-center gap-3">
+					@if (_content.ctas?.length) { @for (cta of _content.ctas!;
+					track cta.label) { @if (cta.label) {
+					<button
+						type="button"
+						class="hero__btn rounded-[var(--b-radius-btn)] px-5 py-3 text-sm font-medium"
+						[class.hero__btn--primary]="(cta.variant ?? 'primary') === 'primary'"
+						[class.hero__btn--ghost]="(cta.variant ?? 'primary') !== 'primary'"
+						(click)="onCtaClick(cta)"
+					>
+						{{ cta.label }}
+					</button>
+					} } } @if (_content.meta?.text) {
+					<div
+						class="flex items-center gap-2 text-sm"
+						style="color: var(--c-text-muted)"
+					>
+						@if (_content.meta?.icon) {
+						<span class="material-icons" aria-hidden="true"
+							>{{ _content.meta!.icon }}</span
+						>
+						}
+						<span>{{ _content.meta!.text }}</span>
+					</div>
+					}
+				</div>
+				}
+			</div>
+
+			@if (_content.card) {
+			<div
+				class="hero__card rounded-[var(--b-radius-card)] p-5 md:p-6 shadow-sm"
+			>
+				<div class="flex items-center justify-between gap-3">
+					<div>
+						@if (_content.card.title) {
+						<div
+							class="text-sm font-medium"
+							style="color: var(--c-text-primary)"
+						>
+							{{ _content.card!.title }}
+						</div>
+						} @if (_content.card.subtitle) {
+						<div class="text-sm" style="color: var(--c-text-muted)">
+							{{ _content.card!.subtitle }}
+						</div>
+						}
+					</div>
+
+					@if (_content.card.icon) {
+					<span class="material-icons" aria-hidden="true"
+						>{{ _content.card!.icon }}</span
+					>
+					}
+				</div>
+
+				@if (_content.card.miniCards?.length) {
+				<div class="mt-5 grid gap-3">
+					@for (m of _content.card!.miniCards!; track m.title) { @if
+					(m.title || m.desc) {
+					<div class="hero__mini">
+						@if (m.icon) {
+						<span class="material-icons" aria-hidden="true"
+							>{{ m.icon }}</span
+						>
+						}
+						<div>
+							@if (m.title) {
+							<div
+								class="text-sm font-medium"
+								style="color: var(--c-text-primary)"
+							>
+								{{ m.title }}
+							</div>
+							} @if (m.desc) {
+							<div
+								class="text-sm"
+								style="color: var(--c-text-muted)"
+							>
+								{{ m.desc }}
+							</div>
+							}
+						</div>
+					</div>
+					} }
+				</div>
+				} @if (_content.card.note?.title || _content.card.note?.desc) {
+				<div class="mt-6 hero__note">
+					<div class="flex items-center justify-between">
+						@if (_content.card.note?.title) {
+						<div
+							class="text-sm font-medium"
+							style="color: var(--c-text-primary)"
+						>
+							{{ _content.card!.note!.title }}
+						</div>
+						} @if (_content.card.note?.icon) {
+						<span class="material-icons" aria-hidden="true"
+							>{{ _content.card!.note!.icon }}</span
+						>
+						}
+					</div>
+
+					@if (_content.card.note?.desc) {
+					<div
+						class="mt-2 text-sm"
+						style="color: var(--c-text-secondary)"
+					>
+						{{ _content.card!.note!.desc }}
+					</div>
+					}
+				</div>
+				}
+			</div>
+			}
+		</div>
+	</div>
+</section>
+}

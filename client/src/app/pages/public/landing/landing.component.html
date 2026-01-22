@@ -1,32 +1,39 @@
 <main class="landing">
-	<page-component-hero></page-component-hero>
+	<page-component-hero [content]="heroContent"></page-component-hero>
 
-	<!--
-	<page-component-trust-bar [trust]="trust"></page-component-trust-bar>
+	<page-component-trust-bar
+		[content]="trustBarContent"
+	></page-component-trust-bar>
 
-	<page-component-about
-		[painPoints]="painPoints"
-		[solutions]="solutions"
-	></page-component-about>
+	<page-component-about [content]="aboutContent"></page-component-about>
 
-	<page-component-features [features]="features"></page-component-features>
+	<page-component-features
+		[content]="featuresContent"
+	></page-component-features>
 
-	<page-component-how-it-works [steps]="steps"></page-component-how-it-works>
+	<page-component-how-it-works
+		[content]="howItWorksContent"
+	></page-component-how-it-works>
 
-	<page-component-showcase [tabs]="showcaseTabs"></page-component-showcase>
+	<page-component-showcase
+		[content]="showcaseContent"
+	></page-component-showcase>
 
-	<page-component-use-cases [useCases]="useCases"></page-component-use-cases>
+	<page-component-use-cases
+		[content]="useCasesContent"
+	></page-component-use-cases>
 
 	<page-component-testimonials
-		[testimonials]="testimonials"
+		[content]="testimonialsContent"
 	></page-component-testimonials>
 
-	<page-component-pricing [plans]="plans"></page-component-pricing>
+	<page-component-pricing [content]="pricingContent"></page-component-pricing>
 
-	<page-component-faq [faqs]="faqs"></page-component-faq>
+	<page-component-faq [content]="faqContent"></page-component-faq>
 
-	<page-component-final-cta></page-component-final-cta>
-	-->
+	<page-component-final-cta
+		[content]="finalCtaContent"
+	></page-component-final-cta>
 
 	<layout-footer></layout-footer>
 </main>

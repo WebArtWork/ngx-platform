@@ -1,21 +1,17 @@
 .wbutton {
-	--_pad-y: 11px;
-	--_pad-x: 25px;
-	--_radius: 10px;
-
-	appearance: none;
+	/* Keep minimal “design system” behaviors here */
 	border: 0;
-	border-radius: var(--_radius);
-	padding: var(--_pad-y) var(--_pad-x);
-	font: 500 var(--fs) / 1 var(--ff-base);
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	cursor: pointer;
-	transition: var(--transition);
-	width: auto;
 	text-decoration: none;
+
+	/* Your app already sets global :focus-visible, so you can omit local focus styles.
+	   If you want local fallback, uncomment:
+	*/
+	/*
+	&:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+	}
+	*/
 
 	&.is-disabled {
 		opacity: 0.6;
@@ -28,7 +24,7 @@
 		color: var(--c-white);
 	}
 	&--secondary {
-		background: var(--c-grey-dark);
+		background: var(--c-secondary);
 		color: var(--c-white);
 	}
 	&--success {
@@ -59,12 +55,15 @@
 	&--link {
 		background: transparent;
 		color: var(--c-text-primary);
+		padding: 0; /* Tailwind gives padding; link should override */
 	}
 
-	&:not(.is-disabled):hover {
+	/* Hover behavior: keep token-consistent */
+	&:not(.is-disabled):not(:disabled):hover {
 		filter: brightness(0.95);
 	}
-	&--link:not(.is-disabled):hover {
+
+	&--link:not(.is-disabled):not(:disabled):hover {
 		color: var(--c-text-secondary);
 		filter: none;
 	}

@@ -1,18 +1,18 @@
 @if (text) {
 <div
-	class="alert-lib alert-lib--auto-height"
+	class="alert-lib alert-lib--auto-height max-w-full opacity-100 transition-all duration-300 ease-in-out"
 	[class.alert-lib--closing]="delete_animation"
 	[ngClass]="class"
 >
 	<div
-		[ngClass]="'alert-lib__content--color-' + type"
-		class="alert-lib__content alert-lib__content--bounce-in-up"
 		#alertRef
+		class="alert-lib__content alert-lib__content--bounce-in-up relative pointer-events-auto select-none px-4 py-2 text-sm min-h-[40px] max-w-full"
+		[ngClass]="'alert-lib__content--color-' + type"
 	>
 		@if (progress) {
-		<div class="alert-lib__progress">
+		<div class="alert-lib__progress absolute left-0 bottom-0 w-full">
 			<span
-				class="alert-lib__progress-bar"
+				class="alert-lib__progress-bar block h-[2px] w-full rounded-full"
 				[ngClass]="'alert-lib__progress-bar--' + type"
 				[ngStyle]="{
 					'animation-duration': (timeout + 350) / 1000 + 's'
@@ -20,28 +20,42 @@
 			></span>
 		</div>
 		}
+
 		<div class="alert-lib__body">
-			<div class="alert-lib__texts">
-				@if (icon) {
-				<div class="{{ icon }}"></div>
-				}
-				<div class="alert-lib__message alert-lib__message--slide-in">
-					{{ text }}
+			<div class="alert-lib__main">
+				<div class="alert-lib__texts">
+					@if (icon) {
+					<div [class]="icon" aria-hidden="true"></div>
+					}
+					<div
+						class="alert-lib__message alert-lib__message--slide-in"
+					>
+						{{ text }}
+					</div>
 				</div>
-			</div>
-			@if (type === "question") {
-			<div>
-				@for (button of buttons; track button.text) {
-				<button
-					(click)="remove(button.callback)"
-					class="alert-lib__button"
-				>
-					{{ button.text }}
-				</button>
+
+				@if (type === "question") {
+				<div class="alert-lib__actions">
+					@for (button of buttons; track button.text) {
+					<button
+						type="button"
+						(click)="remove(button.callback)"
+						class="alert-lib__button"
+					>
+						{{ button.text }}
+					</button>
+					}
+				</div>
 				}
 			</div>
-			} @if (closable) {
-			<div class="alert-lib__close" (click)="remove()"></div>
+
+			@if (closable) {
+			<button
+				type="button"
+				class="alert-lib__close"
+				(click)="remove()"
+				aria-label="Close alert"
+			></button>
 			}
 		</div>
 	</div>

@@ -155,4 +155,20 @@ export class SignComponent {
 		this.userService.get();
 		this._router.navigateByUrl('/profile');
 	}
+
+	constructor() {
+		console.log('called');
+
+		this._alertService.info({
+			text: '1 will be sent to your email',
+			timeout: 100000,
+		});
+
+		setTimeout(() => {
+			this._alertService.info({
+				text: '1 World Hello World Hello World Hello World Hello World Hello World Hello World',
+				timeout: 0,
+			});
+		}, 1000);
+	}
 }

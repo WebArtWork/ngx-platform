@@ -1,0 +1,9 @@
+.use-cases {
+	background: transparent;
+
+	&__card {
+		background: var(--c-bg-tertiary);
+		border: 1px solid var(--c-border);
+		color: var(--c-text-primary);
+	}
+}

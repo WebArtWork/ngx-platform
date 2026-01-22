@@ -1,0 +1,151 @@
+@let _content = content(); @let _selected = selectedTab(); @if (_content?.title
+|| _content?.description || _content?.tabs?.length) {
+<section class="showcase" [attr.id]="_content.sectionId ?? null">
+	<div
+		class="mx-auto w-full max-w-[var(--container)] px-[var(--gutter)] py-12 md:py-16"
+	>
+		<div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+			<div>
+				@if (_content.title) {
+				<h2
+					class="text-2xl md:text-3xl font-semibold"
+					style="color: var(--c-text-primary)"
+				>
+					{{ _content.title }}
+				</h2>
+				} @if (_content.description) {
+				<p
+					class="mt-3 text-base"
+					style="color: var(--c-text-secondary)"
+				>
+					{{ _content.description }}
+				</p>
+				} @if (_content.tabs?.length) {
+				<div
+					class="mt-6 inline-flex flex-wrap gap-2 rounded-[var(--b-radius-card)] border p-2"
+					style="border-color: var(--c-border)"
+				>
+					@for (t of _content.tabs!; track t.id) { @if (t.id &&
+					t.label) {
+					<button
+						type="button"
+						class="rounded-[var(--b-radius-btn)] px-4 py-2 text-sm font-medium"
+						[attr.aria-pressed]="selectedTabId() === t.id"
+						(click)="selectTab(t.id)"
+						[style.background]="selectedTabId() === t.id ? 'var(--c-primary)' : 'transparent'"
+						[style.color]="selectedTabId() === t.id ? 'var(--c-white)' : 'var(--c-text-primary)'"
+					>
+						{{ t.label }}
+					</button>
+					} }
+				</div>
+				} @if (_selected?.title || _selected?.desc ||
+				_selected?.bullets?.length) {
+				<div class="mt-6">
+					@if (_selected?.title) {
+					<div
+						class="text-xl font-semibold"
+						style="color: var(--c-text-primary)"
+					>
+						{{ _selected!.title }}
+					</div>
+					} @if (_selected?.desc) {
+					<div
+						class="mt-2 text-base"
+						style="color: var(--c-text-secondary)"
+					>
+						{{ _selected!.desc }}
+					</div>
+					} @if (_selected?.bullets?.length) {
+					<ul class="mt-4 grid gap-2">
+						@for (b of _selected!.bullets!; track b) { @if (b) {
+						<li
+							class="flex items-start gap-2 text-sm"
+							style="color: var(--c-text-muted)"
+						>
+							<span class="material-icons" aria-hidden="true"
+								>check</span
+							>
+							<span>{{ b }}</span>
+						</li>
+						} }
+					</ul>
+					} @if (_content.primaryCtaLabel ||
+					_content.secondaryCtaLabel) {
+					<div class="mt-6 flex flex-wrap gap-3">
+						@if (_content.primaryCtaLabel) {
+						<button
+							type="button"
+							class="showcase__btn showcase__btn--primary rounded-[var(--b-radius-btn)] px-5 py-3 text-sm font-medium"
+							(click)="onPrimaryCta()"
+						>
+							{{ _content.primaryCtaLabel }}
+						</button>
+						} @if (_content.secondaryCtaLabel) {
+						<button
+							type="button"
+							class="showcase__btn showcase__btn--ghost rounded-[var(--b-radius-btn)] px-5 py-3 text-sm font-medium"
+							(click)="onSecondaryCta()"
+						>
+							{{ _content.secondaryCtaLabel }}
+						</button>
+						}
+					</div>
+					}
+				</div>
+				}
+			</div>
+
+			<div
+				class="showcase__card rounded-[var(--b-radius-card)] p-5 md:p-6 shadow-sm"
+			>
+				<div class="flex items-center justify-between">
+					<div>
+						<div
+							class="text-sm font-medium"
+							style="color: var(--c-text-primary)"
+						>
+							Preview
+						</div>
+						<div class="text-sm" style="color: var(--c-text-muted)">
+							{{ _selected?.label }}
+						</div>
+					</div>
+					<span class="material-icons" aria-hidden="true"
+						>terminal</span
+					>
+				</div>
+
+				<div
+					class="mt-5 rounded-[var(--b-radius)] p-4 text-sm"
+					style="
+						background: var(--c-bg-secondary);
+						border: 1px solid var(--c-border);
+						color: var(--c-text-secondary);
+					"
+				>
+					<div
+						class="font-medium"
+						style="color: var(--c-text-primary)"
+					>
+						Signals-first UI state
+					</div>
+					<div class="mt-2">
+						<span style="color: var(--c-text-muted)"
+							>selectedTab</span
+						>
+						=
+						<span class="font-medium">{{ selectedTabId() }}</span>
+					</div>
+					<div
+						class="mt-3 text-sm"
+						style="color: var(--c-text-muted)"
+					>
+						Standalone components • OnPush • token-driven theme
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+}

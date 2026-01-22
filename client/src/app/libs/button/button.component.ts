@@ -6,7 +6,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import { buttonDefaults } from './button.const';
+import { buttonDefaults, WBUTTON_BASE_CLASSES } from './button.const';
 import { ButtonType } from './button.type';
 
 @Component({
@@ -31,6 +31,8 @@ export class ButtonComponent {
 
 	// Outputs — prefer (wClick). (click) on <wbutton> will still work.
 	readonly wClick = output<MouseEvent>();
+
+	readonly baseClasses = WBUTTON_BASE_CLASSES;
 
 	private _cooling = false;
 

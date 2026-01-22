@@ -3,13 +3,14 @@ import { TranslateService } from '@module/translate/services/translate.service';
 import { DomComponent, DomService } from 'wacom';
 import { AlertComponent } from '../components/alert/alert.component';
 import { WrapperComponent } from '../components/wrapper/wrapper.component';
-import { Alert, AlertConfig } from '../interfaces/alert.interface';
+import { Alert, AlertConfig, DEFAULT_ALERT_CONFIG } from '../interfaces/alert.interface';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AlertService {
 	private readonly _translateService = inject(TranslateService);
+
 	/**
 	 * Creates a new alert service.
 	 *
@@ -88,14 +89,11 @@ export class AlertService {
 		}
 
 		if (typeof opts.timeout !== 'number') {
-			opts.timeout = 3000;
+			opts.timeout = DEFAULT_ALERT_CONFIG.timeout ?? 3000;
 		}
 
-		if (opts.timeout) {
-			setTimeout(() => {
-				opts.close?.();
-			}, opts.timeout);
-		}
+		// NOTE: auto-dismiss is owned by AlertComponent to ensure it plays
+		// the close animation and correctly supports hover pause.
 
 		return opts;
 	}
@@ -175,11 +173,15 @@ export class AlertService {
 
 	/** Merged configuration applied to new alerts. */
 	private _config: AlertConfig = {
+		...DEFAULT_ALERT_CONFIG,
 		position: 'bottomRight',
 	};
 
 	setConfig(config: AlertConfig) {
-		this._config = config;
+		this._config = {
+			...this._config,
+			...config,
+		};
 	}
 
 	/** Wrapper component that contains all alert placeholders. */
@@ -203,10 +205,10 @@ export class AlertService {
 			? {
 					...this._config,
 					text: opts,
-				}
+			  }
 			: {
 					...this._config,
 					...opts,
-				};
+			  };
 	}
 }

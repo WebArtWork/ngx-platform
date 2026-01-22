@@ -6,7 +6,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import { buttonDefaults } from './button.const';
+import { buttonDefaults, WBUTTON_BASE_CLASSES } from './button.const';
 import { ButtonType } from './button.type';
 
 @Directive({
@@ -67,6 +67,7 @@ export class ButtonDirective {
 	get hostClass(): string {
 		return [
 			'wbutton',
+			WBUTTON_BASE_CLASSES,
 			`wbutton--${this.type()}`,
 			this.isBlocked ? 'is-disabled' : '',
 			this.extraClass() || '',

@@ -2,7 +2,10 @@
 
 <button
 	[type]="resolveType()"
-	class="wbutton{{ extraClass() ? ' ' + extraClass() : '' }}{{ _type ? ' wbutton--' + _type : '' }}{{ _blocked ? ' is-disabled' : '' }}"
+	class="wbutton {{ baseClasses }}
+		{{ extraClass() ? ' ' + extraClass() : '' }}
+		{{ _type ? ' wbutton--' + _type : '' }}
+		{{ _blocked ? ' is-disabled' : '' }}"
 	[disabled]="_blocked"
 	(click)="clicked($event)"
 >
