@@ -1,21 +1,18 @@
-# wbutton
+[![Angular v21+](https://img.shields.io/badge/angular-v21+-red)]()
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)]()
 
-Standalone button for Angular v20 with BEM-scoped styles, 2-second multi-click lock, and a matching directive so you can use either `<wbutton>` or `<button wbutton>`.
+# WAW Button (`wbutton`)
 
----
+Standalone button for Angular **v21+** with a matching directive so you can use either:
 
-## ✨ Features
+- `<wbutton>` (component)
+- `<button wbutton>` / `<a wbutton>` (directive)
 
-- Angular v20 standalone + `OnPush`
-- BEM CSS (`.wbutton`, modifiers like `.wbutton--primary`)
-- 2s click cooldown (opt-out via input)
-- Works as component **and** directive
-- Form-aware submit behavior
-- Accessible disabled states
+Includes a built-in **2s click cooldown** (opt-out) to prevent double submits.
 
 ---
 
-## 📦 Install
+## Installation
 
 ```bash
 waw add ngx-button
@@ -23,13 +20,37 @@ waw add ngx-button
 
 ---
 
-## 🧩 Import (once) global styles for the directive
+## Import
 
-> Required so `<button wbutton>` gets the same styles.
+### Component
+
+```ts
+import { ButtonComponent } from '@lib/button';
+
+@Component({
+	imports: [ButtonComponent],
+})
+export class DemoComponent {}
+```
+
+### Directive
+
+```ts
+import { ButtonDirective } from '@lib/button';
+
+@Component({
+	imports: [ButtonDirective],
+})
+export class DemoComponent {}
+```
+
+### Global styles for directive (recommended)
+
+`<button wbutton>` needs global styles. Add `ButtonStylesComponent` once at app root.
 
 ```ts
 import { Component } from '@angular/core';
-import { ButtonStylesComponent } from 'src/app/libs/button/button-styles.component';
+import { ButtonStylesComponent } from '@lib/button';
 
 @Component({
 	standalone: true,
@@ -40,28 +61,19 @@ import { ButtonStylesComponent } from 'src/app/libs/button/button-styles.compone
 export class AppComponent {}
 ```
 
+> `<wbutton>` styles are scoped by default. `ButtonStylesComponent` re-exports the same SCSS with `ViewEncapsulation.None` so the directive looks identical.
+
 ---
 
-## 🧪 Usage
+## Usage
 
-### 1) Component
+### 1) `<wbutton>` component
 
 ```html
 <wbutton type="primary" (wClick)="save()">Save</wbutton>
 ```
 
-```html
-<wbutton
-	type="danger"
-	[disabled]="isBusy()"
-	[extraClass]="'wbutton--wide'"
-	(wClick)="remove()"
->
-	Delete
-</wbutton>
-```
-
-**Prevent submit inside forms**
+Disable submit inside a form:
 
 ```html
 <form (ngSubmit)="submit()">
@@ -70,115 +82,97 @@ export class AppComponent {}
 </form>
 ```
 
-**Block multiple clicks for 2s (default) / allow multiple**
+Allow multiple clicks (disables 2s cooldown):
 
 ```html
-<wbutton (wClick)="payOnce()">Pay</wbutton>
-<wbutton [isMultipleClicksAllowed]="true" (wClick)="spamMe()">Spam</wbutton>
+<wbutton [isMultipleClicksAllowed]="true" (wClick)="run()">Run</wbutton>
 ```
 
-### 2) Directive
+### 2) `wbutton` directive
 
 ```html
 <button wbutton type="secondary" (wClick)="cancel()">Cancel</button>
 ```
 
-```html
-<button wbutton type="link" [extraClass]="'wbutton--wide'" (wClick)="details()">
-	Details
-</button>
-```
-
-On anchors:
+On links:
 
 ```html
-<a wbutton type="primary" (wClick)="navigate()">Go</a>
+<a wbutton type="link" (wClick)="openDocs()">Docs</a>
 ```
 
-> For `<a wbutton>` “disabled” becomes `aria-disabled="true"` and click is prevented.
+---
+
+## API
+
+### Inputs (component + directive)
+
+| Input                     | Type         | Default     | Notes                                                    |
+| ------------------------- | ------------ | ----------- | -------------------------------------------------------- |
+| `type`                    | `ButtonType` | `'primary'` | Adds `.wbutton--{type}`                                  |
+| `extraClass`              | `string`     | `''`        | Appended to class list                                   |
+| `disabled`                | `boolean`    | `false`     | Blocks click + sets disabled/aria-disabled               |
+| `disableSubmit`           | `boolean`    | `false`     | Forces `type="button"` (prevents form submit)            |
+| `isMultipleClicksAllowed` | `boolean`    | `false`     | When `false`, blocks subsequent clicks for **2 seconds** |
+
+### Outputs
+
+| Output   | Type                                              | Notes                       |
+| -------- | ------------------------------------------------- | --------------------------- |
+| `wClick` | `MouseEvent` on `<wbutton>` / `void` on directive | Emitted only if not blocked |
+
+> Note: directive’s `wClick` is `void` (no event payload). Component’s `wClick` emits the `MouseEvent`.
 
 ---
 
-## ⚙️ API
+## Behavior notes
 
-### `<wbutton>` (component)
-
-**Inputs**
-
-- `type: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link' = 'primary'`
-- `extraClass: string = ''` — extra CSS classes appended to root
-- `disabled: boolean = false`
-- `disableSubmit: boolean = false` — when `true`, forces `type="button"` (no form submit)
-- `isMultipleClicksAllowed: boolean = false` — when `false`, blocks subsequent clicks for **2s**
-
-**Outputs**
-
-- `wClick: void` — emitted on each accepted click
-
-**Behavior**
-
-- Default `type="submit"` inside forms; switches to `"button"` when `disableSubmit === true`.
+- Cooldown: after an accepted click, button becomes “blocked” for 2 seconds unless `isMultipleClicksAllowed="true"`.
+- Disabled handling:
+    - `<button wbutton>` uses native `disabled`.
+    - `<a wbutton>` uses `aria-disabled="true"` and prevents default.
 
 ---
 
-### `wbutton` (directive)
+## Styling
 
-**Selector**
+### BEM
 
-- `button[wbutton], a[wbutton]`
+- Block: `.wbutton`
+- State: `.is-disabled`
+- Modifiers:
+    - `.wbutton--primary`
+    - `.wbutton--secondary`
+    - `.wbutton--success`
+    - `.wbutton--danger`
+    - `.wbutton--warning`
+    - `.wbutton--info`
+    - `.wbutton--light`
+    - `.wbutton--dark`
+    - `.wbutton--link`
 
-**Inputs**
+### Tokens
 
-- Same as component: `type`, `extraClass`, `disabled`, `disableSubmit`, `isMultipleClicksAllowed`
+Uses your design tokens + base Tailwind-ish utility string from `WBUTTON_BASE_CLASSES`, including:
 
-**Outputs**
-
-- `wClick: void`
-
-**Behavior**
-
-- Sets `type="submit"`/`"button"` only on real `<button>`.
-- Applies `disabled` attribute only on `<button>`.
-- For `<a>`: uses `aria-disabled` + prevents default while “disabled”.
-- 2s cooldown identical to component.
-
----
-
-## 🎨 Styles (BEM)
-
-Root block: `.wbutton`
-Modifiers:
-
-- `.wbutton--primary`
-- `.wbutton--secondary`
-- `.wbutton--success`
-- `.wbutton--warning`
-- `.wbutton--danger`
-- `.wbutton--info`
-- `.wbutton--light`
-- `.wbutton--dark`
-- `.wbutton--link`
-
-State:
-
-- `.is-disabled`
-
-> The directive receives these styles via `ButtonStylesComponent` (global encapsulation).
+- `--b-radius-btn`, `--sp-*`, `--c-primary`, `--c-secondary`, `--c-border`, `--c-text-primary`, `--c-white`
 
 ---
 
-## 🧱 Theming
+## Types
 
-Relies on your design tokens:
-
-- `--c-primary`, `--c-secondary`, `--c-text-primary`, `--c-white`, `--c-border`, `--transition`, etc.
-
-Override globally, or pass utility classes via `extraClass`.
+```ts
+export type ButtonType =
+	| 'primary'
+	| 'secondary'
+	| 'success'
+	| 'danger'
+	| 'warning'
+	| 'info'
+	| 'light'
+	| 'dark'
+	| 'link';
+```
 
 ---
 
-## 📝 Notes
-
-- Change detection: `ChangeDetectionStrategy.OnPush`
-- Multi-click lock uses an internal 2s cooldown; set `isMultipleClicksAllowed="true"` to opt out.
-- Prefer `(wClick)` for semantic consistency across both component and directive.
+MIT © 2026 Web Art Work

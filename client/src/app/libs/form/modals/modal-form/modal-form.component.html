@@ -12,7 +12,8 @@
 	<div class="modal-form__actions">
 		@for (button of modalButtons; track button) {
 		<wbutton
-			[extraClass]="'w-btn _primary ' + (button.class || '')"
+			type="primary"
+			[extraClass]="'w-btn ' + (button.class || '')"
 			[disabled]="submitting()"
 			(wClick)="onButtonClick(button)"
 		>

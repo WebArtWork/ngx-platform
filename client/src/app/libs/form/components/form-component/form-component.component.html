@@ -20,26 +20,24 @@
 } @else if (component().name && template()) {
 <div class="wformc">
 	<ng-container
-		*ngTemplateOutlet="
-			template();
-			context: {
-				$implicit: {
-					props: component().props || {},
-					config: config(),
-					component: component(),
-					wFormId: formId(),
-					wFormKey: effectiveKey(),
-					wSubmit: submit.bind(this),
-					wChange: change.bind(this),
-					wClick: click.bind(this),
-					model: model(),
-					fieldTree: fieldTree(),
-					field: field,
-					submition: submition() || {},
-					key: effectiveKey()
-				}
+		[ngTemplateOutlet]="template()"
+		[ngTemplateOutletContext]="{
+			$implicit: {
+				props: component().props || {},
+				config: config(),
+				component: component(),
+				wFormId: formId(),
+				wFormKey: effectiveKey(),
+				wSubmit: submit.bind(this),
+				wChange: change.bind(this),
+				wClick: click.bind(this),
+				model: model(),
+				fieldTree: fieldTree(),
+				field: field,
+				submition: submition() || {},
+				key: effectiveKey()
 			}
-		"
+		}"
 	/>
 </div>
 }

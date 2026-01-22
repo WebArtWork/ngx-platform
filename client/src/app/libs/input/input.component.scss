@@ -37,14 +37,18 @@
 		}
 
 		&:focus {
-			outline: none;
 			border-color: var(--c-primary);
+		}
+
+		&:focus-visible {
+			outline: none;
 			box-shadow: var(--focus-ring);
 		}
 
 		&:disabled {
-			opacity: 0.6;
+			opacity: 0.7;
 			cursor: not-allowed;
+			background: var(--c-bg-tertiary);
 		}
 
 		&--textarea {
@@ -147,7 +151,9 @@
 		inline-size: 24px;
 		block-size: 24px;
 		border-radius: 4px;
-		background-color: var(--c-primary);
+
+		/* (4) FIX: unchecked should look unchecked */
+		background-color: transparent;
 		border: 1px solid var(--c-border);
 		box-shadow: 0 1px 1px var(--c-shadow);
 
@@ -180,9 +186,25 @@
 		}
 	}
 
+	/* (4) FIX: checked state fills primary + shows mark */
+	&__native:checked + .winput__choice-mark {
+		background-color: var(--c-primary);
+		border-color: var(--c-primary);
+	}
+
 	/* Checked drives mark (requires input right before mark in HTML) */
 	&__native:checked + .winput__choice-mark::before {
 		opacity: 1;
+	}
+
+	&__control--two-icons {
+		.winput__field {
+			padding-right: 72px;
+		}
+
+		.winput__eye {
+			right: 40px;
+		}
 	}
 }
 

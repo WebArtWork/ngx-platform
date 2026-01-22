@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
+	ElementRef,
 	Signal,
 	TemplateRef,
 	computed,
@@ -13,9 +14,10 @@ import {
 	model,
 	output,
 	signal,
+	viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ClickOutsideDirective, CoreService, SearchPipe } from 'wacom';
+import { ClickOutsideDirective, CoreService } from 'wacom';
 import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
 import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
@@ -34,7 +36,6 @@ import { SelectId, SelectValue } from './select.type';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		NgTemplateOutlet,
-		SearchPipe,
 		TranslateDirective,
 		TranslatePipe,
 		InputComponent,
@@ -96,6 +97,12 @@ export class SelectComponent implements ControlValueAccessor {
 	readonly showOptions = signal(false);
 	readonly search = signal('');
 
+	/** keyboard navigation */
+	readonly activeIndex = signal<number>(-1);
+
+	private readonly _popupListEl =
+		viewChild<ElementRef<HTMLElement>>('popupListEl');
+
 	/** derived helpers */
 	readonly isMulti = computed(() => this.multiple());
 	private _disabledCva = false;
@@ -115,6 +122,20 @@ export class SelectComponent implements ControlValueAccessor {
 	readonly selectedId = computed<SelectId | null>(
 		() => this.selectedIds()[0] ?? null,
 	);
+
+	/** filtered list for popup (replaces SearchPipe) */
+	readonly filteredItems = computed(() => {
+		const q = (this.search() ?? '').toString().trim().toLowerCase();
+		const list = this.allItems();
+
+		if (!q) return list;
+
+		return list.filter((sig) => {
+			const it = sig();
+			const hay = (it.__search ?? it.name ?? '').toString().toLowerCase();
+			return hay.includes(q);
+		});
+	});
 
 	/* ===== CVA glue ===== */
 	private _onChange: (v: any) => void = () => {};
@@ -216,11 +237,35 @@ export class SelectComponent implements ControlValueAccessor {
 			this._onChange(v);
 			this.wChange.emit(v);
 		});
+
+		/* when list changes while open, keep activeIndex valid */
+		effect(() => {
+			if (!this.showOptions()) return;
+			const len = this.filteredItems().length;
+			if (!len) {
+				this.activeIndex.set(-1);
+				return;
+			}
+			const idx = this.activeIndex();
+			if (idx < 0 || idx >= len) {
+				this.activeIndex.set(0);
+				queueMicrotask(() => this._scrollActiveIntoView());
+			}
+		});
 	}
 
 	/* ===== UI actions ===== */
 	toggleOptions(show = !this.showOptions()) {
-		if (!this.isDisabled()) this.showOptions.set(show);
+		if (this.isDisabled()) return;
+
+		this.showOptions.set(show);
+
+		if (show) {
+			this._primeActiveIndex();
+			queueMicrotask(() => this._scrollActiveIntoView());
+		} else {
+			this.activeIndex.set(-1);
+		}
 	}
 
 	selectOption(item: SelectItem): void {
@@ -231,8 +276,15 @@ export class SelectComponent implements ControlValueAccessor {
 		} else {
 			this.wModel.set(item.id);
 			this.showOptions.set(false);
+			this.activeIndex.set(-1);
 		}
 		this._onTouched();
+	}
+
+	selectOptionAt(index: number): void {
+		const list = this.filteredItems();
+		if (index < 0 || index >= list.length) return;
+		this.selectOption(list[index]());
 	}
 
 	removeItem(index: number) {
@@ -244,6 +296,123 @@ export class SelectComponent implements ControlValueAccessor {
 
 	clear(): void {
 		this.wModel.set(this.isMulti() ? [] : null);
+	}
+
+	/* ===== Keyboard ===== */
+	onKeydown(ev: KeyboardEvent): void {
+		if (this.isDisabled()) return;
+
+		const key = ev.key;
+
+		// open from closed state
+		if (!this.showOptions()) {
+			if (
+				key === 'ArrowDown' ||
+				key === 'ArrowUp' ||
+				key === 'Enter' ||
+				key === ' '
+			) {
+				ev.preventDefault();
+				this.toggleOptions(true);
+			}
+			return;
+		}
+
+		const len = this.filteredItems().length;
+
+		switch (key) {
+			case 'Escape': {
+				ev.preventDefault();
+				this.toggleOptions(false);
+				return;
+			}
+			case 'Tab': {
+				// let focus move, but close popup
+				this.toggleOptions(false);
+				return;
+			}
+			case 'ArrowDown': {
+				ev.preventDefault();
+				if (!len) return;
+				const next = Math.min(
+					this.activeIndex() < 0 ? 0 : this.activeIndex() + 1,
+					len - 1,
+				);
+				this.activeIndex.set(next);
+				this._scrollActiveIntoView();
+				return;
+			}
+			case 'ArrowUp': {
+				ev.preventDefault();
+				if (!len) return;
+				const next = Math.max(
+					this.activeIndex() < 0 ? len - 1 : this.activeIndex() - 1,
+					0,
+				);
+				this.activeIndex.set(next);
+				this._scrollActiveIntoView();
+				return;
+			}
+			case 'Home': {
+				ev.preventDefault();
+				if (!len) return;
+				this.activeIndex.set(0);
+				this._scrollActiveIntoView();
+				return;
+			}
+			case 'End': {
+				ev.preventDefault();
+				if (!len) return;
+				this.activeIndex.set(len - 1);
+				this._scrollActiveIntoView();
+				return;
+			}
+			case 'Enter':
+			case ' ': {
+				ev.preventDefault();
+				const idx = this.activeIndex();
+				if (idx >= 0) this.selectOptionAt(idx);
+				return;
+			}
+		}
+	}
+
+	private _primeActiveIndex(): void {
+		const list = this.filteredItems();
+
+		if (!list.length) {
+			this.activeIndex.set(-1);
+			return;
+		}
+
+		// Prefer currently selected item as the active one
+		const selected = this.selectedId();
+		if (!this.isMulti() && selected != null) {
+			const idx = list.findIndex((s) => s().id === selected);
+			this.activeIndex.set(idx >= 0 ? idx : 0);
+			return;
+		}
+
+		// Multi: prefer first selected in the filtered list
+		if (this.isMulti() && this.selectedIds().length) {
+			const set = new Set(this.selectedIds());
+			const idx = list.findIndex((s) => set.has(s().id));
+			this.activeIndex.set(idx >= 0 ? idx : 0);
+			return;
+		}
+
+		this.activeIndex.set(0);
+	}
+
+	private _scrollActiveIntoView(): void {
+		const idx = this.activeIndex();
+		if (idx < 0) return;
+
+		const root = this._popupListEl()?.nativeElement;
+		if (!root) return;
+
+		const el = root.querySelector<HTMLElement>(`[data-index="${idx}"]`);
+		el?.scrollIntoView({ block: 'nearest' });
 	}
 
 	/* ===== CVA ===== */

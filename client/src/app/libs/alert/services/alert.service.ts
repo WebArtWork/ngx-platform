@@ -3,7 +3,11 @@ import { TranslateService } from '@module/translate/services/translate.service';
 import { DomComponent, DomService } from 'wacom';
 import { AlertComponent } from '../components/alert/alert.component';
 import { WrapperComponent } from '../components/wrapper/wrapper.component';
-import { Alert, AlertConfig, DEFAULT_ALERT_CONFIG } from '../interfaces/alert.interface';
+import {
+	Alert,
+	AlertConfig,
+	DEFAULT_ALERT_CONFIG,
+} from '../interfaces/alert.interface';
 
 @Injectable({
 	providedIn: 'root',
@@ -205,10 +209,10 @@ export class AlertService {
 			? {
 					...this._config,
 					text: opts,
-			  }
+				}
 			: {
 					...this._config,
 					...opts,
-			  };
+				};
 	}
 }

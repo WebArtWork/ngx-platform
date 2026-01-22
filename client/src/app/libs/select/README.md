@@ -1,18 +1,23 @@
-[![Angular v20](https://img.shields.io/badge/angular-v20+-red)]()
+[![Angular v21+](https://img.shields.io/badge/angular-v21+-red)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)]()
 
 # WAW Select Component (`wselect`)
 
-A lightweight, signal-driven select with:
+A lightweight, signal-driven select component with:
 
-- single/multiple select
-- search
+- single / multiple select
+- built-in search
+- keyboard navigation
 - custom templates
 - `[(wModel)]` two-way binding
 - Signal Forms support via `[field]`
 - Full Angular Forms (CVA) support
 
-## Install
+Designed to work seamlessly with the WAW design system and Angular signals.
+
+---
+
+## 📦 Install
 
 ```bash
 waw add ngx-select
@@ -34,6 +39,8 @@ export class DemoComponent {}
 
 ---
 
+## Usage
+
 ### 1️⃣ Signal Forms (`[field]`)
 
 ```html
@@ -47,40 +54,56 @@ export class DemoComponent {}
 </form>
 ```
 
-### 2️⃣ Template-Driven Form
+---
+
+### 2️⃣ Template-driven binding
 
 ```html
 <wselect [items]="users" bindLabel="name" bindValue="_id" [(wModel)]="assignee">
 </wselect>
 ```
 
-### 3️⃣ Reactive Form (CVA)
+---
+
+### 3️⃣ Reactive Forms (CVA)
 
 ```html
-<wselect
-	[items]="users"
-	bindLabel="name"
-	bindValue="_id"
-	formControlName="assignee"
->
+<form [formGroup]="form">
+	<wselect
+		formControlName="assignee"
+		[items]="users"
+		bindLabel="name"
+		bindValue="_id"
+	>
+	</wselect>
+</form>
+```
+
+---
+
+## 🔍 Search
+
+```html
+<wselect [items]="items" [searchable]="true" searchableBy="name email">
 </wselect>
 ```
 
-## Search
+- Search is built-in
+- `searchableBy` accepts space-separated object paths
+- No external pipes required
 
-```html
-<wselect [items]="items" [searchable]="true" [searchableBy]="'name email'">
-</wselect>
-```
+---
 
-## Multiple
+## 🔢 Multiple select
 
 ```html
 <wselect [items]="tags" [multiple]="true" [(wModel)]="selectedTagIds">
 </wselect>
 ```
 
-## Templates
+---
+
+## 🎨 Templates
 
 ```html
 <wselect
@@ -92,7 +115,7 @@ export class DemoComponent {}
 </wselect>
 
 <ng-template #viewTpl>
-	<div>Custom header…</div>
+	<div>Custom header content</div>
 </ng-template>
 
 <ng-template #itemTpl let-item="item">
@@ -104,34 +127,75 @@ export class DemoComponent {}
 </ng-template>
 ```
 
-## API
+---
+
+## ⌨️ Keyboard navigation
+
+`wselect` is fully keyboard-accessible out of the box:
+
+- `Enter` / `Space` — open select, confirm selection
+- `ArrowUp` / `ArrowDown` — navigate options
+- `Home` / `End` — jump to first / last option
+- `Escape` — close dropdown
+- `Tab` — close dropdown and move focus
+
+The active option is automatically scrolled into view.
+
+---
+
+## ⚙️ API
 
 ### Inputs
 
-- `items: unknown[]`
-- `placeholder: string`
-- `label: string`
-- `bindLabel: string` (default: `"name"`)
-- `bindValue: string` (default: `"_id"`)
-- `multiple: boolean`
-- `clearable: boolean`
-- `disabled: boolean`
-- `searchable: boolean`
-- `searchableBy: string` (space-separated paths)
-- `buttons: SelectButton[]`
-- `t_view: TemplateRef`
-- `t_item: TemplateRef`
-- `t_search: TemplateRef`
+| Input          | Type             | Default  | Description               |
+| -------------- | ---------------- | -------- | ------------------------- |
+| `items`        | `unknown[]`      | `[]`     | Items list                |
+| `label`        | `string`         | `''`     | Optional label            |
+| `placeholder`  | `string`         | `''`     | Placeholder text          |
+| `bindLabel`    | `string`         | `'name'` | Field used as label       |
+| `bindValue`    | `string`         | `'_id'`  | Field used as value       |
+| `multiple`     | `boolean`        | `false`  | Enables multi-select      |
+| `clearable`    | `boolean`        | `false`  | Allows clearing selection |
+| `disabled`     | `boolean`        | `false`  | Disables select           |
+| `searchable`   | `boolean`        | `false`  | Enables search            |
+| `searchableBy` | `string`         | `'name'` | Search fields             |
+| `buttons`      | `SelectButton[]` | `[]`     | Extra action buttons      |
+| `t_view`       | `TemplateRef`    | `null`   | Custom header             |
+| `t_item`       | `TemplateRef`    | `null`   | Custom item               |
+| `t_search`     | `TemplateRef`    | `null`   | Custom search             |
 
-### Two-way
+---
 
-- `[(wModel)]="value"` — selected id or array of ids (when `multiple`)
+### Two-way binding
+
+```html
+<wselect [(wModel)]="value"></wselect>
+```
+
+- Single mode → `string | number | boolean | null`
+- Multiple mode → `(string | number | boolean)[]`
+
+---
 
 ### Outputs
 
-- `(wChange)="onChange($event)"` — emitted on selection changes (`id | id[]`)
+| Output    | Type          | Description                 |
+| --------- | ------------- | --------------------------- |
+| `wChange` | `SelectValue` | Emitted on selection change |
 
-## Notes
+---
 
-- With Signal Forms, use `[field]="form.myField"` on `<wselect>`. `Field` will bind through `ControlValueAccessor` (no extra wiring needed).
-- Without Signal Forms, use `[(wModel)]`, `formControlName`, or `ngModel` as usual.
+## 📝 Notes
+
+- Works with:
+    - Signal Forms (`[field]`)
+    - Template-driven forms
+    - Reactive forms (CVA)
+
+- No global styles required
+- Styling is token-based (`--c-*`, `--sp-*`)
+- Designed to match WAW input + button libraries
+
+---
+
+MIT © 2026 Web Art Work

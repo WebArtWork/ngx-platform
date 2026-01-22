@@ -1,20 +1,27 @@
-[![Angular v21](https://img.shields.io/badge/angular-v21+-red)]()
+[![Angular v21+](https://img.shields.io/badge/angular-v21+-red)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)]()
 
 # WAW Input Component (`winput`)
 
-Signal-based input component for Angular v21+ that supports:
+A signal-friendly, form-agnostic input component for Angular **v20+**.
 
-- standalone model binding via `[(wModel)]`
-- signal-forms via `[field]` (`@angular/forms/signals`)
+Supports:
 
-UI is Tailwind-first, with minimal SCSS for radio/checkbox marks.
+- standalone two-way binding via `[(wModel)]`
+- Signal Forms via `[formField]` (`@angular/forms/signals`)
+- text, password, textarea, radio, checkbox
+- clearable inputs, password visibility toggle
+- consistent BEM styling with design tokens
+
+---
 
 ## Installation
 
 ```bash
 waw add ngx-input
 ```
+
+---
 
 ## Import
 
@@ -27,52 +34,120 @@ import { InputComponent } from '@libs/input';
 export class DemoComponent {}
 ```
 
+---
+
 ## Usage
 
-### Template model (no signal-forms)
+### 1️⃣ Template model (no forms)
 
 ```html
-<winput label="Email" type="email" [(wModel)]="email"></winput>
+<winput
+	label="Email"
+	type="email"
+	placeholder="Enter email"
+	[(wModel)]="email"
+></winput>
 ```
 
-### Signal forms
+---
+
+### 2️⃣ Signal Forms (`[formField]`)
 
 ```html
-<winput label="Email" type="email" [field]="emailField"></winput>
+<winput label="Password" type="password" [formField]="passwordField"></winput>
 ```
 
-### Radio / checkbox with items
+- Automatically reads `touched / dirty / invalid / errors`
+- Error text is rendered when invalid + touched/dirty
+- No extra wiring needed
+
+---
+
+### 3️⃣ Password input
 
 ```html
-<winput type="radio" [items]="['A', 'B']" [(wModel)]="picked"></winput>
-<winput type="checkbox" [items]="['A', 'B']" [(wModel)]="selected"></winput>
+<winput type="password" label="Password" clearable></winput>
 ```
+
+- Eye icon toggles visibility
+- When `clearable + password` → layout auto-adjusts for two icons
+
+---
+
+### 4️⃣ Textarea
+
+```html
+<winput
+	type="textarea"
+	label="Description"
+	placeholder="Write something…"
+></winput>
+```
+
+---
+
+### 5️⃣ Radio buttons
+
+```html
+<winput
+	type="radio"
+	label="Status"
+	[items]="['Draft', 'Published']"
+	[(wModel)]="status"
+></winput>
+```
+
+---
+
+### 6️⃣ Checkbox
+
+Single boolean:
+
+```html
+<winput type="checkbox" label="Accept terms" [(wModel)]="accepted"></winput>
+```
+
+Multiple values:
+
+```html
+<winput
+	type="checkbox"
+	[items]="['A', 'B', 'C']"
+	[(wModel)]="selectedItems"
+></winput>
+```
+
+---
 
 ## Inputs
 
-| Input          | Type                          | Default     | Notes                                                                |
-| -------------- | ----------------------------- | ----------- | -------------------------------------------------------------------- |
-| `field`        | `any \| null`                 | `null`      | Signal-forms binding (passed through to `[formField]`).              |
-| `wModel`       | `InputValue \| null`          | `null`      | Template binding: `[(wModel)]="..."` (used when `field` is not set). |
-| `type`         | `InputType`                   | `'text'`    | Input type including `radio`, `checkbox`, `textarea`.                |
-| `name`         | `string`                      | `'name'`    | Used for radio grouping in non-field mode.                           |
-| `label`        | `string`                      | `''`        | Label text.                                                          |
-| `placeholder`  | `string`                      | `''`        | Placeholder for text/textarea inputs.                                |
-| `items`        | `string[]`                    | `[]`        | Options for `radio` and multi-`checkbox`.                            |
-| `disabled`     | `boolean`                     | `false`     | Disables the control (manual in non-field mode).                     |
-| `focused`      | `boolean`                     | `false`     | Auto-focus after view init.                                          |
-| `clearable`    | `boolean`                     | `false`     | Shows clear button for text-like inputs.                             |
-| `wClass`       | `string`                      | `''`        | Extra classes applied to the native control.                         |
-| `autocomplete` | `string \| null \| undefined` | `undefined` | If unset and `type='password'` → `'current-password'`.               |
-| `error`        | `string \| null`              | `null`      | Optional external error override.                                    |
+| Input          | Type                          | Default     | Notes                                                 |
+| -------------- | ----------------------------- | ----------- | ----------------------------------------------------- |
+| `formField`    | `any \| null`                 | `null`      | Signal Forms binding (`FormField`).                   |
+| `wModel`       | `InputValue \| null`          | `null`      | Used when `formField` is not set.                     |
+| `type`         | `InputType`                   | `'text'`    | Includes `password`, `radio`, `checkbox`, `textarea`. |
+| `name`         | `string`                      | `'name'`    | Radio grouping in non-formField mode.                 |
+| `label`        | `string`                      | `''`        | Optional label text.                                  |
+| `placeholder`  | `string`                      | `''`        | Text / textarea placeholder.                          |
+| `items`        | `string[]`                    | `[]`        | Radio / checkbox options.                             |
+| `disabled`     | `boolean`                     | `false`     | Manual disable when not using `formField`.            |
+| `focused`      | `boolean`                     | `false`     | Auto-focus after view init.                           |
+| `clearable`    | `boolean`                     | `false`     | Shows clear button for text-like inputs.              |
+| `wClass`       | `string`                      | `''`        | Extra classes for the native control.                 |
+| `autocomplete` | `string \| null \| undefined` | `undefined` | Defaults to `current-password` for password inputs.   |
+| `error`        | `string \| null`              | `null`      | Optional external error override.                     |
+
+---
 
 ## Outputs
 
-| Output    | Type                 | When                                |
-| --------- | -------------------- | ----------------------------------- |
-| `wChange` | `InputValue \| null` | On user input (also in field mode). |
-| `wSubmit` | `void`               | On Enter key or clear action.       |
-| `wBlur`   | `void`               | On blur.                            |
+| Output    | Type                 | When                                              |
+| --------- | -------------------- | ------------------------------------------------- |
+| `wChange` | `InputValue \| null` | On value change (also fires in `formField` mode). |
+| `wSubmit` | `void`               | On Enter key (text-like inputs) or clear action.  |
+| `wBlur`   | `void`               | On blur.                                          |
+
+---
 
 ## Types
 
@@ -107,10 +182,26 @@ export type InputType =
 	| 'datetime-local';
 ```
 
+---
+
 ## Styling
 
 - Block: `.winput`
-- Elements: `__label`, `__control`, `__field`, `__error`, `__choice`, `__choice-text`, `__choice-mark`, `__native`
-- Uses tokens: `--c-border`, `--c-primary`, `--c-text-*`, `--c-placeholder`, `--b-radius`
+- Elements:
+    - `__label`, `__control`, `__field`, `__error`
+    - `__icon-btn`, `__clear`, `__eye`
+    - `__choice`, `__choice-text`, `__choice-mark`, `__native`
 
-MIT © 2025 Web Art Work
+### Notes
+
+- Radio / checkbox:
+    - unchecked → transparent
+    - checked → filled with `--c-primary`
+
+- Uses design tokens:
+    - `--c-border`, `--c-primary`, `--c-text-*`
+    - `--c-placeholder`, `--b-radius`, `--focus-ring`
+
+---
+
+MIT © 2026 Web Art Work

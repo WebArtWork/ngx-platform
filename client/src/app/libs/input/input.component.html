@@ -8,7 +8,10 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 	<span class="winput__label">{{ (_label | translate)() }}</span>
 	}
 
-	<div class="winput__control">
+	<div
+		[class.winput__control--two-icons]="_clearable && _type === 'password'"
+		class="winput__control"
+	>
 		@if (_field) {
 		<input
 			class="winput__field"
@@ -87,7 +90,6 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			class="winput__field winput__field--textarea"
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
 			[manualDisabled]="_disabled"
-			(keyup.enter)="onSubmit()"
 			(input)="onInput($event)"
 			[class.error]="_error"
 			[formField]="_field"
@@ -100,7 +102,6 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			class="winput__field winput__field--textarea"
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
 			[attr.disabled]="_disabled ? '' : null"
-			(keyup.enter)="onSubmit()"
 			(input)="onInput($event)"
 			[value]="wModel() ?? ''"
 			[class.error]="_error"

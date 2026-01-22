@@ -1,6 +1,9 @@
-<div class="wacom-modal" (click)="onBackdropClick()">
+<div
+	class="wacom-modal fixed inset-0 z-[9999] flex items-center justify-center p-[var(--sp-8)] bg-black/55"
+	(click)="onBackdropClick()"
+>
 	<div
-		class="wacom-modal__content"
+		class="wacom-modal__content relative flex flex-col w-full max-h-[90vh] bg-[var(--c-bg-secondary)] rounded-[var(--b-radius-card)] shadow-[0_18px_45px_rgba(0,0,0,0.6)] overflow-hidden"
 		[ngClass]="[
 			panelClass,
 			size === 'small' ? 'wacom-modal__content--small' : '',
@@ -10,13 +13,18 @@
 		]"
 		(click)="$event.stopPropagation()"
 	>
-		<div class="wacom-modal__body"><!-- content host --></div>
+		<div
+			class="wacom-modal__body flex-1 min-h-0 overflow-auto p-[var(--sp-4)] pr-[calc(var(--sp-4)+3rem)]"
+		>
+			<!-- content host -->
+		</div>
 
 		@if (closable) {
 		<button
 			type="button"
-			class="wacom-modal__close material-icons"
+			class="wacom-modal__close material-icons absolute top-[var(--sp-3)] right-[var(--sp-2)] inline-flex items-center justify-center rounded-full p-2 text-[var(--c-text-secondary)] hover:bg-white/10 focus-visible:outline-none"
 			(click)="close()"
+			aria-label="Close"
 		>
 			close
 		</button>
