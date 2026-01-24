@@ -20,4 +20,6 @@ export class TopbarComponent {
 
 	// emits burger open/close state
 	readonly sidebarOpen = output<boolean>();
+
+	readonly showProfile = input(false);
 }

@@ -6,7 +6,6 @@ import {
 	inject,
 	viewChild,
 } from '@angular/core';
-import { FormField } from '@angular/forms/signals';
 import { FormService } from '@lib/form';
 import { SelectComponent, selectDefaults } from '@lib/select';
 
@@ -14,7 +13,7 @@ interface SelectTemplateContext {}
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [SelectComponent, FormField],
+	imports: [SelectComponent],
 	templateUrl: './select.component.html',
 })
 export class SelectFormComponent implements OnInit {

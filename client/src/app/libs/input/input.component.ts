@@ -32,7 +32,7 @@ import { InputType, InputValue } from './input.type';
 })
 export class InputComponent implements AfterViewInit {
 	/* ---------------- Signal forms ---------------- */
-	readonly field = input<any | null>(null);
+	readonly formField = input<any | null>(null);
 
 	/* ---------------- Template-model mode ---------------- */
 	readonly wModel = model<InputValue | null>(null, { alias: 'wModel' });
@@ -68,7 +68,7 @@ export class InputComponent implements AfterViewInit {
 
 	/* ---------------- Derived state ---------------- */
 	readonly fieldState = computed(() => {
-		const f = this.field();
+		const f = this.formField();
 		return f ? f() : null;
 	});
 
@@ -126,7 +126,7 @@ export class InputComponent implements AfterViewInit {
 		let value: InputValue | null = null;
 
 		if (nativeType === 'checkbox' && target instanceof HTMLInputElement) {
-			if (option != null && this.items().length && !this.field()) {
+			if (option != null && this.items().length && !this.formField()) {
 				const current = this.wModel() as InputValue;
 				const list = Array.isArray(current)
 					? [...(current as any[])]
@@ -149,7 +149,7 @@ export class InputComponent implements AfterViewInit {
 			value = target.value;
 		}
 
-		if (!this.field()) {
+		if (!this.formField()) {
 			this.wModel.set(value);
 		}
 
@@ -165,7 +165,7 @@ export class InputComponent implements AfterViewInit {
 	}
 
 	onClear() {
-		if (!this.field()) {
+		if (!this.formField()) {
 			this.wModel.set(null);
 		}
 		this.wChange.emit(null);

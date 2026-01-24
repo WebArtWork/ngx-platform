@@ -47,8 +47,7 @@
 		transform: translateX(-50%);
 	}
 
-	/* spacing only when name is present */
-	&:not(:has(.mi__name)) {
+	&__iconOnly {
 		gap: 0;
 	}
 }

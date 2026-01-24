@@ -65,6 +65,16 @@ export class SelectComponent implements ControlValueAccessor {
 	readonly items = input<unknown[]>(selectDefaults.items);
 	readonly buttons = input<SelectButton[]>(selectDefaults.buttons);
 
+	/* ===== Signal Forms (canonical: formField) ===== */
+	readonly formField = input<any | null>(null, { alias: 'formField' });
+
+	/** Back-compat alias for older templates/docs */
+	readonly field = input<any | null>(null, { alias: 'field' });
+
+	private readonly _resolvedField = computed(
+		() => this.formField() ?? this.field(),
+	);
+
 	/* ==== Projected templates (contentChild) ==== */
 	readonly viewTpl = contentChild(WselectViewDirective, {
 		read: TemplateRef<unknown>,
@@ -142,6 +152,37 @@ export class SelectComponent implements ControlValueAccessor {
 	private _onTouched: () => void = () => {};
 
 	constructor() {
+		/* ===== Signal Forms bridge (field <-> wModel) ===== */
+		effect(() => {
+			const f = this._resolvedField();
+			if (!f) return;
+
+			try {
+				// Expect field to be a signal returning { value: Signal<T> }
+				const state = f();
+				const v = state?.value?.();
+				if (!this._equal(this.wModel(), v)) {
+					this.wModel.set(v as any);
+				}
+			} catch {
+				// ignore invalid field shape
+			}
+		});
+
+		effect(() => {
+			const f = this._resolvedField();
+			if (!f) return;
+
+			try {
+				const state = f();
+				if (state?.value?.set) {
+					state.value.set(this.wModel() as any);
+				}
+			} catch {
+				// ignore invalid field shape
+			}
+		});
+
 		/* rebuild items mirror on input changes (supports plain items & signals) */
 		effect(() => {
 			const list = this.items();

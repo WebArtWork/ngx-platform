@@ -7,6 +7,10 @@ Angular 21 app built with standalone components, zoneless change detection, and 
 - Node 20+ and npm 10+ (Angular CLI 21 is provided locally via devDependencies)
 - Chrome/Chromium for Playwright E2E (install once with `npx playwright install` if browsers are missing)
 
+## Custom GPT
+
+https://chatgpt.com/g/g-68d25d311af08191be5aad28fca904b1-angular-web-art-work
+
 ## Getting Started
 
 ```sh
@@ -61,10 +65,10 @@ Keep component classes consistent in this order:
 
 - Private variables and functions start with an underscore (`_`).
 - Services injected in constructors should follow:
-  ```ts
-  public configService: ConfigService
-  private _configService: ConfigService
-  ```
+    ```ts
+    public configService: ConfigService
+    private _configService: ConfigService
+    ```
 
 ## WAW CLI Helpers
 

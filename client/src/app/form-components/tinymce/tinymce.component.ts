@@ -29,18 +29,28 @@ export class TinymceFormComponent implements OnInit {
 
 	/** Read current value: prefer Signal Form field, fallback to raw submition. */
 	getValue(data: any): string {
-		const key = data.key as string | null;
-		if (data.field) {
+		const key = (data?.key as string | null) ?? null;
+
+		// Signal Forms field (preferred)
+		if (data?.field) {
 			try {
 				const state = data.field();
 				if (state?.value && typeof state.value === 'function') {
-					return state.value() ?? '';
+					return (state.value() as string) ?? '';
 				}
 			} catch {
-				// fall through to submition
+				// fall through
 			}
 		}
-		if (!key || !data.submition) return '';
+
+		// Model signal fallback
+		if (data?.model && typeof data.model === 'function' && key) {
+			const current = data.model() as Record<string, unknown>;
+			return (current?.[key] as string) ?? '';
+		}
+
+		// Legacy submission object
+		if (!key || !data?.submition) return '';
 		return (data.submition[key] as string) ?? '';
 	}
 
@@ -198,7 +208,7 @@ export class TinymceFormComponent implements OnInit {
 	}
 
 	isDisabled(data: any): boolean {
-		return (data.props?.disabled as boolean) ?? false;
+		return !!(data?.props?.disabled || data?.component?.disabled);
 	}
 
 	isInline(data: any): boolean {

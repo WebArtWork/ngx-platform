@@ -1,8 +1,8 @@
-@let _field = field(); @let _type = type(); @let _name = name(); @let _label =
-label(); @let _disabled = disabled(); @let _items = items(); @let _wClass =
-wClass(); @let _clearable = clearable(); @let _placeholder = placeholder(); @let
-_error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
-!== 'textarea') {
+@let _formField = formField(); @let _type = type(); @let _name = name(); @let
+_label = label(); @let _disabled = disabled(); @let _items = items(); @let
+_wClass = wClass(); @let _clearable = clearable(); @let _placeholder =
+placeholder(); @let _error = fieldError(); @if (_type !== 'radio' && _type !==
+'checkbox' && _type !== 'textarea') {
 <label class="winput">
 	@if (_label) {
 	<span class="winput__label">{{ (_label | translate)() }}</span>
@@ -12,7 +12,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		[class.winput__control--two-icons]="_clearable && _type === 'password'"
 		class="winput__control"
 	>
-		@if (_field) {
+		@if (_formField) {
 		<input
 			class="winput__field"
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
@@ -22,7 +22,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 			(input)="onInput($event)"
 			[class.error]="_error"
 			[ngClass]="_wClass"
-			[formField]="_field"
+			[formField]="_formField"
 			(blur)="onBlur()"
 			[manualType]="
 					_type === 'password'
@@ -85,14 +85,14 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 	}
 
 	<div class="winput__control">
-		@if (_field) {
+		@if (_formField) {
 		<textarea
 			class="winput__field winput__field--textarea"
 			[placeholder]="((_placeholder || 'Enter text...') | translate)()"
 			[manualDisabled]="_disabled"
 			(input)="onInput($event)"
 			[class.error]="_error"
-			[formField]="_field"
+			[formField]="_formField"
 			[ngClass]="_wClass"
 			(blur)="onBlur()"
 			#inputEl
@@ -117,7 +117,8 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 	<div class="winput__error">{{ (_error | translate)() }}</div>
 	}
 </label>
-} @if (_type === 'radio') { @if (_field) { @for (item of _items; track $index) {
+} @if (_type === 'radio') { @if (_formField) { @for (item of _items; track
+$index) {
 <label class="winput__choice" [class.disabled]="_disabled">
 	<input
 		[manualDisabled]="_disabled"
@@ -126,7 +127,7 @@ _error = fieldError(); @if (_type !== 'radio' && _type !== 'checkbox' && _type
 		[class.error]="_error"
 		[ngClass]="_wClass"
 		(blur)="onBlur()"
-		[formField]="_field"
+		[formField]="_formField"
 		[value]="item"
 		type="radio"
 		#inputEl
@@ -173,13 +174,13 @@ track $index) {
 </label>
 } } @else {
 <label class="winput__choice" [class.disabled]="_disabled">
-	@if (_field) {
+	@if (_formField) {
 	<input
 		[manualDisabled]="_disabled"
 		(input)="onInput($event)"
 		class="winput__native"
 		[class.error]="_error"
-		[formField]="_field"
+		[formField]="_formField"
 		[ngClass]="_wClass"
 		(blur)="onBlur()"
 		type="checkbox"

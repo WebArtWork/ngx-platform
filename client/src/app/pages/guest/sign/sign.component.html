@@ -44,21 +44,21 @@
 			>
 				<winput
 					placeholder="Enter your email..."
-					[field]="signForm.email"
+					[formField]="signForm.email"
 					[focused]="true"
 					type="email"
 				></winput>
 
 				<winput
 					placeholder="Enter your password..."
-					[field]="signForm.password"
+					[formField]="signForm.password"
 					type="password"
 				></winput>
 
 				@if (showCode()) {
 				<winput
 					placeholder="Enter code from mailbox..."
-					[field]="signForm.resetPin"
+					[formField]="signForm.resetPin"
 					type="number"
 				></winput>
 				}

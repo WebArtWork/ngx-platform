@@ -1,4 +1,4 @@
-<div class="burger" [class.burger--open]="isOpen()">
+<div class="burger" [class.burger--open]="isOpen()" (mouseIn)="hovered.emit()">
 	<button
 		aria-label="Toggle menu"
 		class="burger__btn"

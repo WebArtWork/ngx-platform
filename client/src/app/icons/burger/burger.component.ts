@@ -17,6 +17,8 @@ export class BurgerComponent {
 
 	updated = output<boolean>();
 
+	hovered = output();
+
 	toggle() {
 		this.isOpen.set(!this.isOpen());
 
