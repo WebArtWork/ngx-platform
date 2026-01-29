@@ -2,13 +2,13 @@
 	class="user fixed inset-0 flex flex-col overflow-hidden bg-[var(--c-bg-primary)] text-[var(--c-text-primary)]"
 >
 	<layout-topbar
-		[sidebarToggler]="true"
 		(sidebarOpen)="onSidebarOpen($event)"
+		[sidebarToggler]="true"
 	></layout-topbar>
 
 	<layout-sidebar
-		[isOpen]="isOpen()"
 		(requestClose)="requestClose()"
+		[isOpen]="isOpen()"
 	></layout-sidebar>
 
 	<div

@@ -10,9 +10,12 @@ import { TranslateDirective } from '@module/translate';
 	styleUrl: './material.component.scss',
 })
 export class MaterialComponent {
+	routerLinkActiveOptions = input({exact: false});
+
 	routerLink = input('');
 
 	icon = input('home');
+
 
 	name = input('');
 }
