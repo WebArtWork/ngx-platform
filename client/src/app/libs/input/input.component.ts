@@ -12,7 +12,7 @@ import {
 	viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
-import { TranslatePipe } from '@module/translate/pipes/translate.pipe';
+import { TranslatePipe } from '@lib/translate/pipes/translate.pipe';
 import { ManualDisabledDirective, ManualTypeDirective } from 'wacom';
 import { inputDefaults } from './input.const';
 import { InputType, InputValue } from './input.type';

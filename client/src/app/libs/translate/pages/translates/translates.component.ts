@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AlertService } from '@lib/alert';
 import { FormService } from '@lib/form';
-import { TranslateDirective } from '@module/translate/directives/translate.directive';
-import { TranslateService } from '@module/translate/services/translate.service';
+import { TranslateDirective } from '@lib/translate/directives/translate.directive';
+import { TranslateService } from '@lib/translate/services/translate.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { TableComponent } from 'src/app/libs/table/table.component';
 import {

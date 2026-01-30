@@ -7,8 +7,8 @@ import {
 	Signal,
 	signal,
 } from '@angular/core';
+import { TranslatePipe } from '@lib/translate';
 import { SelectComponent } from 'src/app/libs/select/select.component';
-import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { File } from '../../file.interface';
 import { FileService } from '../../file.service';
 

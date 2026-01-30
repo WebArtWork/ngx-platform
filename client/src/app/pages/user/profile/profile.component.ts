@@ -2,13 +2,11 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	computed,
-	effect,
 	inject,
 	signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, submit } from '@angular/forms/signals';
-import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
 import { FileComponent } from '@lib/file';
 import { InputComponent } from '@lib/input';
@@ -18,8 +16,6 @@ import { ProfileModel, SecurityModel } from './profile.interface';
 import { profileSchema, securitySchema } from './profile.schema';
 
 @Component({
-	selector: 'app-profile',
-	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [InputComponent, ButtonComponent, FileComponent],
 	templateUrl: './profile.component.html',
@@ -28,7 +24,6 @@ import { profileSchema, securitySchema } from './profile.schema';
 export class ProfileComponent {
 	readonly userService = inject(UserService);
 	private readonly _emitterService = inject(EmitterService);
-	private readonly _alertService = inject(AlertService);
 
 	readonly activeTab = signal<'profile' | 'security'>('profile');
 
@@ -71,13 +66,6 @@ export class ProfileComponent {
 				this.profileModel.set(this._initialProfile());
 				this.profileForm().reset();
 			});
-
-		// Optional: if userService.user() can change without emitter, this keeps it synced.
-		// If you *only* want emitter-driven sync, remove this effect.
-		effect(() => {
-			// Read to track
-			void this.userService.user();
-		});
 	}
 
 	setTab(tab: 'profile' | 'security'): void {

@@ -7,7 +7,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { environment } from '@env';
 import { MaterialComponent } from '@icon/material';
-import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
+import { TranslateDirective } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { FooterLink } from './footer.types';
 

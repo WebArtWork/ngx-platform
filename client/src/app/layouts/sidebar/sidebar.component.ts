@@ -9,8 +9,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
 import { ButtonComponent } from '@lib/button';
-import { TranslateDirective } from 'src/app/modules/translate/directives/translate.directive';
-import { LanguageService } from 'src/app/modules/translate/services/language.service';
+import { LanguageService, TranslateDirective } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({

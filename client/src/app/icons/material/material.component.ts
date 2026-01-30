@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { TranslateDirective } from '@module/translate';
+import { TranslateDirective } from '@lib/translate';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,12 +10,11 @@ import { TranslateDirective } from '@module/translate';
 	styleUrl: './material.component.scss',
 })
 export class MaterialComponent {
-	routerLinkActiveOptions = input({exact: false});
+	routerLinkActiveOptions = input({ exact: false });
 
 	routerLink = input('');
 
 	icon = input('home');
-
 
 	name = input('');
 }

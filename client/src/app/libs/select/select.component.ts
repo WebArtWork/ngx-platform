@@ -17,9 +17,8 @@ import {
 	viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslateDirective, TranslatePipe } from '@lib/translate';
 import { ClickOutsideDirective, CoreService } from 'wacom';
-import { TranslateDirective } from '../../modules/translate/directives/translate.directive';
-import { TranslatePipe } from '../../modules/translate/pipes/translate.pipe';
 import { InputComponent } from '../input/input.component';
 import { selectDefaults } from './select.const';
 import {

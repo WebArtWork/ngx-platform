@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { TranslateService } from '@module/translate/services/translate.service';
+import { TranslateService } from '@lib/translate';
 import { DomComponent, DomService } from 'wacom';
 import { AlertComponent } from '../components/alert/alert.component';
 import { WrapperComponent } from '../components/wrapper/wrapper.component';

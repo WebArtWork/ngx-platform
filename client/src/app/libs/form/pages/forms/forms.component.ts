@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { environment } from '@env';
 import { formForm } from '@lib/form/forms/form.form';
-import { Phrase } from '@module/translate';
+import { Phrase } from '@lib/translate';
 import { TableComponent } from '../../../../libs/table/table.component';
 import { Form } from '../../interfaces/form.interface';
 import { FormService } from '../../services/form.service';

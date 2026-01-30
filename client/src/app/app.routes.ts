@@ -159,9 +159,9 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import(
-						'./modules/translate/pages/translates/translates.routes'
-					).then((m) => m.routes),
+					import('./libs/translate/pages/translates/translates.routes').then(
+						(m) => m.routes,
+					),
 			},
 		],
 	},

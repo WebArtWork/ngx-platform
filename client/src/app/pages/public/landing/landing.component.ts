@@ -39,7 +39,6 @@ import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './landing.component.html',
-	styleUrl: './landing.component.scss',
 	imports: [
 		HeroSectionComponent,
 		TrustBarSectionComponent,

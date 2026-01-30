@@ -1,13 +1,13 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, inject } from '@angular/core';
+import { AlertService } from '@lib/alert';
+import { FileService } from '@lib/file/file.service';
+import { TranslateService } from '@lib/translate';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
-import { TranslateService } from 'src/app/libs/translate/translate.service';
-import { AlertService, CoreService } from 'wacom';
+import { CoreService } from 'wacom';
 import { File } from '../../file.interface';
-import { fileFormComponents } from '../../formcomponents/file.formcomponents';
-import { FileService } from '../../services/file.service';
 
 @Component({
 	templateUrl: './files.component.html',

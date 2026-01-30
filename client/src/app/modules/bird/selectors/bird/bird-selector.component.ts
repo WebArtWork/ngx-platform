@@ -4,11 +4,11 @@ import {
 	input,
 	output,
 } from '@angular/core';
+import { TranslatePipe } from '@lib/translate';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { SelectValue } from 'src/app/libs/select/select.type';
-import { TranslatePipe } from 'src/app/modules/translate/pipes/translate.pipe';
 import { CrudComponent } from 'wacom';
 import { birdForm } from '../../forms/bird.form';
 import { Bird } from '../../interfaces/bird.interface';

@@ -25,3 +25,5 @@ export * from './services/language.service';
 export * from './services/phrase.service';
 
 export * from './services/translate.service';
+
+export * from './pipes/translate.pipe';

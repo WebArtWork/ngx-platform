@@ -3,33 +3,21 @@ export const birdForm = {
 	title: 'Bird',
 	components: [
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'name',
 			focused: true,
-			fields: [
-				{
-					name: 'Label',
-					value: 'Title',
-				},
-				{
-					name: 'Placeholder',
-					value: 'Enter bird title ...',
-				},
-			],
+			props: {
+				placeholder: 'Enter name...',
+				label: 'Name',
+			},
 		},
 		{
-			name: 'Text',
+			name: 'Input',
 			key: 'description',
-			fields: [
-				{
-					name: 'Label',
-					value: 'Description',
-				},
-				{
-					name: 'Placeholder',
-					value: 'Enter bird description ...',
-				},
-			],
+			props: {
+				placeholder: 'Enter description...',
+				label: 'Description',
+			},
 		},
 	],
 };
