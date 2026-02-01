@@ -34,7 +34,7 @@ async function urlToDataUrl(imageUrl) {
 }
 
 module.exports = async (waw) => {
-	waw.crud("file", {
+	waw.crud.config("file", {
 		create: {
 			ensure: (req, res, next) => {
 				if (req.user) {
@@ -91,14 +91,14 @@ module.exports = async (waw) => {
 			__dirname,
 			"temp",
 			req.params.container,
-			req.params.file
+			req.params.file,
 		);
 
 		const filePath = path.join(
 			__dirname,
 			"files",
 			req.params.container,
-			req.params.file
+			req.params.file,
 		);
 
 		if (fs.existsSync(tempFilePath)) {
@@ -128,7 +128,7 @@ module.exports = async (waw) => {
 			.then((dataUrl) => {
 				waw.dataUrlToLocation(dataUrl, filePath, name, () => {
 					res.json(
-						`/api/file/get/${container}/${name}?${Date.now()}`
+						`/api/file/get/${container}/${name}?${Date.now()}`,
 					);
 				});
 			})

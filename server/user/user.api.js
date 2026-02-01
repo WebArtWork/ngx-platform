@@ -34,7 +34,7 @@ module.exports = function (waw) {
 					text: opts.text,
 					html: opts.html,
 				},
-				cb
+				cb,
 			);
 		};
 	} else {
@@ -87,7 +87,7 @@ module.exports = function (waw) {
 						req.user = verifiedJwt.body;
 						next();
 					}
-				}
+				},
 			);
 		} else if (req.headers.token) {
 			nJwt.verify(
@@ -104,7 +104,7 @@ module.exports = function (waw) {
 						req.user = verifiedJwt.body;
 						next();
 					}
-				}
+				},
 			);
 		} else next();
 	});
@@ -157,7 +157,7 @@ module.exports = function (waw) {
 				subject: "Code: " + user.resetPin,
 				html: "Code: " + user.resetPin,
 			},
-			cb
+			cb,
 		);
 	};
 
@@ -194,8 +194,8 @@ module.exports = function (waw) {
 								path.join(templatePath, "dist", "index.html"),
 								{
 									base: "/wjst-default/",
-								}
-							)
+								},
+							),
 						);
 					},
 				},
@@ -310,7 +310,7 @@ module.exports = function (waw) {
 
 	/* CRUD */
 	const select = () => "-password -resetPin";
-	waw.crud("user", {
+	waw.crud.config("user", {
 		get: {
 			ensure: waw.next,
 			query: () => {

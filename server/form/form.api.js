@@ -44,6 +44,6 @@ module.exports = async function (waw) {
 			},
 		},
 	};
-	waw.crud("form", crud);
-	waw.crud("formcomponent", crud);
+	waw.crud.config("form", crud);
+	waw.crud.config("formcomponent", crud);
 };

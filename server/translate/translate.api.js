@@ -55,7 +55,7 @@ module.exports = async (waw) => {
 			},
 		};
 	};
-	waw.crud("translate", crud(waw.Translate));
-	waw.crud("translatephrase", crud(waw.Translatephrase));
-	waw.crud("translatelanguage", crud());
+	waw.crud.config("translate", crud(waw.Translate));
+	waw.crud.config("translatephrase", crud(waw.Translatephrase));
+	waw.crud.config("translatelanguage", crud());
 };

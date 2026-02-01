@@ -4,7 +4,7 @@
 	"image": "https://webart.work/template/img/spider.svg",
 	"keywords": "Default Project",
 	"license": "MIT",
-	"icon": "/client/src/favicon.ico",
+	"icon": "/client/src/assets/favicon.ico",
 	"prefix": "platformNgx",
 	"port": 8080,
 	"session": true,
