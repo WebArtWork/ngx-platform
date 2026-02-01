@@ -1,7 +1,0 @@
-{
-	"repo": "https://github.com/WebArtWork/waw-file.git",
-	"name": "File",
-	"dependencies": {
-		"@aws-sdk/s3-request-presigner": "3.980.0"
-	}
-}
