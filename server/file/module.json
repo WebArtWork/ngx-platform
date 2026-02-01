@@ -1,8 +1,7 @@
 {
 	"repo": "https://github.com/WebArtWork/waw-file.git",
 	"name": "File",
-	"crud": {
-		"delete": [""]
-	},
-	"dependencies": {}
+	"dependencies": {
+		"@aws-sdk/s3-request-presigner": "3.980.0"
+	}
 }
