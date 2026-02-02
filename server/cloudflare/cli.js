@@ -1,12 +1,29 @@
 // server/cloudflare/cli.js
 const fs = require("fs");
 const path = require("path");
-
 const {
 	S3Client,
 	PutObjectCommand,
 	ListObjectsV2Command,
 } = require("@aws-sdk/client-s3");
+
+function usage() {
+	console.log(
+		`
+Usage:
+  waw cloudflare upload <containerId> <imageId> <localPath>
+  waw cloudflare list <containerId> [imageId]
+
+Rule:
+  bucket/<containerId>/<imageId>/*
+
+Examples:
+  waw cloudflare upload general default ./default.jpg
+  waw cloudflare list general
+  waw cloudflare list general default
+`.trim(),
+	);
+}
 
 function ensureNoTrailingSlash(s) {
 	if (!s) return s;
@@ -23,8 +40,8 @@ function safeExtFromName(name = "") {
 	return ext ? `.${ext}` : "";
 }
 
-function slugContainer(containerId = "") {
-	return String(containerId)
+function slugId(s = "") {
+	return String(s)
 		.normalize("NFKD")
 		.replace(/[^a-zA-Z0-9/_-]+/g, "_")
 		.replace(/\/+/g, "/")
@@ -47,27 +64,20 @@ function guessMimeByExt(filename = "") {
 	return "application/octet-stream";
 }
 
-/**
- * Mandatory key format for this module:
- *   <containerId>/<fileId>/<variant><ext?>
- *
- * For CLI: fileId is always "default"
- */
-function makeKey({ containerId, fileId, variant, name } = {}) {
-	const c = slugContainer(containerId);
-	if (!c) throw new Error("container is required");
-
-	const f = String(fileId || "").trim();
-	if (!f) throw new Error("fileId is required");
-
-	const v = String(variant || "").trim();
-	if (!v) throw new Error("variant is required");
-
-	const ext = safeExtFromName(name || "");
-	return `${c}/${f}/${v}${ext}`;
+function encodeKeyForUrl(key) {
+	// keep slashes, but escape everything else
+	return encodeURI(key).replace(/%2F/g, "/");
 }
 
-function makeClient(cfg) {
+function makePublicUrl(publicBaseUrl, key) {
+	if (!publicBaseUrl) return null;
+	return `${publicBaseUrl}/${encodeKeyForUrl(key)}`;
+}
+
+function makeClient(waw) {
+	const cfg = waw?.config?.cloudflare;
+	if (!cfg) throw new Error("missing waw.config.cloudflare");
+
 	const accountId = cfg.accountId;
 	const endpoint =
 		cfg.endpoint ||
@@ -94,7 +104,6 @@ function makeClient(cfg) {
 
 	return {
 		bucket: cfg.bucket,
-		endpoint: ensureNoTrailingSlash(endpoint),
 		publicBaseUrl: cfg.publicBaseUrl
 			? ensureNoTrailingSlash(cfg.publicBaseUrl)
 			: "",
@@ -102,52 +111,30 @@ function makeClient(cfg) {
 	};
 }
 
-function usage() {
-	console.log(
-		`
-Usage:
-  waw cloudflare upload <container> <localPath>
-  waw cloudflare list <container>
+function makeKey(containerId, imageId, localFilename) {
+	const c = slugId(containerId);
+	const i = slugId(imageId);
+	if (!c) throw new Error("containerId is required");
+	if (!i) throw new Error("imageId is required");
 
-Notes:
-  - fileId is fixed to "default"
-  - upload key is: <container>/default/original.<ext>
-
-Examples:
-  waw cloudflare upload general ./default.jpg
-  waw cloudflare list general
-`.trim(),
-	);
+	const ext = safeExtFromName(localFilename);
+	return `${c}/${i}/original${ext}`;
 }
 
-async function upload(waw) {
-	const cfg = waw?.config?.cloudflare;
-	if (!cfg) throw new Error("missing waw.config.cloudflare");
-
-	const container = process.argv[4];
-	const localPath = process.argv[5];
-
-	if (!container || !localPath) {
+async function upload(waw, containerId, imageId, localPath) {
+	if (!containerId || !imageId || !localPath) {
 		usage();
 		return;
 	}
 
 	const abs = path.resolve(process.cwd(), localPath);
-	if (!fs.existsSync(abs)) {
-		throw new Error(`file not found: ${abs}`);
-	}
+	if (!fs.existsSync(abs)) throw new Error(`file not found: ${abs}`);
 
-	const s3 = makeClient(cfg);
+	const s3 = makeClient(waw);
 
-	const name = path.basename(abs);
-	const mime = guessMimeByExt(name);
-
-	const key = makeKey({
-		containerId: container,
-		fileId: "default",
-		variant: "original",
-		name,
-	});
+	const filename = path.basename(abs);
+	const mime = guessMimeByExt(filename);
+	const key = makeKey(containerId, imageId, filename);
 
 	await s3.client.send(
 		new PutObjectCommand({
@@ -158,52 +145,122 @@ async function upload(waw) {
 		}),
 	);
 
-	const publicUrl = s3.publicBaseUrl
-		? `${s3.publicBaseUrl}/${encodeURI(key).replace(/%2F/g, "/")}`
-		: null;
+	const publicUrl = makePublicUrl(s3.publicBaseUrl, key);
 
 	console.log("[cloudflare] uploaded");
 	console.log("  bucket:", s3.bucket);
 	console.log("  key   :", key);
-	if (publicUrl) console.log("  url   :", publicUrl);
+	console.log("  url   :", publicUrl || "(no publicBaseUrl configured)");
 }
 
-async function list(waw) {
-	const cfg = waw?.config?.cloudflare;
-	if (!cfg) throw new Error("missing waw.config.cloudflare");
+/**
+ * Lists objects under a prefix, handling pagination.
+ */
+async function listAllObjects(s3, prefix) {
+	let token;
+	const out = [];
+	do {
+		const res = await s3.client.send(
+			new ListObjectsV2Command({
+				Bucket: s3.bucket,
+				Prefix: prefix,
+				MaxKeys: 1000,
+				ContinuationToken: token,
+			}),
+		);
+		for (const o of res.Contents || []) out.push(o);
+		token = res.NextContinuationToken;
+	} while (token);
+	return out;
+}
 
-	const container = process.argv[4];
-	if (!container) {
+async function list(waw, containerId, imageId) {
+	if (!containerId) {
 		usage();
 		return;
 	}
 
-	const s3 = makeClient(cfg);
+	const s3 = makeClient(waw);
 
-	// As requested: list only container/default/*
-	const prefix = `${slugContainer(container)}/default/`;
+	const containerSlug = slugId(containerId);
 
-	const res = await s3.client.send(
-		new ListObjectsV2Command({
-			Bucket: s3.bucket,
-			Prefix: prefix,
-			MaxKeys: 1000,
-		}),
-	);
+	// if imageId passed -> list that image folder, else list whole container
+	const prefix = imageId
+		? `${containerSlug}/${slugId(imageId)}/`
+		: `${containerSlug}/`;
 
-	const items = res.Contents || [];
+	const items = await listAllObjects(s3, prefix);
+
 	if (!items.length) {
 		console.log("[cloudflare] empty:", prefix);
 		return;
 	}
 
+	// If listing whole container -> group by imageId and show one URL per object
+	if (!imageId) {
+		console.log(`[cloudflare] ${items.length} object(s) under ${prefix}`);
+
+		// Group: imageId -> [{key,size}]
+		const grouped = new Map();
+
+		for (const o of items) {
+			const key = o.Key || "";
+			const parts = key.split("/");
+			// expected: container/imageId/...
+			if (parts.length < 2) continue;
+			if (parts[0] !== containerSlug) continue;
+
+			const img = parts[1];
+			if (!img) continue;
+
+			if (!grouped.has(img)) grouped.set(img, []);
+			grouped.get(img).push({
+				key,
+				size: o.Size,
+			});
+		}
+
+		const imageIds = Array.from(grouped.keys()).sort();
+		console.log(`[cloudflare] imageIds (${imageIds.length}):`);
+
+		for (const img of imageIds) {
+			console.log(`\n- ${img}`);
+			const objs = grouped.get(img) || [];
+			for (const it of objs) {
+				const url = makePublicUrl(s3.publicBaseUrl, it.key);
+				console.log(`  • ${it.key} (${it.size} bytes)`);
+				console.log(
+					`    url: ${url || "(no publicBaseUrl configured)"}`,
+				);
+			}
+		}
+		return;
+	}
+
+	// Listing one image folder -> print each object + url
 	console.log(`[cloudflare] ${items.length} object(s) under ${prefix}`);
 	for (const o of items) {
-		console.log(`- ${o.Key} (${o.Size} bytes)`);
+		const key = o.Key;
+		const url = makePublicUrl(s3.publicBaseUrl, key);
+		console.log(`- ${key} (${o.Size} bytes)`);
+		console.log(`  url: ${url || "(no publicBaseUrl configured)"}`);
 	}
 }
 
-module.exports.cloudflare = {
-	upload,
-	list,
+// waw expects "cloudflare" export to be a FUNCTION
+module.exports.cloudflare = async (waw) => {
+	const sub = (waw?.argv?.[1] || "").toLowerCase();
+	const containerId = waw?.argv?.[2];
+	const imageId = waw?.argv?.[3];
+	const localPath = waw?.argv?.[4];
+
+	if (!sub || sub === "help" || sub === "-h" || sub === "--help") {
+		usage();
+		return;
+	}
+
+	if (sub === "upload") return upload(waw, containerId, imageId, localPath);
+	if (sub === "list") return list(waw, containerId, imageId);
+
+	usage();
 };
