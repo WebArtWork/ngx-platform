@@ -1,0 +1,28 @@
+import { HttpClient } from '@angular/common/http';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	inject,
+	signal,
+} from '@angular/core';
+import { MarkedSectionComponent } from '@pageComponent/marked';
+import { FooterComponent } from 'src/app/layouts/footer/footer.component';
+
+@Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	templateUrl: './content.component.html',
+	imports: [FooterComponent, MarkedSectionComponent],
+})
+export class ContentComponent {
+	private readonly _http = inject(HttpClient);
+
+	markdown = signal<string>('');
+
+	constructor() {
+		this._http
+			.get('/assets/README.md', { responseType: 'text' })
+			.subscribe({
+				next: (markdown) => this.markdown.set(markdown as string),
+			});
+	}
+}

@@ -1,0 +1,63 @@
+<main class="mx-auto max-w-[var(--container)] px-[var(--gutter)] py-6">
+	<div
+		class="shadow rounded-card bg-[var(--c-bg-secondary)] border border-[var(--c-border)] overflow-hidden"
+	>
+		<div class="gallery grid gap-0 lg:grid-cols-[7fr_3fr]">
+			<!-- Big image -->
+			<section class="gallery__main">
+				<div class="gallery__mainInner">
+					<img
+						class="gallery__mainImg"
+						[src]="activeImage().src"
+						[alt]="activeImage().alt"
+						loading="eager"
+					/>
+
+					<div class="gallery__caption">
+						<div class="gallery__title">
+							{{ activeImage().title }}
+						</div>
+						<div class="gallery__meta">
+							{{ activeIndex() + 1 }} / {{ images().length }}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Thumbnails -->
+			<aside class="gallery__rail">
+				<div class="gallery__railHeader">
+					<div class="gallery__railTitle">Gallery</div>
+					<div class="gallery__railHint">Scroll to browse</div>
+				</div>
+
+				<div class="gallery__thumbs">
+					@for (img of images(); track img.id) {
+					<wbutton
+						wbutton
+						type="link"
+						class="gallery__thumb"
+						[class.gallery__thumb--active]="img.id === activeImage().id"
+						(wClick)="setActive(img.id)"
+						[isMultipleClicksAllowed]="true"
+					>
+						<img
+							class="gallery__thumbImg"
+							[src]="img.src"
+							[alt]="img.alt"
+							loading="lazy"
+						/>
+
+						<div class="gallery__thumbInfo">
+							<div class="gallery__thumbTitle">
+								{{ img.title }}
+							</div>
+							<div class="gallery__thumbAlt">{{ img.alt }}</div>
+						</div>
+					</wbutton>
+					}
+				</div>
+			</aside>
+		</div>
+	</div>
+</main>

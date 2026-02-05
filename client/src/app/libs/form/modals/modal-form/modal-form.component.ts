@@ -9,7 +9,7 @@ import { CoreService } from 'wacom';
 import { ButtonComponent } from '../../../button/button.component';
 import { FormComponent } from '../../components/form/form.component';
 import { FormInterface } from '../../interfaces/form.interface';
-import { FormModalButton } from '../../services/form.service';
+import { FormModalButton, FormService } from '../../services/form.service';
 
 @Component({
 	templateUrl: './modal-form.component.html',
@@ -19,6 +19,7 @@ import { FormModalButton } from '../../services/form.service';
 })
 export class ModalFormComponent {
 	private _coreService = inject(CoreService);
+	private _formService = inject(FormService);
 
 	// from ModalService
 	form: FormInterface;
@@ -34,8 +35,10 @@ export class ModalFormComponent {
 	// ui state
 	submitting = signal(false);
 
+	resetOnSubmit = false;
+
 	/** Merge latest values into `submition`. */
-	private _sync(update: Record<string, unknown> | undefined | null): void {
+	private _sync(update: Record<string, unknown> | undefined | null) {
 		if (!update) return;
 
 		// flat fields
@@ -49,7 +52,7 @@ export class ModalFormComponent {
 		}
 	}
 
-	handleSubmit(values?: Record<string, unknown>): void {
+	handleSubmit(values?: Record<string, unknown>) {
 		this.submitting.set(true);
 		try {
 			this._sync(values);
@@ -57,18 +60,26 @@ export class ModalFormComponent {
 			this.close();
 		} finally {
 			this.submitting.set(false);
+
+			if (this.resetOnSubmit && this.form.formId) {
+				this._formService.reset(this.form.formId as string);
+			}
 		}
 	}
 
-	handleChange(values: Record<string, unknown>): void {
+	handleChange(values: Record<string, unknown>) {
 		this._sync(values);
 		this.change(this.submition);
 	}
 
-	onButtonClick(button: FormModalButton): void {
+	onButtonClick(button: FormModalButton) {
 		if (this.submitting()) return;
 
 		// `submition` is always kept in sync via wChange
 		button.click(this.submition, this.close);
+
+		if (this.resetOnSubmit && this.form.formId) {
+			this._formService.reset(this.form.formId as string);
+		}
 	}
 }

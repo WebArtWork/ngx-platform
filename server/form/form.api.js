@@ -14,8 +14,8 @@ module.exports = async function (waw) {
 		get: {
 			ensure: waw.next,
 			query: (req) => {
-				return req.queryParsed.appId
-					? { appId: req.queryParsed.appId }
+				return req.query.appId
+					? { appId: req.query.appId }
 					: { domain: req.get("host") };
 			},
 		},

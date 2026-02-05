@@ -51,6 +51,11 @@
 							"src/favicon.ico",
 							"src/assets",
 							{
+								"glob": "README.md",
+								"input": ".",
+								"output": "/assets"
+							},
+							{
 								"glob": "**/*",
 								"input": "node_modules/tinymce",
 								"output": "assets/tinymce"

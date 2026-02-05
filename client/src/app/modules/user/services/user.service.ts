@@ -26,12 +26,6 @@ export class UserService extends CrudService<User> {
 
 	employees = (environment as unknown as { roles: string[] }).roles || [];
 
-	theme = signal('dark');
-
-	themes = (
-		(environment as unknown as { themes: string[] }).themes || []
-	).concat(['dark', 'light']);
-
 	users = signal<User[]>(this.getDocs());
 
 	user = signal<User>(
@@ -96,14 +90,6 @@ export class UserService extends CrudService<User> {
 			},
 		);
 
-		this._storeService.get('mode', (mode) => {
-			if (mode) {
-				this.setTheme(mode);
-			} else {
-				this.setTheme('dark');
-			}
-		});
-
 		if (localStorage.getItem('waw_user')) {
 			this.fetch({}, { name: 'me' }).subscribe((user: User) => {
 				if (user) {
@@ -124,30 +110,6 @@ export class UserService extends CrudService<User> {
 				query: environment.appId ? 'appId=' + environment.appId : '',
 			});
 		}
-	}
-
-	toggleTheme() {
-		this.setTheme(this.theme() === 'dark' ? 'light' : 'dark');
-	}
-
-	setTheme(theme = 'light') {
-		if (!document.body) return; // SSR block
-
-		if (theme === 'light') {
-			this._storeService.remove('theme');
-
-			for (const localtheme of this.themes) {
-				(document.body.parentNode as HTMLElement).classList.remove(
-					localtheme,
-				);
-			}
-		} else {
-			this._storeService.set('theme', theme);
-
-			(document.body.parentNode as HTMLElement).classList.add(theme);
-		}
-
-		this.theme.set(theme);
 	}
 
 	setUser(user: User) {

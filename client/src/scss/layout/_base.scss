@@ -6,7 +6,8 @@ html {
 	color-scheme: light;
 }
 
-html.dark {
+/* dark mode is driven by runtime attribute, not a class */
+html[data-mode='dark'] {
 	color-scheme: dark;
 }
 

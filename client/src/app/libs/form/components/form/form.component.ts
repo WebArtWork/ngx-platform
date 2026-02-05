@@ -113,6 +113,7 @@ export class FormComponent {
 	onLegacyChange(): void {
 		const inst = this.instance();
 		const values = inst ? inst.model() : {};
+		console.log(this.submition, values);
 		// debounce a bit like old code did via CoreService
 		this._coreService.afterWhile(
 			this,

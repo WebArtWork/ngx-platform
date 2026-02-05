@@ -425,4 +425,11 @@ export class FormService extends CrudService<Form> {
 			this._storeService.setJson('formIds', this.formIds());
 		}
 	}
+
+	reset(formId: string, next: Record<string, unknown> = {}): void {
+		const inst = this._signalForms.get(formId);
+		if (inst) {
+			inst.model.set(next);
+		}
+	}
 }

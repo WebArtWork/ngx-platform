@@ -6,7 +6,11 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import { buttonDefaults, WBUTTON_BASE_CLASSES } from './button.const';
+import {
+	buttonDefaults,
+	WBUTTON_BASE_CLASSES,
+	WBUTTON_TYPE_CLASSES,
+} from './button.const';
 import { ButtonType } from './button.type';
 
 @Component({
@@ -19,17 +23,14 @@ import { ButtonType } from './button.type';
 export class ButtonComponent {
 	private _cdr = inject(ChangeDetectorRef);
 
-	// Inputs
 	readonly type = input<ButtonType>(buttonDefaults.type);
 	readonly extraClass = input<string>(buttonDefaults.extraClass);
 	readonly disabled = input<boolean>(buttonDefaults.disabled);
 	readonly disableSubmit = input<boolean>(buttonDefaults.disableSubmit);
-	/** If false (default), blocks subsequent clicks for 2s */
 	readonly isMultipleClicksAllowed = input<boolean>(
 		buttonDefaults.isMultipleClicksAllowed,
 	);
 
-	// Outputs — prefer (wClick). (click) on <wbutton> will still work.
 	readonly wClick = output<MouseEvent>();
 
 	readonly baseClasses = WBUTTON_BASE_CLASSES;
@@ -40,6 +41,13 @@ export class ButtonComponent {
 		return (
 			this.disabled() ||
 			(!this.isMultipleClicksAllowed() && this._cooling)
+		);
+	}
+
+	/** Tailwind variant class for the current type */
+	typeClass(): string {
+		return (
+			WBUTTON_TYPE_CLASSES[this.type()] ?? WBUTTON_TYPE_CLASSES.primary
 		);
 	}
 

@@ -11,6 +11,7 @@ import { MaterialComponent } from '@icon/material';
 import { ButtonComponent } from '@lib/button';
 import { LanguageService, TranslateDirective } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
+import { ThemeService } from 'wacom';
 
 @Component({
 	selector: 'layout-sidebar',
@@ -29,6 +30,7 @@ export class SidebarComponent {
 	readonly isOpen = input(false);
 	readonly requestClose = output<void>();
 
+	readonly themeService = inject(ThemeService);
 	readonly userService = inject(UserService);
 	readonly languageService = inject(LanguageService);
 

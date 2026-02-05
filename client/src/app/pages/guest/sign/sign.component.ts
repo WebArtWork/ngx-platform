@@ -19,18 +19,8 @@ import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
 import { InputComponent } from '@lib/input';
 import { User, UserService } from '@module/user';
-import { HttpService } from 'wacom';
-
-interface RespStatus {
-	email: string;
-	pass: string;
-}
-
-interface SignModel {
-	email: string;
-	password: string;
-	resetPin: string;
-}
+import { HttpService, ThemeService } from 'wacom';
+import { RespStatus, SignModel } from './sign.interface';
 
 const signSchema = schema<SignModel>((path) => {
 	required(path.email, { message: 'Enter your email...' });
@@ -47,6 +37,7 @@ const signSchema = schema<SignModel>((path) => {
 	styleUrl: './sign.component.scss',
 })
 export class SignComponent {
+	themeService = inject(ThemeService);
 	userService = inject(UserService);
 	private _alertService = inject(AlertService);
 	private _httpService = inject(HttpService);
@@ -95,7 +86,7 @@ export class SignComponent {
 
 	private _submit(payload: SignModel) {
 		this._httpService.post(
-			'/api/user/status',
+			'/api/user/status?test=test',
 			payload,
 			(resp: RespStatus) => {
 				if (resp.email && resp.pass) this._login(payload);

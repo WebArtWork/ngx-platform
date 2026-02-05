@@ -7,30 +7,57 @@ import {
 import { RouterLink } from '@angular/router';
 import { environment } from '@env';
 import { MaterialComponent } from '@icon/material';
+import { ButtonComponent } from '@lib/button';
 import { TranslateDirective } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
+import { ThemeService } from 'wacom';
 import { FooterLink } from './footer.types';
 
 @Component({
 	selector: 'layout-footer',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './footer.component.html',
-	imports: [RouterLink, MaterialComponent, TranslateDirective],
+	imports: [
+		RouterLink,
+		MaterialComponent,
+		TranslateDirective,
+		ButtonComponent,
+	],
 })
 export class FooterComponent {
 	readonly userService = inject(UserService);
+	readonly themeService = inject(ThemeService);
 
 	readonly year = new Date().getFullYear();
-
 	readonly metaTitle = environment.meta.title;
-
 	readonly metaDescription = environment.meta.description;
+
+	readonly mode = computed(() => this.themeService.mode() ?? 'light');
+	readonly modes = computed(() => this.themeService.modes());
+
+	readonly density = computed(
+		() => this.themeService.density() ?? 'comfortable',
+	);
+	readonly densities = computed(() => this.themeService.densities());
+
+	readonly radius = computed(() => this.themeService.radius() ?? 'rounded');
+	readonly radiuses = computed(() => this.themeService.radiuses());
+
+	setMode(mode: string): void {
+		this.themeService.setMode(mode);
+	}
+
+	setDensity(density: string): void {
+		this.themeService.setDensity(density);
+	}
+
+	setRadius(radius: string): void {
+		this.themeService.setRadius(radius);
+	}
 
 	private readonly allLinks = computed<FooterLink[]>(() => [
 		{ label: 'Home', icon: 'home', to: '/' },
 		{ label: 'Profile', icon: 'account_circle', to: '/profile' },
-
-		// Sidebar admin links
 		{
 			label: 'Users',
 			icon: 'manage_accounts',
@@ -55,14 +82,10 @@ export class FooterComponent {
 			to: '/admin/translates',
 			adminOnly: true,
 		},
-
-		// Sidebar link
-		{ label: 'Birds', icon: 'translate', to: '/birds' },
 	]);
 
 	readonly links = computed(() => {
 		const isAdmin = this.userService.role('admin');
-
 		return this.allLinks().filter((l) => !l.adminOnly || isAdmin);
 	});
 }

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -10,8 +9,6 @@ import {
 	selector: 'lib-modal',
 	templateUrl: './modal.component.html',
 	styleUrl: './modal.component.scss',
-	standalone: true,
-	imports: [NgClass],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent implements OnInit, OnDestroy {

@@ -1,215 +1,67 @@
 .winput {
-	display: block;
-	padding: var(--sp-2) 0;
+	display: grid;
+	gap: 6px;
 
 	&__label {
-		display: block;
-		margin: 0 0 var(--sp-2);
-		font-weight: 500;
-		font-size: 14px;
-		line-height: 1.2;
+		font-size: 0.85rem;
+		font-weight: 600;
 		color: var(--c-text-primary);
-		letter-spacing: 0;
 	}
 
 	&__control {
-		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--sp-2);
+		border: 1px solid var(--c-border);
+		border-radius: var(--radius);
+		background: var(--c-bg-secondary);
+		padding: 10px 12px;
+		box-shadow: var(--shadow-sm);
+		transition:
+			border-color var(--motion-fast) var(--easing),
+			box-shadow var(--motion-fast) var(--easing),
+			background-color var(--motion-fast) var(--easing);
+
+		&:focus-within {
+			box-shadow: var(--focus-ring);
+			border-color: color-mix(
+				in srgb,
+				var(--c-primary) 40%,
+				var(--c-border)
+			);
+		}
+
+		&._disabled {
+			opacity: 0.6;
+			pointer-events: none;
+		}
+
+		&._textarea {
+			align-items: stretch;
+		}
 	}
 
 	&__field {
-		display: block;
-		inline-size: 100%;
-		background-color: transparent;
-		border: 1px solid var(--c-border);
-		border-radius: var(--b-radius);
-		color: var(--c-text-secondary);
-		font-size: 14px;
-		line-height: 20px;
-		letter-spacing: var(--letter-spacing);
-		padding: var(--sp-2) var(--sp-3);
-
-		transition:
-			border-color var(--motion) var(--easing),
-			box-shadow var(--motion) var(--easing);
+		flex: 1 1 auto;
+		min-width: 0;
+		border: 0;
+		outline: 0;
+		background: transparent;
+		color: var(--c-text-primary);
+		font: inherit;
 
 		&::placeholder {
 			color: var(--c-placeholder);
 		}
-
-		&:focus {
-			border-color: var(--c-primary);
-		}
-
-		&:focus-visible {
-			outline: none;
-			box-shadow: var(--focus-ring);
-		}
-
-		&:disabled {
-			opacity: 0.7;
-			cursor: not-allowed;
-			background: var(--c-bg-tertiary);
-		}
-
-		&--textarea {
-			min-block-size: 88px;
-			resize: vertical;
-		}
 	}
 
-	/* Right-side icon buttons */
-	&__icon-btn {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-
-		padding: 4px;
-		border: 0;
-		background: transparent;
-		border-radius: 6px;
-
+	&__hint {
+		font-size: 0.8rem;
 		color: var(--c-text-muted);
-		cursor: pointer;
-		user-select: none;
-		line-height: 1;
-
-		&:hover {
-			color: var(--c-text-secondary);
-		}
-
-		&:focus-visible {
-			outline: none;
-			box-shadow: var(--focus-ring);
-		}
-	}
-
-	&__clear {
-		right: 8px;
-	}
-
-	&__eye {
-		right: 8px;
-	}
-
-	/* If both clear + eye exist, you can add this class via wClass if needed later */
-	&__field.has-right-icons {
-		padding-right: 44px;
 	}
 
 	&__error {
-		margin-top: 4px;
-		font-size: 12px;
-		line-height: 1.2;
-		color: #ef4444;
+		font-size: 0.8rem;
+		color: var(--c-secondary);
 	}
-
-	/* Choices: radio & checkbox */
-	&__choice {
-		display: flex;
-		align-items: center;
-		gap: var(--sp-2);
-		padding: 4px 0;
-		cursor: pointer;
-
-		&.disabled {
-			cursor: not-allowed;
-			opacity: 0.6;
-		}
-	}
-
-	&__choice-text {
-		display: inline-flex;
-		align-items: center;
-		font-weight: 500;
-		font-size: 14px;
-		line-height: 1.2;
-		color: var(--c-text-secondary);
-	}
-
-	/* Visually hidden native control */
-	&__native {
-		position: absolute;
-		opacity: 0;
-		pointer-events: none;
-		inline-size: 1px;
-		block-size: 1px;
-		margin: -1px;
-		padding: 0;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border: 0;
-	}
-
-	/* Custom mark */
-	&__choice-mark {
-		position: relative;
-		display: inline-block;
-		inline-size: 24px;
-		block-size: 24px;
-		border-radius: 4px;
-
-		/* (4) FIX: unchecked should look unchecked */
-		background-color: transparent;
-		border: 1px solid var(--c-border);
-		box-shadow: 0 1px 1px var(--c-shadow);
-
-		&::before {
-			content: '';
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			width: 7px;
-			height: 14px;
-			border-bottom: 3px solid #fff;
-			border-right: 3px solid #fff;
-			transform: translate(-50%, -71%) rotate(45deg);
-			opacity: 0;
-			transition: opacity 0.15s ease;
-			display: block;
-		}
-
-		&--radio {
-			border-radius: 9999px;
-
-			&::before {
-				width: 12px;
-				height: 12px;
-				border-radius: 9999px;
-				background: #fff;
-				border: none;
-				transform: translate(-50%, -50%);
-			}
-		}
-	}
-
-	/* (4) FIX: checked state fills primary + shows mark */
-	&__native:checked + .winput__choice-mark {
-		background-color: var(--c-primary);
-		border-color: var(--c-primary);
-	}
-
-	/* Checked drives mark (requires input right before mark in HTML) */
-	&__native:checked + .winput__choice-mark::before {
-		opacity: 1;
-	}
-
-	&__control--two-icons {
-		.winput__field {
-			padding-right: 72px;
-		}
-
-		.winput__eye {
-			right: 40px;
-		}
-	}
-}
-
-/* Error class for direct style hooks */
-input.error,
-textarea.error {
-	border-color: #ef4444;
 }

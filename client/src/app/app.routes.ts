@@ -14,6 +14,97 @@ export const routes: Routes = [
 		children: [
 			/* public */
 			{
+				path: 'content',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Content',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/content/content.routes').then(
+						(r) => r.contentRoutes,
+					),
+			},
+			{
+				path: 'table',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Table',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/table/table.routes').then(
+						(r) => r.tableRoutes,
+					),
+			},
+			{
+				path: 'form',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Form',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/form/form.routes').then(
+						(r) => r.formRoutes,
+					),
+			},
+			{
+				path: 'gallery',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Gallery',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/gallery/gallery.routes').then(
+						(r) => r.routes,
+					),
+			},
+			{
+				path: 'profile',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Profile',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/profile/profile.routes').then(
+						(r) => r.profileRoutes,
+					),
+			},
+			{
+				path: 'list',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'List',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/list/list.routes').then(
+						(r) => r.listRoutes,
+					),
+			},
+			{
+				path: 'home',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Home',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/public/home/home.routes').then(
+						(r) => r.homeRoutes,
+					),
+			},
+			{
 				path: '',
 				canActivate: [MetaGuard],
 				data: {
@@ -71,19 +162,6 @@ export const routes: Routes = [
 				},
 				loadChildren: () =>
 					import('./pages/user/profile/profile.routes').then(
-						(m) => m.routes,
-					),
-			},
-			{
-				path: 'birds',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Sign',
-					},
-				},
-				loadChildren: () =>
-					import('./modules/bird/pages/birds/birds.routes').then(
 						(m) => m.routes,
 					),
 			},
@@ -159,9 +237,9 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./libs/translate/pages/translates/translates.routes').then(
-						(m) => m.routes,
-					),
+					import(
+						'./libs/translate/pages/translates/translates.routes'
+					).then((m) => m.routes),
 			},
 		],
 	},

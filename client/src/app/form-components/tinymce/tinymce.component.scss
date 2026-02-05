@@ -1,5 +1,12 @@
 .w-tiny {
 	width: 100%;
+	background: var(--c-bg-secondary);
+	color: var(--c-text-primary);
+	border: 1px solid var(--c-border);
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-sm);
+	overflow: hidden;
+	padding: var(--sp-2);
 }
 
 /*

@@ -1,21 +1,21 @@
 <div class="modal-form">
 	<div class="modal-form__body">
 		<wform
-			#formRef
-			[config]="form"
-			[submition]="submition"
 			(wSubmit)="handleSubmit($event)"
 			(wChange)="handleChange($event)"
+			[submition]="submition"
+			[config]="form"
+			#formRef
 		/>
 	</div>
 
 	<div class="modal-form__actions">
 		@for (button of modalButtons; track button) {
 		<wbutton
-			type="primary"
 			[extraClass]="'w-btn ' + (button.class || '')"
-			[disabled]="submitting()"
 			(wClick)="onButtonClick(button)"
+			[disabled]="submitting()"
+			type="primary"
 		>
 			{{ button.label }}
 		</wbutton>

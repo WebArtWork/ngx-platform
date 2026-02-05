@@ -6,7 +6,11 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import { buttonDefaults, WBUTTON_BASE_CLASSES } from './button.const';
+import {
+	buttonDefaults,
+	WBUTTON_BASE_CLASSES,
+	WBUTTON_TYPE_CLASSES,
+} from './button.const';
 import { ButtonType } from './button.type';
 
 @Directive({
@@ -19,15 +23,12 @@ export class ButtonDirective {
 	readonly type = input<ButtonType>(buttonDefaults.type);
 	readonly disabled = input<boolean>(buttonDefaults.disabled);
 	readonly disableSubmit = input<boolean>(buttonDefaults.disableSubmit);
-	/** If false (default), blocks subsequent clicks for 2s */
 	readonly isMultipleClicksAllowed = input<boolean>(
 		buttonDefaults.isMultipleClicksAllowed,
 	);
 
-	/** Extra classes without colliding with native `class` */
 	readonly extraClass = input<string>(buttonDefaults.extraClass);
 
-	/** Emits alongside the host’s native click */
 	readonly wClick = output<void>();
 
 	private cooling = false;
@@ -65,11 +66,16 @@ export class ButtonDirective {
 
 	@HostBinding('class')
 	get hostClass(): string {
+		const typeClass =
+			WBUTTON_TYPE_CLASSES[this.type()] ?? WBUTTON_TYPE_CLASSES.primary;
+
 		return [
 			'wbutton',
 			WBUTTON_BASE_CLASSES,
-			`wbutton--${this.type()}`,
-			this.isBlocked ? 'is-disabled' : '',
+			typeClass,
+			this.isBlocked
+				? 'opacity-60 cursor-not-allowed pointer-events-none'
+				: '',
 			this.extraClass() || '',
 		]
 			.filter(Boolean)
@@ -83,6 +89,7 @@ export class ButtonDirective {
 			(ev as any).stopImmediatePropagation?.();
 			return;
 		}
+
 		this.wClick.emit();
 
 		if (!this.isMultipleClicksAllowed()) {

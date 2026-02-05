@@ -2,26 +2,109 @@
 	class="border-t border-[var(--c-border)] bg-[var(--c-bg-secondary)] text-[var(--c-text-secondary)]"
 >
 	<div class="mx-auto w-full max-w-[var(--container)] px-5 py-6 max-md:px-3">
-		<div class="flex flex-wrap items-start justify-between gap-6">
-			<!-- Generic info -->
-			<div class="min-w-[240px]">
+		<div class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+			<!-- Left -->
+			<div class="min-w-0">
 				<div
 					class="text-base font-semibold text-[var(--c-text-primary)]"
 				>
-					{{metaTitle}}
+					{{ metaTitle }}
 				</div>
+
 				<p
-					class="mt-2 max-w-[520px] text-sm leading-relaxed text-[var(--c-text-muted)]"
+					class="mt-2 max-w-[560px] text-sm leading-relaxed text-[var(--c-text-muted)]"
 				>
 					<span [translate]="metaDescription"></span>
 				</p>
-				<div class="mt-3 text-xs text-[var(--c-text-muted)]">
+
+				<!-- Theme controls (one line per block) -->
+				<div class="mt-4 flex flex-col gap-2">
+					<!-- MODE -->
+					<div
+						class="flex items-center justify-between gap-3 rounded-card border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] px-3 py-2"
+					>
+						<div
+							class="text-[0.7rem] font-semibold tracking-wide text-[var(--c-text-muted)] uppercase"
+						>
+							Mode
+						</div>
+
+						<div
+							class="inline-flex overflow-hidden rounded-[var(--radius-btn)] border border-[var(--c-border)]"
+						>
+							@for (m of modes(); track m) {
+							<wbutton
+								[type]="mode() === m ? 'primary' : 'link'"
+								[isMultipleClicksAllowed]="true"
+								(wClick)="setMode(m)"
+								class="!rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold"
+							>
+								{{ m }}
+							</wbutton>
+							}
+						</div>
+					</div>
+
+					<!-- DENSITY -->
+					<div
+						class="flex items-center justify-between gap-3 rounded-card border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] px-3 py-2"
+					>
+						<div
+							class="text-[0.7rem] font-semibold tracking-wide text-[var(--c-text-muted)] uppercase"
+						>
+							Density
+						</div>
+
+						<div
+							class="inline-flex overflow-hidden rounded-[var(--radius-btn)] border border-[var(--c-border)]"
+						>
+							@for (d of densities(); track d) {
+							<wbutton
+								[type]="density() === d ? 'primary' : 'link'"
+								[isMultipleClicksAllowed]="true"
+								(wClick)="setDensity(d)"
+								class="!rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold"
+							>
+								{{ d }}
+							</wbutton>
+							}
+						</div>
+					</div>
+
+					<!-- RADIUS -->
+					<div
+						class="flex items-center justify-between gap-3 rounded-card border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] px-3 py-2"
+					>
+						<div
+							class="text-[0.7rem] font-semibold tracking-wide text-[var(--c-text-muted)] uppercase"
+						>
+							Radius
+						</div>
+
+						<div
+							class="inline-flex overflow-hidden rounded-[var(--radius-btn)] border border-[var(--c-border)]"
+						>
+							@for (r of radiuses(); track r) {
+							<wbutton
+								[type]="radius() === r ? 'primary' : 'link'"
+								[isMultipleClicksAllowed]="true"
+								(wClick)="setRadius(r)"
+								class="!rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold"
+							>
+								{{ r }}
+							</wbutton>
+							}
+						</div>
+					</div>
+				</div>
+
+				<div class="mt-4 text-xs text-[var(--c-text-muted)]">
 					© {{ year }} <span translate>All rights reserved</span>
 				</div>
 			</div>
 
-			<!-- Links (Topbar + Sidebar) -->
-			<nav aria-label="Footer navigation" class="min-w-[240px]">
+			<!-- Right: Navigation -->
+			<nav aria-label="Footer navigation" class="min-w-0">
 				<div
 					class="text-sm font-semibold text-[var(--c-text-primary)]"
 					translate
@@ -33,7 +116,7 @@
 					@for (l of links(); track l.to) {
 					<li>
 						<a
-							class="inline-flex items-center gap-2 rounded-[var(--b-radius-btn)] px-2 py-1 no-underline transition hover:bg-[var(--c-bg-tertiary)] text-[var(--c-text-primary)]"
+							class="inline-flex items-center gap-2 rounded-[var(--radius-btn)] px-2 py-1 no-underline transition hover:bg-[var(--c-bg-tertiary)] text-[var(--c-text-primary)]"
 							[routerLink]="l.to"
 						>
 							<material-icon [icon]="l.icon"></material-icon>

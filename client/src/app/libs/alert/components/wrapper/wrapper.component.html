@@ -1,7 +1,7 @@
 <div class="alert-lib-wrapper">
 	@for (pos of positions; track pos.id) {
 	<div
-		class="alert-lib-wrapper__alert"
+		class="fixed w-full pointer-events-none flex flex-col z-[99999]"
 		[ngClass]="pos.class"
 		[id]="pos.id"
 	></div>

@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	inject,
+	signal,
+} from '@angular/core';
 import { AboutContent, AboutSectionComponent } from '@pageComponent/about';
 import { FaqContent, FaqSectionComponent } from '@pageComponent/faq';
 import {
@@ -14,6 +20,7 @@ import {
 	HowItWorksContent,
 	HowItWorksSectionComponent,
 } from '@pageComponent/how-it-works';
+import { MarkedSectionComponent } from '@pageComponent/marked';
 import {
 	PricingContent,
 	PricingSectionComponent,
@@ -40,6 +47,7 @@ import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './landing.component.html',
 	imports: [
+		MarkedSectionComponent,
 		HeroSectionComponent,
 		TrustBarSectionComponent,
 		AboutSectionComponent,
@@ -55,6 +63,18 @@ import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 	],
 })
 export class LandingComponent {
+	private readonly _http = inject(HttpClient);
+
+	markdown = signal<string>('');
+
+	constructor() {
+		this._http
+			.get('/assets/README.md', { responseType: 'text' })
+			.subscribe({
+				next: (markdown) => this.markdown.set(markdown as string),
+			});
+	}
+
 	readonly heroContent: HeroContent = {
 		badge: {
 			icon: 'auto_awesome',

@@ -1,224 +1,53 @@
-.wtable {
-	.material-icons,
-	.material-symbols-outlined {
-		color: var(--c-text-primary);
+/* keep only what Tailwind can’t do here (data-label pseudo + breakpoint) */
+
+.wtable__sort-icon {
+	transform: rotate(90deg);
+	opacity: 0.6;
+	transition: 0.2s ease-in-out;
+}
+
+.is-activeDown .wtable__sort-icon {
+	transform: rotate(-90deg);
+	opacity: 1;
+}
+
+.is-activeUp .wtable__sort-icon {
+	opacity: 1;
+}
+
+/* Mobile stacked rows with labels */
+@media (max-width: 991.9px) {
+	.wtable__thead th {
+		display: none;
 	}
 
-	/* ========================
-	 * Header
-	 * ====================== */
-
-	&__title {
-		font-size: 1rem;
-		line-height: 1.25;
+	.wtable__td {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		column-gap: 8px;
+		border-bottom: 0 !important;
+		border: 1px solid rgb(226 232 240); /* slate-200 */
+		min-height: 52px;
+		height: auto;
 	}
 
-	/* ========================
-	 * Search
-	 * ====================== */
-
-	&__search-input {
-		/* Tailwind handles most things; keep only token-consistent fallback */
-		&:focus {
-			border-color: var(--c-primary);
-		}
+	tr + tr .wtable__td {
+		border-top: 0;
 	}
 
-	/* ========================
-	 * Table base
-	 * ====================== */
-
-	&__th {
-		position: relative;
-		padding: 0 16px;
-		height: 48px;
-		text-align: left;
-		font-weight: 500;
-		font-size: var(--fs);
-		line-height: calc(var(--fs) + 8px);
-		letter-spacing: var(--letter-spacing);
-		text-transform: capitalize;
-		color: var(--c-text-primary);
-		border-bottom: 1px solid var(--c-border);
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	&__th--actions {
-		white-space: nowrap;
-	}
-
-	&__sort {
-		cursor: pointer;
-	}
-
-	&__sort-icon {
-		transform: rotate(90deg);
-		font-size: var(--fs);
-		opacity: 0.6;
-		transition: 0.2s all ease-in-out;
-	}
-
-	&__sort:hover &__sort-icon {
-		opacity: 1;
-	}
-
-	&__sort.is-activeDown &__sort-icon {
-		transform: rotate(-90deg);
-		opacity: 1;
-	}
-
-	&__sort.is-activeUp &__sort-icon {
-		opacity: 1;
-	}
-
-	&__td {
-		padding: 8px 16px;
-		min-height: 56px;
-		height: 56px;
-		text-align: left;
-		vertical-align: middle;
-		font-size: calc(var(--fs) - 2px);
-		line-height: calc(var(--fs) + 8px);
-		letter-spacing: var(--letter-spacing);
-		color: var(--c-text-primary);
-		word-break: break-word;
-		border-bottom: 1px solid var(--c-border);
-	}
-
-	&__tr:hover .wtable__td {
-		/* subtle hover without changing layout */
-		background: rgba(255, 255, 255, 0.02);
-	}
-
-	/* ========================
-	 * Actions
-	 * ====================== */
-
-	&__action-icon {
-		font-size: 22px;
-		width: 22px;
-		cursor: pointer;
-		transition: var(--transition, 150ms ease);
-	}
-
-	&__action-icon:hover {
-		color: var(--c-primary);
-	}
-
-	/* ========================
-	 * Mobile stacked rows
-	 * ====================== */
-
-	/* When narrow, hide thead and show labels via data-label */
-	@media (max-width: 991.9px) {
-		&__thead th {
-			display: none;
-		}
-
-		&__td {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			column-gap: 8px;
-			border-bottom: 0;
-			border: 1px solid var(--c-border);
-			height: auto;
-			min-height: 52px;
-		}
-
-		&__tr + &__tr .wtable__td {
-			border-top: 0;
-		}
-	}
-
-	&__td:before {
+	.wtable__td::before {
 		content: attr(data-label);
 		display: inline-block;
 		font-weight: 500;
-		font-size: var(--fs);
-		line-height: calc(var(--fs) + 8px);
-		letter-spacing: var(--letter-spacing);
-		text-transform: capitalize;
-		color: var(--c-text-primary);
-		opacity: 0.9;
-		margin-right: 10px;
 		white-space: nowrap;
+		margin-right: 10px;
+		opacity: 0.9;
 	}
+}
 
-	@media (min-width: 992px) {
-		&__td:before {
-			display: none;
-		}
-	}
-
-	/* ========================
-	 * Footer + per-page dropdown
-	 * ====================== */
-
-	&__tfoot {
-		border-top: 1px solid var(--c-border);
-
-		td {
-			padding: 12px 16px;
-		}
-	}
-
-	&__perpage-dropdown {
-		position: relative;
-		font-weight: 600;
-	}
-
-	&__perpage-dropdown .caption {
-		background-color: transparent;
-		padding: 8px 12px;
-		border-radius: 8px;
-		border: 1px solid var(--c-border);
-		cursor: pointer;
-		user-select: none;
-	}
-
-	&__perpage-dropdown .caption:hover {
-		background-color: rgba(255, 255, 255, 0.04);
-	}
-
-	&__perpage-dropdown .list {
-		position: absolute;
-		background-color: var(--c-bg-secondary);
-		width: 100%;
-		bottom: calc(100% + 6px);
+@media (min-width: 992px) {
+	.wtable__td::before {
 		display: none;
-		border-radius: 10px;
-		z-index: 999;
-		border: 1px solid var(--c-border);
-		overflow: hidden;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-	}
-
-	&__perpage-dropdown .item > div {
-		padding: 10px 12px;
-		cursor: pointer;
-		text-align: center;
-	}
-
-	&__perpage-dropdown .item > div:hover {
-		background-color: rgba(255, 255, 255, 0.04);
-	}
-
-	&__perpage-dropdown .item > div.selected {
-		font-weight: 700;
-		color: var(--c-primary);
-	}
-
-	&__perpage-dropdown.open .list {
-		display: flex;
-		flex-direction: column;
-	}
-
-	/* pagination buttons are <wbutton> */
-	&__arrow-btn {
-		/* keep zero padding consistent even if someone overrides base button padding */
-		padding: 0 !important;
 	}
 }

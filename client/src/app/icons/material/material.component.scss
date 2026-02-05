@@ -4,8 +4,8 @@
 	align-items: center;
 	justify-content: center;
 	gap: var(--sp-2);
-	padding: 6px 10px;
-	border-radius: var(--b-radius-btn);
+	padding: var(--sp-2) var(--sp-3);
+	border-radius: var(--radius-btn);
 	color: var(--c-text-secondary);
 	text-decoration: none;
 	transition: color var(--motion) var(--easing);

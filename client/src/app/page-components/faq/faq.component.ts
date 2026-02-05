@@ -1,3 +1,4 @@
+// client/src/app/page-components/faq/faq.component.ts
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -10,7 +11,6 @@ import { FaqContent } from './faq.interfaces';
 	selector: 'page-component-faq',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './faq.component.html',
-	styleUrl: './faq.component.scss',
 })
 export class FaqSectionComponent {
 	readonly content = input.required<FaqContent>();

@@ -1,36 +1,35 @@
-import {
-	Directive,
-	ElementRef,
-	Injector,
-	OnInit,
-	effect,
-	inject,
-	input,
-	runInInjectionContext,
-} from '@angular/core';
+import { Directive, ElementRef, effect, inject, input } from '@angular/core';
 import { TranslateService } from '../services/translate.service';
 
-@Directive({ selector: '[translate]' })
-export class TranslateDirective implements OnInit {
-	translate = input<string>();
+@Directive({
+	selector: '[translate]',
+	standalone: true,
+})
+export class TranslateDirective {
+	/** Optional explicit key. If empty, uses element's initial textContent. */
+	readonly translate = input<string>('');
 
 	private readonly _el = inject(ElementRef<HTMLElement>);
-
 	private readonly _translateService = inject(TranslateService);
 
-	private readonly _inj = inject(Injector);
+	private readonly _original = (
+		this._el.nativeElement.textContent ?? ''
+	).trim();
 
-	ngOnInit() {
-		const original = this._el.nativeElement.textContent ?? '';
+	private _lastKey = '';
+	private _lastSignal = this._translateService.translate(this._original);
 
-		runInInjectionContext(this._inj, () => {
-			effect(() => {
-				const translated = this._translateService.translate(
-					this.translate() || original,
-				);
+	constructor() {
+		effect(() => {
+			const key = (this.translate() || this._original).trim();
 
-				this._el.nativeElement.textContent = translated();
-			});
+			// Only swap signal when key changes
+			if (key !== this._lastKey) {
+				this._lastKey = key;
+				this._lastSignal = this._translateService.translate(key);
+			}
+
+			this._el.nativeElement.textContent = this._lastSignal();
 		});
 	}
 }

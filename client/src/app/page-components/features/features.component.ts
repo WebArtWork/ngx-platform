@@ -5,7 +5,6 @@ import { FeaturesContent } from './features.interfaces';
 	selector: 'page-component-features',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './features.component.html',
-	styleUrl: './features.component.scss',
 })
 export class FeaturesSectionComponent {
 	readonly content = input.required<FeaturesContent>();

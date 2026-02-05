@@ -16,10 +16,19 @@
 		cursor: pointer;
 		background: transparent;
 		border: 0;
-		border-radius: var(--b-radius-btn, 8px);
+		border-radius: var(--radius-btn);
 		-webkit-tap-highlight-color: transparent;
 		touch-action: manipulation;
 		padding: 0;
+
+		&:hover {
+			background: var(--c-bg-tertiary);
+		}
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-ring);
+		}
 	}
 
 	/* middle bar */
@@ -29,8 +38,8 @@
 		block-size: var(--bar-h);
 		background-color: var(--c-text-primary);
 		transition:
-			transform 0.25s ease,
-			background-color 0.2s ease;
+			transform var(--motion) var(--easing),
+			background-color var(--motion-fast) var(--easing);
 
 		/* top & bottom bars */
 		&::before,
@@ -42,9 +51,9 @@
 			block-size: var(--bar-h);
 			background-color: var(--c-text-primary);
 			transition:
-				transform 0.25s ease,
-				background-color 0.2s ease,
-				opacity 0.2s ease;
+				transform var(--motion) var(--easing),
+				background-color var(--motion-fast) var(--easing),
+				opacity var(--motion-fast) var(--easing);
 		}
 		&::before {
 			transform: translateY(calc(var(--bar-gap) * -1));
