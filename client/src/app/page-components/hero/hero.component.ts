@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { HeroContent, HeroCta } from './hero.interfaces';
 
@@ -5,7 +6,7 @@ import { HeroContent, HeroCta } from './hero.interfaces';
 	selector: 'page-component-hero',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './hero.component.html',
-	styleUrl: './hero.component.scss',
+	imports: [NgClass],
 })
 export class HeroSectionComponent {
 	/**

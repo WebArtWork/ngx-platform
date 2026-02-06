@@ -5,7 +5,6 @@ import { TrustBarContent } from './trust-bar.interfaces';
 	selector: 'page-component-trust-bar',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './trust-bar.component.html',
-	styleUrl: './trust-bar.component.scss',
 })
 export class TrustBarSectionComponent {
 	/**

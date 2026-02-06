@@ -1,18 +1,24 @@
 <div
-	class="min-h-dvh grid p-6 md:p-10 md:grid-cols-2 md:items-stretch md:gap-12"
+	class="min-h-dvh grid bg-[var(--c-bg-primary)] p-6 md:grid-cols-2 md:items-stretch md:gap-12 md:p-10"
 >
 	<!-- Brand / Logo -->
 	<div class="flex items-center justify-center md:justify-end">
 		<button
 			(click)="themeService.nextTheme()"
 			aria-label="Toggle theme"
-			class="grid place-items-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(37,110,255,0.35)] rounded-xl"
+			class="grid place-items-center rounded-xl focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
 			type="button"
 		>
 			@if (logo) {
-			<img class="sign__logo-img" [src]="logo" alt="Logo" />
+			<img
+				class="block w-[min(320px,70vw)] h-auto object-contain"
+				[src]="logo"
+				alt="Logo"
+			/>
 			} @else {
-			<icon-spider class="sign__logo-icon"></icon-spider>
+			<icon-spider
+				class="block w-[clamp(120px,20vw,260px)] h-auto"
+			></icon-spider>
 			}
 		</button>
 	</div>
@@ -20,13 +26,13 @@
 	<!-- Card -->
 	<div class="flex items-center justify-center md:justify-start">
 		<div
-			class="relative w-full max-w-[420px] bg-[var(--c-bg-secondary)] rounded-[var(--b-radius-card)] shadow p-8 md:p-10"
+			class="relative w-full max-w-[420px] rounded-[var(--radius-card)] bg-[var(--c-bg-secondary)] p-8 shadow-[var(--shadow-md)] md:p-10"
 		>
 			<button
 				(click)="themeService.nextTheme()"
 				aria-label="Toggle theme"
 				type="button"
-				class="absolute top-3 right-3 grid place-items-center w-9 h-9 rounded-lg text-[var(--c-text-secondary)] hover:text-[var(--c-primary)] transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(37,110,255,0.35)]"
+				class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-lg text-[var(--c-text-secondary)] transition-colors hover:text-[var(--c-primary)] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
 			>
 				<span class="material-icons text-[22px] leading-none">
 					@if (themeService.mode() === 'dark') { dark_mode } @else {

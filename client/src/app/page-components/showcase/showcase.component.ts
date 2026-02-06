@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -12,7 +13,7 @@ import { ShowcaseTabId } from './showcase.types';
 	selector: 'page-component-showcase',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './showcase.component.html',
-	styleUrl: './showcase.component.scss',
+	imports: [NgClass],
 })
 export class ShowcaseSectionComponent {
 	readonly content = input.required<ShowcaseContent>();

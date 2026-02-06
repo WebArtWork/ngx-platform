@@ -1,21 +1,17 @@
 @let _content = content(); @if (_content?.title || _content?.items?.length) {
-<section class="trust-bar">
+<section>
 	<div
 		class="mx-auto w-full max-w-[var(--container)] px-[var(--gutter)] py-8"
 	>
 		@if (_content.title) {
-		<div class="text-center text-sm" style="color: var(--c-text-muted)">
+		<div class="text-center text-sm text-[var(--c-text-muted)]">
 			{{ _content.title }}
 		</div>
 		} @if (_content.items?.length) {
 		<div class="mt-4 flex flex-wrap items-center justify-center gap-2">
 			@for (t of _content.items!; track t) { @if (t) {
 			<span
-				class="trust-bar__chip rounded-full border px-3 py-1 text-sm"
-				style="
-					border-color: var(--c-border);
-					color: var(--c-text-secondary);
-				"
+				class="rounded-full border border-[var(--c-border)] px-3 py-1 text-sm text-[var(--c-text-secondary)]"
 			>
 				{{ t }}
 			</span>

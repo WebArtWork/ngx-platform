@@ -10,7 +10,7 @@
 		color: var(--c-text-primary);
 		letter-spacing: var(--letter-spacing);
 		font-weight: 700;
-		scroll-margin-top: 96px; /* if you have sticky header */
+		scroll-margin-top: 96px;
 	}
 
 	h1 {
@@ -75,7 +75,7 @@
 		font-size: 0.925em;
 		background: var(--c-bg-secondary);
 		border: 1px solid var(--c-border);
-		border-radius: var(--b-radius);
+		border-radius: var(--radius);
 		padding: 0.08em 0.35em;
 	}
 
@@ -83,10 +83,10 @@
 	pre {
 		background: var(--c-bg-secondary);
 		border: 1px solid var(--c-border);
-		border-radius: var(--b-radius-card);
+		border-radius: var(--radius-card);
 		padding: var(--sp-4);
 		overflow: auto;
-		box-shadow: 0 6px 16px var(--c-shadow);
+		box-shadow: var(--shadow-md);
 	}
 
 	pre code {
@@ -104,7 +104,7 @@
 		border-left: 3px solid var(--c-border);
 		padding: var(--sp-2) var(--sp-4);
 		background: var(--c-bg-secondary);
-		border-radius: var(--b-radius-card);
+		border-radius: var(--radius-card);
 		color: var(--c-text-secondary);
 	}
 
@@ -121,7 +121,7 @@
 		border-collapse: separate;
 		border-spacing: 0;
 		border: 1px solid var(--c-border);
-		border-radius: var(--b-radius-card);
+		border-radius: var(--radius-card);
 		overflow: hidden;
 	}
 
@@ -147,7 +147,7 @@
 	img {
 		max-width: 100%;
 		height: auto;
-		border-radius: var(--b-radius-card);
+		border-radius: var(--radius-card);
 		border: 1px solid var(--c-border);
 	}
 

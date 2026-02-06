@@ -12,6 +12,7 @@
 			"@pageComponent/*": ["src/app/page-components/*"],
 			"@env": ["src/environments/environment"],
 			"@module/*": ["src/app/modules/*"],
+			"@layout/*": ["src/app/layouts/*"],
 			"@icon/*": ["src/app/icons/*"],
 			"@lib/*": ["src/app/libs/*"]
 		},

@@ -5,7 +5,6 @@ import { UseCasesContent } from './use-cases.interfaces';
 	selector: 'page-component-use-cases',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './use-cases.component.html',
-	styleUrl: './use-cases.component.scss',
 })
 export class UseCasesSectionComponent {
 	readonly content = input.required<UseCasesContent>();

@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -10,8 +11,7 @@ import { GalleryImage } from './gallery.interface';
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './gallery.component.html',
-	styleUrl: './gallery.component.scss',
-	imports: [ButtonComponent],
+	imports: [ButtonComponent, NgClass],
 })
 export class GalleryComponent {
 	readonly images = signal<GalleryImage[]>([

@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -10,7 +11,7 @@ import { PricingContent, PricingPlan } from './pricing.interfaces';
 	selector: 'page-component-pricing',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './pricing.component.html',
-	styleUrl: './pricing.component.scss',
+	imports: [NgClass],
 })
 export class PricingSectionComponent {
 	readonly content = input.required<PricingContent>();

@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FinalCtaButton, FinalCtaContent } from './final-cta.interfaces';
 
@@ -5,7 +6,7 @@ import { FinalCtaButton, FinalCtaContent } from './final-cta.interfaces';
 	selector: 'page-component-final-cta',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './final-cta.component.html',
-	styleUrl: './final-cta.component.scss',
+	imports: [NgClass],
 })
 export class FinalCtaSectionComponent {
 	readonly content = input.required<FinalCtaContent>();

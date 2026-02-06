@@ -5,7 +5,6 @@ import { HowItWorksContent } from './how-it-works.interfaces';
 	selector: 'page-component-how-it-works',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './how-it-works.component.html',
-	styleUrl: './how-it-works.component.scss',
 })
 export class HowItWorksSectionComponent {
 	readonly content = input.required<HowItWorksContent>();

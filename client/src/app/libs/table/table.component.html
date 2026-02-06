@@ -1,24 +1,20 @@
-<div
-	class="w-full max-w-full mx-auto rounded-lg bg-white shadow overflow-hidden"
->
+<div class="wtable">
 	<!-- Header -->
-	<div class="px-3 py-3 sm:px-4 border-b border-slate-200">
-		<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-			<h3 class="m-0 font-semibold text-slate-800 text-base leading-5">
-				{{ title() }}
-			</h3>
+	<div class="wtable__header">
+		<div class="wtable__header-row">
+			<h3 class="wtable__title">{{ title() }}</h3>
 
 			@if (headerTpl()) {
-			<div class="min-w-0 sm:min-w-[220px]">
+			<div class="wtable__header-slot">
 				<ng-container
 					[ngTemplateOutlet]="headerTpl()?.template"
 				></ng-container>
 			</div>
 			} @if (config().searchable) {
-			<div class="flex-1 min-w-0 sm:mx-3">
-				<div class="relative flex items-center">
+			<div class="wtable__search">
+				<div class="wtable__search-wrap">
 					<input
-						class="w-full h-11 rounded-md px-3 pr-11 bg-white text-slate-800 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-600"
+						class="wtable__search-input"
 						type="text"
 						placeholder="Search..."
 						[(ngModel)]="searching_text"
@@ -27,7 +23,7 @@
 					/>
 					<button
 						type="button"
-						class="absolute right-1 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-9 w-9 rounded-md hover:bg-black/5"
+						class="wtable__search-btn"
 						(click)="search(); searchShow = false"
 						aria-label="Search"
 					>
@@ -40,15 +36,14 @@
 			}
 
 			<!-- Header actions -->
-			<div class="flex items-center gap-2 sm:ml-auto">
+			<div class="wtable__actions">
 				@if (config().headerButtons) { @for (button of
 				config().headerButtons; track button) { @if (button) {
 				<wbutton
 					[disableSubmit]="true"
 					[extraClass]="
-									'inline-flex items-center justify-center h-11 min-w-[44px] px-2 ' +
-									(button.class || '')
-								"
+						'wtable__action-btn ' + (button.class || '')
+					"
 					(wClick)="button.click()"
 				>
 					@if (button.icon) {
@@ -62,7 +57,7 @@
 				} } } @if (config().create) {
 				<wbutton
 					[disableSubmit]="true"
-					[extraClass]="'inline-flex items-center justify-center h-11 min-w-[44px] px-2'"
+					[extraClass]="'wtable__action-btn'"
 					(wClick)="config().create()"
 				>
 					<i class="material-icons" title="Add"> add </i>
@@ -73,24 +68,16 @@
 	</div>
 
 	<!-- Table -->
-	<div class="w-full overflow-x-auto">
-		<table class="w-full border-collapse" cellpadding="0" cellspacing="0">
+	<div class="wtable__scroll">
+		<table class="wtable__table" cellpadding="0" cellspacing="0">
 			<thead class="wtable__thead">
 				<tr>
 					@if (config().num) {
-					<th
-						scope="col"
-						class="h-12 px-4 text-left font-medium text-slate-700 border-b border-slate-200 whitespace-nowrap"
-					>
-						No.
-					</th>
+					<th scope="col" class="wtable__th">No.</th>
 					} @for (column of columns(); track column) {
-					<th
-						scope="col"
-						class="h-12 px-4 text-left font-medium text-slate-700 border-b border-slate-200 whitespace-nowrap"
-					>
+					<th scope="col" class="wtable__th">
 						<div
-							class="inline-flex items-center gap-2 relative select-none cursor-pointer"
+							class="wtable__th-inner"
 							[class.is-activeDown]="
 								sort_type.direction === 'desc' &&
 								column.field === sort_type.title
@@ -101,7 +88,9 @@
 							"
 							(click)="sort(column)"
 						>
-							<span class="truncate">{{ column.title }}</span>
+							<span class="wtable__th-title"
+								>{{ column.title }}</span
+							>
 
 							@if (sortable[column.field]) {
 							<span class="material-icons wtable__sort-icon">
@@ -112,10 +101,7 @@
 					</th>
 					} @if (config().delete || config().update ||
 					config().buttons?.length) {
-					<th
-						scope="col"
-						class="h-12 px-4 text-left font-medium text-slate-700 border-b border-slate-200 whitespace-nowrap"
-					>
+					<th scope="col" class="wtable__th">
 						@if (action) {
 						<ng-container
 							*ngTemplateOutlet="action.template"
@@ -126,21 +112,16 @@
 				</tr>
 			</thead>
 
-			<tbody>
+			<tbody class="wtable__tbody">
 				@let _cfg = config(); @for (row of _cfg.allDocs ?
-				paginatedRows() : normalizedRows(); track row[bindValue()] ) {
-				<tr class="hover:bg-black/[0.02]">
+				paginatedRows() : normalizedRows(); track row[bindValue()]) {
+				<tr class="wtable__tr">
 					@if (_cfg.num) {
-					<td
-						class="wtable__td px-4 py-2 text-sm text-slate-700 border-b border-slate-200"
-						data-label="No.: "
-					>
-						{{ row.num }}
-					</td>
+					<td class="wtable__td" data-label="No.: ">{{ row.num }}</td>
 					} @for (column of columns(); track column) { @if
 					(custom_cell[column.field]) {
 					<td
-						class="wtable__td px-4 py-2 text-sm text-slate-700 border-b border-slate-200"
+						class="wtable__td"
 						[attr.data-label]="column.title + ': '"
 					>
 						<ng-container
@@ -149,24 +130,21 @@
 					</td>
 					} @else {
 					<td
-						class="wtable__td px-4 py-2 text-sm text-slate-700 border-b border-slate-200"
+						class="wtable__td"
 						[attr.data-label]="column.title + ': '"
 					>
 						{{ row[column.field] }}
 					</td>
 					} } @if (_cfg.delete || _cfg.update || _cfg.buttons?.length)
 					{
-					<td
-						class="wtable__td px-4 py-2 text-sm text-slate-700 border-b border-slate-200"
-						data-label="Actions: "
-					>
-						<div class="inline-flex items-center gap-2">
+					<td class="wtable__td" data-label="Actions: ">
+						<div class="wtable__row-actions">
 							@for (button of _cfg.buttons || []; track button) {
 							@if (button) { @if (!button.ahref &&
 							!button.ahrefFunc && !button.href &&
 							!button.hrefFunc) {
 							<i
-								class="material-icons text-slate-600 hover:text-blue-600 cursor-pointer transition"
+								class="material-icons wtable__icon"
 								[title]="button.icon"
 								(click)="button.click(row)"
 							>
@@ -179,7 +157,7 @@
 								class="inline-flex"
 							>
 								<i
-									class="material-icons text-slate-600 hover:text-blue-600 transition"
+									class="material-icons wtable__icon"
 									[title]="button.icon"
 								>
 									{{ button.icon }}
@@ -192,7 +170,7 @@
 								class="inline-flex"
 							>
 								<i
-									class="material-icons text-slate-600 hover:text-blue-600 transition"
+									class="material-icons wtable__icon"
 									[title]="button.icon"
 								>
 									{{ button.icon }}
@@ -201,7 +179,7 @@
 							} @if (button.href) {
 							<a [routerLink]="button.href" class="inline-flex">
 								<i
-									class="material-icons text-slate-600 hover:text-blue-600 transition"
+									class="material-icons wtable__icon"
 									[title]="button.icon"
 								>
 									{{ button.icon }}
@@ -213,7 +191,7 @@
 								class="inline-flex"
 							>
 								<i
-									class="material-icons text-slate-600 hover:text-blue-600 transition"
+									class="material-icons wtable__icon"
 									[title]="button.icon"
 								>
 									{{ button.icon }}
@@ -221,7 +199,7 @@
 							</a>
 							} } } @if (_cfg.update) {
 							<i
-								class="material-icons text-slate-600 hover:text-blue-600 cursor-pointer transition"
+								class="material-icons wtable__icon"
 								title="Edit"
 								(click)="_cfg.update(row)"
 							>
@@ -229,7 +207,7 @@
 							</i>
 							} @if (_cfg.delete) {
 							<i
-								class="material-icons text-slate-600 hover:text-blue-600 cursor-pointer transition"
+								class="material-icons wtable__icon"
 								title="Delete"
 								(click)="_cfg.delete(row)"
 							>
@@ -244,7 +222,7 @@
 			</tbody>
 
 			@if (_cfg.perPage || (_cfg.formCreate && _cfg.create)) {
-			<tfoot class="border-t border-slate-200">
+			<tfoot class="wtable__tfoot">
 				<tr>
 					<td
 						[attr.colspan]="
@@ -252,23 +230,19 @@
 							(config().delete || config().update || config().buttons?.length ? 1 : 0) +
 							(config().num ? 1 : 0)
 						"
-						class="px-4 py-3"
+						class="wtable__footer-cell"
 					>
-						<div
-							class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
-						>
+						<div class="wtable__footer">
 							@if (_cfg.perPage) {
-							<div
-								class="flex items-center flex-wrap gap-x-2 gap-y-1 text-xs text-slate-700"
-							>
+							<div class="wtable__perpage">
 								<div>Showing items per page</div>
 
 								<div
-									class="relative font-semibold"
+									class="wtable__select"
 									(clickOutside)="select_page_size = false"
 								>
 									<div
-										class="px-3 py-2 rounded-md border border-slate-200 cursor-pointer select-none hover:bg-black/[0.03]"
+										class="wtable__select-btn"
 										(click)="select_page_size = !select_page_size"
 									>
 										{{ _cfg.perPage === -1 ? 'All' :
@@ -276,24 +250,20 @@
 									</div>
 
 									@if (select_page_size) {
-									<div
-										class="absolute bottom-full mb-2 left-0 w-full rounded-lg border border-slate-200 bg-white shadow-lg overflow-hidden z-[999]"
-									>
+									<div class="wtable__select-menu">
 										@for (pageSize of _cfg.pageSizeOptions;
 										track pageSize) {
 										<div
-											class="px-3 py-2 text-center cursor-pointer hover:bg-black/[0.03]"
-											[class.font-bold]="_cfg.perPage === pageSize"
-											[class.text-blue-600]="_cfg.perPage === pageSize"
+											class="wtable__select-item"
+											[class.is-active]="_cfg.perPage === pageSize"
 											(click)="changePerPage(pageSize)"
 										>
 											{{ pageSize }}
 										</div>
 										} @if (_cfg.allDocs) {
 										<div
-											class="px-3 py-2 text-center cursor-pointer hover:bg-black/[0.03]"
-											[class.font-bold]="_cfg.perPage === -1"
-											[class.text-blue-600]="_cfg.perPage === -1"
+											class="wtable__select-item"
+											[class.is-active]="_cfg.perPage === -1"
 											(click)="changePerPage(-1)"
 										>
 											All
@@ -326,11 +296,9 @@
 
 							<!-- Pagination -->
 							@if (_cfg.perPage !== -1 && _cfg.allDocs) {
-							<div
-								class="inline-flex items-center gap-2 sm:ml-auto"
-							>
+							<div class="wtable__pager">
 								<wbutton
-									[extraClass]="'inline-flex items-center justify-center h-9 w-9 p-0'"
+									[extraClass]="'wtable__pager-btn'"
 									[isMultipleClicksAllowed]="true"
 									[disabled]="_cfg.page === 1"
 									(wClick)="firstPage()"
@@ -341,7 +309,7 @@
 								</wbutton>
 
 								<wbutton
-									[extraClass]="'inline-flex items-center justify-center h-9 w-9 p-0'"
+									[extraClass]="'wtable__pager-btn'"
 									[isMultipleClicksAllowed]="true"
 									[disabled]="_cfg.page === 1"
 									(wClick)="previous()"
@@ -352,7 +320,7 @@
 								</wbutton>
 
 								<wbutton
-									[extraClass]="'inline-flex items-center justify-center h-9 w-9 p-0'"
+									[extraClass]="'wtable__pager-btn'"
 									[isMultipleClicksAllowed]="true"
 									[disabled]="_cfg.page * _cfg.perPage > totalCount()"
 									(wClick)="next()"
@@ -363,7 +331,7 @@
 								</wbutton>
 
 								<wbutton
-									[extraClass]="'inline-flex items-center justify-center h-9 w-9 p-0'"
+									[extraClass]="'wtable__pager-btn'"
 									[isMultipleClicksAllowed]="true"
 									[disabled]="isLast()"
 									(wClick)="lastPage()"
@@ -374,11 +342,9 @@
 								</wbutton>
 							</div>
 							} @if (!_cfg.allDocs) {
-							<div
-								class="inline-flex items-center gap-2 sm:ml-auto"
-							>
+							<div class="wtable__pager">
 								<wbutton
-									[extraClass]="'inline-flex items-center justify-center h-9 w-9 p-0'"
+									[extraClass]="'wtable__pager-btn'"
 									[isMultipleClicksAllowed]="true"
 									[disabled]="_cfg.page === 1"
 									(wClick)="previous()"
@@ -389,7 +355,7 @@
 								</wbutton>
 
 								<wbutton
-									[extraClass]="'inline-flex items-center justify-center h-9 w-9 p-0'"
+									[extraClass]="'wtable__pager-btn'"
 									[disabled]="normalizedRows().length !== _cfg.perPage"
 									[isMultipleClicksAllowed]="true"
 									(wClick)="next()"

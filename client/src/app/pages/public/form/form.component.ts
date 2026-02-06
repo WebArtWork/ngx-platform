@@ -17,7 +17,6 @@ import { checkoutSchema } from './form.schema';
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.scss',
 	imports: [InputComponent, ButtonComponent, FooterComponent, DecimalPipe],
 })
 export class FormComponent {

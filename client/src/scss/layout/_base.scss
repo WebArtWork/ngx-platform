@@ -20,11 +20,6 @@ body {
 	background: var(--c-bg-primary);
 }
 
-:focus-visible {
-	outline: none;
-	box-shadow: var(--focus-ring);
-}
-
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,

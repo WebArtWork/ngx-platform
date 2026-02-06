@@ -19,7 +19,6 @@ import { profileSchema, securitySchema } from './profile.schema';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [InputComponent, ButtonComponent, FileComponent],
 	templateUrl: './profile.component.html',
-	styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
 	readonly userService = inject(UserService);

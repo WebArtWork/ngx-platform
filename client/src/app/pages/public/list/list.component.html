@@ -1,3 +1,28 @@
-<main>
-	<layout-footer></layout-footer>
+<main class="bg-[var(--c-bg-primary)]">
+	<div class="mx-auto max-w-[var(--container)] px-[var(--gutter)] py-10">
+		<div class="mb-6 flex items-end justify-between gap-4">
+			<div>
+				<h1
+					class="text-2xl font-semibold tracking-[var(--letter-spacing)] text-[var(--c-text-secondary)]"
+				>
+					Products
+				</h1>
+				<p class="mt-2 text-[var(--c-text-primary)]">
+					Explore ready-to-use building blocks.
+				</p>
+			</div>
+
+			<div class="text-sm text-[var(--c-text-muted)]">
+				{{ items.length }} items
+			</div>
+		</div>
+
+		<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+			@for (i of items; track i.name) {
+			<app-list-item [item]="i"></app-list-item>
+			}
+		</div>
+
+		<layout-footer class="mt-10 block"></layout-footer>
+	</div>
 </main>

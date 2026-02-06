@@ -1,23 +1,36 @@
 <main class="mx-auto max-w-[var(--container)] px-[var(--gutter)] py-6">
 	<div
-		class="shadow rounded-card bg-[var(--c-bg-secondary)] border border-[var(--c-border)] overflow-hidden"
+		class="overflow-hidden rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] shadow-[var(--shadow-sm)]"
 	>
-		<div class="gallery grid gap-0 lg:grid-cols-[7fr_3fr]">
+		<div class="grid gap-0 lg:grid-cols-[7fr_3fr]">
 			<!-- Big image -->
-			<section class="gallery__main">
-				<div class="gallery__mainInner">
+			<section class="bg-[var(--c-bg-tertiary)]">
+				<div
+					class="relative h-[70vh] min-h-[360px] max-h-[680px] w-full overflow-hidden border-b border-[var(--c-border)] lg:h-[540px] lg:max-h-none lg:min-h-0 lg:border-b-0 lg:border-r"
+				>
 					<img
-						class="gallery__mainImg"
+						class="block h-full w-full object-cover"
 						[src]="activeImage().src"
 						[alt]="activeImage().alt"
 						loading="eager"
 					/>
 
-					<div class="gallery__caption">
-						<div class="gallery__title">
+					<div
+						class="absolute bottom-[var(--sp-4)] left-[var(--sp-4)] right-[var(--sp-4)] flex items-end justify-between gap-[var(--sp-3)] rounded-[var(--radius-card)] border border-[var(--c-border)] p-[var(--sp-3)] px-[var(--sp-4)] backdrop-blur-md shadow-[var(--shadow-md)]"
+						style="
+							background: color-mix(
+								in srgb,
+								var(--c-bg-secondary) 78%,
+								transparent
+							);
+						"
+					>
+						<div class="font-bold text-[var(--c-text-secondary)]">
 							{{ activeImage().title }}
 						</div>
-						<div class="gallery__meta">
+						<div
+							class="whitespace-nowrap text-[0.9rem] text-[var(--c-text-primary)]"
+						>
 							{{ activeIndex() + 1 }} / {{ images().length }}
 						</div>
 					</div>
@@ -25,34 +38,54 @@
 			</section>
 
 			<!-- Thumbnails -->
-			<aside class="gallery__rail">
-				<div class="gallery__railHeader">
-					<div class="gallery__railTitle">Gallery</div>
-					<div class="gallery__railHint">Scroll to browse</div>
+			<aside class="bg-[var(--c-bg-secondary)]">
+				<div
+					class="flex items-baseline justify-between gap-[var(--sp-3)] border-b border-[var(--c-border)] p-[var(--sp-4)]"
+				>
+					<div class="font-bold text-[var(--c-text-secondary)]">
+						Gallery
+					</div>
+					<div class="text-[0.85rem] text-[var(--c-text-muted)]">
+						Scroll to browse
+					</div>
 				</div>
 
-				<div class="gallery__thumbs">
+				<div
+					class="flex h-[30vh] min-h-[180px] max-h-[280px] gap-[var(--sp-3)] overflow-x-auto overflow-y-hidden p-[var(--sp-4)] snap-x snap-mandatory lg:h-[540px] lg:max-h-none lg:min-h-0 lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden lg:snap-y lg:snap-proximity"
+					style="scrollbar-color: var(--c-border) transparent"
+				>
 					@for (img of images(); track img.id) {
 					<wbutton
 						wbutton
 						type="link"
-						class="gallery__thumb"
-						[class.gallery__thumb--active]="img.id === activeImage().id"
+						class="flex min-w-[260px] max-w-[320px] snap-start items-center gap-[var(--sp-3)] rounded-[var(--radius-card)] border p-[var(--sp-3)] text-left transition-[border-color,transform,background-color] duration-[var(--motion)] ease-[var(--easing)] hover:-translate-y-[1px] hover:border-[var(--c-primary)] lg:min-w-0 lg:max-w-none"
+						[ngClass]="img.id === activeImage().id ? 'border-[var(--c-primary)]' : 'border-[var(--c-border)]'"
+						[style.background]="
+							img.id === activeImage().id
+								? 'color-mix(in srgb, var(--c-bg-tertiary) 70%, var(--c-primary) 30%)'
+								: 'var(--c-bg-tertiary)'
+						"
 						(wClick)="setActive(img.id)"
 						[isMultipleClicksAllowed]="true"
 					>
 						<img
-							class="gallery__thumbImg"
+							class="h-[54px] w-[54px] flex-none rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] object-cover"
 							[src]="img.src"
 							[alt]="img.alt"
 							loading="lazy"
 						/>
 
-						<div class="gallery__thumbInfo">
-							<div class="gallery__thumbTitle">
+						<div class="flex min-w-0 flex-col gap-[2px]">
+							<div
+								class="overflow-hidden text-ellipsis whitespace-nowrap font-bold text-[var(--c-text-secondary)]"
+							>
 								{{ img.title }}
 							</div>
-							<div class="gallery__thumbAlt">{{ img.alt }}</div>
+							<div
+								class="overflow-hidden text-ellipsis whitespace-nowrap text-[0.85rem] text-[var(--c-text-primary)]"
+							>
+								{{ img.alt }}
+							</div>
 						</div>
 					</wbutton>
 					}

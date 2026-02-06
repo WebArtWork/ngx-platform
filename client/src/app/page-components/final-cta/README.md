@@ -7,8 +7,8 @@ Reusable final call-to-action section.
 - **All content comes from the `content` input**.
 - **All fields inside `content` are optional**, and the template guards rendering with `@if`.
 - Token-driven theming via `var(--token)` (no hard-coded colors).
-- Tailwind utilities are used in the template for layout/spacing only.
-- Local SCSS is component-specific BEM (no `@apply`).
+- Tailwind utilities are used for layout + component styling, using CSS variables for theme values.
+- No component SCSS required.
 
 ## API
 
