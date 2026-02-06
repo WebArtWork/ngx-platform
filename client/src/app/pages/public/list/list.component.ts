@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FooterComponent } from 'src/app/layouts/footer/footer.component';
+import { FooterComponent } from '@layout/footer';
 import { ListItemComponent } from './list-item/list-item.component';
 import { items } from './list.const';
 

@@ -17,14 +17,14 @@
 					<span [translate]="metaDescription"></span>
 				</p>
 
-				<!-- Theme controls (one line per block) -->
+				<!-- Theme controls -->
 				<div class="mt-4 flex flex-col gap-2">
 					<!-- MODE -->
 					<div
 						class="flex items-center justify-between gap-3 rounded-card border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] px-3 py-2"
 					>
 						<div
-							class="text-[0.7rem] font-semibold tracking-wide text-[var(--c-text-muted)] uppercase"
+							class="text-[0.7rem] font-semibold tracking-wide uppercase text-[var(--c-text-muted)]"
 						>
 							Mode
 						</div>
@@ -37,7 +37,11 @@
 								[type]="mode() === m ? 'primary' : 'link'"
 								[isMultipleClicksAllowed]="true"
 								(wClick)="setMode(m)"
-								class="!rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold"
+								[ngClass]="{
+									'!text-[var(--c-text-muted)]': mode() !== m,
+									'hover:!text-[var(--c-text-primary)]': mode() !== m
+								}"
+								class="!cursor-pointer !rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold hover:!bg-[color-mix(in_srgb,var(--c-text-primary)_6%,transparent)]"
 							>
 								{{ m }}
 							</wbutton>
@@ -50,7 +54,7 @@
 						class="flex items-center justify-between gap-3 rounded-card border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] px-3 py-2"
 					>
 						<div
-							class="text-[0.7rem] font-semibold tracking-wide text-[var(--c-text-muted)] uppercase"
+							class="text-[0.7rem] font-semibold tracking-wide uppercase text-[var(--c-text-muted)]"
 						>
 							Density
 						</div>
@@ -63,7 +67,11 @@
 								[type]="density() === d ? 'primary' : 'link'"
 								[isMultipleClicksAllowed]="true"
 								(wClick)="setDensity(d)"
-								class="!rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold"
+								[ngClass]="{
+									'!text-[var(--c-text-muted)]': density() !== d,
+									'hover:!text-[var(--c-text-primary)]': density() !== d
+								}"
+								class="!cursor-pointer !rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold hover:!bg-[color-mix(in_srgb,var(--c-text-primary)_6%,transparent)]"
 							>
 								{{ d }}
 							</wbutton>
@@ -76,7 +84,7 @@
 						class="flex items-center justify-between gap-3 rounded-card border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] px-3 py-2"
 					>
 						<div
-							class="text-[0.7rem] font-semibold tracking-wide text-[var(--c-text-muted)] uppercase"
+							class="text-[0.7rem] font-semibold tracking-wide uppercase text-[var(--c-text-muted)]"
 						>
 							Radius
 						</div>
@@ -89,7 +97,11 @@
 								[type]="radius() === r ? 'primary' : 'link'"
 								[isMultipleClicksAllowed]="true"
 								(wClick)="setRadius(r)"
-								class="!rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold"
+								[ngClass]="{
+									'!text-[var(--c-text-muted)]': radius() !== r,
+									'hover:!text-[var(--c-text-primary)]': radius() !== r
+								}"
+								class="!cursor-pointer !rounded-none !px-3 !py-1.5 !text-[0.8rem] !font-semibold hover:!bg-[color-mix(in_srgb,var(--c-text-primary)_6%,transparent)]"
 							>
 								{{ r }}
 							</wbutton>
@@ -97,13 +109,9 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="mt-4 text-xs text-[var(--c-text-muted)]">
-					© {{ year }} <span translate>All rights reserved</span>
-				</div>
 			</div>
 
-			<!-- Right: Navigation -->
+			<!-- Right -->
 			<nav aria-label="Footer navigation" class="min-w-0">
 				<div
 					class="text-sm font-semibold text-[var(--c-text-primary)]"
@@ -126,6 +134,14 @@
 					}
 				</ul>
 			</nav>
+		</div>
+
+		<!-- Footer baseline -->
+		<div
+			class="mt-6 pt-4 border-t border-[var(--c-border)] text-xs text-[var(--c-text-muted)]"
+		>
+			<span>© {{ year }} Web Art Work, </span>
+			<span translate>all rights reserved</span>
 		</div>
 	</div>
 </footer>

@@ -1,14 +1,11 @@
-@let _blocked = isBlocked;
-
 <button
 	[type]="resolveType()"
-	[disabled]="_blocked"
+	[disabled]="isBlocked"
 	(click)="clicked($event)"
 	[class]="
 		'wbutton ' +
 		baseClasses + ' ' +
 		typeClass() + ' ' +
-		(_blocked ? 'opacity-60 cursor-not-allowed pointer-events-none ' : '') +
 		(extraClass() || '')
 	"
 >

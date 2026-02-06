@@ -73,9 +73,6 @@ export class ButtonDirective {
 			'wbutton',
 			WBUTTON_BASE_CLASSES,
 			typeClass,
-			this.isBlocked
-				? 'opacity-60 cursor-not-allowed pointer-events-none'
-				: '',
 			this.extraClass() || '',
 		]
 			.filter(Boolean)

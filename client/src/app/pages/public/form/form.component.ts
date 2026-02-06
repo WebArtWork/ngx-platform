@@ -7,10 +7,10 @@ import {
 	signal,
 } from '@angular/core';
 import { form, submit } from '@angular/forms/signals';
+import { FooterComponent } from '@layout/footer';
 import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
 import { InputComponent } from '@lib/input';
-import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 import { CartItem, CheckoutModel } from './form.interface';
 import { checkoutSchema } from './form.schema';
 

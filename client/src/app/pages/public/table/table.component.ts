@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FooterComponent } from '@layout/footer';
 import { TableComponent as LibTableComponent } from '@lib/table';
-import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 import { rows } from './table.const';
 import { TableRow } from './table.interface';
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FooterComponent } from '@layout/footer';
 import { HeroContent, HeroSectionComponent } from '@pageComponent/hero';
-import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

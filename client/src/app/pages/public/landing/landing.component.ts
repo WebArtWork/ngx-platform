@@ -5,6 +5,7 @@ import {
 	inject,
 	signal,
 } from '@angular/core';
+import { FooterComponent } from '@layout/footer';
 import { AboutContent, AboutSectionComponent } from '@pageComponent/about';
 import { FaqContent, FaqSectionComponent } from '@pageComponent/faq';
 import {
@@ -41,7 +42,6 @@ import {
 	UseCasesContent,
 	UseCasesSectionComponent,
 } from '@pageComponent/use-cases';
-import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

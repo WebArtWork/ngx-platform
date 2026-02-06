@@ -5,8 +5,8 @@ import {
 	inject,
 	signal,
 } from '@angular/core';
+import { FooterComponent } from '@layout/footer';
 import { MarkedSectionComponent } from '@pageComponent/marked';
-import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

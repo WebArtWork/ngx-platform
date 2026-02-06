@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -22,6 +23,7 @@ import { FooterLink } from './footer.types';
 		MaterialComponent,
 		TranslateDirective,
 		ButtonComponent,
+		NgClass,
 	],
 })
 export class FooterComponent {
