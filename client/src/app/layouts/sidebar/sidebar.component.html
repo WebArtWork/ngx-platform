@@ -1,16 +1,7 @@
 <aside
-	class="fixed right-0 z-[90] flex w-[260px] flex-col overflow-auto bg-[var(--c-bg-secondary)] p-5 shadow transition-transform md:top-14 md:h-[calc(100dvh-56px)] md:translate-x-0 max-md:top-0 max-md:h-dvh max-md:w-[min(92vw,260px)]"
+	class="fixed right-0 z-[90] flex w-[260px] flex-col overflow-auto bg-[var(--c-bg-secondary)] p-5 shadow transition-transform md:top-14 md:h-[calc(100dvh-56px)] md:translate-x-0 max-md:top-0 max-md:bottom-[var(--topbar-h)] max-md:h-[calc(100dvh-var(--topbar-h))] max-md:w-[min(92vw,260px)]"
 	[ngClass]="isOpen() ? 'translate-x-0' : 'translate-x-full'"
 >
-	<button
-		class="inline-flex items-center justify-center rounded-[var(--radius-btn)] bg-transparent p-2 text-[var(--c-text-primary)] md:hidden"
-		aria-label="Close sidebar"
-		(click)="requestClose.emit()"
-		type="button"
-	>
-		<span class="material-icons text-xl">close</span>
-	</button>
-
 	<div
 		class="mt-1 flex items-center justify-between gap-2 rounded-[var(--radius)] px-2 py-1"
 	>
@@ -74,19 +65,7 @@
 	}
 
 	<div class="mt-auto flex items-center justify-between gap-2">
-		<button
-			(click)="themeService.nextTheme(); closeIfOpen()"
-			class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
-			type="button"
-		>
-			<span class="material-icons text-xl">
-				@if (themeService.mode() === 'dark') { dark_mode } @else {
-				light_mode }
-			</span>
-			<span
-				[translate]="((themeService.mode() || 'dark') | titlecase) + ' theme'"
-			></span>
-		</button>
+		<icon-theme size="48px" [showText]="true"></icon-theme>
 
 		@if (languageService.language()?.name) {
 		<button

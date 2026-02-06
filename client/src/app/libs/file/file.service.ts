@@ -21,9 +21,10 @@ export class FileService extends CrudService<File> {
 	): Promise<string> {
 		return await new Promise<string>((resolve) => {
 			this._http.post(
-				'/api/file/photo',
+				'/api/cloudflare/upload-base64',
 				{ container, name, dataUrl },
-				(url: string) => resolve(url),
+				(resp: { key: string }) =>
+					resolve('https://cdn.webart.work/' + resp.key),
 			);
 		});
 	}

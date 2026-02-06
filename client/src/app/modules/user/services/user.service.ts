@@ -1,16 +1,20 @@
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import {
+	Injectable,
+	WritableSignal,
+	computed,
+	inject,
+	signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '@lib/alert';
 import { environment } from 'src/environments/environment';
-import { CrudService, EmitterService, HttpService, StoreService } from 'wacom';
+import { CrudService, EmitterService, HttpService } from 'wacom';
 import { User } from '../interfaces/user.interface';
 @Injectable({
 	providedIn: 'root',
 })
 export class UserService extends CrudService<User> {
 	private readonly _httpService = inject(HttpService);
-
-	private readonly _storeService = inject(StoreService);
 
 	private readonly _alertService = inject(AlertService);
 
@@ -34,11 +38,12 @@ export class UserService extends CrudService<User> {
 			: this.new(),
 	);
 
-	thumb = signal(
-		!this.user().thumb || this.user().thumb.includes('assets/default.png')
+	thumb = computed(() => {
+		return !this.user().thumb ||
+			this.user().thumb.includes('assets/default.png')
 			? 'assets/default.png'
-			: this.url + this.user().thumb,
-	);
+			: this.url + this.user().thumb;
+	});
 
 	role(role: string): boolean {
 		return !!(this.user().is || {})[role];

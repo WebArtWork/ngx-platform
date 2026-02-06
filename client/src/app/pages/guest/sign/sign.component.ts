@@ -15,6 +15,7 @@ import {
 import { Router } from '@angular/router';
 import { environment } from '@env';
 import { SpiderComponent } from '@icon/spider';
+import { ThemeComponent } from '@icon/theme';
 import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
 import { InputComponent } from '@lib/input';
@@ -32,7 +33,7 @@ const signSchema = schema<SignModel>((path) => {
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [SpiderComponent, InputComponent, ButtonComponent],
+	imports: [SpiderComponent, InputComponent, ButtonComponent, ThemeComponent],
 	templateUrl: './sign.component.html',
 })
 export class SignComponent {

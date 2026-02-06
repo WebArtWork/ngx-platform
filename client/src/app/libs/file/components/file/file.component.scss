@@ -20,6 +20,57 @@
 		box-shadow: var(--shadow-sm);
 	}
 
+	&__body--thumb-only {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		inline-size: 100px;
+		block-size: 100px;
+		padding: 0;
+	}
+
+	&__empty {
+		color: var(--c-placeholder);
+		font-size: 0.85rem;
+		text-align: center;
+		padding: var(--sp-2);
+	}
+
+	&__thumb {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+	}
+
+	&__name {
+		display: block;
+		max-inline-size: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		padding: var(--sp-2);
+	}
+
+	&__remove {
+		position: absolute;
+		top: 6px;
+		right: 6px;
+		inline-size: 28px;
+		block-size: 28px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--radius-btn);
+		border: 1px solid var(--c-border);
+		background: var(--c-bg-secondary);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--c-bg-tertiary);
+		}
+	}
+
 	&__dropzone {
 		display: flex;
 		align-items: center;

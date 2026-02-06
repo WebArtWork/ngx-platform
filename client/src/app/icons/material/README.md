@@ -1,73 +1,147 @@
-# ngx-icon-material
+# Icon: Material (`material-icon`)
 
-A tiny Angular v20 nav/link helper that renders a **Material Icon** with an optional text label and an active underline. Uses signal inputs and RouterLink/RouterLinkActive.
+Angular navigation/link component that renders a **Material Icon** with an optional text label.
+Built for menus, toolbars, sidebars, and navigation bars.
+
+Uses **Angular signals**, **RouterLink**, and **RouterLinkActive**.
 
 ---
 
-## Usage
+## Selector
 
 ```html
-<!-- Icon only -->
-<material-icon routerLink="/home" icon="home"></material-icon>
-
-<!-- Icon with label -->
-<material-icon
-	routerLink="/components"
-	icon="apps"
-	name="Components"
-></material-icon>
+<material-icon></material-icon>
 ```
 
-> Make sure the **Material Icons** font is available in your app (e.g., include the Google Fonts link or your local font).
+---
+
+## Features
+
+- Uses official **Material Icons** font
+- Optional translated label
+- Active route underline (icon-focused)
+- Hover + active color transitions
+- Signal-based inputs
+- Router-aware (`RouterLink`, `RouterLinkActive`)
+
+---
+
+## Requirements
+
+Material Icons font must be available in your app, for example:
+
+```html
+<link
+	href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet"
+/>
+```
 
 ---
 
 ## Inputs (signals)
 
-| Input        | Type   | Default  | Description                                                                        |
-| ------------ | ------ | -------- | ---------------------------------------------------------------------------------- |
-| `routerLink` | string | `''`     | Target route. Passed to Angular’s `[routerLink]`.                                  |
-| `icon`       | string | `'home'` | Material Icon name (e.g., `home`, `settings`, `dashboard`).                        |
-| `name`       | string | `''`     | Optional text shown to the right of the icon. If empty, only the icon is rendered. |
+| Input                     | Type     | Default            | Description                                   |
+| ------------------------- | -------- | ------------------ | --------------------------------------------- |
+| `routerLink`              | `string` | `''`               | Target route passed to `[routerLink]`.        |
+| `routerLinkActiveOptions` | `object` | `{ exact: false }` | Options for `RouterLinkActive`.               |
+| `icon`                    | `string` | `'home'`           | Material icon name (e.g. `home`, `settings`). |
+| `name`                    | `string` | `''`               | Optional label text (translated).             |
 
 ---
 
 ## Behavior
 
-- **Active state:** when the current route matches, Angular adds `_activeLink`; the component draws a **60% width underline** centered **under the icon** only.
-- **Hover:** icon and label color shift to `var(--c-primary)`.
-- **No label layout:** spacing collapses automatically when `name` is not provided.
+### Icon vs icon + label
+
+- If `name` is empty → **icon only**
+- If `name` is provided → icon + text label
+
+Layout automatically adapts (spacing collapses when label is missing).
+
+### Active state
+
+When the current route matches:
+
+- Angular adds `_activeLink` class
+- Component draws an underline **under the icon only**
+- Color switches to `var(--c-primary)`
+
+### Hover
+
+- Icon and label color transition to primary color
+- Background remains transparent (navigation-friendly)
 
 ---
 
-## Theming & CSS Vars
+## Styling & Tokens
 
-The component relies on your global tokens:
+The component relies on global design tokens:
 
-- `--c-text-secondary`, `--c-text-primary`, `--c-primary`
-- `--b-radius-btn`, `--sp-2`, `--motion`, `--easing`
+```css
+--c-text-secondary
+--c-text-primary
+--c-primary
+--radius-btn
+--sp-2
+--sp-3
+--motion
+--easing
+```
 
-You can override these at any container level to fit your theme.
+This allows the icon to automatically adapt to:
+
+- theme mode (light / dark)
+- density
+- radius
+- motion preferences
 
 ---
 
 ## Accessibility
 
-- When `name` is empty, consider wrapping with a contextual label (e.g., `aria-label` on a parent) or provide a `name` for readable text.
-- Icon uses the `material-icons` glyph set.
+- Uses semantic `<a>` element
+- Works with keyboard navigation
+- When using **icon-only**, consider:
+    - providing surrounding context
+    - or adding an accessible label on the container
 
 ---
 
-## Example (inside a top bar)
+## Examples
+
+### Icon only
+
+```html
+<material-icon routerLink="/home" icon="home" />
+```
+
+### Icon with label
+
+```html
+<material-icon routerLink="/components" icon="apps" name="Components" />
+```
+
+### Navigation bar
 
 ```html
 <nav class="d-f ai-c g-2">
-	<material-icon routerLink="/home" icon="home" name="Home"></material-icon>
-	<material-icon
-		routerLink="/components"
-		icon="widgets"
-		name="Components"
-	></material-icon>
-	<material-icon routerLink="/settings" icon="settings"></material-icon>
+	<material-icon routerLink="/home" icon="home" name="Home" />
+	<material-icon routerLink="/users" icon="group" name="Users" />
+	<material-icon routerLink="/settings" icon="settings" />
 </nav>
 ```
+
+---
+
+## Notes
+
+- This component is **presentation + navigation only**
+- It does not manage permissions, routing logic, or state
+- Best used inside menus, headers, sidebars, and toolbars
+
+---
+
+## License
+
+MIT © 2026 Web Art Work

@@ -1,14 +1,28 @@
 .sign {
-	&__logo-img {
-		display: block;
-		inline-size: min(320px, 70vw);
-		height: auto;
-		object-fit: contain;
-	}
+	background:
+		radial-gradient(
+			1200px 800px at 20% 50%,
+			rgba(255, 255, 255, 0.04),
+			transparent 60%
+		),
+		radial-gradient(
+			900px 600px at 80% 50%,
+			rgba(255, 255, 255, 0.03),
+			transparent 55%
+		),
+		var(--c-bg-primary);
 
-	&__logo-icon {
-		display: block;
-		inline-size: clamp(120px, 20vw, 260px);
-		height: auto;
+	&::before {
+		content: '';
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0.02),
+			rgba(0, 0, 0, 0.02)
+		);
+		mix-blend-mode: overlay;
+		opacity: 0.35;
 	}
 }

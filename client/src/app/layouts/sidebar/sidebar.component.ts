@@ -1,4 +1,4 @@
-import { NgClass, TitleCasePipe } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
+import { ThemeComponent } from '@icon/theme';
 import { ButtonComponent } from '@lib/button';
 import { LanguageService, TranslateDirective } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
@@ -21,8 +22,8 @@ import { ThemeService } from 'wacom';
 		RouterLink,
 		TranslateDirective,
 		MaterialComponent,
-		TitleCasePipe,
 		ButtonComponent,
+		ThemeComponent,
 		NgClass,
 	],
 })

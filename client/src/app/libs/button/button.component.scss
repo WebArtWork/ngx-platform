@@ -5,6 +5,7 @@
 
 /* Works for <wbutton> template button and for directive when ButtonStylesComponent is present */
 .wbutton {
+	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;

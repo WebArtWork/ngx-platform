@@ -111,7 +111,6 @@ export class ProfileComponent {
 			thumb,
 		});
 
-		this.userService.thumb.set(thumb);
 		this.userService.updateMe();
 	}
 }
