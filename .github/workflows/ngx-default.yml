@@ -2,6 +2,8 @@ name: Sync Angular client to ngx-default
 
 on:
     push:
+        branches:
+            - master
         paths:
             - "client/**" # Trigger only on changes in the angular folder
 

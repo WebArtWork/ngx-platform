@@ -1,0 +1,64 @@
+@let _content = content(); @if (_content?.title || _content?.description ||
+_content?.items?.length) {
+<section [attr.id]="_content.sectionId ?? null">
+	<div
+		class="mx-auto w-full max-w-[var(--container)] px-[var(--gutter)] py-12 md:py-16"
+	>
+		<div class="max-w-2xl">
+			@if (_content.title) {
+			<h2
+				class="text-2xl font-semibold tracking-[var(--letter-spacing)] text-[var(--c-text-secondary)] md:text-3xl"
+			>
+				{{ _content.title }}
+			</h2>
+			} @if (_content.description) {
+			<p class="mt-3 text-base text-[var(--c-text-primary)]">
+				{{ _content.description }}
+			</p>
+			}
+		</div>
+
+		@if (_content.items?.length) {
+		<div class="mt-8 grid gap-4 md:grid-cols-3">
+			@for (uc of _content.items!; track uc.title) { @if (uc.title ||
+			uc.bullets?.length) {
+			<div
+				class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[var(--c-bg-tertiary)] p-5 text-[var(--c-text-primary)] shadow-[var(--shadow-sm)]"
+			>
+				<div class="flex items-center gap-2">
+					<span
+						class="material-icons text-[var(--c-text-muted)]"
+						aria-hidden="true"
+					>
+						{{ uc.icon ?? 'person' }}
+					</span>
+					@if (uc.title) {
+					<div class="font-semibold text-[var(--c-text-secondary)]">
+						{{ uc.title }}
+					</div>
+					}
+				</div>
+
+				@if (uc.bullets?.length) {
+				<ul class="mt-4 grid gap-2">
+					@for (b of uc.bullets!; track b) { @if (b) {
+					<li
+						class="flex items-start gap-2 text-sm text-[var(--c-text-muted)]"
+					>
+						<span
+							class="material-icons text-[var(--c-text-muted)]"
+							aria-hidden="true"
+							>chevron_right</span
+						>
+						<span>{{ b }}</span>
+					</li>
+					} }
+				</ul>
+				}
+			</div>
+			} }
+		</div>
+		}
+	</div>
+</section>
+}

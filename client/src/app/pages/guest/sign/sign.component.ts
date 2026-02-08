@@ -1,204 +1,149 @@
-import { Component } from '@angular/core';
-import { AlertService, HashService, HttpService, UiService } from 'wacom';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	computed,
+	inject,
+	signal,
+} from '@angular/core';
+import {
+	form,
+	pattern,
+	required,
+	schema,
+	submit,
+} from '@angular/forms/signals';
 import { Router } from '@angular/router';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
-import { UserService } from 'src/app/modules/user/services/user.service';
-import { User } from 'src/app/modules/user/interfaces/user.interface';
-import { environment } from 'src/environments/environment';
+import { environment } from '@env';
+import { SpiderComponent } from '@icon/spider';
+import { ThemeComponent } from '@icon/theme';
+import { AlertService } from '@lib/alert';
+import { ButtonComponent } from '@lib/button';
+import { InputComponent } from '@lib/input';
+import { User, UserService } from '@module/user';
+import { HttpService, ThemeService } from 'wacom';
+import { RespStatus, SignModel } from './sign.interface';
 
-interface RespStatus {
-	email: string;
-	pass: string;
-}
+const signSchema = schema<SignModel>((path) => {
+	required(path.email, { message: 'Enter your email...' });
+
+	pattern(path.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+
+	required(path.password, { message: 'Enter your password...' });
+});
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [SpiderComponent, InputComponent, ButtonComponent, ThemeComponent],
 	templateUrl: './sign.component.html',
-	styleUrls: ['./sign.component.scss'],
-	standalone: false
 })
 export class SignComponent {
+	themeService = inject(ThemeService);
+	userService = inject(UserService);
+	private _alertService = inject(AlertService);
+	private _httpService = inject(HttpService);
+	private _router = inject(Router);
+
 	readonly logo = environment.sign.logo;
 
-	form: FormInterface = this._form.getForm('sign', {
-		formId: 'sign',
-		title: 'Sign In / Sign Up',
-		components: [
-			{
-				name: 'Email',
-				key: 'email',
-				focused: true,
-				required: true,
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your email'
-					},
-					{
-						name: 'Label',
-						value: 'Email'
-					}
-				]
-			},
-			{
-				name: 'Password',
-				key: 'password',
-				required: true,
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter your password'
-					},
-					{
-						name: 'Label',
-						value: 'Password'
-					}
-				]
-			},
-			{
-				name: 'Number',
-				key: 'resetPin',
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Enter code from email'
-					},
-					{
-						name: 'Label',
-						value: 'code'
-					}
-				],
-				hidden: true
-			},
-			{
-				name: 'Button',
-				fields: [
-					{
-						name: 'Label',
-						value: "Let's go"
-					},
-					{
-						name: 'Submit',
-						value: true
-					},
-					{
-						name: 'Click',
-						value: (): void => {
-							this.submit();
-						}
-					}
-				]
-			}
-		]
-	});
-
-	user = {
+	// Signal form model
+	signModel = signal<SignModel>({
 		email: environment.sign.email,
 		password: environment.sign.password,
-		resetPin: null
-	};
+		resetPin: '',
+	});
 
-	constructor(
-		public userService: UserService,
-		public ui: UiService,
-		private _alert: AlertService,
-		private _http: HttpService,
-		private _hash: HashService,
-		private _router: Router,
-		private _form: FormService,
-		private _translate: TranslateService
-	) {}
+	// Signal form tree (used by [field])
+	signForm = form(this.signModel, signSchema);
 
-	submit(): void {
-		if (!this.form.components[2].hidden && this.user.resetPin) {
-			this.save();
-		} else if (!this.user.email) {
-			this._alert.error({
-				text: this._translate.translate('Sign.Enter your email')
-			});
+	showCode = signal(false);
+
+	// 🔒 Disable button while any core field is invalid
+	readonly isSubmitDisabled = computed(() => {
+		const formInvalid = this.signForm().invalid(); // root form validity
+
+		if (!this.showCode()) {
+			return formInvalid;
 		}
 
-		if (!this.ui.valid(this.user.email)) {
-			this._alert.error({
-				text: this._translate.translate('Sign.Enter proper email')
-			});
-		} else if (!this.user.password) {
-			this._alert.error({
-				text: this._translate.translate('Sign.Enter your password')
-			});
-		} else {
-			this._hash.set('email', this.user.email);
+		// when code step is shown, also require resetPin to be valid
+		const resetPinField = this.signForm.resetPin();
+		return formInvalid || resetPinField.invalid();
+	});
 
-			this._http.post(
-				'/api/user/status',
-				this.user,
-				(resp: RespStatus) => {
-					if (resp.email && resp.pass) {
-						this.login();
-					} else if (resp.email) {
-						this.reset();
-					} else {
-						this.sign();
-					}
-				}
-			);
-		}
-	}
+	wFormSubmit() {
+		submit(this.signForm, (formTree) => {
+			const payload = formTree().value() as SignModel;
 
-	login(): void {
-		this._http.post('/api/user/login', this.user, this._set.bind(this));
-	}
+			if (this.showCode()) {
+				this._change(payload);
+			} else {
+				this._submit(payload);
+			}
 
-	sign(): void {
-		this._http.post('/api/user/sign', this.user, this._set.bind(this));
-	}
-
-	reset(): void {
-		this._http.post('/api/user/request', this.user, () => {
-			this.form.components[2].hidden = false;
-		});
-
-		this._alert.info({
-			text: 'Mail will sent to your email'
+			return Promise.resolve({} as any);
 		});
 	}
 
-	save(): void {
-		this._http.post('/api/user/change', this.user, (resp: boolean) => {
+	private _submit(payload: SignModel) {
+		this._httpService.post(
+			'/api/user/status?test=test',
+			payload,
+			(resp: RespStatus) => {
+				if (resp.email && resp.pass) this._login(payload);
+				else if (resp.email) this._request(payload);
+				else this._sign(payload);
+			},
+		);
+	}
+
+	private _login(payload: SignModel) {
+		this._httpService.post(
+			'/api/user/login',
+			payload,
+			this._set.bind(this),
+		);
+	}
+
+	private _sign(payload: SignModel) {
+		this._httpService.post('/api/user/sign', payload, this._set.bind(this));
+	}
+
+	private _request(payload: SignModel) {
+		this._httpService.post('/api/user/request', payload, () => {
+			this.showCode.set(true);
+
+			this._alertService.info({
+				text: 'Mail will be sent to your email',
+			});
+		});
+	}
+
+	private _change(payload: SignModel) {
+		this._httpService.post('/api/user/change', payload, (resp: boolean) => {
 			if (resp) {
-				this._alert.info({
-					text: 'Password successfully changed'
+				this._alertService.info({
+					text: 'Password successfully changed',
 				});
 			} else {
-				this._alert.error({
-					text: 'Wrong Code'
-				});
+				this._alertService.error({ text: 'Wrong code' });
 			}
 
-			this.login();
+			this._login(payload);
 		});
 	}
 
-	private _set = (user: User): void => {
-		if (user) {
-			const token = (user as unknown as { token: string }).token || '';
-
-			if (token) {
-				this._http.set('token', token);
-			}
-
-			localStorage.setItem('waw_user', JSON.stringify(user));
-
-			this.userService.setUser(user);
-
-			this.userService.get();
-
-			this._router.navigateByUrl('/profile');
-		} else {
-			this._alert.error({
-				text: 'Something went wrong'
-			});
+	private _set(user: User) {
+		if (!user) {
+			this._alertService.error({ text: 'Something went wrong' });
+			return;
 		}
-	};
+
+		const token = (user as unknown as { token: string }).token || '';
+		if (token) this._httpService.set('token', token);
+
+		localStorage.setItem('waw_user', JSON.stringify(user));
+		this.userService.setUser(user);
+		this.userService.get();
+		this._router.navigateByUrl('/profile');
+	}
 }

@@ -1,27 +1,28 @@
 import {
+	ChangeDetectionStrategy,
 	Component,
-	EventEmitter,
-	Input,
 	OnChanges,
-	Output,
-	SimpleChanges
+	SimpleChanges,
+	inject,
+	input,
+	output,
 } from '@angular/core';
-import { SelectModule } from 'src/app/core/modules/select/select.module';
-import { UserService } from 'src/app/modules/user/services/user.service';
+import { SelectComponent, SelectValue } from '@lib/select';
+import { UserService } from '../../services/user.service';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [SelectComponent],
 	selector: 'user-selector',
 	templateUrl: './user-selector.component.html',
 	styleUrls: ['./user-selector.component.scss'],
-	standalone: true,
-	imports: [SelectModule]
 })
-export class SelectUserComponent implements OnChanges {
-	@Input() value: string;
+export class UserSelectorComponent implements OnChanges {
+	userService = inject(UserService);
 
-	@Output() onChange = new EventEmitter();
+	value = input('');
 
-	constructor(public us: UserService) {}
+	onChange = output<SelectValue>();
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['value'] && !changes['value'].firstChange) {

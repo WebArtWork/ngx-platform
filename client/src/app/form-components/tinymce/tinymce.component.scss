@@ -1,0 +1,19 @@
+.w-tiny {
+	width: 100%;
+	background: var(--c-bg-secondary);
+	color: var(--c-text-primary);
+	border: 1px solid var(--c-border);
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-sm);
+	overflow: hidden;
+	padding: var(--sp-2);
+}
+
+/*
+ * Height is controlled mostly via TinyMCE config (height).
+ * Wrapper just makes sure editor stretches horizontally.
+ */
+.w-tiny__editor {
+	display: block;
+	width: 100%;
+}

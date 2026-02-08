@@ -1,27 +1,28 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import {
-	AlertService,
-	CoreService,
-	CrudService,
-	HttpService,
-	StoreService
-} from 'wacom';
+	Injectable,
+	WritableSignal,
+	computed,
+	inject,
+	signal,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertService } from '@lib/alert';
+import { environment } from 'src/environments/environment';
+import { CrudService, EmitterService, HttpService } from 'wacom';
 import { User } from '../interfaces/user.interface';
-
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class UserService extends CrudService<User> {
-	readonly url = environment.url;
+	private readonly _httpService = inject(HttpService);
 
-	get thumb(): string {
-		return !this.user.thumb ||
-			this.user.thumb.includes('assets/default.png')
-			? 'assets/default.png'
-			: this.url + this.user.thumb;
-	}
+	private readonly _alertService = inject(AlertService);
+
+	private readonly _router = inject(Router);
+
+	private readonly _emitterService = inject(EmitterService);
+
+	readonly url = environment.url;
 
 	roles = (
 		(environment as unknown as { roles: string[] }).roles || []
@@ -29,33 +30,34 @@ export class UserService extends CrudService<User> {
 
 	employees = (environment as unknown as { roles: string[] }).roles || [];
 
-	mode = 'dark';
+	users = signal<User[]>(this.getDocs());
 
-	modes = (
-		(environment as unknown as { modes: string[] }).modes || []
-	).concat(['dark', 'white']);
+	user = signal<User>(
+		localStorage.getItem('waw_user')
+			? JSON.parse(localStorage.getItem('waw_user') as string)
+			: this.new(),
+	);
 
-	users: User[] = this.getDocs();
+	thumb = computed(() => {
+		return !this.user().thumb ||
+			this.user().thumb.includes('assets/default.png')
+			? 'assets/default.png'
+			: this.url + this.user().thumb;
+	});
 
-	user: User = localStorage.getItem('waw_user')
-		? JSON.parse(localStorage.getItem('waw_user') as string)
-		: this.new();
+	role(role: string): boolean {
+		return !!(this.user().is || {})[role];
+	}
 
-	usersByRole: Record<string, User[]> = {};
+	usersByRole: Record<string, WritableSignal<User[]>> = {};
 
-	constructor(
-		private _http: HttpService,
-		private _store: StoreService,
-		private _alert: AlertService,
-		private _core: CoreService,
-		private _router: Router
-	) {
+	constructor() {
 		super({
 			name: 'user',
 			replace: (user) => {
 				user.roles = [];
-
 				user.data = user.data || {};
+				user.is = user.is || {};
 
 				for (const field of (
 					environment as unknown as { userFields: string[] }
@@ -70,116 +72,104 @@ export class UserService extends CrudService<User> {
 				}
 
 				return user;
-			}
+			},
 		});
 
-		this.filteredDocuments(this.usersByRole, 'roles');
+		this.filteredDocuments(
+			{},
+			{
+				field: 'roles',
+				filtered: (splitted) => {
+					for (const role in splitted) {
+						if (this.usersByRole[role]) {
+							this.usersByRole[role].set(
+								(splitted as Record<string, User[]>)[role],
+							);
+						} else {
+							this.usersByRole[role] = signal(
+								(splitted as Record<string, User[]>)[role],
+							);
+						}
+					}
+				},
+			},
+		);
 
-		this.fetch({}, { name: 'me' }).subscribe((user: User) => {
-			if (user) {
-				if (
-					!localStorage.getItem('waw_user') &&
-					this._router.url === '/sign'
-				) {
-					this._router.navigateByUrl('/profile');
+		if (localStorage.getItem('waw_user')) {
+			this.fetch({}, { name: 'me' }).subscribe((user: User) => {
+				if (user) {
+					if (
+						!localStorage.getItem('waw_user') &&
+						this._router.url === '/sign'
+					) {
+						this._router.navigateByUrl('/profile');
+					}
+
+					this.setUser(user);
+				} else if (localStorage.getItem('waw_user')) {
+					this.logout();
 				}
+			});
 
-				this.setUser(user);
-			} else if (localStorage.getItem('waw_user')) {
-				this.logout();
-			}
-		});
-
-		this.get({
-			query: environment.appId ? 'appId=' + environment.appId : ''
-		});
-
-		this._store.get('mode', (mode) => {
-			if (mode) {
-				this.setMode(mode);
-			} else {
-				this.setMode('dark');
-			}
-		});
-	}
-
-	setMode(mode = 'white'): void {
-		if (mode === 'white') {
-			this._store.remove('mode');
-
-			for (const localmode of this.modes) {
-				(document.body.parentNode as HTMLElement).classList.remove(
-					localmode
-				);
-			}
-		} else {
-			this._store.set('mode', mode);
-
-			(document.body.parentNode as HTMLElement).classList.add(mode);
+			this.get({
+				query: environment.appId ? 'appId=' + environment.appId : '',
+			});
 		}
-
-		this.mode = mode;
 	}
 
-	setUser(user: User): void {
-		this.user = user;
+	setUser(user: User) {
+		this.user.set(user);
 
 		localStorage.setItem('waw_user', JSON.stringify(user));
 
-		this._core.complete('us.user');
+		this._emitterService.complete('us.user');
 	}
 
-	role(role: string): boolean {
-		return !!(this.user?.is || {})[role];
+	updateMe() {
+		this.setUser(this.user());
+
+		return this.update(this.user()).subscribe(() => {
+			this._alertService.info({
+				text: 'Profile information has been updated',
+			});
+		});
 	}
 
-	updateMe(): void {
-		this.setUser(this.user);
+	updateMeAfterWhile() {
+		this.setUser(this.user());
 
-		this.update(this.user);
+		this.updateAfterWhile(this.user());
 	}
 
-	updateMeAfterWhile(): void {
-		this.setUser(this.user);
-
-		this.updateAfterWhile(this.user);
-	}
-
-	changePassword(oldPass: string, newPass: string): void {
-		if (this._changingPassword) return;
-
-		this._changingPassword = true;
-
-		this._http.post(
+	changePassword(oldPass: string, newPass: string) {
+		return this._httpService.post(
 			'/api/user/changePassword',
 			{
 				newPass: newPass,
-				oldPass: oldPass
+				oldPass: oldPass,
 			},
 			(resp: boolean) => {
-				this._changingPassword = false;
-
 				if (resp) {
-					this._alert.info({
-						text: 'Successfully changed password'
+					this._alertService.info({
+						text: 'Successfully changed password',
 					});
 				} else {
-					this._alert.error({
-						text: 'Incorrect current password'
+					this._alertService.error({
+						text: 'Incorrect current password',
 					});
 				}
-			}
+			},
 		);
 	}
 
-	logout(): void {
-		this.user = this.new();
+	logout() {
+		this.user.set(this.new());
 
 		localStorage.removeItem('waw_user');
 
-		this._http.remove('token');
+		this._httpService.remove('token');
 
-		this._http.get('/api/user/logout');
+		this._httpService.get('/api/user/logout');
 
 		this._router.navigateByUrl('/sign');
 
@@ -188,17 +178,15 @@ export class UserService extends CrudService<User> {
 		}, 100);
 	}
 
-	updateAdmin(user: User): void {
-		this.update(user, {
-			name: 'admin'
+	updateAdmin(user: User) {
+		return this.update(user, {
+			name: 'admin',
 		});
 	}
 
-	deleteAdmin(user: User): void {
-		this.delete(user, {
-			name: 'admin'
+	deleteAdmin(user: User) {
+		return this.delete(user, {
+			name: 'admin',
 		});
 	}
-
-	private _changingPassword = false;
 }

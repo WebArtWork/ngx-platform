@@ -1,0 +1,14 @@
+.user {
+	--topbar-h: 56px;
+	--drawer-w: 260px;
+
+	&__main {
+		min-height: calc(100dvh - var(--topbar-h));
+	}
+
+	@media (min-width: 768px) {
+		&__main {
+			padding-right: calc(var(--sp-5) + var(--drawer-w));
+		}
+	}
+}

@@ -1,0 +1,119 @@
+@let _content = content(); @if ( _content?.title || _content?.description ||
+_content?.painPoints?.length || _content?.solutionsTitle ||
+_content?.solutions?.length || _content?.ctas?.length ) {
+<section class="about" [attr.id]="_content.sectionId ?? null">
+	<div class="mx-auto w-full max-w-6xl px-4 py-12 md:py-16">
+		<div class="grid gap-10 md:grid-cols-2">
+			<div>
+				@if (_content.title) {
+				<h2
+					class="text-2xl md:text-3xl font-semibold text-[var(--c-text-secondary)]"
+				>
+					{{ _content.title }}
+				</h2>
+				} @if (_content.description) {
+				<p class="mt-3 text-base text-[var(--c-text-primary)]">
+					{{ _content.description }}
+				</p>
+				} @if (_content.painPoints?.length) {
+				<div class="mt-6 grid gap-4">
+					@for (p of _content.painPoints!; track p.title) { @if
+					(p.title || p.desc) {
+					<div class="grid grid-cols-[26px_1fr] gap-3 items-start">
+						<span
+							class="material-icons text-[var(--c-text-muted)] text-[22px] leading-none mt-[2px]"
+							aria-hidden="true"
+						>
+							{{ p.icon ?? 'report_problem' }}
+						</span>
+
+						<div class="min-w-0">
+							@if (p.title) {
+							<div
+								class="font-medium text-[var(--c-text-secondary)]"
+							>
+								{{ p.title }}
+							</div>
+							} @if (p.desc) {
+							<div class="text-sm text-[var(--c-text-primary)]">
+								{{ p.desc }}
+							</div>
+							}
+						</div>
+					</div>
+					} }
+				</div>
+				}
+			</div>
+
+			@if (_content.solutionsTitle || _content.solutions?.length ||
+			_content.ctas?.length) {
+			<div
+				class="rounded-lg p-5 md:p-6 shadow-[var(--shadow-sm)] border border-[var(--c-border)] bg-[var(--c-bg-tertiary)]"
+			>
+				<div class="flex items-center gap-2">
+					<span
+						class="material-icons text-[var(--c-text-muted)]"
+						aria-hidden="true"
+						>task_alt</span
+					>
+					@if (_content.solutionsTitle) {
+					<h3
+						class="text-xl font-semibold text-[var(--c-text-secondary)]"
+					>
+						{{ _content.solutionsTitle }}
+					</h3>
+					}
+				</div>
+
+				@if (_content.solutions?.length) {
+				<div class="mt-5 grid gap-4">
+					@for (s of _content.solutions!; track s.title) { @if
+					(s.title || s.desc) {
+					<div class="grid grid-cols-[26px_1fr] gap-3 items-start">
+						<span
+							class="material-icons text-[var(--c-text-muted)] text-[22px] leading-none mt-[2px]"
+							aria-hidden="true"
+						>
+							{{ s.icon ?? 'check_circle' }}
+						</span>
+
+						<div class="min-w-0">
+							@if (s.title) {
+							<div
+								class="font-medium text-[var(--c-text-secondary)]"
+							>
+								{{ s.title }}
+							</div>
+							} @if (s.desc) {
+							<div class="text-sm text-[var(--c-text-primary)]">
+								{{ s.desc }}
+							</div>
+							}
+						</div>
+					</div>
+					} }
+				</div>
+				} @if (_content.ctas?.length) {
+				<div class="mt-6 flex flex-wrap gap-3">
+					@for (cta of _content.ctas!; track cta.label) { @if
+					(cta.label) { @let _variant = (cta.variant ?? 'primary');
+					<wbutton
+						[disableSubmit]="true"
+						[type]="_variant === 'primary' ? 'primary' : 'light'"
+						[extraClass]="_variant === 'primary'
+									? 'px-5 py-3 text-sm'
+									: 'px-5 py-3 text-sm border border-[var(--c-border)] bg-transparent text-[var(--c-text-secondary)] hover:bg-[color-mix(in_srgb,var(--c-text-primary)_6%,transparent)]'"
+						(wClick)="onCtaClick(cta)"
+					>
+						{{ cta.label }}
+					</wbutton>
+					} }
+				</div>
+				}
+			</div>
+			}
+		</div>
+	</div>
+</section>
+}

@@ -1,109 +1,46 @@
-import { Component } from '@angular/core';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
-import { AlertService, CoreService } from 'wacom';
-import { UserService } from '../../services/user.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
+import { FormService } from 'src/app/libs/form/services/form.service';
+import { TableComponent } from 'src/app/libs/table/table.component';
+import { CrudComponent } from 'wacom';
+import { userFormComponents } from '../../forms/user.form';
 import { User } from '../../interfaces/user.interface';
-import { userFormComponents } from '../../formcomponents/user.formcomponents';
+import { UserService } from '../../services/user.service';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [TableComponent],
 	templateUrl: './clients.component.html',
-	styleUrls: ['./clients.component.scss']
+	styleUrls: ['./clients.component.scss'],
 })
-export class ClientsComponent {
+export class ClientsComponent extends CrudComponent<
+	UserService,
+	User,
+	FormInterface
+> {
+	/** Use server-side pagination for clients */
+	protected override configType: 'server' | 'local' = 'server';
+
+	/** Basic columns for clients table */
 	columns = ['name', 'email'];
 
-	form: FormInterface = this._form.prepareForm(userFormComponents);
+	/** wtable config built by CrudComponent, aware of server mode */
+	config = this.getConfig();
 
-	users: User[] = [];
-
-	private _page = 1;
-
-	setUsers(page = this._page) {
-		this._page = page;
-
-		this._core.afterWhile(
-			this,
-			() => {
-				this._us.get({ page }).subscribe((users) => {
-					this.users.splice(0, this.users.length);
-
-					this.users.push(...users);
-				});
-			},
-			250
-		);
+	protected override allowUrl(): boolean {
+		// no URL-driven filters for now, same as UsersComponent
+		return false;
 	}
 
-	config = {
-		paginate: this.setUsers.bind(this),
-		perPage: 20,
-		setPerPage: this._us.setPerPage.bind(this._us),
-		allDocs: false,
-		create: () => {
-			this._form
-				.modal<User>(this.form, {
-					label: 'Create',
-					click: (created: unknown, close: () => void) => {
-						this._us.create(created as User, {
-							alert: this._translate.translate(
-								'User.Client has been created'
-							),
-							callback: () => {
-								this.setUsers();
-								close();
-							}
-						});
-					}
-				})
-				.then(this._us.create.bind(this));
-		},
-		update: (doc: User) => {
-			this._form.modal<User>(this.form, [], doc).then((updated: User) => {
-				this._core.copy(updated, doc);
-
-				this._us.update(doc, {
-					alert: this._translate.translate(
-						'User.Client has been updated'
-					)
-				});
-			});
-		},
-		delete: (user: User) => {
-			this._alert.question({
-				text: this._translate.translate(
-					'Common.Are you sure you want to delete this client?'
-				),
-				buttons: [
-					{
-						text: this._translate.translate('Common.No')
-					},
-					{
-						text: this._translate.translate('Common.Yes'),
-						callback: () => {
-							this._us.delete(user, {
-								name: 'admin',
-								alert: this._translate.translate(
-									'User.Client has been deleted'
-								),
-								callback: () => {
-									this.setUsers();
-								}
-							});
-						}
-					}
-				]
-			});
-		}
-	};
 	constructor(
-		private _translate: TranslateService,
-		private _us: UserService,
-		private _alert: AlertService,
-		private _core: CoreService,
-		private _form: FormService
+		_userService: UserService,
+		_form: FormService,
+		_formService: FormService,
 	) {
-		this.setUsers();
+		// 'user' docType reuses existing user form components
+		super(userFormComponents, _form, _userService, 'user');
+
+		// fetch first page from server using CrudComponent logic
+		this.setDocuments();
 	}
 }

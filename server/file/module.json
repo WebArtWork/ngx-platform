@@ -1,8 +1,0 @@
-{
-	"repo": "https://github.com/WebArtWork/waw-file.git",
-	"name": "File",
-	"crud": {
-		"delete": [""]
-	},
-	"dependencies": {}
-}

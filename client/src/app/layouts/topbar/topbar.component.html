@@ -1,0 +1,28 @@
+<nav
+	class="sticky top-0 z-[100] flex min-h-14 items-center bg-[var(--c-bg-secondary)] shadow px-5 max-md:fixed max-md:bottom-0 max-md:top-auto max-md:w-full max-md:px-3"
+>
+	<ul
+		class="m-0 flex w-full list-none items-center gap-2 p-0 max-md:justify-around"
+	>
+		<li class="inline-flex items-center">
+			<material-icon
+				routerLink="/"
+				icon="home"
+				[routerLinkActiveOptions]="{exact: true}"
+			></material-icon>
+		</li>
+
+		<li class="mx-auto"></li>
+
+		@if (sidebarToggler()) {
+		<li class="inline-flex items-center md:hidden">
+			<icon-burger
+				(updated)="sidebarOpen.emit($event)"
+				aria-label="Menu"
+			></icon-burger>
+		</li>
+		} @if (showProfile()) {
+		<material-icon icon="person" routerLink="/profile"></material-icon>
+		}
+	</ul>
+</nav>

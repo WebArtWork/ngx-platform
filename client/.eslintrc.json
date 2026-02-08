@@ -5,10 +5,7 @@
 		{
 			"files": ["*.ts"],
 			"parserOptions": {
-				"project": [
-					"tsconfig.json",
-					"e2e/tsconfig.json"
-				],
+				"project": ["tsconfig.json", "e2e/tsconfig.json"],
 				"createDefaultProgram": true
 			},
 			"extends": [
@@ -20,6 +17,7 @@
 				"plugin:prettier/recommended"
 			],
 			"rules": {
+				"@angular-eslint/prefer-standalone": "off",
 				"no-console": "warn",
 				"@typescript-eslint/explicit-function-return-type": "error",
 				"@typescript-eslint/no-unsafe-call": "off",

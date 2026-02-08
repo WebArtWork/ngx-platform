@@ -1,0 +1,73 @@
+<ng-template #templateRef let-data>
+	@let mode = (data.props.mode ?? fileDefaults.mode); @switch (mode) { @case
+	('single-image') {
+	<ngx-file
+		[label]="data.props.label ?? fileDefaults.label"
+		[placeholder]="data.props.placeholder ?? fileDefaults.placeholder"
+		[disabled]="data.props.disabled === true || data.component?.disabled === true"
+		[clearable]="data.props.clearable ?? fileDefaults.clearable"
+		[accept]="data.props.accept ?? fileDefaults.accept"
+		[preview]="data.props.preview ?? fileDefaults.preview"
+		[mode]="mode"
+		[view]="data.props.view ?? fileDefaults.view"
+		[cropWidth]="data.props.cropWidth ?? fileDefaults.cropWidth"
+		[cropHeight]="data.props.cropHeight ?? fileDefaults.cropHeight"
+		[container]="data.props.container ?? fileDefaults.container"
+		[name]="data.props.name ?? fileDefaults.name"
+		[wImage]="getValue(data)"
+		(wImageChange)="onValueChange(data, $event)"
+	></ngx-file>
+	} @case ('single-file') {
+	<ngx-file
+		[label]="data.props.label ?? fileDefaults.label"
+		[placeholder]="data.props.placeholder ?? fileDefaults.placeholder"
+		[disabled]="data.props.disabled === true || data.component?.disabled === true"
+		[clearable]="data.props.clearable ?? fileDefaults.clearable"
+		[accept]="data.props.accept ?? fileDefaults.accept"
+		[preview]="data.props.preview ?? fileDefaults.preview"
+		[mode]="mode"
+		[view]="data.props.view ?? fileDefaults.view"
+		[cropWidth]="data.props.cropWidth ?? fileDefaults.cropWidth"
+		[cropHeight]="data.props.cropHeight ?? fileDefaults.cropHeight"
+		[container]="data.props.container ?? fileDefaults.container"
+		[name]="data.props.name ?? fileDefaults.name"
+		[wFile]="getValue(data)"
+		(wFileChange)="onValueChange(data, $event)"
+	></ngx-file>
+	} @case ('multi-image') {
+	<ngx-file
+		[label]="data.props.label ?? fileDefaults.label"
+		[placeholder]="data.props.placeholder ?? fileDefaults.placeholder"
+		[disabled]="data.props.disabled === true || data.component?.disabled === true"
+		[clearable]="data.props.clearable ?? fileDefaults.clearable"
+		[accept]="data.props.accept ?? fileDefaults.accept"
+		[preview]="data.props.preview ?? fileDefaults.preview"
+		[mode]="mode"
+		[view]="data.props.view ?? fileDefaults.view"
+		[cropWidth]="data.props.cropWidth ?? fileDefaults.cropWidth"
+		[cropHeight]="data.props.cropHeight ?? fileDefaults.cropHeight"
+		[container]="data.props.container ?? fileDefaults.container"
+		[name]="data.props.name ?? fileDefaults.name"
+		[wImages]="getValue(data)"
+		(wImagesChange)="onValueChange(data, $event)"
+	></ngx-file>
+	} @default {
+	<!-- multi-file (default) -->
+	<ngx-file
+		[label]="data.props.label ?? fileDefaults.label"
+		[placeholder]="data.props.placeholder ?? fileDefaults.placeholder"
+		[disabled]="data.props.disabled === true || data.component?.disabled === true"
+		[clearable]="data.props.clearable ?? fileDefaults.clearable"
+		[accept]="data.props.accept ?? fileDefaults.accept"
+		[preview]="data.props.preview ?? fileDefaults.preview"
+		[mode]="mode"
+		[view]="data.props.view ?? fileDefaults.view"
+		[cropWidth]="data.props.cropWidth ?? fileDefaults.cropWidth"
+		[cropHeight]="data.props.cropHeight ?? fileDefaults.cropHeight"
+		[container]="data.props.container ?? fileDefaults.container"
+		[name]="data.props.name ?? fileDefaults.name"
+		[wFiles]="getValue(data)"
+		(wFilesChange)="onValueChange(data, $event)"
+	></ngx-file>
+	} }
+</ng-template>

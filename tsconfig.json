@@ -22,7 +22,12 @@
 		"baseUrl": "./",
 		"strict": true,
 		"lib": ["es2020", "dom"],
-		"useDefineForClassFields": false
+		"useDefineForClassFields": false,
+		"paths": {
+			"@lib/*": ["src/app/libs/*"],
+			"@module/*": ["src/app/modules/*"],
+			"@page-component/*": ["src/app/page-components/*"]
+		}
 	},
 	"angularCompilerOptions": {
 		"enableI18nLegacyMessageIdFormat": false,

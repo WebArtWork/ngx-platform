@@ -1,0 +1,82 @@
+<aside
+	class="fixed right-0 z-[90] flex w-[260px] flex-col overflow-auto bg-[var(--c-bg-secondary)] p-5 shadow transition-transform md:top-14 md:h-[calc(100dvh-56px)] md:translate-x-0 max-md:top-0 max-md:bottom-[var(--topbar-h)] max-md:h-[calc(100dvh-var(--topbar-h))] max-md:w-[min(92vw,260px)]"
+	[ngClass]="isOpen() ? 'translate-x-0' : 'translate-x-full'"
+>
+	<div
+		class="mt-1 flex items-center justify-between gap-2 rounded-[var(--radius)] px-2 py-1"
+	>
+		<a
+			(click)="closeIfOpen()"
+			class="inline-flex min-w-0 flex-1 items-center gap-2 text-[var(--c-text-primary)] no-underline"
+			routerLink="/profile"
+		>
+			<img
+				class="h-8 w-8 rounded-full"
+				[src]="userService.thumb()"
+				alt="User avatar"
+				height="32"
+				width="32"
+			/>
+			<span class="truncate font-semibold" translate>Profile</span>
+		</a>
+
+		<wbutton
+			(click)="logout()"
+			class="inline-flex items-center justify-center rounded-[var(--radius-btn)]"
+			aria-label="Logout"
+			type="link"
+		>
+			<span class="material-icons text-xl">logout</span>
+		</wbutton>
+	</div>
+
+	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
+
+	@if (userService.role('admin')) {
+	<material-icon
+		(click)="closeIfOpen()"
+		routerLink="/admin/users"
+		icon="manage_accounts"
+		name="Users"
+	></material-icon>
+
+	<material-icon
+		(click)="closeIfOpen()"
+		routerLink="/admin/clients"
+		icon="people"
+		name="Clients"
+	></material-icon>
+
+	<material-icon
+		(click)="closeIfOpen()"
+		routerLink="/admin/forms"
+		icon="backup_table"
+		name="Forms"
+	></material-icon>
+
+	<material-icon
+		(click)="closeIfOpen()"
+		routerLink="/admin/translates"
+		icon="translate"
+		name="Translates"
+	></material-icon>
+
+	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
+	}
+
+	<div class="mt-auto flex items-center justify-between gap-2">
+		<icon-theme size="48px" [showText]="true"></icon-theme>
+
+		@if (languageService.language()?.name) {
+		<button
+			(click)="languageService.nextLanguage(); closeIfOpen()"
+			aria-label="Switch language"
+			class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
+			type="button"
+		>
+			<span class="material-icons text-xl">language</span>
+			<span [translate]="languageService.language()?.name || ''"></span>
+		</button>
+		}
+	</div>
+</aside>

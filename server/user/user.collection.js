@@ -16,7 +16,7 @@ module.exports = function (waw) {
 		},
 		{
 			minimize: false,
-		}
+		},
 	);
 
 	schema.methods.generateHash = function (password) {
@@ -29,13 +29,9 @@ module.exports = function (waw) {
 
 	schema.methods.create = function (obj, user, sd) {
 		this.thumb = obj.thumb || "/assets/default.png";
+
 		this.reg_email = obj.email;
-		this.email = obj.email;
-		this.name = obj.name;
-		this.thumb = obj.thumb;
-		this.phone = obj.phone;
-		this.bio = obj.bio;
-		this.data = {};
+
 		this.is = {};
 	};
 

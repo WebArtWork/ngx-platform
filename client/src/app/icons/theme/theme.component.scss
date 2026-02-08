@@ -1,0 +1,45 @@
+.icon-theme {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	line-height: 1;
+	user-select: none;
+
+	&__box {
+		position: relative;
+		display: inline-block;
+		flex: 0 0 auto;
+	}
+
+	&__svg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	&__mode {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		line-height: 1;
+
+		// prevents the Material Icons glyph from stretching layout oddly
+		font-size: 1em;
+	}
+
+	&__text {
+		display: inline-flex;
+		align-items: center;
+		white-space: nowrap;
+		line-height: 1;
+		font-size: 14px;
+	}
+
+	&--with-text {
+		// optional: makes the clickable area feel nicer when there is text
+		padding-right: 2px;
+	}
+}

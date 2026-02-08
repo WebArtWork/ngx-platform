@@ -34,7 +34,7 @@ module.exports = function (waw) {
 					text: opts.text,
 					html: opts.html,
 				},
-				cb
+				cb,
 			);
 		};
 	} else {
@@ -70,7 +70,7 @@ module.exports = function (waw) {
 	}
 
 	/* API */
-	waw.use((req, res, next) => {
+	waw.app.use((req, res, next) => {
 		if (req.cookies.authToken) {
 			nJwt.verify(
 				req.cookies.authToken,
@@ -87,7 +87,7 @@ module.exports = function (waw) {
 						req.user = verifiedJwt.body;
 						next();
 					}
-				}
+				},
 			);
 		} else if (req.headers.token) {
 			nJwt.verify(
@@ -104,7 +104,7 @@ module.exports = function (waw) {
 						req.user = verifiedJwt.body;
 						next();
 					}
-				}
+				},
 			);
 		} else next();
 	});
@@ -157,7 +157,7 @@ module.exports = function (waw) {
 				subject: "Code: " + user.resetPin,
 				html: "Code: " + user.resetPin,
 			},
-			cb
+			cb,
 		);
 	};
 
@@ -194,8 +194,8 @@ module.exports = function (waw) {
 								path.join(templatePath, "dist", "index.html"),
 								{
 									base: "/wjst-default/",
-								}
-							)
+								},
+							),
 						);
 					},
 				},
@@ -203,114 +203,108 @@ module.exports = function (waw) {
 		}
 	}
 
-	waw.api({
-		router: "/api/user",
-		get: {
-			"/logout": async (req, res) => {
-				res.clearCookie("authToken", {
-					httpOnly: true,
-					secure: true,
-				});
+	const router = waw.router("/api/user");
+	router.get("/logout", (req, res) => {
+		res.clearCookie("authToken", {
+			httpOnly: true,
+			secure: true,
+		});
 
-				res.json(true);
-			},
-		},
-		post: {
-			"/status": async (req, res) => {
-				const user = await findUser(req.body.email);
+		res.json(true);
+	});
+	router.post("/status", async (req, res) => {
+		const user = await findUser(req.body.email);
 
-				const json = {};
+		const json = {};
 
-				json.email = !!user;
+		json.email = !!user;
 
-				if (user && req.body.password) {
-					json.pass = user.validPassword(req.body.password);
-				}
+		if (user && req.body.password) {
+			json.pass = user.validPassword(req.body.password);
+		}
 
-				res.json(json);
-			},
-			"/request": async (req, res) => {
-				const user = await findUser(req.body.email);
+		res.json(json);
+	});
+	router.post("/request", async (req, res) => {
+		const user = await findUser(req.body.email);
 
-				if (user) {
-					new_pin(user);
-				}
+		if (user) {
+			new_pin(user);
+		}
 
-				res.json(true);
-			},
-			"/change": async (req, res) => {
-				const user = await findUser(req.body.email);
+		res.json(true);
+	});
+	router.post("/change", async (req, res) => {
+		const user = await findUser(req.body.email);
 
-				if (
-					user &&
-					user.resetPin &&
-					req.body.code &&
-					user.resetPin.toString() === req.body.code.toString()
-				) {
-					user.password = user.generateHash(req.body.password);
+		if (
+			user &&
+			user.resetPin &&
+			req.body.code &&
+			user.resetPin.toString() === req.body.code.toString()
+		) {
+			user.password = user.generateHash(req.body.password);
 
-					delete user.resetPin;
+			delete user.resetPin;
 
-					await user.save();
+			await user.save();
 
-					res.json(true);
-				} else if (user) {
-					new_pin(user, () => {
-						res.json(false);
-					});
-				}
-			},
-			"/changePassword": async (req, res) => {
-				if (!req.user) return res.send(false);
+			res.json(true);
+		} else if (user) {
+			new_pin(user, () => {
+				res.json(false);
+			});
+		}
+	});
+	router.post("/changePassword", async (req, res) => {
+		if (!req.user) return res.send(false);
 
-				const user = await waw.User.findOne({ _id: req.user._id });
+		const user = await waw.User.findOne({ _id: req.user._id });
 
-				if (user.validPassword(req.body.oldPass)) {
-					user.password = user.generateHash(req.body.newPass);
+		if (user.validPassword(req.body.oldPass)) {
+			user.password = user.generateHash(req.body.newPass);
 
-					await user.save();
+			await user.save();
 
-					res.json(true);
-				} else {
-					res.json(false);
-				}
-			},
-			"/login": async (req, res) => {
-				const user = await findUser(req.body.email);
+			res.json(true);
+		} else {
+			res.json(false);
+		}
+	});
+	router.post("/login", async (req, res) => {
+		const user = await findUser(req.body.email);
 
-				if (!user || !user.validPassword(req.body.password)) {
-					return res.json(false);
-				}
+		if (!user || !user.validPassword(req.body.password)) {
+			return res.json(false);
+		}
 
-				res.json(prepareUser(user, res));
-			},
-			"/sign": async (req, res) => {
-				const userExists = await findUser(req.body.email);
+		res.json(prepareUser(user, res));
+	});
+	router.post("/sign", async (req, res) => {
+		const userExists = await findUser(req.body.email);
 
-				if (userExists) {
-					res.json(false);
-				} else {
-				}
+		if (userExists) {
+			res.json(false);
+		} else {
+		}
 
-				const user = new waw.User({
-					reg_email: req.body.email.toLowerCase(),
-					email: req.body.email.toLowerCase(),
-					data: req.body.data || {},
-					is: {},
-				});
+		const user = new waw.User({
+			reg_email: req.body.email.toLowerCase(),
+			email: req.body.email.toLowerCase(),
+			data: req.body.data || {},
+			is: {},
+		});
 
-				user.password = user.generateHash(req.body.password);
+		user.password = user.generateHash(req.body.password);
 
-				await user.save();
+		await user.save();
 
-				res.json(prepareUser(user, res));
-			},
-		},
+		res.json(prepareUser(user, res));
 	});
 
 	/* CRUD */
 	const select = () => "-password -resetPin";
-	waw.crud("user", {
+	waw.crud.config("user", {
 		get: {
 			ensure: waw.next,
 			query: () => {

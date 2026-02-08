@@ -4,7 +4,7 @@
 	"image": "https://webart.work/template/img/spider.svg",
 	"keywords": "Default Project",
 	"license": "MIT",
-	"icon": "/client/src/favicon.ico",
+	"icon": "/client/src/assets/favicon.ico",
 	"prefix": "platformNgx",
 	"port": 8080,
 	"session": true,
@@ -14,28 +14,8 @@
 		"db": "waw"
 	},
 	"modules": {
-		"wjst": "waw",
 		"core": "waw",
-		"sem": "waw",
-		"translate": "waw",
-		"form": "waw"
-	},
-	"wjst": {
-		"templates": [
-			{
-				"path": "/template",
-				"prefix": "/wjst-default",
-				"pages": "index"
-			}
-		]
-	},
-	"ngx": {
-		"apps": [
-			{
-				"path": "/client",
-				"dist": "/client/dist/app/browser"
-			}
-		]
+		"sem": "waw"
 	},
 	"dependencies": {},
 	"user": {

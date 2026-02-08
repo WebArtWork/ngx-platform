@@ -1,0 +1,19 @@
+<div
+	class="user fixed inset-0 flex flex-col overflow-hidden bg-[var(--c-bg-primary)] text-[var(--c-text-primary)]"
+>
+	<layout-topbar
+		(sidebarOpen)="onSidebarOpen($event)"
+		[sidebarToggler]="true"
+	></layout-topbar>
+
+	<layout-sidebar
+		(requestClose)="requestClose()"
+		[isOpen]="isOpen()"
+	></layout-sidebar>
+
+	<div
+		class="user__main relative flex-1 overflow-auto p-5 max-md:mb-14 max-md:px-2 max-md:py-3"
+	>
+		<router-outlet />
+	</div>
+</div>

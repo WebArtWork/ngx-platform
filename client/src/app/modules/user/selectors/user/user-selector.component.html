@@ -1,5 +1,6 @@
 <wselect
-	(modelChange)="onChange.emit($event)"
-	[items]="us.users"
-	[select]="value"
+	(wChange)="onChange.emit($event)"
+	placeholder="Select user..."
+	[items]="userService.users()"
+	[wModel]="value()"
 ></wselect>

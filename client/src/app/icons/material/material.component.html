@@ -1,0 +1,12 @@
+<a
+	[routerLinkActiveOptions]="routerLinkActiveOptions()"
+	routerLinkActive="_activeLink"
+	[class.mi__iconOnly]="!name()"
+	[routerLink]="routerLink()"
+	class="mi"
+>
+	<span class="mi__icon material-icons">{{ icon() }}</span>
+	@if (name()) {
+	<span class="mi__name" [translate]="name()"></span>
+	}
+</a>
