@@ -1,5 +1,3 @@
-// Form components mapping is managed in `src/app/app.formcomponents.ts`.
-
 export const environment = {
 	roles: [],
 	production: true,
