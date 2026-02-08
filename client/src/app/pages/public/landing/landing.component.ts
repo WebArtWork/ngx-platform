@@ -1,8 +1,10 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
 	ChangeDetectionStrategy,
 	Component,
 	inject,
+	PLATFORM_ID,
 	signal,
 } from '@angular/core';
 import { FooterComponent } from '@layout/footer';
@@ -64,15 +66,18 @@ import {
 })
 export class LandingComponent {
 	private readonly _http = inject(HttpClient);
+	private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
 	markdown = signal<string>('');
 
 	constructor() {
-		this._http
-			.get('/assets/README.md', { responseType: 'text' })
-			.subscribe({
-				next: (markdown) => this.markdown.set(markdown as string),
-			});
+		if (this._isBrowser) {
+			this._http
+				.get('/assets/README.md', { responseType: 'text' })
+				.subscribe({
+					next: (markdown) => this.markdown.set(markdown as string),
+				});
+		}
 	}
 
 	readonly heroContent: HeroContent = {
