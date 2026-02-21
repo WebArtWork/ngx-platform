@@ -31,6 +31,9 @@ jobs:
                   git clone git@github.com:WebArtWork/ngx-default.git ngx-default
                   mv -f ngx-default/.git client/.git
                   cd client
+                  mkdir .github
+                  mkdir .github/workflows
+                  cp ../.github/ngx.deploy.yml .github/workflows/deploy.yml
                   echo "ngx.webart.work" > CNAME
                   echo "dist/" >> .gitignore
                   sed -i "s/ceo@webart.work/demo@webart.work/g" src/environments/environment.prod.ts
