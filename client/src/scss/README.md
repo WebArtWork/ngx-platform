@@ -1,112 +1,57 @@
-# SCSS foundation (Tailwind-integrated)
+# Global styles (Tailwind entry + minimal SCSS)
 
-This folder contains the global SCSS foundation that complements Tailwind. Tailwind is included via `@use 'tailwindcss';`, while SCSS provides **runtime theme tokens**, **base element defaults**, **accessibility helpers**, **scrollbar styling**, and **font assets**.
+This folder contains the **global stylesheet entry** for the app.
+
+We use **Tailwind** for styling in templates.
+SCSS here is intentionally minimal and only covers:
+
+- runtime CSS variables (tokens)
+- font and icon font loading
+- a few global defaults (base, scrollbars)
+- small accessibility helpers
 
 ## Entry point
 
 **File:** `index.scss`
 
-Loads, in order:
+Loaded in this order:
 
-1. **Tokens & assets**
-    - `utils/vars` → CSS variables (design tokens)
-    - `utils/fonts` → Poppins font faces
-    - `utils/icons` → Material Icons font + helper class
+1. `utils/vars` – CSS variables (tokens)
+2. `utils/fonts` – Poppins font faces
+3. `utils/icons` – Material Icons font + `.material-icons` class
+4. `@use 'tailwindcss';` – Tailwind utilities
+5. `layout/base` – global html/body defaults + reduced motion behavior
+6. `layout/scroll` – scrollbar styling
+7. `atom/a11y` – screen reader utilities
 
-2. **Tailwind**
-    - `@use 'tailwindcss';`
+## Tailwind is the styling system
 
-3. **Global layout**
-    - `layout/base` → html/body defaults + reduced motion
-    - `layout/scroll` → scrollbar styling using tokens
+- Use Tailwind utilities in templates for layout, spacing, typography, etc.
+- Do **not** create new global SCSS for component styling.
+- Add component SCSS only when Tailwind can’t cover the case (rare) and keep it local.
 
-4. **Atoms**
-    - `atom/a11y` → screen-reader utilities
-
-## Design tokens (runtime theming)
+## Runtime theming tokens
 
 **File:** `utils/_vars.scss`
 
-All styling is driven by CSS variables (e.g. `var(--c-bg-primary)`), so themes can change at runtime without rebuilding CSS.
+We expose a small set of CSS variables (e.g. `var(--c-bg-primary)`) that can be changed at runtime via attributes on `<html>`:
 
-### Modes
+- `data-mode="dark"` – overrides surface/text/border tokens
+- `data-density="compact"` – reduces spacing tokens
+- `data-radius="square"` – removes rounding tokens
 
-- Light (default): `:root { ... }`
-- Dark: `html[data-mode='dark'] { ... }`
+These tokens exist to support consistent colors/backgrounds and a few global behaviors
+(scrollbars, body background, focus ring), not to replace Tailwind.
 
-### Density
-
-- Default spacing: `:root --sp-*`
-- Compact: `html[data-density='compact'] { ... }`
-
-### Radius
-
-- Default rounded: `:root --radius*`
-- Square: `html[data-radius='square'] { ... }`
-
-## Base styles
-
-**File:** `layout/_base.scss`
-
-- Sets base `font-size` from `--fs`
-- Uses `color-scheme` for native form controls
-- Applies `body` font family + background/text tokens
-- Disables animation/transition/scroll-behavior when `prefers-reduced-motion: reduce`
-
-## Scrollbar styling
-
-**File:** `layout/_scroll.scss`
-
-Applies consistent scrollbars using tokens:
-
-- Thumb color uses `--c-border`
-- Works for WebKit and Firefox (`scrollbar-width`, `scrollbar-color`)
-
-## Fonts
-
-**File:** `utils/_fonts.scss`
-
-Loads **Poppins** weights: 300 / 400 / 500 / 700 from `/assets/fonts/*.woff2` with `font-display: swap`.
-
-## Material Icons
-
-**File:** `utils/_icons.scss`
-
-- Loads the `Material Icons` font from `/assets/fonts/icons.woff2`
-- Provides `.material-icons` helper class (font family, sizing, inline behavior)
-
-## Accessibility utilities
+## Accessibility helpers
 
 **File:** `atom/_a11y.scss`
 
-### `.visually-hidden`
+- `.visually-hidden` – hide visually but keep for screen readers
+- `.visually-hidden-focusable` – hidden unless focused (e.g. skip link)
 
-Visually hides content while keeping it available to screen readers.
-
-Use for:
-
-- descriptive labels
-- extra instructions for assistive tech
-- “Skip to content” text (with focusable variant below)
-
-### `.visually-hidden-focusable`
-
-Hidden by default, becomes visible when focused (keyboard users).
-
-Typical use:
+Example:
 
 ```html
 <a class="visually-hidden-focusable" href="#main">Skip to content</a>
 ```
-
-## Tailwind + SCSS usage guidelines
-
-- Prefer **Tailwind utilities** for component styling/layout.
-- Use **SCSS here only for global concerns** (tokens, base defaults, a11y, fonts, scrollbars).
-- When writing custom CSS, **use tokens** (`var(--c-*)`, `var(--sp-*)`, `var(--radius-*)`) so it stays theme/density/radius aware.
-
-## Runtime attributes (expected on `<html>`)
-
-- `data-mode="dark"` → dark theme
-- `data-density="compact"` → compact spacing
-- `data-radius="square"` → square corners

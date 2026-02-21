@@ -29,14 +29,14 @@ jobs:
                   git config --global user.name "github-actions[bot]"
                   git config --global user.email "github-actions[bot]@users.noreply.github.com"
                   git clone git@github.com:WebArtWork/ngx-default.git ngx-default
-                  rm -rf ngx-default/*
-                  cp -r client/* ngx-default/
-                  cd ngx-default
+                  mv -f ngx-default/.git client/.git
+                  cd client
                   echo "ngx.webart.work" > CNAME
+                  echo "dist/" >> .gitignore
                   sed -i "s/ceo@webart.work/demo@webart.work/g" src/environments/environment.prod.ts
                   git add .
-                  git commit -m "Update Angular files from source repository" || echo "No changes to commit"
-                  git push --force
+                  git commit -m "Update code source" || echo "No changes to commit"
+                  git push
 
             - name: Clean up SSH
               run: |
