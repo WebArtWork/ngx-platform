@@ -9,13 +9,13 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@angular/cdk": "21.1.3",
-		"@angular/common": "21.1.3",
-		"@angular/core": "21.1.3",
-		"@angular/forms": "21.1.3",
-		"@angular/platform-browser": "21.1.3",
-		"@angular/platform-server": "21.1.3",
-		"@angular/router": "21.1.3",
+		"@angular/cdk": "21.1.4",
+		"@angular/common": "21.1.4",
+		"@angular/core": "21.1.4",
+		"@angular/forms": "21.1.4",
+		"@angular/platform-browser": "21.1.4",
+		"@angular/platform-server": "21.1.4",
+		"@angular/router": "21.1.4",
 		"@angular/ssr": "21.1.0",
 		"@tailwindcss/postcss": "4.1.18",
 		"dompurify": "^3.3.1",
@@ -29,7 +29,7 @@
 		"tailwindcss": "4.1.18",
 		"tinymce": "8.2.2",
 		"tslib": "2.3.0",
-		"wacom": "21.1.20"
+		"wacom": "21.1.24"
 	},
 	"devDependencies": {
 		"@angular-eslint/builder": "21.2.0",
@@ -38,9 +38,9 @@
 		"@angular-eslint/schematics": "21.2.0",
 		"@angular-eslint/template-parser": "21.2.0",
 		"@angular/build": "21.1.0",
-		"@angular/cli": "21.1.3",
-		"@angular/compiler": "21.1.3",
-		"@angular/compiler-cli": "21.1.3",
+		"@angular/cli": "21.1.4",
+		"@angular/compiler": "21.1.4",
+		"@angular/compiler-cli": "21.1.4",
 		"@eslint/config-array": "0.21.0",
 		"@eslint/object-schema": "2.1.6",
 		"@playwright/test": "1.55.1",
@@ -69,6 +69,11 @@
 		"@eslint/plugin-kit": "0.3.5",
 		"jsdom": "27.4.0",
 		"glob": "13.0.0",
-		"undici": "7.20.0"
+		"undici": "7.20.0",
+		"minimatch": "10.2.2",
+		"@eslint/eslintrc": "3.3.3",
+		"@typescript-eslint/typescript-estree": "8.56.0",
+		"test-exclude": "7.0.1",
+		"ajv": "8.18.0"
 	}
 }
