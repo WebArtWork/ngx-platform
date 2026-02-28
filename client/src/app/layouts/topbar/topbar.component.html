@@ -15,38 +15,6 @@
 			></material-icon>
 		</li>
 
-		@if (sidebarToggler()) {
-		<li
-			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
-		>
-			<material-icon
-				[name]="viewport() === 'mobile' ? '' : 'Projects'"
-				routerLink="/projects"
-				icon="assignment"
-			></material-icon>
-		</li>
-
-		<li
-			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
-		>
-			<material-icon
-				[name]="viewport() === 'mobile' ? '' : 'Schedule'"
-				routerLink="/schedule"
-				icon="calendar_month"
-			></material-icon>
-		</li>
-
-		<li
-			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
-		>
-			<material-icon
-				[name]="viewport() === 'mobile' ? '' : 'Tasks'"
-				routerLink="/tasks"
-				icon="task"
-			></material-icon>
-		</li>
-		}
-
 		<!-- spacer for desktop/tablet only -->
 		<li class="mx-auto max-md:hidden"></li>
 

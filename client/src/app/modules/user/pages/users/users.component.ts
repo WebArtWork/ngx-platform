@@ -6,9 +6,9 @@ import { CrudComponent } from 'wacom';
 import { InputComponent } from '../../../../libs/input/input.component';
 import { TableComponent } from '../../../../libs/table/table.component';
 import { CellDirective } from '../../../../libs/table/table.directive';
-import { userFormComponents } from '../../forms/user.form';
-import { User } from '../../interfaces/user.interface';
-import { UserService } from '../../services/user.service';
+import { userFormComponents } from '../../user.form';
+import { User } from '../../user.interface';
+import { UserService } from '../../user.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

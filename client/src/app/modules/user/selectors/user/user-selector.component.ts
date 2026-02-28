@@ -8,7 +8,7 @@ import {
 	output,
 } from '@angular/core';
 import { SelectComponent, SelectValue } from '@lib/select';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../user.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

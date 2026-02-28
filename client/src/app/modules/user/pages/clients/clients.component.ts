@@ -3,9 +3,9 @@ import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { TableComponent } from 'src/app/libs/table/table.component';
 import { CrudComponent } from 'wacom';
-import { userFormComponents } from '../../forms/user.form';
-import { User } from '../../interfaces/user.interface';
-import { UserService } from '../../services/user.service';
+import { userFormComponents } from '../../user.form';
+import { User } from '../../user.interface';
+import { UserService } from '../../user.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

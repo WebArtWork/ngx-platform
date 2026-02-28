@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 import { environment } from '@env';
 import { MaterialComponent } from '@icon/material';
 import { ButtonComponent } from '@lib/button';
-import { UserService } from 'src/app/modules/user/services/user.service';
+import { UserService } from 'src/app/modules/user/user.service';
 import { ThemeService, TranslateDirective } from 'wacom';
 import { FooterLink } from './footer.types';
 

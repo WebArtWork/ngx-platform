@@ -8,7 +8,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
 import { LanguageService } from '@lib/translate';
-import { UserService } from 'src/app/modules/user/services/user.service';
+import { UserService } from 'src/app/modules/user/user.service';
 import { ThemeService, TranslateDirective } from 'wacom';
 import { SidebarService } from './sidebar.service';
 

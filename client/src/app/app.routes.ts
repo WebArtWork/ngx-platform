@@ -62,6 +62,19 @@ export const routes: Routes = [
 		children: [
 			/* user */
 			{
+				path: 'dashboard',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Dashboard',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/user/dashboard/dashboard.routes').then(
+						(m) => m.routes,
+					),
+			},
+			{
 				path: 'profile',
 				canActivate: [MetaGuard],
 				data: {
@@ -71,6 +84,19 @@ export const routes: Routes = [
 				},
 				loadChildren: () =>
 					import('./pages/user/profile/profile.routes').then(
+						(m) => m.routes,
+					),
+			},
+			{
+				path: 'settings',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'My Settings',
+					},
+				},
+				loadChildren: () =>
+					import('./pages/user/settings/settings.routes').then(
 						(m) => m.routes,
 					),
 			},

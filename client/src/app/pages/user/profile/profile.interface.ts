@@ -3,9 +3,3 @@ export interface ProfileModel {
 	phone: string;
 	bio: string;
 }
-
-export interface SecurityModel {
-	currentPassword: string;
-	newPassword: string;
-	confirmPassword: string;
-}

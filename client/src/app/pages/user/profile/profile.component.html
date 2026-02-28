@@ -2,28 +2,7 @@
 	<div
 		class="flex flex-col gap-4 rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] p-5 shadow-[var(--shadow-sm)] sm:p-4"
 	>
-		<div class="mb-3 flex gap-3 border-b border-[var(--c-border)] pb-3">
-			<wbutton
-				[type]="activeTab() === 'profile' ? 'primary' : 'link'"
-				[isMultipleClicksAllowed]="true"
-				(click)="setTab('profile')"
-				class="!font-semibold !text-[0.9rem]"
-			>
-				Profile
-			</wbutton>
-
-			<wbutton
-				[type]="activeTab() === 'security' ? 'primary' : 'link'"
-				[isMultipleClicksAllowed]="true"
-				(click)="setTab('security')"
-				class="!font-semibold !text-[0.9rem]"
-			>
-				Security
-			</wbutton>
-		</div>
-
 		<div class="flex flex-col gap-3">
-			@if (activeTab() === 'profile') {
 			<div class="flex flex-col gap-3">
 				<ngx-file
 					mode="single-image"
@@ -60,49 +39,22 @@
 						type="textarea"
 					></winput>
 
-					<wbutton
-						[disabled]="isSubmitDisabled()"
-						type="primary"
-						class="mt-2"
-					>
-						Update
-					</wbutton>
+					<div class="mt-2 flex flex-wrap gap-2">
+						<wbutton [disabled]="isSubmitDisabled()" type="primary">
+							Update
+						</wbutton>
+
+						<wbutton
+							(wClick)="userService.logout()"
+							type="secondary"
+						>
+							<material-icon icon="logout"></material-icon>
+
+							<span>Logout</span>
+						</wbutton>
+					</div>
 				</form>
 			</div>
-			} @else {
-			<div class="flex flex-col gap-3">
-				<form
-					(submit)="wSecuritySubmit(); $event.preventDefault()"
-					class="flex flex-col gap-3"
-				>
-					<winput
-						placeholder="Enter your current password..."
-						[formField]="securityForm.currentPassword"
-						type="password"
-					></winput>
-
-					<winput
-						placeholder="Enter your new password..."
-						[formField]="securityForm.newPassword"
-						type="password"
-					></winput>
-
-					<winput
-						placeholder="Confirm your new password..."
-						[formField]="securityForm.confirmPassword"
-						type="password"
-					></winput>
-
-					<wbutton
-						[disabled]="isSecurityDisabled()"
-						type="primary"
-						class="mt-2"
-					>
-						Update password
-					</wbutton>
-				</form>
-			</div>
-			}
 		</div>
 	</div>
 </div>

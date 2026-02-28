@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../user.service';
 
 @Component({
 	selector: 'user-preview',

@@ -86,40 +86,6 @@
 	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
 	}
 
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		(click)="closeIfOverlay()"
-		routerLink="/manage/projects"
-		icon="assignment"
-		[name]="showNames() ? 'Projects' : ''"
-	></material-icon>
-
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Tasks' : ''"
-		routerLink="/manage/tasks"
-		(click)="closeIfOverlay()"
-		icon="task"
-	></material-icon>
-
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Brands' : ''"
-		routerLink="/manage/brands"
-		(click)="closeIfOverlay()"
-		icon="copyright"
-	></material-icon>
-
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Tags' : ''"
-		(click)="closeIfOverlay()"
-		routerLink="/manage/tags"
-		icon="tag"
-	></material-icon>
-
-	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
-
 	<div class="mt-auto flex items-center justify-between gap-2">
 		@if (languageService.language()?.name) {
 		<button

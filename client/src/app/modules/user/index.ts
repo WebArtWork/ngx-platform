@@ -6,8 +6,10 @@ export * from './guards/authenticated.guard';
 
 export * from './guards/guest.guard';
 
-export * from './interfaces/user.interface';
+export * from './user.interface';
 
 export * from './selectors/user/user-selector.component';
 
-export * from './services/user.service';
+export * from './user.const';
+
+export * from './user.service';
