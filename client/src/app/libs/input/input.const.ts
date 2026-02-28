@@ -12,4 +12,5 @@ export const inputDefaults = {
 	wClass: '',
 	autocomplete: undefined as string | null | undefined,
 	error: null as string | null,
+	icons: [] as any[],
 };

@@ -2,46 +2,57 @@ import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
+	computed,
 	inject,
-	input,
-	output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
-import { ThemeComponent } from '@icon/theme';
-import { ButtonComponent } from '@lib/button';
-import { LanguageService, TranslateDirective } from '@lib/translate';
+import { LanguageService } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
-import { ThemeService } from 'wacom';
+import { ThemeService, TranslateDirective } from 'wacom';
+import { SidebarService } from './sidebar.service';
 
 @Component({
 	selector: 'layout-sidebar',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './sidebar.component.html',
-	imports: [
-		RouterLink,
-		TranslateDirective,
-		MaterialComponent,
-		ButtonComponent,
-		ThemeComponent,
-		NgClass,
-	],
+	styleUrl: './sidebar.component.scss',
+	imports: [RouterLink, TranslateDirective, MaterialComponent, NgClass],
 })
 export class SidebarComponent {
-	readonly isOpen = input(false);
-	readonly requestClose = output<void>();
-
 	readonly themeService = inject(ThemeService);
 	readonly userService = inject(UserService);
 	readonly languageService = inject(LanguageService);
+	readonly sidebarService = inject(SidebarService);
 
-	closeIfOpen(): void {
-		if (this.isOpen()) this.requestClose.emit();
+	readonly showNames = this.sidebarService.showNames;
+	readonly widthPx = this.sidebarService.widthPx;
+
+	readonly isPreview = this.sidebarService.previewVisible;
+	readonly isMobile = this.sidebarService.isMobile;
+
+	readonly isOverlay = computed(() => this.isMobile() || this.isPreview());
+	readonly isMinimized = computed(
+		() =>
+			!this.isMobile() &&
+			!this.isPreview() &&
+			this.sidebarService.webMode() === 'minimized',
+	);
+
+	closeIfOverlay(): void {
+		if (this.isOverlay()) this.sidebarService.closeAfterNavigation();
+	}
+
+	closeBackdrop(e: MouseEvent): void {
+		// block click from reaching the page underneath
+		e.preventDefault();
+		e.stopPropagation();
+
+		this.sidebarService.requestClose();
 	}
 
 	logout(): void {
 		this.userService.logout();
-
-		this.closeIfOpen();
+		this.sidebarService.closeAfterNavigation();
 	}
 }

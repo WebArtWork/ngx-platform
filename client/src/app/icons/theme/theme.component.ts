@@ -6,8 +6,13 @@ import {
 	inject,
 	input,
 } from '@angular/core';
-import { TranslateDirective } from '@lib/translate';
-import { ThemeDensity, ThemeMode, ThemeRadius, ThemeService } from 'wacom';
+import {
+	ThemeDensity,
+	ThemeMode,
+	ThemeRadius,
+	ThemeService,
+	TranslateDirective,
+} from 'wacom';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,

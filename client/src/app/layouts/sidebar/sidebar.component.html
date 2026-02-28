@@ -1,14 +1,31 @@
+@if (isMobile()) {
+<div
+	class="sidebar__backdrop fixed inset-x-0 top-0 bottom-[var(--topbar-h)]"
+	(click)="closeBackdrop($event)"
+></div>
+}
+
 <aside
-	class="fixed right-0 z-[90] flex w-[260px] flex-col overflow-auto bg-[var(--c-bg-secondary)] p-5 shadow transition-transform md:top-14 md:h-[calc(100dvh-56px)] md:translate-x-0 max-md:top-0 max-md:bottom-[var(--topbar-h)] max-md:h-[calc(100dvh-var(--topbar-h))] max-md:w-[min(92vw,260px)]"
-	[ngClass]="isOpen() ? 'translate-x-0' : 'translate-x-full'"
+	class="sidebar z-[90] flex flex-col overflow-auto bg-[var(--c-bg-secondary)] p-5 shadow"
+	[class.sidebar--min]="isMinimized()"
+	[style.width.px]="widthPx()"
+	[ngClass]="{
+		'fixed right-0 top-0 bottom-[var(--topbar-h)] h-[calc(100dvh-var(--topbar-h))]': isMobile(),
+		'md:fixed md:right-0 md:top-14 md:h-[calc(100dvh-56px)]': isPreview(),
+		'md:sticky md:top-14 md:h-[calc(100dvh-56px)]': !isMobile() && !isPreview()
+	}"
+	(mouseleave)="sidebarService.disableBurgerHover = false; sidebarService.onBurgerHover(false)"
+	(mouseenter)="sidebarService.disableBurgerHover = true"
 >
 	<div
-		class="mt-1 flex items-center justify-between gap-2 rounded-[var(--radius)] px-2 py-1"
+		class="mt-1 flex items-center gap-2 rounded-[var(--radius)] px-2 py-1"
+		[ngClass]="isMinimized() ? 'justify-center' : 'justify-between'"
 	>
 		<a
-			(click)="closeIfOpen()"
-			class="inline-flex min-w-0 flex-1 items-center gap-2 text-[var(--c-text-primary)] no-underline"
+			(click)="closeIfOverlay()"
 			routerLink="/profile"
+			class="inline-flex min-w-0 items-center gap-2 text-[var(--c-text-primary)] no-underline"
+			[ngClass]="isMinimized() ? 'flex-none justify-center' : 'flex-1'"
 		>
 			<img
 				class="h-8 w-8 rounded-full"
@@ -17,65 +34,104 @@
 				height="32"
 				width="32"
 			/>
+			@if (showNames()) {
 			<span class="truncate font-semibold" translate>Profile</span>
+			}
 		</a>
-
-		<wbutton
-			(click)="logout()"
-			class="inline-flex items-center justify-center rounded-[var(--radius-btn)]"
-			aria-label="Logout"
-			type="link"
-		>
-			<span class="material-icons text-xl">logout</span>
-		</wbutton>
 	</div>
+
+	<material-icon
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Settings' : ''"
+		(click)="closeIfOverlay()"
+		routerLink="/settings"
+		icon="settings"
+	></material-icon>
 
 	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
 
 	@if (userService.role('admin')) {
 	<material-icon
-		(click)="closeIfOpen()"
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Users' : ''"
+		(click)="closeIfOverlay()"
 		routerLink="/admin/users"
 		icon="manage_accounts"
-		name="Users"
 	></material-icon>
 
 	<material-icon
-		(click)="closeIfOpen()"
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Clients' : ''"
 		routerLink="/admin/clients"
+		(click)="closeIfOverlay()"
 		icon="people"
-		name="Clients"
 	></material-icon>
 
 	<material-icon
-		(click)="closeIfOpen()"
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Forms' : ''"
+		(click)="closeIfOverlay()"
 		routerLink="/admin/forms"
 		icon="backup_table"
-		name="Forms"
 	></material-icon>
 
 	<material-icon
-		(click)="closeIfOpen()"
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Translates' : ''"
 		routerLink="/admin/translates"
+		(click)="closeIfOverlay()"
 		icon="translate"
-		name="Translates"
 	></material-icon>
 
 	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
 	}
 
-	<div class="mt-auto flex items-center justify-between gap-2">
-		<icon-theme size="48px" [showText]="true"></icon-theme>
+	<material-icon
+		[class.sidebar--minimized-icon]="!showNames()"
+		(click)="closeIfOverlay()"
+		routerLink="/manage/projects"
+		icon="assignment"
+		[name]="showNames() ? 'Projects' : ''"
+	></material-icon>
 
+	<material-icon
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Tasks' : ''"
+		routerLink="/manage/tasks"
+		(click)="closeIfOverlay()"
+		icon="task"
+	></material-icon>
+
+	<material-icon
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Brands' : ''"
+		routerLink="/manage/brands"
+		(click)="closeIfOverlay()"
+		icon="copyright"
+	></material-icon>
+
+	<material-icon
+		[class.sidebar--minimized-icon]="!showNames()"
+		[name]="showNames() ? 'Tags' : ''"
+		(click)="closeIfOverlay()"
+		routerLink="/manage/tags"
+		icon="tag"
+	></material-icon>
+
+	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
+
+	<div class="mt-auto flex items-center justify-between gap-2">
 		@if (languageService.language()?.name) {
 		<button
-			(click)="languageService.nextLanguage(); closeIfOpen()"
+			(click)="languageService.nextLanguage(); closeIfOverlay()"
 			aria-label="Switch language"
 			class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
 			type="button"
 		>
 			<span class="material-icons text-xl">language</span>
+			@if (showNames()) {
 			<span [translate]="languageService.language()?.name || ''"></span>
+			}
 		</button>
 		}
 	</div>

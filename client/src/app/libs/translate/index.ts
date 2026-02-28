@@ -1,5 +1,3 @@
-export * from './directives/translate.directive';
-
 export * from './form/language.form';
 
 export * from './form/language/language.formcomponent';
@@ -25,5 +23,3 @@ export * from './services/language.service';
 export * from './services/phrase.service';
 
 export * from './services/translate.service';
-
-export * from './pipes/translate.pipe';

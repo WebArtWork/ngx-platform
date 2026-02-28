@@ -1,4 +1,9 @@
-<div class="burger" [class.burger--open]="isOpen()" (mouseIn)="hovered.emit()">
+<div
+	class="burger"
+	[ngClass]="_classes()"
+	(mouseenter)="onHover(true)"
+	(mouseleave)="onHover(false)"
+>
 	<button
 		aria-label="Toggle menu"
 		class="burger__btn"

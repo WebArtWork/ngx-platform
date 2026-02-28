@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AlertService } from '@lib/alert';
 import { FormService } from '@lib/form';
-import { TranslateDirective } from '@lib/translate/directives/translate.directive';
 import { TranslateService } from '@lib/translate/services/translate.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { TableComponent } from 'src/app/libs/table/table.component';
@@ -9,7 +8,7 @@ import {
 	CellDirective,
 	TableHeaderDirective,
 } from 'src/app/libs/table/table.directive';
-import { CrudComponent } from 'wacom';
+import { CrudComponent, TranslateDirective } from 'wacom';
 import { phraseForm } from '../../form/phrase.form';
 import { Phrase } from '../../interfaces/phrase.interface';
 import { LanguageSelectorComponent } from '../../selectors/language/language-selector.component';

@@ -1,9 +1,15 @@
 # Icon: Burger (`icon-burger`)
 
-Angular burger (menu) icon component with animated transition between
-**closed (≡)** and **open (×)** states.
+Angular burger icon component with CSS animation and **controlled visual states**.
 
-Designed for navigation toggles, side menus, and mobile headers.
+This component renders one of four visuals:
+
+- **three lines** (≡)
+- **two lines** (＝)
+- **one line** (—)
+- **cross** (×)
+
+Designed for toolbars, sidebars, and responsive navigation.
 
 ---
 
@@ -15,54 +21,81 @@ Designed for navigation toggles, side menus, and mobile headers.
 
 ---
 
-## Features
+## Inputs
 
-- Pure CSS burger → cross animation
-- Accessible button (`aria-label="Toggle menu"`)
-- Emits state changes (`open / closed`)
-- Hover and focus-visible styles
-- Respects `prefers-reduced-motion`
-- Uses global design tokens (colors, radius, motion)
+### `state`
+
+Controls the visual style of the icon.
+
+Type:
+
+```ts
+type BurgerState = 'three-lines' | 'two-lines' | 'one-line' | 'cross';
+```
+
+Default: `'three-lines'`
+
+Example:
+
+```html
+<icon-burger [state]="'two-lines'" />
+<icon-burger [state]="'one-line'" />
+<icon-burger [state]="'cross'" />
+```
+
+### `isOpen` (legacy)
+
+A legacy input kept for backward compatibility.
+
+- When `isOpen` is `true`, the icon will render **cross** regardless of `state`.
+
+Example:
+
+```html
+<icon-burger [isOpen]="menuOpen" />
+```
+
+> Prefer using `state` for all new code.
 
 ---
 
 ## Outputs
 
-| Output    | Type      | Description                           |
-| --------- | --------- | ------------------------------------- |
-| `updated` | `boolean` | Emits the new open state when toggled |
-| `hovered` | `void`    | Emits when the component is hovered   |
+| Output    | Type      | Description                                                                       |
+| --------- | --------- | --------------------------------------------------------------------------------- |
+| `updated` | `boolean` | Emits on button click. In multi-state mode this is treated as a **click signal**. |
+| `hovered` | `boolean` | Emits `true` on mouse enter and `false` on mouse leave.                           |
 
-Example:
+Examples:
 
 ```html
-<icon-burger (updated)="onMenuToggle($event)" (hovered)="onBurgerHover()" />
+<icon-burger (updated)="onBurgerClick()" />
+<icon-burger (hovered)="onBurgerHover($event)" />
 ```
 
 ---
 
 ## Behavior
 
-### Toggle logic
+### Click
 
-- Internally tracks open state using a signal:
-    - `false` → burger (`≡`)
-    - `true` → cross (`×`)
+The component is **controlled**: it does not change `state` internally.
 
-- Clicking the button toggles state and emits `updated`.
+- Clicking emits `updated`.
 
-### Animation
+This allows the parent (e.g. a layout service) to own sidebar/menu state.
 
-- Middle bar fades out
-- Top and bottom bars rotate into a cross
-- Uses CSS transitions driven by global motion variables
-- Automatically disables animations when user prefers reduced motion
+### Hover
+
+Hover emits `hovered(true/false)`.
+
+Useful for hover-preview behavior (e.g. show sidebar preview when hidden).
 
 ---
 
 ## Styling & Tokens
 
-The component relies on CSS variables defined globally in your design system:
+The component is token-driven and uses your global design system variables:
 
 ### Size & layout
 
@@ -85,12 +118,7 @@ The component relies on CSS variables defined globally in your design system:
 --easing
 ```
 
-This allows the icon to adapt automatically to:
-
-- theme mode (light / dark)
-- density
-- radius
-- motion preferences
+It respects `prefers-reduced-motion` and disables transitions when enabled.
 
 ---
 
@@ -98,41 +126,21 @@ This allows the icon to adapt automatically to:
 
 - Uses semantic `<button>`
 - `aria-label="Toggle menu"`
-- Keyboard focus visible
+- Supports keyboard `:focus-visible`
 - Touch-friendly (`touch-action: manipulation`)
-- No reliance on hover-only interactions
+- Hover is optional; click works everywhere
 
 ---
 
-## Example Usage
+## Recommended Usage (WAW layout)
 
-### Basic
+Map responsive layout states to burger states in the parent:
 
-```html
-<icon-burger />
-```
-
-### With menu toggle
-
-```html
-<icon-burger (updated)="menuOpen = $event" />
-```
-
-### In a header
-
-```html
-<header>
-	<icon-burger (updated)="toggleSidebar($event)" />
-</header>
-```
-
----
-
-## Notes
-
-- This component **does not control any menu directly** — it only emits state.
-- Styling is intentionally minimal and token-based.
-- Intended to be used inside navigation layouts, toolbars, or headers.
+- Web shown → `three-lines`
+- Web minimized → `two-lines`
+- Web hidden → `one-line`
+- Mobile open (drawer shown) → `cross`
+- Mobile closed → `three-lines`
 
 ---
 

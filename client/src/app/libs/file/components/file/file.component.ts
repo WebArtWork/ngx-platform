@@ -11,7 +11,7 @@ import {
 import { ButtonComponent } from '@lib/button';
 import { fileToDataUrl } from '@lib/file/file.util';
 import { ModalService } from '@lib/modal';
-import { TranslatePipe } from '@lib/translate';
+import { TranslatePipe } from 'wacom';
 import { fileDefaults } from '../../file.const';
 import { FileService } from '../../file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
@@ -26,7 +26,6 @@ export type FileView = 'dropzone' | 'list' | 'thumb-only';
 
 @Component({
 	selector: 'ngx-file',
-	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [NgTemplateOutlet, TranslatePipe, ButtonComponent],
 	templateUrl: './file.component.html',

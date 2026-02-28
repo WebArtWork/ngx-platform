@@ -94,11 +94,11 @@ export class LanguageService extends CrudService<Language> {
 		}
 	}
 
-	private _loadLocal() {
-		this._storeService.get('languageId', (languageId) => {
-			if (languageId) {
-				this._languageId.set(languageId);
-			}
-		});
+	private async _loadLocal() {
+		const languageId = await this._storeService.get('languageId');
+
+		if (languageId) {
+			this._languageId.set(languageId);
+		}
 	}
 }

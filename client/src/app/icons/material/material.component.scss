@@ -1,22 +1,54 @@
+@reference "tailwindcss";
+
 .mi {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	@apply relative inline-flex items-center justify-center select-none whitespace-nowrap cursor-pointer;
 	gap: var(--sp-2);
+
 	padding: var(--sp-2) var(--sp-3);
 	border-radius: var(--radius-btn);
-	color: var(--c-text-secondary);
 	text-decoration: none;
+
+	color: var(--c-text-secondary);
 	transition: color var(--motion) var(--easing);
 
+	&:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+	}
+
+	&__iconWrap {
+		@apply relative inline-flex items-center justify-center;
+		line-height: 1;
+	}
+
 	&__icon {
+		@apply inline-flex items-center justify-center relative;
 		font-size: 22px;
 		line-height: 1;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		position: relative;
+	}
+
+	&__badge {
+		@apply absolute inline-flex items-center justify-center font-semibold select-none;
+		top: -6px;
+		right: -8px;
+
+		min-width: 18px;
+		height: 18px;
+		padding: 0 6px;
+
+		border-radius: 999px;
+
+		background: var(--c-danger, #ef4444);
+		color: var(--c-on-danger, #fff);
+
+		font-size: 0.72rem;
+		line-height: 1;
+
+		box-shadow: var(--shadow-sm);
+		border: 2px solid var(--c-bg-primary);
+
+		pointer-events: none;
+		user-select: none;
 	}
 
 	&__name {
@@ -34,8 +66,8 @@
 		}
 	}
 
-	/* underline only under icon */
-	&._activeLink::after {
+	&._activeLink::after,
+	&._activeClass::after {
 		content: '';
 		position: absolute;
 		left: 50%;

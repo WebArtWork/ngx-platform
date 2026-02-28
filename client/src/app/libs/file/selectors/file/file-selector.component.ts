@@ -7,14 +7,13 @@ import {
 	Signal,
 	signal,
 } from '@angular/core';
-import { TranslatePipe } from '@lib/translate';
 import { SelectComponent } from 'src/app/libs/select/select.component';
+import { TranslatePipe } from 'wacom';
 import { File } from '../../file.interface';
 import { FileService } from '../../file.service';
 
 @Component({
 	selector: 'file-selector',
-	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [SelectComponent, TranslatePipe],
 	templateUrl: './file-selector.component.html',

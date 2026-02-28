@@ -1,0 +1,32 @@
+.waw-map {
+	position: relative;
+	border: 1px solid var(--c-border);
+	border-radius: var(--radius-card);
+	background: var(--c-bg-secondary);
+	overflow: hidden;
+	box-shadow: var(--shadow-sm);
+
+	&__canvas {
+		display: block;
+	}
+
+	&__loading {
+		position: absolute;
+		left: var(--sp-3);
+		bottom: var(--sp-3);
+		display: inline-flex;
+		align-items: center;
+		gap: var(--sp-2);
+		padding: var(--sp-2) var(--sp-3);
+		border: 1px solid var(--c-border);
+		border-radius: var(--radius);
+		background: var(--c-bg-primary);
+		color: var(--c-text-secondary);
+		box-shadow: var(--shadow-sm);
+		pointer-events: none;
+
+		.material-icons {
+			font-size: 18px;
+		}
+	}
+}

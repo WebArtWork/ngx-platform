@@ -12,9 +12,14 @@ import {
 	viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
-import { TranslatePipe } from '@lib/translate/pipes/translate.pipe';
-import { ManualDisabledDirective, ManualTypeDirective } from 'wacom';
+import { MaterialComponent } from '@icon/material';
+import {
+	ManualDisabledDirective,
+	ManualTypeDirective,
+	TranslatePipe,
+} from 'wacom';
 import { inputDefaults } from './input.const';
+import { InputIconAction } from './input.interface';
 import { InputType, InputValue } from './input.type';
 
 @Component({
@@ -26,6 +31,7 @@ import { InputType, InputValue } from './input.type';
 		TranslatePipe,
 		ManualTypeDirective,
 		ManualDisabledDirective,
+		MaterialComponent,
 	],
 	templateUrl: './input.component.html',
 	styleUrl: './input.component.scss',
@@ -44,6 +50,8 @@ export class InputComponent implements AfterViewInit {
 	readonly placeholder = input(inputDefaults.placeholder);
 	readonly items = input<string[]>(inputDefaults.items); // radio/checkbox
 
+	readonly icons = input<InputIconAction[]>(inputDefaults.icons);
+
 	readonly disabled = input(inputDefaults.disabled);
 	readonly focused = input(inputDefaults.focused);
 	readonly clearable = input(inputDefaults.clearable);
@@ -58,7 +66,9 @@ export class InputComponent implements AfterViewInit {
 	/* ---------------- Outputs ---------------- */
 	readonly wChange = output<InputValue | null>();
 	readonly wSubmit = output<void>();
-	readonly wBlur = output<void>();
+	readonly wBlur = output<FocusEvent>();
+	readonly wFocus = output<FocusEvent>();
+	readonly wKeydown = output<KeyboardEvent>();
 
 	/* ---------------- Internal state ---------------- */
 	showPassword = signal(false);
@@ -154,10 +164,6 @@ export class InputComponent implements AfterViewInit {
 		}
 
 		this.wChange.emit(value);
-	}
-
-	onBlur() {
-		this.wBlur.emit();
 	}
 
 	onSubmit() {

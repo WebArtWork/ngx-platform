@@ -10,14 +10,13 @@ import {
 	output,
 	signal,
 } from '@angular/core';
-import { TranslatePipe } from '@lib/translate/pipes/translate.pipe';
 import { take } from 'rxjs';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { FormService } from 'src/app/libs/form/services/form.service';
 import { SelectComponent } from 'src/app/libs/select/select.component';
 import { SelectButton } from 'src/app/libs/select/select.interface';
 import { SelectValue } from 'src/app/libs/select/select.type';
-import { CrudComponent } from 'wacom';
+import { CrudComponent, TranslatePipe } from 'wacom';
 import { languageForm } from '../../form/language.form';
 import { Language } from '../../interfaces/language.interface';
 import { LanguageService } from '../../services/language.service';

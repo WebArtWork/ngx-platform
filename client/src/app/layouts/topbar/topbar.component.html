@@ -2,27 +2,72 @@
 	class="sticky top-0 z-[100] flex min-h-14 items-center bg-[var(--c-bg-secondary)] shadow px-5 max-md:fixed max-md:bottom-0 max-md:top-auto max-md:w-full max-md:px-3"
 >
 	<ul
-		class="m-0 flex w-full list-none items-center gap-2 p-0 max-md:justify-around"
+		class="m-0 flex w-full list-none items-center gap-2 p-0 max-md:justify-between max-md:gap-0"
 	>
-		<li class="inline-flex items-center">
+		<li
+			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+		>
 			<material-icon
-				routerLink="/"
-				icon="home"
-				[routerLinkActiveOptions]="{exact: true}"
+				[routerLink]="sidebarToggler() ? '/dashboard' : '/'"
+				[name]="viewport() === 'mobile' ? '' : sidebarToggler() ? 'Dashboard' : ''"
+				[icon]="sidebarToggler() ? 'dashboard' : 'home'"
+				[routerLinkActiveOptions]="{ exact: true }"
 			></material-icon>
 		</li>
 
-		<li class="mx-auto"></li>
+		@if (sidebarToggler()) {
+		<li
+			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+		>
+			<material-icon
+				[name]="viewport() === 'mobile' ? '' : 'Projects'"
+				routerLink="/projects"
+				icon="assignment"
+			></material-icon>
+		</li>
+
+		<li
+			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+		>
+			<material-icon
+				[name]="viewport() === 'mobile' ? '' : 'Schedule'"
+				routerLink="/schedule"
+				icon="calendar_month"
+			></material-icon>
+		</li>
+
+		<li
+			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+		>
+			<material-icon
+				[name]="viewport() === 'mobile' ? '' : 'Tasks'"
+				routerLink="/tasks"
+				icon="task"
+			></material-icon>
+		</li>
+		}
+
+		<!-- spacer for desktop/tablet only -->
+		<li class="mx-auto max-md:hidden"></li>
 
 		@if (sidebarToggler()) {
-		<li class="inline-flex items-center md:hidden">
+		<li
+			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+			(mouseleave)="onBurgerHover(false)"
+			(mouseenter)="onBurgerHover(true)"
+		>
 			<icon-burger
-				(updated)="sidebarOpen.emit($event)"
+				(updated)="onBurgerClick()"
+				[state]="burgerState()"
 				aria-label="Menu"
 			></icon-burger>
 		</li>
 		} @if (showProfile()) {
-		<material-icon icon="person" routerLink="/profile"></material-icon>
+		<li
+			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+		>
+			<material-icon icon="person" routerLink="/profile"></material-icon>
+		</li>
 		}
 	</ul>
 </nav>

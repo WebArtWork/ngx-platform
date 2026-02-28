@@ -3,7 +3,7 @@ _disabled = isDisabled(); @let _view = view();
 
 <div class="wfile" [class._disabled]="_disabled">
 	@if (_label) {
-	<div class="wfile__label">{{ (_label | translate)() }}</div>
+	<div class="wfile__label">{{ _label | translate }}</div>
 	}
 
 	<input
@@ -27,7 +27,7 @@ _disabled = isDisabled(); @let _view = view();
 		@if (_files.length === 0) {
 		<ng-container [ngTemplateOutlet]="t_empty() || emptyTpl"></ng-container>
 		<ng-template #emptyTpl>
-			<div class="wfile__empty">{{ (_ph | translate)() }}</div>
+			<div class="wfile__empty">{{ _ph | translate }}</div>
 		</ng-template>
 		} @else {
 		<ng-container
@@ -61,7 +61,7 @@ _disabled = isDisabled(); @let _view = view();
 				[ngTemplateOutlet]="t_empty() || emptyTpl"
 			></ng-container>
 			<ng-template #emptyTpl>
-				<div class="wfile__empty">{{ (_ph | translate)() }}</div>
+				<div class="wfile__empty">{{ _ph | translate }}</div>
 			</ng-template>
 			} @else {
 			<ul>
@@ -103,7 +103,7 @@ _disabled = isDisabled(); @let _view = view();
 				(wClick)="triggerPick(fileInput)"
 			>
 				<span class="material-icons">upload_file</span>
-				<span>{{ ('Browse' | translate)() }}</span>
+				<span>{{ 'Browse' | translate }}</span>
 			</wbutton>
 
 			@if (clearable() && _files.length) {
@@ -114,7 +114,7 @@ _disabled = isDisabled(); @let _view = view();
 				(wClick)="clear()"
 			>
 				<span class="material-icons">close</span>
-				<span>{{ ('Clear' | translate)() }}</span>
+				<span>{{ 'Clear' | translate }}</span>
 			</wbutton>
 			}
 		</div>

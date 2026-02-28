@@ -1,12 +1,7 @@
-import { Platform } from '@angular/cdk/platform';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	inject,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { SidebarService } from '../sidebar/sidebar.service';
 import { TopbarComponent } from '../topbar/topbar.component';
 
 @Component({
@@ -16,19 +11,5 @@ import { TopbarComponent } from '../topbar/topbar.component';
 	imports: [RouterOutlet, TopbarComponent, SidebarComponent],
 })
 export class UserComponent {
-	private readonly platform = inject(Platform);
-
-	isOpen = signal(false);
-
-	onSidebarOpen(open: boolean): void {
-		this.isOpen.set(open);
-	}
-
-	requestClose(): void {
-		this.isOpen.set(false);
-	}
-
-	closeIfDesktop(): void {
-		if (!this.platform.ANDROID && !this.platform.IOS) this.requestClose();
-	}
+	readonly sidebar = inject(SidebarService);
 }

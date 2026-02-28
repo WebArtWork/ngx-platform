@@ -1,17 +1,16 @@
-[![Angular v21+](https://img.shields.io/badge/angular-v21+-red)]()
+[![Angular v21+](https://img.shields.io/badge/angular-v21%2B-red)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)]()
 
 # WAW Input Component (`winput`)
 
-A signal-friendly, form-agnostic input component for Angular **v20+**.
+A signal-friendly, form-agnostic input component for Angular **v21+**.
 
-Supports:
+It supports **two usage modes**:
 
-- standalone two-way binding via `[(wModel)]`
-- Signal Forms via `[formField]` (`@angular/forms/signals`)
-- text, password, textarea, radio, checkbox
-- clearable inputs, password visibility toggle
-- consistent BEM styling with design tokens
+- **Template model mode** with `[(wModel)]`
+- **Angular Signal Forms** with `[formField]` (`@angular/forms/signals`)
+
+And provides built-in UX features like **clear button**, **password visibility toggle**, and **token-driven BEM styling**.
 
 ---
 
@@ -26,10 +25,12 @@ waw add ngx-input
 ## Import
 
 ```ts
+import { Component } from '@angular/core';
 import { InputComponent } from '@libs/input';
 
 @Component({
 	imports: [InputComponent],
+	template: `<winput label="Email" type="email" />`,
 })
 export class DemoComponent {}
 ```
@@ -38,7 +39,7 @@ export class DemoComponent {}
 
 ## Usage
 
-### 1️⃣ Template model (no forms)
+### 1) Template model (no forms)
 
 ```html
 <winput
@@ -49,65 +50,91 @@ export class DemoComponent {}
 ></winput>
 ```
 
+> In this mode, the component updates `wModel` internally and emits `wChange`.
+
 ---
 
-### 2️⃣ Signal Forms (`[formField]`)
+### 2) Signal Forms (`[formField]`)
 
 ```html
-<winput label="Password" type="password" [formField]="passwordField"></winput>
+<winput
+	label="Password"
+	type="password"
+	placeholder="Enter password"
+	[formField]="passwordField"
+></winput>
 ```
 
-- Automatically reads `touched / dirty / invalid / errors`
-- Error text is rendered when invalid + touched/dirty
-- No extra wiring needed
+Behavior in `formField` mode:
+
+- Binds directly to the Signal Forms field
+- Derives error text automatically from `touched/dirty/invalid/errors`
+- Still emits `wChange` for convenience (even in formField mode)
+
+#### Error resolution order
+
+1. If `error` input is provided → it is shown (override)
+2. Otherwise, when field is `invalid` and (`touched` or `dirty`) → first error message is shown:
+    - string error → used directly
+    - `{ message: string }` → `message` is used
 
 ---
 
-### 3️⃣ Password input
+### 3) Password input (visibility toggle + clear)
 
 ```html
-<winput type="password" label="Password" clearable></winput>
+<winput
+	type="password"
+	label="Password"
+	clearable
+	[(wModel)]="password"
+></winput>
 ```
 
-- Eye icon toggles visibility
-- When `clearable + password` → layout auto-adjusts for two icons
+- Eye icon toggles `password` ↔ `text`
+- If `clearable` is enabled, the clear button appears
+- Clear triggers: `wChange(null)` and `wSubmit()`, then focuses the field again
 
 ---
 
-### 4️⃣ Textarea
+### 4) Textarea
 
 ```html
 <winput
 	type="textarea"
 	label="Description"
 	placeholder="Write something…"
+	[(wModel)]="description"
 ></winput>
 ```
 
 ---
 
-### 5️⃣ Radio buttons
+### 5) Radio
 
 ```html
 <winput
 	type="radio"
-	label="Status"
+	name="status"
 	[items]="['Draft', 'Published']"
 	[(wModel)]="status"
 ></winput>
 ```
 
+- With `[formField]`, `items` are used as radio values (each radio input is bound to the field)
+- Without `[formField]`, selection is controlled via `[(wModel)]`
+
 ---
 
-### 6️⃣ Checkbox
+### 6) Checkbox
 
-Single boolean:
+#### Single boolean checkbox
 
 ```html
 <winput type="checkbox" label="Accept terms" [(wModel)]="accepted"></winput>
 ```
 
-Multiple values:
+#### Multiple values (array model)
 
 ```html
 <winput
@@ -117,35 +144,43 @@ Multiple values:
 ></winput>
 ```
 
+Notes:
+
+- Multi-select arrays are handled **only in template model mode** (`[(wModel)]`) for items checkboxes.
+- When `items` are present, the component adds/removes values in the array and emits `wChange`.
+
 ---
 
 ## Inputs
 
-| Input          | Type                          | Default     | Notes                                                 |
-| -------------- | ----------------------------- | ----------- | ----------------------------------------------------- |
-| `formField`    | `any \| null`                 | `null`      | Signal Forms binding (`FormField`).                   |
-| `wModel`       | `InputValue \| null`          | `null`      | Used when `formField` is not set.                     |
-| `type`         | `InputType`                   | `'text'`    | Includes `password`, `radio`, `checkbox`, `textarea`. |
-| `name`         | `string`                      | `'name'`    | Radio grouping in non-formField mode.                 |
-| `label`        | `string`                      | `''`        | Optional label text.                                  |
-| `placeholder`  | `string`                      | `''`        | Text / textarea placeholder.                          |
-| `items`        | `string[]`                    | `[]`        | Radio / checkbox options.                             |
-| `disabled`     | `boolean`                     | `false`     | Manual disable when not using `formField`.            |
-| `focused`      | `boolean`                     | `false`     | Auto-focus after view init.                           |
-| `clearable`    | `boolean`                     | `false`     | Shows clear button for text-like inputs.              |
-| `wClass`       | `string`                      | `''`        | Extra classes for the native control.                 |
-| `autocomplete` | `string \| null \| undefined` | `undefined` | Defaults to `current-password` for password inputs.   |
-| `error`        | `string \| null`              | `null`      | Optional external error override.                     |
+| Input          | Type                          | Default     | Notes                                                                                                                            |
+| -------------- | ----------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `formField`    | `any \| null`                 | `null`      | Signal Forms binding (`FormField`). When set, the field drives value/validation.                                                 |
+| `wModel`       | `InputValue \| null`          | `null`      | Used when `formField` is not set. Two-way with `[(wModel)]`.                                                                     |
+| `type`         | `InputType`                   | `'text'`    | Supports text-like types, `textarea`, `radio`, `checkbox`, `password`, etc.                                                      |
+| `name`         | `string`                      | `'name'`    | Used for native input `name` in non-formField mode (radio grouping, checkbox names).                                             |
+| `label`        | `string`                      | `''`        | Label text. For checkbox without items, label is rendered next to checkbox.                                                      |
+| `placeholder`  | `string`                      | `''`        | Placeholder for text-like inputs and textarea (falls back to `Enter text...`).                                                   |
+| `items`        | `string[]`                    | `[]`        | Options for `radio` and `checkbox` (multi).                                                                                      |
+| `icons`        | `InputIconAction[]`           | `[]`        | Extra trailing icons rendered via `<material-icon>`.                                                                             |
+| `disabled`     | `boolean`                     | `false`     | Used in template model mode. In formField mode, disabling is handled by the field (but native inputs also get `manualDisabled`). |
+| `focused`      | `boolean`                     | `false`     | Auto-focus after view init.                                                                                                      |
+| `clearable`    | `boolean`                     | `false`     | Adds a clear button (works for text-like inputs; emits `wChange(null)` + `wSubmit()`).                                           |
+| `wClass`       | `string`                      | `''`        | Additional classes applied to the native control.                                                                                |
+| `autocomplete` | `string \| null \| undefined` | `undefined` | If unset, defaults to `current-password` for `password`, otherwise `null`.                                                       |
+| `error`        | `string \| null`              | `null`      | External error override. Takes precedence over derived form errors.                                                              |
 
 ---
 
 ## Outputs
 
-| Output    | Type                 | When                                              |
-| --------- | -------------------- | ------------------------------------------------- |
-| `wChange` | `InputValue \| null` | On value change (also fires in `formField` mode). |
-| `wSubmit` | `void`               | On Enter key (text-like inputs) or clear action.  |
-| `wBlur`   | `void`               | On blur.                                          |
+| Output     | Type                 | When                                                                                    |
+| ---------- | -------------------- | --------------------------------------------------------------------------------------- |
+| `wChange`  | `InputValue \| null` | On any user input change. Emits in **both** modes (template and formField).             |
+| `wSubmit`  | `void`               | When Enter is pressed on text-like inputs (`keyup.enter`) and when cleared (`onClear`). |
+| `wBlur`    | `FocusEvent`         | Native blur event.                                                                      |
+| `wFocus`   | `FocusEvent`         | Native focus event.                                                                     |
+| `wKeydown` | `KeyboardEvent`      | Native keydown event.                                                                   |
 
 ---
 
@@ -180,6 +215,12 @@ export type InputType =
 	| 'time'
 	| 'datetime'
 	| 'datetime-local';
+
+export interface InputIconAction {
+	icon: string;
+	name?: string;
+	click?: () => void;
+}
 ```
 
 ---
@@ -189,19 +230,21 @@ export type InputType =
 - Block: `.winput`
 - Elements:
     - `__label`, `__control`, `__field`, `__error`
-    - `__icon-btn`, `__clear`, `__eye`
-    - `__choice`, `__choice-text`, `__choice-mark`, `__native`
+    - (choices) `__choice`, `__choice-text`, `__choice-mark`, `__native`
+    - (icons) `__icon-btn`, `__clear`, `__eye`
 
-### Notes
+### Token usage
 
-- Radio / checkbox:
-    - unchecked → transparent
-    - checked → filled with `--c-primary`
+The component styling is driven by global CSS tokens:
 
-- Uses design tokens:
-    - `--c-border`, `--c-primary`, `--c-text-*`
-    - `--c-placeholder`, `--b-radius`, `--focus-ring`
+- Surfaces / borders: `--c-bg-secondary`, `--c-border`, `--shadow-sm`
+- Text: `--c-text-primary`, `--c-text-muted`, `--c-placeholder`
+- Brand / focus: `--c-primary`, `--focus-ring`
+- Shape / spacing: `--radius`, `--sp-*`
+- Motion: `--motion-fast`, `--easing`
 
 ---
+
+## License
 
 MIT © 2026 Web Art Work

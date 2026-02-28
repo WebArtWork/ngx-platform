@@ -55,6 +55,8 @@
 				background-color var(--motion-fast) var(--easing),
 				opacity var(--motion-fast) var(--easing);
 		}
+
+		/* default (3 lines) */
 		&::before {
 			transform: translateY(calc(var(--bar-gap) * -1));
 		}
@@ -63,14 +65,46 @@
 		}
 	}
 
-	/* open state → cross */
-	&--open {
+	/* 1 line (web hidden) */
+	&--one {
+		.burger__bar {
+			&::before,
+			&::after {
+				opacity: 0;
+			}
+		}
+	}
+
+	/* 2 lines (web minimized) */
+	&--two {
+		.burger__bar {
+			background-color: transparent; /* hide middle bar */
+			&::before {
+				transform: translateY(calc(var(--bar-gap) / -2));
+				opacity: 1;
+			}
+			&::after {
+				transform: translateY(calc(var(--bar-gap) / 2));
+				opacity: 1;
+			}
+		}
+	}
+
+	/* 3 lines (web shown / mobile shown) – default, no override needed */
+	&--three {
+		/* no-op: default styles already represent 3 lines */
+	}
+
+	/* cross (mobile hidden) */
+	&--cross {
 		.burger__bar {
 			background-color: transparent; /* hide middle */
 			&::before {
+				opacity: 1;
 				transform: translateY(0) rotate(45deg);
 			}
 			&::after {
+				opacity: 1;
 				transform: translateY(0) rotate(-45deg);
 			}
 		}

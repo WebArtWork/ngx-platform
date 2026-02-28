@@ -17,8 +17,12 @@ import {
 	viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TranslateDirective, TranslatePipe } from '@lib/translate';
-import { ClickOutsideDirective, CoreService } from 'wacom';
+import {
+	ClickOutsideDirective,
+	CoreService,
+	TranslateDirective,
+	TranslatePipe,
+} from 'wacom';
 import { InputComponent } from '../input/input.component';
 import { selectDefaults } from './select.const';
 import {
@@ -31,7 +35,6 @@ import { SelectId, SelectValue } from './select.type';
 
 @Component({
 	selector: 'wselect',
-	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		NgTemplateOutlet,

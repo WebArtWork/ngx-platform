@@ -28,7 +28,8 @@ export interface FormModalButton {
 export interface JsonSignalForm {
 	id: string;
 	model: WritableSignal<Record<string, unknown>>;
-	form: any; // Signal Forms FieldTree, dynamic keys so we keep it as any
+	form: any;
+	schema: FormInterface;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -46,8 +47,10 @@ export class FormService extends CrudService<Form> {
 		});
 
 		// restore known form IDs
-		this._storeService.getJson('formIds', (formIds: unknown) => {
-			if (Array.isArray(formIds)) this.formIds.set(formIds);
+		this._storeService.getJson('formIds', {
+			onSuccess: (formIds: unknown) => {
+				if (Array.isArray(formIds)) this.formIds.set(formIds);
+			},
 		});
 
 		this.get({
@@ -177,10 +180,12 @@ export class FormService extends CrudService<Form> {
 		const existing = this._signalForms.get(id);
 		if (existing) {
 			if (initial && Object.keys(initial).length) {
-				existing.model.update((current) => ({
-					...current,
-					...initial,
-				}));
+				existing.model.set(
+					this._buildInitialModel(form, {
+						...(existing.model() ?? {}),
+						...(initial ?? {}),
+					}),
+				);
 			}
 			return existing;
 		}
@@ -199,6 +204,7 @@ export class FormService extends CrudService<Form> {
 			id,
 			model,
 			form: formTree,
+			schema: form,
 		};
 
 		this._signalForms.set(id, instance);
@@ -428,8 +434,8 @@ export class FormService extends CrudService<Form> {
 
 	reset(formId: string, next: Record<string, unknown> = {}): void {
 		const inst = this._signalForms.get(formId);
-		if (inst) {
-			inst.model.set(next);
-		}
+		if (!inst) return;
+
+		inst.model.set(this._buildInitialModel(inst.schema, next));
 	}
 }

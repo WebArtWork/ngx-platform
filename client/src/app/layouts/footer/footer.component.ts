@@ -9,9 +9,8 @@ import { RouterLink } from '@angular/router';
 import { environment } from '@env';
 import { MaterialComponent } from '@icon/material';
 import { ButtonComponent } from '@lib/button';
-import { TranslateDirective } from '@lib/translate';
 import { UserService } from 'src/app/modules/user/services/user.service';
-import { ThemeService } from 'wacom';
+import { ThemeService, TranslateDirective } from 'wacom';
 import { FooterLink } from './footer.types';
 
 @Component({

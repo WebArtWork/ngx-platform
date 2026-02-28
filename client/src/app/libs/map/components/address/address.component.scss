@@ -1,0 +1,36 @@
+.waw-address {
+	position: relative;
+
+	&__dropdown {
+		position: absolute;
+		top: calc(100% + var(--sp-1));
+		left: 0;
+		right: 0;
+		background: var(--c-bg-primary);
+		border: 1px solid var(--c-border);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-md);
+		z-index: 10;
+		max-height: 280px;
+		overflow-y: auto;
+	}
+
+	&__item {
+		padding: var(--sp-3);
+		cursor: pointer;
+		color: var(--c-text-primary);
+		transition: background var(--motion-fast) var(--easing);
+
+		&:hover {
+			background: var(--c-bg-tertiary);
+		}
+	}
+
+	&__loading {
+		position: absolute;
+		right: var(--sp-3);
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--c-text-muted);
+	}
+}

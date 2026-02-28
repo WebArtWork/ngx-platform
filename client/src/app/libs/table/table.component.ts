@@ -166,7 +166,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		});
 	}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.default_config();
 
 		// normalize string columns => { title, field }
@@ -178,9 +178,9 @@ export class TableComponent implements OnInit, AfterContentInit {
 		}
 		this.columns.set(cols);
 
-		this._storeService.get(this.tableId + 'perPage', (perPage) => {
-			if (perPage) this.changePerPage(Number(perPage));
-		});
+		const perPage = await this._storeService.get(this.tableId + 'perPage');
+
+		if (perPage) this.changePerPage(Number(perPage));
 	}
 
 	default_config() {

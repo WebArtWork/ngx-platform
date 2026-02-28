@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 export class AuthenticatedGuard {
 	private router = inject(Router);
 
-	canActivate(): boolean {
+	canActivate() {
 		if (localStorage.getItem('waw_user')) {
 			return true;
 		} else {
