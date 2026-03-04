@@ -8,42 +8,42 @@ import {
 	signal,
 } from '@angular/core';
 import { FooterComponent } from '@layout/footer';
-import { AboutContent, AboutSectionComponent } from '@pageComponent/about';
-import { FaqContent, FaqSectionComponent } from '@pageComponent/faq';
+import { AboutContent, AboutSectionComponent } from '@component/old/about';
+import { FaqContent, FaqSectionComponent } from '@component/old/faq';
 import {
 	FeaturesContent,
 	FeaturesSectionComponent,
-} from '@pageComponent/features';
+} from '@component/old/features';
 import {
 	FinalCtaContent,
 	FinalCtaSectionComponent,
-} from '@pageComponent/final-cta';
-import { HeroContent, HeroSectionComponent } from '@pageComponent/hero';
+} from '@component/old/final-cta';
+import { HeroContent, HeroSectionComponent } from '@component/old/hero';
 import {
 	HowItWorksContent,
 	HowItWorksSectionComponent,
-} from '@pageComponent/how-it-works';
-import { MarkedSectionComponent } from '@pageComponent/marked';
+} from '@component/old/how-it-works';
+import { MarkedSectionComponent } from '@component/old/marked';
 import {
 	PricingContent,
 	PricingSectionComponent,
-} from '@pageComponent/pricing';
+} from '@component/old/pricing';
 import {
 	ShowcaseContent,
 	ShowcaseSectionComponent,
-} from '@pageComponent/showcase';
+} from '@component/old/showcase';
 import {
 	TestimonialsContent,
 	TestimonialsSectionComponent,
-} from '@pageComponent/testimonials';
+} from '@component/old/testimonials';
 import {
 	TrustBarContent,
 	TrustBarSectionComponent,
-} from '@pageComponent/trust-bar';
+} from '@component/old/trust-bar';
 import {
 	UseCasesContent,
 	UseCasesSectionComponent,
-} from '@pageComponent/use-cases';
+} from '@component/old/use-cases';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
