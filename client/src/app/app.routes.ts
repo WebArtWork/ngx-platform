@@ -44,107 +44,118 @@ export const routes: Routes = [
 	},
 	{
 		path: '',
-		canActivate: [AuthenticatedGuard],
 		loadComponent: () => import('./layouts/user/user.component').then(m => m.UserComponent),
 		children: [
-			/* user */
 			{
-				path: 'dashboard',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Dashboard',
+				path: '',
+				canActivate: [AuthenticatedGuard],
+				children: [
+					/* user */
+					{
+						path: 'dashboard',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'Dashboard',
+							},
+						},
+						loadChildren: () =>
+							import('./pages/user/dashboard/dashboard.routes').then(m => m.routes),
 					},
-				},
-				loadChildren: () =>
-					import('./pages/user/dashboard/dashboard.routes').then(m => m.routes),
+					{
+						path: 'profile',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'My Profile',
+							},
+						},
+						loadChildren: () =>
+							import('./pages/user/profile/profile.routes').then(m => m.routes),
+					},
+				],
 			},
 			{
-				path: 'profile',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'My Profile',
+				path: '',
+				children: [
+					{
+						path: 'settings',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'My Settings',
+							},
+						},
+						loadChildren: () =>
+							import('./pages/user/settings/settings.routes').then(m => m.routes),
 					},
-				},
-				loadChildren: () =>
-					import('./pages/user/profile/profile.routes').then(m => m.routes),
+				],
 			},
 			{
-				path: 'settings',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'My Settings',
+				path: 'admin',
+				canActivate: [AdminsGuard],
+				children: [
+					/* admin */
+					{
+						path: 'users',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'Users',
+							},
+						},
+						loadChildren: () =>
+							import('./modules/user/pages/users/users.routes').then(m => m.routes),
 					},
-				},
-				loadChildren: () =>
-					import('./pages/user/settings/settings.routes').then(m => m.routes),
-			},
-		],
-	},
-	{
-		path: 'admin',
-		canActivate: [AdminsGuard],
-		loadComponent: () => import('./layouts/user/user.component').then(m => m.UserComponent),
-		children: [
-			/* admin */
-			{
-				path: 'users',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Users',
+					{
+						path: 'clients',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'Clients',
+							},
+						},
+						loadChildren: () =>
+							import('./modules/user/pages/clients/clients.routes').then(
+								m => m.routes,
+							),
 					},
-				},
-				loadChildren: () =>
-					import('./modules/user/pages/users/users.routes').then(m => m.routes),
-			},
-			{
-				path: 'clients',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Clients',
+					{
+						path: 'forms',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'Forms',
+							},
+						},
+						loadChildren: () =>
+							import('./libs/form/pages/forms/forms.routes').then(m => m.routes),
 					},
-				},
-				loadChildren: () =>
-					import('./modules/user/pages/clients/clients.routes').then(m => m.routes),
-			},
-			{
-				path: 'forms',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Forms',
+					{
+						path: 'form/:formId',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'Form profile',
+							},
+						},
+						loadChildren: () =>
+							import('./libs/form/pages/form/form.routes').then(m => m.routes),
 					},
-				},
-				loadChildren: () =>
-					import('./libs/form/pages/forms/forms.routes').then(m => m.routes),
-			},
-			{
-				path: 'form/:formId',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Forms',
+					{
+						path: 'translates',
+						canActivate: [MetaGuard],
+						data: {
+							meta: {
+								title: 'Translates',
+							},
+						},
+						loadChildren: () =>
+							import('./libs/translate/pages/translates/translates.routes').then(
+								m => m.routes,
+							),
 					},
-				},
-				loadChildren: () =>
-					import('./libs/form/pages/form/form.routes').then(m => m.routes),
-			},
-			{
-				path: 'translates',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Translates',
-					},
-				},
-				loadChildren: () =>
-					import('./libs/translate/pages/translates/translates.routes').then(
-						m => m.routes,
-					),
+				],
 			},
 		],
 	},
