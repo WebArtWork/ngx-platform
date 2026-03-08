@@ -30,7 +30,7 @@ export class PhraseService extends CrudService<Phrase> {
 			unauthorized: true,
 		});
 
-		this.ready = new Promise<void>((resolve) => {
+		this.ready = new Promise<void>(resolve => {
 			this._readyResolve = resolve;
 		});
 

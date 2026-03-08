@@ -6,11 +6,7 @@ import {
 	input,
 	output,
 } from '@angular/core';
-import {
-	buttonDefaults,
-	WBUTTON_BASE_CLASSES,
-	WBUTTON_TYPE_CLASSES,
-} from './button.const';
+import { buttonDefaults, WBUTTON_BASE_CLASSES, WBUTTON_TYPE_CLASSES } from './button.const';
 import { ButtonType } from './button.type';
 
 @Component({
@@ -27,9 +23,7 @@ export class ButtonComponent {
 	readonly extraClass = input<string>(buttonDefaults.extraClass);
 	readonly disabled = input<boolean>(buttonDefaults.disabled);
 	readonly disableSubmit = input<boolean>(buttonDefaults.disableSubmit);
-	readonly isMultipleClicksAllowed = input<boolean>(
-		buttonDefaults.isMultipleClicksAllowed,
-	);
+	readonly isMultipleClicksAllowed = input<boolean>(buttonDefaults.isMultipleClicksAllowed);
 
 	readonly wClick = output<MouseEvent>();
 
@@ -38,17 +32,12 @@ export class ButtonComponent {
 	private _cooling = false;
 
 	get isBlocked(): boolean {
-		return (
-			this.disabled() ||
-			(!this.isMultipleClicksAllowed() && this._cooling)
-		);
+		return this.disabled() || (!this.isMultipleClicksAllowed() && this._cooling);
 	}
 
 	/** Tailwind variant class for the current type */
 	typeClass(): string {
-		return (
-			WBUTTON_TYPE_CLASSES[this.type()] ?? WBUTTON_TYPE_CLASSES.primary
-		);
+		return WBUTTON_TYPE_CLASSES[this.type()] ?? WBUTTON_TYPE_CLASSES.primary;
 	}
 
 	clicked(event: MouseEvent): void {

@@ -1,17 +1,7 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-	input,
-	output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
-import {
-	BurgerComponent,
-	BurgerState,
-} from 'src/app/icons/burger/burger.component';
+import { BurgerComponent, BurgerState } from 'src/app/icons/burger/burger.component';
 import { CoreService } from 'wacom';
 import { SidebarService } from '../sidebar/sidebar.service';
 

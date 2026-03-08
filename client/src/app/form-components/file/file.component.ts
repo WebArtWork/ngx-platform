@@ -19,16 +19,12 @@ interface FileTemplateContext {}
 export class FileFormComponent implements OnInit {
 	private readonly _formService = inject(FormService);
 
-	readonly templateRef =
-		viewChild.required<TemplateRef<FileTemplateContext>>('templateRef');
+	readonly templateRef = viewChild.required<TemplateRef<FileTemplateContext>>('templateRef');
 
 	readonly fileDefaults = fileDefaults;
 
 	ngOnInit(): void {
-		this._formService.addTemplateComponent<FileTemplateContext>(
-			'File',
-			this.templateRef(),
-		);
+		this._formService.addTemplateComponent<FileTemplateContext>('File', this.templateRef());
 	}
 
 	/* ------------ value bridge (Signal Forms + model + legacy) ------------ */
@@ -72,11 +68,7 @@ export class FileFormComponent implements OnInit {
 			}
 		}
 		// 2) Model signal
-		else if (
-			data?.model &&
-			typeof data.model.update === 'function' &&
-			key
-		) {
+		else if (data?.model && typeof data.model.update === 'function' && key) {
 			data.model.update((current: Record<string, unknown>) => ({
 				...current,
 				[key]: value,

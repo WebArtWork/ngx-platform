@@ -4,10 +4,7 @@ import { FormService } from '@lib/form';
 import { TranslateService } from '@lib/translate/services/translate.service';
 import { FormInterface } from 'src/app/libs/form/interfaces/form.interface';
 import { TableComponent } from 'src/app/libs/table/table.component';
-import {
-	CellDirective,
-	TableHeaderDirective,
-} from 'src/app/libs/table/table.directive';
+import { CellDirective, TableHeaderDirective } from 'src/app/libs/table/table.directive';
 import { CrudComponent, TranslateDirective } from 'wacom';
 import { phraseForm } from '../../form/phrase.form';
 import { Phrase } from '../../interfaces/phrase.interface';
@@ -26,11 +23,7 @@ import { PhraseService } from '../../services/phrase.service';
 	],
 	templateUrl: './translates.component.html',
 })
-export class TranslatesComponent extends CrudComponent<
-	PhraseService,
-	Phrase,
-	FormInterface
-> {
+export class TranslatesComponent extends CrudComponent<PhraseService, Phrase, FormInterface> {
 	private _translateService = inject(TranslateService);
 
 	override updatableFields = ['_id', 'text'];
@@ -57,9 +50,7 @@ export class TranslatesComponent extends CrudComponent<
 		const phrase = doc._id as string;
 
 		if (language) {
-			const translationSignal = this._translateService.translate(
-				doc.text,
-			);
+			const translationSignal = this._translateService.translate(doc.text);
 
 			this._formService.modal<Phrase>(
 				phraseForm,
@@ -71,21 +62,14 @@ export class TranslatesComponent extends CrudComponent<
 						const text = (updated as Phrase).translation as string;
 
 						if (translationSignal() !== text) {
-							await this._translateService.updateTranslation(
-								text,
-								phrase,
-								language,
-							);
+							await this._translateService.updateTranslation(text, phrase, language);
 
 							translationSignal.set(text);
 						}
 					},
 				},
 				{
-					translation:
-						translationSignal() === doc.text
-							? ''
-							: translationSignal(),
+					translation: translationSignal() === doc.text ? '' : translationSignal(),
 					text: doc.text,
 				},
 			);
@@ -113,29 +97,23 @@ export class TranslatesComponent extends CrudComponent<
 					const translations = [];
 
 					for (const phrase of this._phraseService.getDocs()) {
-						translations.push(
-							this._translateService.translate(phrase.text)(),
-						);
+						translations.push(this._translateService.translate(phrase.text)());
 					}
 
 					this._formService
 						.modalDocs<string>(
 							translations,
-							'Update translations for ' +
-								this._languageService.language()?.name,
+							'Update translations for ' + this._languageService.language()?.name,
 						)
 						.then(async (translated: string[]) => {
-							for (const [index, phrase] of this._phraseService
-								.getDocs()
-								.entries()) {
+							for (const [index, phrase] of this._phraseService.getDocs().entries()) {
 								const text = translated[index];
 
 								if (text === undefined) continue;
 
-								const translationSignal =
-									this._translateService.translate(
-										phrase.text,
-									);
+								const translationSignal = this._translateService.translate(
+									phrase.text,
+								);
 
 								if (translationSignal() !== text) {
 									await this._translateService.updateTranslation(

@@ -68,17 +68,14 @@ export class FormService extends CrudService<Form> {
 
 	addTemplateComponent<T>(name: string, template: TemplateRef<T>): void {
 		if (!this._templateComponent.has(name)) {
-			this._templateComponent.set(
-				name,
-				template as unknown as TemplateRef<unknown>,
-			);
-			this.templatesVersion.update((v) => v + 1);
+			this._templateComponent.set(name, template as unknown as TemplateRef<unknown>);
+			this.templatesVersion.update(v => v + 1);
 		}
 	}
 
 	removeTemplateComponent(name: string): void {
 		if (this._templateComponent.delete(name)) {
-			this.templatesVersion.update((v) => v + 1);
+			this.templatesVersion.update(v => v + 1);
 		}
 	}
 
@@ -130,18 +127,12 @@ export class FormService extends CrudService<Form> {
 	/* --------------------------------------------------------------------------------------
 	   Defaults / builders (using props)
 	   -------------------------------------------------------------------------------------- */
-	getDefaultForm(
-		formId: string,
-		keys = ['name', 'description'],
-	): FormInterface {
+	getDefaultForm(formId: string, keys = ['name', 'description']): FormInterface {
 		this._rememberFormId(formId);
 
 		const components: FormComponentInterface[] = keys.map((fullKey, i) => {
 			const base = fullKey.includes('.') ? fullKey.split('.')[1] : 'Text';
-			const label = (fullKey.split('.')[0] || fullKey).replace(
-				/\[\]|\[\d+\]/g,
-				'',
-			);
+			const label = (fullKey.split('.')[0] || fullKey).replace(/\[\]|\[\d+\]/g, '');
 
 			return {
 				name: base,
@@ -165,10 +156,7 @@ export class FormService extends CrudService<Form> {
 	 * Main entry: get or create a Signal Form instance for the given schema.
 	 * Also merges `initial` into the model if provided.
 	 */
-	form(
-		form: FormInterface,
-		initial?: Record<string, unknown>,
-	): JsonSignalForm {
+	form(form: FormInterface, initial?: Record<string, unknown>): JsonSignalForm {
 		if (form.formId) {
 			this._rememberFormId(form.formId);
 		}
@@ -195,7 +183,7 @@ export class FormService extends CrudService<Form> {
 
 		// Signal Forms require an injection context; run creation inside the service injector
 		const formTree = runInInjectionContext(this._injector, () =>
-			buildSignalForm(model, (schema) => {
+			buildSignalForm(model, schema => {
 				this._applyValidators(schema, form);
 			}),
 		);
@@ -217,7 +205,7 @@ export class FormService extends CrudService<Form> {
 	): Record<string, unknown> {
 		const model: Record<string, unknown> = { ...initial };
 
-		this._traverseComponents(form.components, (component) => {
+		this._traverseComponents(form.components, component => {
 			if (!component.key) return;
 			if (!(component.key in model)) {
 				model[component.key] = null;
@@ -228,15 +216,13 @@ export class FormService extends CrudService<Form> {
 	}
 
 	private _applyValidators(schema: any, form: FormInterface): void {
-		this._traverseComponents(form.components, (component) => {
+		this._traverseComponents(form.components, component => {
 			if (!component.key) return;
 
 			const field = (schema as any)[component.key];
 			if (!field) return;
 
-			const label =
-				(component.props?.['label'] as string | undefined) ??
-				component.key;
+			const label = (component.props?.['label'] as string | undefined) ?? component.key;
 
 			if (component.required) {
 				required(field, {
@@ -271,17 +257,15 @@ export class FormService extends CrudService<Form> {
 		form: FormInterface | FormInterface[],
 		buttons: FormModalButton | FormModalButton[] = [],
 		submition: unknown = { data: {} },
-		change: (update: T) => void | Promise<(update: T) => void> = (
-			_u: T,
-		): void => {},
+		change: (update: T) => void | Promise<(update: T) => void> = (_u: T): void => {},
 		modalOptions: unknown = {},
 	): Promise<T> {
 		const forms = Array.isArray(form) ? form : [form];
 
 		// Ensure Signal Form exists for each schema
-		forms.forEach((f) => this.form(f, submition as any));
+		forms.forEach(f => this.form(f, submition as any));
 
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			this._modalService.show({
 				...(modalOptions as Modal),
 				component: ModalFormComponent,
@@ -299,11 +283,8 @@ export class FormService extends CrudService<Form> {
 		});
 	}
 
-	modalDocs<T>(
-		docs: T[],
-		title = 'Modify content of documents',
-	): Promise<T[]> {
-		return new Promise((resolve) => {
+	modalDocs<T>(docs: T[], title = 'Modify content of documents'): Promise<T[]> {
+		return new Promise(resolve => {
 			const submition = {
 				docs: JSON.stringify(docs.length ? docs : [], null, 4),
 			};
@@ -328,15 +309,10 @@ export class FormService extends CrudService<Form> {
 				modalButtons: [
 					{
 						label: 'Update',
-						click: (
-							_submition: Record<string, unknown>,
-							close: () => void,
-						) => {
+						click: (_submition: Record<string, unknown>, close: () => void) => {
 							close();
 
-							const out: T[] = submition.docs
-								? JSON.parse(submition.docs)
-								: [];
+							const out: T[] = submition.docs ? JSON.parse(submition.docs) : [];
 
 							resolve(out);
 						},
@@ -353,9 +329,7 @@ export class FormService extends CrudService<Form> {
 		component: string = '',
 		onClose: () => void | Promise<() => void> = (): void => {},
 	): void {
-		const form = this.getDefaultForm('unique', [
-			field + (component ? '.' + component : ''),
-		]);
+		const form = this.getDefaultForm('unique', [field + (component ? '.' + component : '')]);
 
 		this.form(form, doc as any);
 
@@ -378,21 +352,12 @@ export class FormService extends CrudService<Form> {
 		return this._getComponent(form.components, key) || ({} as any);
 	}
 
-	getProp<T = unknown>(
-		form: FormInterface,
-		key: string,
-		prop: string,
-	): T | null {
+	getProp<T = unknown>(form: FormInterface, key: string, prop: string): T | null {
 		const comp = this.getComponent(form, key);
 		return (comp?.props?.[prop] as T) ?? null;
 	}
 
-	setProp(
-		form: FormInterface,
-		key: string,
-		prop: string,
-		value: unknown,
-	): void {
+	setProp(form: FormInterface, key: string, prop: string, value: unknown): void {
 		const comp = this.getComponent(form, key);
 		if (!comp) return;
 
@@ -422,7 +387,7 @@ export class FormService extends CrudService<Form> {
 		if (!formId) return;
 
 		if (!this.formIds().includes(formId)) {
-			this.formIds.update((formIds) => {
+			this.formIds.update(formIds => {
 				formIds.push(formId);
 
 				return formIds;

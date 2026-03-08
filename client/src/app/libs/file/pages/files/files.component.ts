@@ -74,7 +74,7 @@ export class FilesComponent {
 		this._core.afterWhile(
 			this,
 			() => {
-				this._fileService.get({ page }).subscribe((rows) => {
+				this._fileService.get({ page }).subscribe(rows => {
 					this.rows.splice(0, this.rows.length);
 					this.rows.push(...rows);
 				});

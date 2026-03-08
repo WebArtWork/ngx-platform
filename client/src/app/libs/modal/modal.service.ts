@@ -15,13 +15,8 @@ export class ModalService {
 	show(opts: Modal | Type<unknown>): Modal {
 		const config = this._withConfig(opts);
 
-		if (
-			config.unique &&
-			this._modals.find((m) => m.unique === config.unique)
-		) {
-			return this._modals.find(
-				(m) => m.unique === config.unique,
-			) as Modal;
+		if (config.unique && this._modals.find(m => m.unique === config.unique)) {
+			return this._modals.find(m => m.unique === config.unique) as Modal;
 		}
 
 		this._modals.push(config);
@@ -46,7 +41,7 @@ export class ModalService {
 				config.onClose();
 			}
 
-			this._modals = this._modals.filter((m) => m.id !== config.id);
+			this._modals = this._modals.filter(m => m.id !== config.id);
 
 			if (!this._modals.length) {
 				document.body.classList.remove('modalOpened');
@@ -61,8 +56,7 @@ export class ModalService {
 		shell = this._dom.appendComponent(ModalComponent, config)!;
 
 		// Content component injected into inner body div
-		const host = shell.nativeElement.children[0].children[0]
-			.children[0] as HTMLElement;
+		const host = shell.nativeElement.children[0].children[0].children[0] as HTMLElement;
 
 		content = this._dom.appendComponent(
 			config.component,

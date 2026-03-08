@@ -9,11 +9,11 @@
 		[zoom]="zoom()"
 	>
 		@for (marker of markersResolved(); track marker.id) {
-		<map-marker
-			(mapClick)="markerSelected.emit(marker)"
-			[options]="markerOptions(marker)"
-			[position]="marker.position"
-		/>
+			<map-marker
+				(mapClick)="markerSelected.emit(marker)"
+				[options]="markerOptions(marker)"
+				[position]="marker.position"
+			/>
 		}
 	</google-map>
 </div>

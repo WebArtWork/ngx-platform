@@ -260,11 +260,7 @@
 	color: var(--c-text-primary);
 
 	&:hover {
-		background: color-mix(
-			in srgb,
-			var(--c-text-primary) 4%,
-			var(--c-bg-secondary)
-		);
+		background: color-mix(in srgb, var(--c-text-primary) 4%, var(--c-bg-secondary));
 	}
 }
 
@@ -291,21 +287,13 @@
 	color: var(--c-text-primary);
 
 	&:hover {
-		background: color-mix(
-			in srgb,
-			var(--c-text-primary) 4%,
-			var(--c-bg-secondary)
-		);
+		background: color-mix(in srgb, var(--c-text-primary) 4%, var(--c-bg-secondary));
 	}
 
 	&.is-active {
 		color: var(--c-primary);
 		font-weight: 700;
-		background: color-mix(
-			in srgb,
-			var(--c-primary) 10%,
-			var(--c-bg-secondary)
-		);
+		background: color-mix(in srgb, var(--c-primary) 10%, var(--c-bg-secondary));
 	}
 }
 

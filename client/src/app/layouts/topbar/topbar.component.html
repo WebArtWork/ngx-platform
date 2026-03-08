@@ -4,9 +4,7 @@
 	<ul
 		class="m-0 flex w-full list-none items-center gap-2 p-0 max-md:justify-between max-md:gap-0"
 	>
-		<li
-			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
-		>
+		<li class="inline-flex items-center max-md:flex-1 max-md:justify-center">
 			<material-icon
 				[routerLink]="sidebarToggler() ? '/dashboard' : '/'"
 				[name]="viewport() === 'mobile' ? '' : sidebarToggler() ? 'Dashboard' : ''"
@@ -19,23 +17,22 @@
 		<li class="mx-auto max-md:hidden"></li>
 
 		@if (sidebarToggler()) {
-		<li
-			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
-			(mouseleave)="onBurgerHover(false)"
-			(mouseenter)="onBurgerHover(true)"
-		>
-			<icon-burger
-				(updated)="onBurgerClick()"
-				[state]="burgerState()"
-				aria-label="Menu"
-			></icon-burger>
-		</li>
-		} @if (showProfile()) {
-		<li
-			class="inline-flex items-center max-md:flex-1 max-md:justify-center"
-		>
-			<material-icon icon="person" routerLink="/profile"></material-icon>
-		</li>
+			<li
+				class="inline-flex items-center max-md:flex-1 max-md:justify-center"
+				(mouseleave)="onBurgerHover(false)"
+				(mouseenter)="onBurgerHover(true)"
+			>
+				<icon-burger
+					(updated)="onBurgerClick()"
+					[state]="burgerState()"
+					aria-label="Menu"
+				></icon-burger>
+			</li>
+		}
+		@if (showProfile()) {
+			<li class="inline-flex items-center max-md:flex-1 max-md:justify-center">
+				<material-icon icon="person" routerLink="/profile"></material-icon>
+			</li>
 		}
 	</ul>
 </nav>

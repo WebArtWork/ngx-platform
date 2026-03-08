@@ -37,10 +37,7 @@ export interface PricingContent {
 ## Usage
 
 ```ts
-import {
-	PricingSectionComponent,
-	PricingContent,
-} from '@pageComponent/pricing';
+import { PricingSectionComponent, PricingContent } from '@pageComponent/pricing';
 
 @Component({
 	// ...
@@ -50,8 +47,7 @@ export class LandingComponent {
 	readonly pricingContent: PricingContent = {
 		sectionId: 'pricing',
 		title: 'Pricing',
-		description:
-			'Start free, then upgrade when you’re shipping or scaling reuse.',
+		description: 'Start free, then upgrade when you’re shipping or scaling reuse.',
 		plans: [
 			{
 				id: 'starter',

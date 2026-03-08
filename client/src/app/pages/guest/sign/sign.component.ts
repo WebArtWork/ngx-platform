@@ -1,17 +1,5 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
-import {
-	form,
-	pattern,
-	required,
-	schema,
-	submit,
-} from '@angular/forms/signals';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { form, pattern, required, schema, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { environment } from '@env';
 import { SpiderComponent } from '@icon/spider';
@@ -23,7 +11,7 @@ import { User, UserService } from '@module/user';
 import { HttpService, ThemeService } from 'wacom';
 import { RespStatus, SignModel } from './sign.interface';
 
-const signSchema = schema<SignModel>((path) => {
+const signSchema = schema<SignModel>(path => {
 	required(path.email, { message: 'Enter your email...' });
 
 	pattern(path.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
@@ -71,7 +59,7 @@ export class SignComponent {
 	});
 
 	wFormSubmit() {
-		submit(this.signForm, (formTree) => {
+		submit(this.signForm, formTree => {
 			const payload = formTree().value() as SignModel;
 
 			if (this.showCode()) {
@@ -85,23 +73,15 @@ export class SignComponent {
 	}
 
 	private _submit(payload: SignModel) {
-		this._httpService.post(
-			'/api/user/status?test=test',
-			payload,
-			(resp: RespStatus) => {
-				if (resp.email && resp.pass) this._login(payload);
-				else if (resp.email) this._request(payload);
-				else this._sign(payload);
-			},
-		);
+		this._httpService.post('/api/user/status?test=test', payload, (resp: RespStatus) => {
+			if (resp.email && resp.pass) this._login(payload);
+			else if (resp.email) this._request(payload);
+			else this._sign(payload);
+		});
 	}
 
 	private _login(payload: SignModel) {
-		this._httpService.post(
-			'/api/user/login',
-			payload,
-			this._set.bind(this),
-		);
+		this._httpService.post('/api/user/login', payload, this._set.bind(this));
 	}
 
 	private _sign(payload: SignModel) {

@@ -18,10 +18,7 @@ export function fileToDataUrl(file: File): Promise<string> {
  * Resize an image file so it fits within given bounds, preserving aspect ratio.
  * Returns a base64 data URL (or the original if no resize is needed / not image).
  */
-export async function resizeImageToBounds(
-	file: File,
-	bounds: ImageResizeBounds,
-): Promise<string> {
+export async function resizeImageToBounds(file: File, bounds: ImageResizeBounds): Promise<string> {
 	const original = await fileToDataUrl(file);
 
 	// Not an image → just return original
@@ -29,7 +26,7 @@ export async function resizeImageToBounds(
 		return original;
 	}
 
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const img = new Image();
 
 		img.onload = () => {

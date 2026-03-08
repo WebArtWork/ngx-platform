@@ -118,12 +118,7 @@ You can override how empty state and items are rendered.
 	</div>
 </ng-template>
 
-<ngx-file
-	mode="multi-file"
-	[t_empty]="emptyTpl"
-	[t_item]="itemTpl"
-	[(wFiles)]="files"
-></ngx-file>
+<ngx-file mode="multi-file" [t_empty]="emptyTpl" [t_item]="itemTpl" [(wFiles)]="files"></ngx-file>
 ```
 
 ---

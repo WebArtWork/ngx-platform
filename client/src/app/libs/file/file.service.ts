@@ -14,17 +14,12 @@ export class FileService extends CrudService<File> {
 	 * Upload base64 (data URL) to backend with optional container/name.
 	 * Returns a URL string from the API.
 	 */
-	async uploadBase64(
-		dataUrl: string,
-		container = 'general',
-		name = '',
-	): Promise<string> {
-		return await new Promise<string>((resolve) => {
+	async uploadBase64(dataUrl: string, container = 'general', name = ''): Promise<string> {
+		return await new Promise<string>(resolve => {
 			this._http.post(
 				'/api/cloudflare/upload-base64',
 				{ container, name, dataUrl },
-				(resp: { key: string }) =>
-					resolve('https://cdn.webart.work/' + resp.key),
+				(resp: { key: string }) => resolve('https://cdn.webart.work/' + resp.key),
 			);
 		});
 	}

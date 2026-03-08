@@ -5,8 +5,7 @@
 		[disabled]="data.props.disabled === true || data.component?.disabled === true"
 		[disableSubmit]="data.props.disableSubmit ?? buttonDefaults.disableSubmit"
 		[isMultipleClicksAllowed]="
-			data.props.isMultipleClicksAllowed ??
-			buttonDefaults.isMultipleClicksAllowed
+			data.props.isMultipleClicksAllowed ?? buttonDefaults.isMultipleClicksAllowed
 		"
 		(wClick)="data.props.onClick?.($event); data.wClick?.()"
 	>

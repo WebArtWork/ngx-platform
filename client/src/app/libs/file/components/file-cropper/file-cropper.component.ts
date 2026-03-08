@@ -1,8 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	HostListener,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
 import { ButtonComponent } from '@lib/button';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 

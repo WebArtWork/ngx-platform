@@ -1,10 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { form, submit } from '@angular/forms/signals';
 import { AlertService } from '@lib/alert';
 import { ButtonComponent } from '@lib/button';
@@ -28,7 +22,7 @@ export class ClientComponent {
 	readonly clientForm = form(this.clientModel, clientSchema);
 	readonly isSubmitDisabled = computed(() => this.clientForm().invalid());
 	wFormSubmit() {
-		submit(this.clientForm, async (field) => {
+		submit(this.clientForm, async field => {
 			this._userService.create(field().value()).subscribe(() => {
 				this._alertService.success({
 					text: 'Client has been created',

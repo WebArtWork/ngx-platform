@@ -1,8 +1,8 @@
 @if (isMobile()) {
-<div
-	class="sidebar__backdrop fixed inset-x-0 top-0 bottom-[var(--topbar-h)]"
-	(click)="closeBackdrop($event)"
-></div>
+	<div
+		class="sidebar__backdrop fixed inset-x-0 top-0 bottom-[var(--topbar-h)]"
+		(click)="closeBackdrop($event)"
+	></div>
 }
 
 <aside
@@ -12,7 +12,7 @@
 	[ngClass]="{
 		'fixed right-0 top-0 bottom-[var(--topbar-h)] h-[calc(100dvh-var(--topbar-h))]': isMobile(),
 		'md:fixed md:right-0 md:top-14 md:h-[calc(100dvh-56px)]': isPreview(),
-		'md:sticky md:top-14 md:h-[calc(100dvh-56px)]': !isMobile() && !isPreview()
+		'md:sticky md:top-14 md:h-[calc(100dvh-56px)]': !isMobile() && !isPreview(),
 	}"
 	(mouseleave)="sidebarService.disableBurgerHover = false; sidebarService.onBurgerHover(false)"
 	(mouseenter)="sidebarService.disableBurgerHover = true"
@@ -35,7 +35,7 @@
 				width="32"
 			/>
 			@if (showNames()) {
-			<span class="truncate font-semibold" translate>Profile</span>
+				<span class="truncate font-semibold" translate>Profile</span>
 			}
 		</a>
 	</div>
@@ -51,54 +51,54 @@
 	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
 
 	@if (userService.role('admin')) {
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Users' : ''"
-		(click)="closeIfOverlay()"
-		routerLink="/admin/users"
-		icon="manage_accounts"
-	></material-icon>
+		<material-icon
+			[class.sidebar--minimized-icon]="!showNames()"
+			[name]="showNames() ? 'Users' : ''"
+			(click)="closeIfOverlay()"
+			routerLink="/admin/users"
+			icon="manage_accounts"
+		></material-icon>
 
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Clients' : ''"
-		routerLink="/admin/clients"
-		(click)="closeIfOverlay()"
-		icon="people"
-	></material-icon>
+		<material-icon
+			[class.sidebar--minimized-icon]="!showNames()"
+			[name]="showNames() ? 'Clients' : ''"
+			routerLink="/admin/clients"
+			(click)="closeIfOverlay()"
+			icon="people"
+		></material-icon>
 
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Forms' : ''"
-		(click)="closeIfOverlay()"
-		routerLink="/admin/forms"
-		icon="backup_table"
-	></material-icon>
+		<material-icon
+			[class.sidebar--minimized-icon]="!showNames()"
+			[name]="showNames() ? 'Forms' : ''"
+			(click)="closeIfOverlay()"
+			routerLink="/admin/forms"
+			icon="backup_table"
+		></material-icon>
 
-	<material-icon
-		[class.sidebar--minimized-icon]="!showNames()"
-		[name]="showNames() ? 'Translates' : ''"
-		routerLink="/admin/translates"
-		(click)="closeIfOverlay()"
-		icon="translate"
-	></material-icon>
+		<material-icon
+			[class.sidebar--minimized-icon]="!showNames()"
+			[name]="showNames() ? 'Translates' : ''"
+			routerLink="/admin/translates"
+			(click)="closeIfOverlay()"
+			icon="translate"
+		></material-icon>
 
-	<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
+		<hr class="my-2 border-0 border-t-2 border-t-[var(--c-text-primary)]" />
 	}
 
 	<div class="mt-auto flex items-center justify-between gap-2">
 		@if (languageService.language()?.name) {
-		<button
-			(click)="languageService.nextLanguage(); closeIfOverlay()"
-			aria-label="Switch language"
-			class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
-			type="button"
-		>
-			<span class="material-icons text-xl">language</span>
-			@if (showNames()) {
-			<span [translate]="languageService.language()?.name || ''"></span>
-			}
-		</button>
+			<button
+				(click)="languageService.nextLanguage(); closeIfOverlay()"
+				aria-label="Switch language"
+				class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
+				type="button"
+			>
+				<span class="material-icons text-xl">language</span>
+				@if (showNames()) {
+					<span [translate]="languageService.language()?.name || ''"></span>
+				}
+			</button>
 		}
 	</div>
 </aside>

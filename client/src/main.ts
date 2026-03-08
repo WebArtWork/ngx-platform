@@ -10,4 +10,4 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, appConfig)
 	// eslint-disable-next-line no-console
-	.catch((err) => console.error(err));
+	.catch(err => console.error(err));

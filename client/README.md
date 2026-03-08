@@ -5,7 +5,6 @@ Angular 21 app built with standalone components, zoneless change detection, and 
 ## Prerequisites
 
 - Node 20+ and npm 10+ (Angular CLI 21 is provided locally via devDependencies)
-- Chrome/Chromium for Playwright E2E (install once with `npx playwright install` if browsers are missing)
 
 ## Custom GPT
 
@@ -25,23 +24,21 @@ Environments live in `src/environments/`:
 
 ## Scripts
 
-- `npm start` – run the dev server with proxying to the configured API URL
-- `npm run build` – production build to `dist/`
-- `npm run test` – unit tests with Jest
-- `npm run e2e` – Playwright end-to-end tests (ensure browsers are installed)
+- `npm start` - run the dev server with proxying to the configured API URL
+- `npm run build` - production build to `dist/`
 
 ## Project Structure (key paths)
 
-- `src/app/app.config.ts` – root providers (zoneless change detection, Wacom config, TinyMCE, router)
-- `src/app/app.routes.ts` – route map for public, guest, user, and admin areas
-- `src/app/layouts/` – layout shells for public/guest/user routes
-- `src/app/pages/` – routed pages per role (`guest/sign`, `public/components`, `user/profile`)
-- `src/app/modules/` – feature domains (auth/users with guards, translate flows, bird sample CRUD)
-- `src/app/libs/` – reusable UI building blocks (alert, button, file picker/cropper, form builder, input, modal, select, table, etc.)
-- `src/app/form-components/` + `src/app/app.formcomponents.ts` – template registry for the dynamic form system
-- `src/app/page-components/` – marketing/section blocks (hero, stats, gallery, pagination, etc.)
-- `src/app/icons/` – icon packs used across the UI
-- `src/environments/` – API/meta/language configuration
+- `src/app/app.config.ts` - root providers (zoneless change detection, Wacom config, TinyMCE, router)
+- `src/app/app.routes.ts` - route map for public, guest, user, and admin areas
+- `src/app/layouts/` - layout shells for public/guest/user routes
+- `src/app/pages/` - routed pages per role (`guest/sign`, `public/components`, `user/profile`)
+- `src/app/modules/` - feature domains (auth/users with guards, translate flows, bird sample CRUD)
+- `src/app/libs/` - reusable UI building blocks (alert, button, file picker/cropper, form builder, input, modal, select, table, etc.)
+- `src/app/form-components/` + `src/app/app.formcomponents.ts` - template registry for the dynamic form system
+- `src/app/page-components/` - marketing/section blocks (hero, stats, gallery, pagination, etc.)
+- `src/app/icons/` - icon packs used across the UI
+- `src/environments/` - API/meta/language configuration
 
 ## Development Notes
 
@@ -74,9 +71,9 @@ Keep component classes consistent in this order:
 
 Scaffolding commands (requires global `waw` CLI):
 
-- `waw add MODULENAME` – creates a module with interfaces, services, pages, selectors, form-components, and forms
-- `waw page ROLE PAGENAME` – creates a page under a specific role
-- `waw service SERVICENAME` – creates a service in the `services` folder
+- `waw add MODULENAME` - creates a module with interfaces, services, pages, selectors, form-components, and forms
+- `waw page ROLE PAGENAME` - creates a page under a specific role
+- `waw service SERVICENAME` - creates a service in the `services` folder
 
 Examples:
 
@@ -90,8 +87,7 @@ waw service user
 
 1. Fork and create a feature branch.
 2. Keep changes aligned with the existing standalone + signals pattern.
-3. Add or update tests where relevant (`npm run test` / `npm run e2e`).
+3. Add or update validation steps where relevant.
 4. Open a pull request.
-   . Create a new branch for your feature.
 5. Follow the coding guidelines outlined in this document.
 6. Submit a pull request for review.

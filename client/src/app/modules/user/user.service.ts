@@ -1,10 +1,4 @@
-import {
-	Injectable,
-	WritableSignal,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
+import { Injectable, WritableSignal, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '@lib/alert';
 import { environment } from 'src/environments/environment';
@@ -24,9 +18,7 @@ export class UserService extends CrudService<User> {
 
 	readonly url = environment.url;
 
-	roles = (
-		(environment as unknown as { roles: string[] }).roles || []
-	).concat(['admin']);
+	roles = ((environment as unknown as { roles: string[] }).roles || []).concat(['admin']);
 
 	employees = (environment as unknown as { roles: string[] }).roles || [];
 
@@ -39,8 +31,7 @@ export class UserService extends CrudService<User> {
 	);
 
 	thumb = computed(() => {
-		return !this.user().thumb ||
-			this.user().thumb.includes('assets/default.png')
+		return !this.user().thumb || this.user().thumb.includes('assets/default.png')
 			? 'assets/default.png'
 			: this.url + this.user().thumb;
 	});
@@ -54,14 +45,13 @@ export class UserService extends CrudService<User> {
 	constructor() {
 		super({
 			name: 'user',
-			replace: (user) => {
+			replace: user => {
 				user.roles = [];
 				user.data = user.data || {};
 				user.is = user.is || {};
 
-				for (const field of (
-					environment as unknown as { userFields: string[] }
-				).userFields || []) {
+				for (const field of (environment as unknown as { userFields: string[] })
+					.userFields || []) {
 					user.data[field] = user.data[field] || {};
 				}
 
@@ -79,12 +69,10 @@ export class UserService extends CrudService<User> {
 			{},
 			{
 				field: 'roles',
-				filtered: (splitted) => {
+				filtered: splitted => {
 					for (const role in splitted) {
 						if (this.usersByRole[role]) {
-							this.usersByRole[role].set(
-								(splitted as Record<string, User[]>)[role],
-							);
+							this.usersByRole[role].set((splitted as Record<string, User[]>)[role]);
 						} else {
 							this.usersByRole[role] = signal(
 								(splitted as Record<string, User[]>)[role],
@@ -98,10 +86,7 @@ export class UserService extends CrudService<User> {
 		if (localStorage.getItem('waw_user')) {
 			this.fetch({}, { name: 'me' }).subscribe((user: User) => {
 				if (user) {
-					if (
-						!localStorage.getItem('waw_user') &&
-						this._router.url === '/sign'
-					) {
+					if (!localStorage.getItem('waw_user') && this._router.url === '/sign') {
 						this._router.navigateByUrl('/profile');
 					}
 

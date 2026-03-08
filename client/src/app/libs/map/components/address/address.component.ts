@@ -124,9 +124,7 @@ export class AddressComponent {
 
 			this.loading.set(true);
 			try {
-				const results = await this._mapService.getPredictions(
-					this.search(),
-				);
+				const results = await this._mapService.getPredictions(this.search());
 				// still focused by the time results return?
 				this.predictions.set(this.focused() ? results : []);
 			} finally {

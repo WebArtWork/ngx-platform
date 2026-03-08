@@ -19,15 +19,11 @@ interface ButtonTemplateContext {}
 export class ButtonFormComponent implements OnInit {
 	private readonly _formService = inject(FormService);
 
-	readonly templateRef =
-		viewChild.required<TemplateRef<ButtonTemplateContext>>('templateRef');
+	readonly templateRef = viewChild.required<TemplateRef<ButtonTemplateContext>>('templateRef');
 
 	readonly buttonDefaults = buttonDefaults;
 
 	ngOnInit(): void {
-		this._formService.addTemplateComponent<ButtonTemplateContext>(
-			'Button',
-			this.templateRef(),
-		);
+		this._formService.addTemplateComponent<ButtonTemplateContext>('Button', this.templateRef());
 	}
 }

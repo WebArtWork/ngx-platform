@@ -42,12 +42,7 @@ export class DemoComponent {}
 ### 1) Template model (no forms)
 
 ```html
-<winput
-	label="Email"
-	type="email"
-	placeholder="Enter email"
-	[(wModel)]="email"
-></winput>
+<winput label="Email" type="email" placeholder="Enter email" [(wModel)]="email"></winput>
 ```
 
 > In this mode, the component updates `wModel` internally and emits `wChange`.
@@ -83,12 +78,7 @@ Behavior in `formField` mode:
 ### 3) Password input (visibility toggle + clear)
 
 ```html
-<winput
-	type="password"
-	label="Password"
-	clearable
-	[(wModel)]="password"
-></winput>
+<winput type="password" label="Password" clearable [(wModel)]="password"></winput>
 ```
 
 - Eye icon toggles `password` ↔ `text`
@@ -113,12 +103,7 @@ Behavior in `formField` mode:
 ### 5) Radio
 
 ```html
-<winput
-	type="radio"
-	name="status"
-	[items]="['Draft', 'Published']"
-	[(wModel)]="status"
-></winput>
+<winput type="radio" name="status" [items]="['Draft', 'Published']" [(wModel)]="status"></winput>
 ```
 
 - With `[formField]`, `items` are used as radio values (each radio input is bound to the field)
@@ -137,11 +122,7 @@ Behavior in `formField` mode:
 #### Multiple values (array model)
 
 ```html
-<winput
-	type="checkbox"
-	[items]="['A', 'B', 'C']"
-	[(wModel)]="selectedItems"
-></winput>
+<winput type="checkbox" [items]="['A', 'B', 'C']" [(wModel)]="selectedItems"></winput>
 ```
 
 Notes:
@@ -187,14 +168,7 @@ Notes:
 ## Types
 
 ```ts
-export type InputValue =
-	| null
-	| string
-	| number
-	| boolean
-	| string[]
-	| number[]
-	| boolean[];
+export type InputValue = null | string | number | boolean | string[] | number[] | boolean[];
 
 export type InputType =
 	| 'text'

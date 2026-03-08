@@ -17,12 +17,7 @@ import {
 	viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-	ClickOutsideDirective,
-	CoreService,
-	TranslateDirective,
-	TranslatePipe,
-} from 'wacom';
+import { ClickOutsideDirective, CoreService, TranslateDirective, TranslatePipe } from 'wacom';
 import { InputComponent } from '../input/input.component';
 import { selectDefaults } from './select.const';
 import {
@@ -73,9 +68,7 @@ export class SelectComponent implements ControlValueAccessor {
 	/** Back-compat alias for older templates/docs */
 	readonly field = input<any | null>(null, { alias: 'field' });
 
-	private readonly _resolvedField = computed(
-		() => this.formField() ?? this.field(),
-	);
+	private readonly _resolvedField = computed(() => this.formField() ?? this.field());
 
 	/* ==== Projected templates (contentChild) ==== */
 	readonly viewTpl = contentChild(WselectViewDirective, {
@@ -101,9 +94,7 @@ export class SelectComponent implements ControlValueAccessor {
 	readonly allItem: Record<SelectId, string> = {};
 
 	/** signals array for fast template iteration */
-	readonly allItems = signal<Signal<SelectItem>[]>(
-		this._core.toSignalsArray<SelectItem>([]),
-	);
+	readonly allItems = signal<Signal<SelectItem>[]>(this._core.toSignalsArray<SelectItem>([]));
 
 	/** popup + search */
 	readonly showOptions = signal(false);
@@ -112,8 +103,7 @@ export class SelectComponent implements ControlValueAccessor {
 	/** keyboard navigation */
 	readonly activeIndex = signal<number>(-1);
 
-	private readonly _popupListEl =
-		viewChild<ElementRef<HTMLElement>>('popupListEl');
+	private readonly _popupListEl = viewChild<ElementRef<HTMLElement>>('popupListEl');
 
 	/** derived helpers */
 	readonly isMulti = computed(() => this.multiple());
@@ -131,9 +121,7 @@ export class SelectComponent implements ControlValueAccessor {
 				? []
 				: [v as SelectId];
 	});
-	readonly selectedId = computed<SelectId | null>(
-		() => this.selectedIds()[0] ?? null,
-	);
+	readonly selectedId = computed<SelectId | null>(() => this.selectedIds()[0] ?? null);
 
 	/** filtered list for popup (replaces SearchPipe) */
 	readonly filteredItems = computed(() => {
@@ -142,7 +130,7 @@ export class SelectComponent implements ControlValueAccessor {
 
 		if (!q) return list;
 
-		return list.filter((sig) => {
+		return list.filter(sig => {
 			const it = sig();
 			const hay = (it.__search ?? it.name ?? '').toString().toLowerCase();
 			return hay.includes(q);
@@ -197,7 +185,7 @@ export class SelectComponent implements ControlValueAccessor {
 				delete (this.allItem as any)[key];
 			}
 
-			const normalized: SelectItem[] = list.map((raw) => {
+			const normalized: SelectItem[] = list.map(raw => {
 				let value: any = raw;
 				if (typeof raw === 'function') {
 					try {
@@ -220,10 +208,7 @@ export class SelectComponent implements ControlValueAccessor {
 				} else if (value && typeof value === 'object') {
 					const v: any = value;
 					id = (v[bindValue] ?? v._id) as SelectId;
-					name = (v[bindLabel] ??
-						v.name ??
-						v.title ??
-						String(id)) as string;
+					name = (v[bindLabel] ?? v.name ?? v.title ?? String(id)) as string;
 				} else {
 					id = String(value) as SelectId;
 					name = String(value);
@@ -250,25 +235,20 @@ export class SelectComponent implements ControlValueAccessor {
 				return item;
 			});
 
-			this.allItems.set(
-				this._core.toSignalsArray<SelectItem>(normalized),
-			);
+			this.allItems.set(this._core.toSignalsArray<SelectItem>(normalized));
 
-			const ids = new Set(this.allItems().map((s) => s().id));
+			const ids = new Set(this.allItems().map(s => s().id));
 			const val = this.wModel();
 
 			if (this.isMulti()) {
-				const next = (Array.isArray(val) ? val : []).filter((id) =>
+				const next = (Array.isArray(val) ? val : []).filter(id =>
 					ids.has(id as SelectId),
 				) as SelectId[];
 				if (JSON.stringify(next) !== JSON.stringify(val)) {
 					this.wModel.set(next);
 				}
 			} else {
-				if (
-					!val ||
-					(this.allItems().length && !ids.has(val as SelectId))
-				) {
+				if (!val || (this.allItems().length && !ids.has(val as SelectId))) {
 					this.wModel.set(null);
 				}
 			}
@@ -349,12 +329,7 @@ export class SelectComponent implements ControlValueAccessor {
 
 		// open from closed state
 		if (!this.showOptions()) {
-			if (
-				key === 'ArrowDown' ||
-				key === 'ArrowUp' ||
-				key === 'Enter' ||
-				key === ' '
-			) {
+			if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'Enter' || key === ' ') {
 				ev.preventDefault();
 				this.toggleOptions(true);
 			}
@@ -377,10 +352,7 @@ export class SelectComponent implements ControlValueAccessor {
 			case 'ArrowDown': {
 				ev.preventDefault();
 				if (!len) return;
-				const next = Math.min(
-					this.activeIndex() < 0 ? 0 : this.activeIndex() + 1,
-					len - 1,
-				);
+				const next = Math.min(this.activeIndex() < 0 ? 0 : this.activeIndex() + 1, len - 1);
 				this.activeIndex.set(next);
 				this._scrollActiveIntoView();
 				return;
@@ -388,10 +360,7 @@ export class SelectComponent implements ControlValueAccessor {
 			case 'ArrowUp': {
 				ev.preventDefault();
 				if (!len) return;
-				const next = Math.max(
-					this.activeIndex() < 0 ? len - 1 : this.activeIndex() - 1,
-					0,
-				);
+				const next = Math.max(this.activeIndex() < 0 ? len - 1 : this.activeIndex() - 1, 0);
 				this.activeIndex.set(next);
 				this._scrollActiveIntoView();
 				return;
@@ -431,7 +400,7 @@ export class SelectComponent implements ControlValueAccessor {
 		// Prefer currently selected item as the active one
 		const selected = this.selectedId();
 		if (!this.isMulti() && selected != null) {
-			const idx = list.findIndex((s) => s().id === selected);
+			const idx = list.findIndex(s => s().id === selected);
 			this.activeIndex.set(idx >= 0 ? idx : 0);
 			return;
 		}
@@ -439,7 +408,7 @@ export class SelectComponent implements ControlValueAccessor {
 		// Multi: prefer first selected in the filtered list
 		if (this.isMulti() && this.selectedIds().length) {
 			const set = new Set(this.selectedIds());
-			const idx = list.findIndex((s) => set.has(s().id));
+			const idx = list.findIndex(s => set.has(s().id));
 			this.activeIndex.set(idx >= 0 ? idx : 0);
 			return;
 		}

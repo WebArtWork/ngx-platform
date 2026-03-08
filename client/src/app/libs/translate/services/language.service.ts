@@ -50,7 +50,7 @@ export class LanguageService extends CrudService<Language> {
 				return;
 			}
 
-			const lang = languages.find((l) => l._id === id);
+			const lang = languages.find(l => l._id === id);
 
 			if (lang) {
 				this.language.set(lang);
@@ -79,16 +79,12 @@ export class LanguageService extends CrudService<Language> {
 			const language = this.language();
 
 			const index = language
-				? languages.findIndex((_language) => {
+				? languages.findIndex(_language => {
 						return _language._id === language._id;
 					})
 				: 0;
 
-			this.setLanguage(
-				index === languages.length - 1
-					? languages[0]
-					: languages[index + 1],
-			);
+			this.setLanguage(index === languages.length - 1 ? languages[0] : languages[index + 1]);
 		} else {
 			this._languageId.set(null);
 		}

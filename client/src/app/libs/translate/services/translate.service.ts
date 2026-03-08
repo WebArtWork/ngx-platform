@@ -10,7 +10,7 @@ export class TranslateService extends CrudService<Translate> {
 		super({
 			name: 'translate',
 			unauthorized: true,
-			replace: (doc) => {
+			replace: doc => {
 				doc.slug = doc.phrase + doc.language;
 			},
 		});
@@ -22,14 +22,12 @@ export class TranslateService extends CrudService<Translate> {
 		});
 
 		// reload translations when language changes
-		this._emitterService.on('languageId').subscribe((languageId) => {
+		this._emitterService.on('languageId').subscribe(languageId => {
 			this.loadTranslate(languageId as string);
 		});
 
 		// when phrases change (created/renamed/deleted) – recompute translations
-		this._emitterService
-			.on('translatephrase_changed')
-			.subscribe(() => this._scheduleRecalc());
+		this._emitterService.on('translatephrase_changed').subscribe(() => this._scheduleRecalc());
 	}
 
 	loadTranslate(languageId: string) {
@@ -59,9 +57,7 @@ export class TranslateService extends CrudService<Translate> {
 
 	async updateTranslation(text: string, phrase: string, language: string) {
 		const translate = await this.getDoc((_translate: Translate) => {
-			return (
-				_translate.language === language && _translate.phrase === phrase
-			);
+			return _translate.language === language && _translate.phrase === phrase;
 		});
 
 		if (translate) {

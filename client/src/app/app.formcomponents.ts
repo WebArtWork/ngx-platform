@@ -21,14 +21,7 @@ import { TinymceFormComponent } from './form-components/tinymce/tinymce.componen
 import { tinymceForm } from './form-components/tinymce/tinymce.form';
 /* componnets */
 
-export const FORM_COMPONENTS = [
-	'Input',
-	'Select',
-	'File',
-	'Button',
-	'Ace',
-	'Tinymce',
-];
+export const FORM_COMPONENTS = ['Input', 'Select', 'File', 'Button', 'Ace', 'Tinymce'];
 
 export const FORM_COMPONENT_FORM = (key: string): FormInterface => {
 	return {
@@ -63,7 +56,7 @@ function registerFormTemplatesFactory(
 	return () => {
 		// Instantiate each template component once so their ngOnInit runs
 		// and they call FormService.addTemplateComponent(name, templateRef)
-		Object.values(FORM_TEMPLATE_COMPONENTS).forEach((cmp) => {
+		Object.values(FORM_TEMPLATE_COMPONENTS).forEach(cmp => {
 			const ref = createComponent(cmp, {
 				environmentInjector: injector,
 			});

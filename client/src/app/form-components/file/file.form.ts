@@ -25,12 +25,7 @@ export const fileForm = {
 			props: {
 				label: 'Mode',
 				placeholder: 'Select mode...',
-				items: [
-					'single-image',
-					'single-file',
-					'multi-image',
-					'multi-file',
-				],
+				items: ['single-image', 'single-file', 'multi-image', 'multi-file'],
 			},
 		},
 		{

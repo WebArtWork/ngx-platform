@@ -6,12 +6,10 @@
 	<layout-topbar class="user__topbar" [sidebarToggler]="true" />
 
 	@if (sidebar.anySidebarVisible()) {
-	<layout-sidebar class="user__sidebar" />
+		<layout-sidebar class="user__sidebar" />
 	}
 
-	<div
-		class="user__main relative overflow-auto max-md:mb-14 max-md:px-2 max-md:py-3"
-	>
+	<div class="user__main relative overflow-auto max-md:mb-14 max-md:px-2 max-md:py-3">
 		<router-outlet />
 	</div>
 </div>

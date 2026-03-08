@@ -1,11 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	input,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { ShowcaseContent, ShowcaseTab } from './showcase.interfaces';
 import { ShowcaseTabId } from './showcase.types';
 
@@ -29,7 +23,7 @@ export class ShowcaseSectionComponent {
 		const c = this.content();
 		const id = this.selectedTabId();
 		if (!id || !c.tabs?.length) return null;
-		return c.tabs.find((t) => t.id === id) ?? null;
+		return c.tabs.find(t => t.id === id) ?? null;
 	});
 
 	selectTab(id?: ShowcaseTabId | null): void {

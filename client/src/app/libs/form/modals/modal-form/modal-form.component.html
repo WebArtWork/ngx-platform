@@ -11,14 +11,14 @@
 
 	<div class="modal-form__actions">
 		@for (button of modalButtons; track button) {
-		<wbutton
-			[extraClass]="'w-btn ' + (button.class || '')"
-			(wClick)="onButtonClick(button)"
-			[disabled]="submitting()"
-			type="primary"
-		>
-			{{ button.label }}
-		</wbutton>
+			<wbutton
+				[extraClass]="'w-btn ' + (button.class || '')"
+				(wClick)="onButtonClick(button)"
+				[disabled]="submitting()"
+				type="primary"
+			>
+				{{ button.label }}
+			</wbutton>
 		}
 	</div>
 </div>

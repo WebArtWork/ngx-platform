@@ -1,10 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	effect,
-	inject,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { environment } from '@env';
 import { formForm } from '@lib/form/forms/form.form';
 import { Phrase } from '@lib/translate';
@@ -31,10 +25,7 @@ export class FormsComponent {
 						formForm,
 						{
 							label: 'Update',
-							click: async (
-								updated: unknown,
-								close: () => void,
-							) => {
+							click: async (updated: unknown, close: () => void) => {
 								close();
 
 								if (form._id) {
@@ -67,12 +58,10 @@ export class FormsComponent {
 			const byFormId = this._formService.getFieldSignals('formId')();
 
 			this.documents.set(
-				this._formService.formIds().map((formId) => {
+				this._formService.formIds().map(formId => {
 					return {
 						formId,
-						...(byFormId[formId]?.length
-							? byFormId[formId][0]()
-							: {}),
+						...(byFormId[formId]?.length ? byFormId[formId][0]() : {}),
 					} as Form;
 				}),
 			);

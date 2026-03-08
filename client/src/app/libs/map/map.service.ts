@@ -35,10 +35,7 @@ export class MapService {
 	/**
 	 * Reverse -> structured GeoAddress
 	 */
-	async reverseGeoAddress(
-		lat: number,
-		lng: number,
-	): Promise<GeoAddress | null> {
+	async reverseGeoAddress(lat: number, lng: number): Promise<GeoAddress | null> {
 		const res = await firstValueFrom(
 			this._http.get(`/api/proton/reverse?lat=${lat}&lon=${lng}&limit=1`),
 		);
@@ -49,15 +46,9 @@ export class MapService {
 		return this._toGeoAddress(f, { lat, lng });
 	}
 
-	private _toGeoAddress(
-		f: PhotonFeatureDTO,
-		fallback: { lat: number; lng: number },
-	): GeoAddress {
+	private _toGeoAddress(f: PhotonFeatureDTO, fallback: { lat: number; lng: number }): GeoAddress {
 		const p = f.properties;
-		const [lon, lat] = f.geometry?.coordinates ?? [
-			fallback.lng,
-			fallback.lat,
-		];
+		const [lon, lat] = f.geometry?.coordinates ?? [fallback.lng, fallback.lat];
 
 		// Photon reverse часто повертає назву вулиці в `name`, а `street` лишає порожнім.
 		const nameLooksLikeStreet = this._looksLikeStreet(p.name);
@@ -71,9 +62,7 @@ export class MapService {
 			// інколи номер будинку "прилип" до name
 			// приклад: "вулиця Шевченка 12"
 			if (!house) {
-				const m = streetName.match(
-					/\s(\d+[A-Za-zА-Яа-яІіЇїЄєҐґ\-\/]*)\s*$/,
-				);
+				const m = streetName.match(/\s(\d+[A-Za-zА-Яа-яІіЇїЄєҐґ\-\/]*)\s*$/);
 				if (m?.[1]) {
 					house = m[1];
 					streetName = streetName
@@ -114,18 +103,13 @@ export class MapService {
 	private _formatAddress(f: PhotonFeatureDTO): string {
 		const p = f.properties;
 
-		const line1 = [p.street, p.housenumber]
-			.filter(Boolean)
-			.join(' ')
-			.trim();
+		const line1 = [p.street, p.housenumber].filter(Boolean).join(' ').trim();
 		const line2 = [p.postcode, p.city].filter(Boolean).join(' ').trim();
 		const line3 = [p.state, p.country].filter(Boolean).join(', ').trim();
 
 		const name = (p.name ?? '').trim();
 		const main =
-			name && line1.includes(name)
-				? line1
-				: [name, line1].filter(Boolean).join(', ').trim();
+			name && line1.includes(name) ? line1 : [name, line1].filter(Boolean).join(', ').trim();
 
 		return [main, line2, line3].filter(Boolean).join(', ').trim();
 	}

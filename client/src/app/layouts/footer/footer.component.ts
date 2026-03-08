@@ -1,10 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { environment } from '@env';
 import { MaterialComponent } from '@icon/material';
@@ -17,13 +12,7 @@ import { FooterLink } from './footer.types';
 	selector: 'layout-footer',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './footer.component.html',
-	imports: [
-		RouterLink,
-		MaterialComponent,
-		TranslateDirective,
-		ButtonComponent,
-		NgClass,
-	],
+	imports: [RouterLink, MaterialComponent, TranslateDirective, ButtonComponent, NgClass],
 })
 export class FooterComponent {
 	readonly userService = inject(UserService);
@@ -36,9 +25,7 @@ export class FooterComponent {
 	readonly mode = computed(() => this.themeService.mode() ?? 'light');
 	readonly modes = computed(() => this.themeService.modes());
 
-	readonly density = computed(
-		() => this.themeService.density() ?? 'comfortable',
-	);
+	readonly density = computed(() => this.themeService.density() ?? 'comfortable');
 	readonly densities = computed(() => this.themeService.densities());
 
 	readonly radius = computed(() => this.themeService.radius() ?? 'rounded');
@@ -87,6 +74,6 @@ export class FooterComponent {
 
 	readonly links = computed(() => {
 		const isAdmin = this.userService.role('admin');
-		return this.allLinks().filter((l) => !l.adminOnly || isAdmin);
+		return this.allLinks().filter(l => !l.adminOnly || isAdmin);
 	});
 }

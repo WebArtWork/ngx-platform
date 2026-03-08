@@ -28,10 +28,7 @@ export interface FeaturesContent {
 ## Usage
 
 ```ts
-import {
-	FeaturesSectionComponent,
-	FeaturesContent,
-} from '@pageComponent/features';
+import { FeaturesSectionComponent, FeaturesContent } from '@pageComponent/features';
 
 @Component({
 	// ...

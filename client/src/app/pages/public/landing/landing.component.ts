@@ -1,49 +1,19 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	inject,
-	PLATFORM_ID,
-	signal,
-} from '@angular/core';
-import { FooterComponent } from '@layout/footer';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { AboutContent, AboutSectionComponent } from '@component/old/about';
 import { FaqContent, FaqSectionComponent } from '@component/old/faq';
-import {
-	FeaturesContent,
-	FeaturesSectionComponent,
-} from '@component/old/features';
-import {
-	FinalCtaContent,
-	FinalCtaSectionComponent,
-} from '@component/old/final-cta';
+import { FeaturesContent, FeaturesSectionComponent } from '@component/old/features';
+import { FinalCtaContent, FinalCtaSectionComponent } from '@component/old/final-cta';
 import { HeroContent, HeroSectionComponent } from '@component/old/hero';
-import {
-	HowItWorksContent,
-	HowItWorksSectionComponent,
-} from '@component/old/how-it-works';
+import { HowItWorksContent, HowItWorksSectionComponent } from '@component/old/how-it-works';
 import { MarkedSectionComponent } from '@component/old/marked';
-import {
-	PricingContent,
-	PricingSectionComponent,
-} from '@component/old/pricing';
-import {
-	ShowcaseContent,
-	ShowcaseSectionComponent,
-} from '@component/old/showcase';
-import {
-	TestimonialsContent,
-	TestimonialsSectionComponent,
-} from '@component/old/testimonials';
-import {
-	TrustBarContent,
-	TrustBarSectionComponent,
-} from '@component/old/trust-bar';
-import {
-	UseCasesContent,
-	UseCasesSectionComponent,
-} from '@component/old/use-cases';
+import { PricingContent, PricingSectionComponent } from '@component/old/pricing';
+import { ShowcaseContent, ShowcaseSectionComponent } from '@component/old/showcase';
+import { TestimonialsContent, TestimonialsSectionComponent } from '@component/old/testimonials';
+import { TrustBarContent, TrustBarSectionComponent } from '@component/old/trust-bar';
+import { UseCasesContent, UseCasesSectionComponent } from '@component/old/use-cases';
+import { FooterComponent } from '@layout/footer';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -72,11 +42,9 @@ export class LandingComponent {
 
 	constructor() {
 		if (this._isBrowser) {
-			this._http
-				.get('/assets/README.md', { responseType: 'text' })
-				.subscribe({
-					next: (markdown) => this.markdown.set(markdown as string),
-				});
+			this._http.get('/assets/README.md', { responseType: 'text' }).subscribe({
+				next: markdown => this.markdown.set(markdown as string),
+			});
 		}
 	}
 
@@ -131,13 +99,7 @@ export class LandingComponent {
 
 	readonly trustBarContent: TrustBarContent = {
 		title: 'Trusted building blocks for product teams and learners',
-		items: [
-			'WAW Studio',
-			'WAW Education',
-			'WAW Framework',
-			'Open Source',
-			'Community',
-		],
+		items: ['WAW Studio', 'WAW Education', 'WAW Framework', 'Open Source', 'Community'],
 	};
 
 	readonly aboutContent: AboutContent = {
@@ -270,19 +232,11 @@ export class LandingComponent {
 			},
 			{
 				title: 'For teams',
-				bullets: [
-					'Consistent UI + architecture',
-					'Shared components',
-					'Faster onboarding',
-				],
+				bullets: ['Consistent UI + architecture', 'Shared components', 'Faster onboarding'],
 			},
 			{
 				title: 'For developers',
-				bullets: [
-					'Modern Angular skills',
-					'Real project experience',
-					'Reusable patterns',
-				],
+				bullets: ['Modern Angular skills', 'Real project experience', 'Reusable patterns'],
 			},
 		],
 	};
@@ -308,8 +262,7 @@ export class LandingComponent {
 	readonly pricingContent: PricingContent = {
 		sectionId: 'pricing',
 		title: 'Pricing',
-		description:
-			'Start free, then upgrade when you’re shipping or scaling reuse.',
+		description: 'Start free, then upgrade when you’re shipping or scaling reuse.',
 		plans: [
 			{
 				id: 'starter',

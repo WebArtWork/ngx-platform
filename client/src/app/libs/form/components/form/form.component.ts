@@ -44,13 +44,11 @@ export class FormComponent {
 	/** Filtered by hidden flag */
 	readonly visibleComponents = computed<FormComponentInterface[]>(() =>
 		this._components()
-			.filter((c) => !c?.hidden)
+			.filter(c => !c?.hidden)
 			.concat(
 				this._formcomponentService
 					.components()
-					.filter(
-						(c) => c.formId === this.formId,
-					) as FormComponentInterface[],
+					.filter(c => c.formId === this.formId) as FormComponentInterface[],
 			),
 	);
 
@@ -66,9 +64,7 @@ export class FormComponent {
 			if (!cfg) return;
 
 			// Form creation installs internal effects; run outside reactive context
-			const inst = untracked(() =>
-				this._formService.form(cfg, initial ?? undefined),
-			);
+			const inst = untracked(() => this._formService.form(cfg, initial ?? undefined));
 			this.instance.set(inst);
 		});
 
@@ -115,11 +111,7 @@ export class FormComponent {
 		const values = inst ? inst.model() : {};
 		console.log(this.submition, values);
 		// debounce a bit like old code did via CoreService
-		this._coreService.afterWhile(
-			this,
-			() => this.wChange.emit(values),
-			150,
-		);
+		this._coreService.afterWhile(this, () => this.wChange.emit(values), 150);
 	}
 
 	onClick(): void {

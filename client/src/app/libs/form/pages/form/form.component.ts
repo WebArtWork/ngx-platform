@@ -47,10 +47,7 @@ export class FormComponent extends CrudComponent<
 	/** wtable config built by CrudComponent, aware of server mode */
 	config = this.getConfig();
 
-	constructor(
-		_formcomponentService: FormcomponentService,
-		_formService: FormService,
-	) {
+	constructor(_formcomponentService: FormcomponentService, _formService: FormService) {
 		super(formcomponentForm, _formService, _formcomponentService, 'user');
 
 		_formcomponentService.loaded.subscribe(() => {

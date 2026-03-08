@@ -31,10 +31,7 @@ Uses **Angular signals**, **RouterLink**, and **RouterLinkActive**.
 Material Icons font must be available in your app, for example:
 
 ```html
-<link
-	href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet"
-/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 ```
 
 ---

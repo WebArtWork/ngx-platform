@@ -1,12 +1,5 @@
-import {
-	importProvidersFrom,
-	provideZonelessChangeDetection,
-} from '@angular/core';
-import {
-	BrowserModule,
-	provideClientHydration,
-	withEventReplay,
-} from '@angular/platform-browser';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import {
 	PreloadAllModules,
 	provideRouter,
@@ -29,7 +22,6 @@ export const appConfig = {
 		provideFormComponents(),
 		provideWacom(wacomConfig),
 		provideTinymce(tinymceConfig),
-		importProvidersFrom(BrowserModule),
 		/* providers */
 		AuthenticatedGuard,
 		GuestGuard,

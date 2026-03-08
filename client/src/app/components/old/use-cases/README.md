@@ -28,10 +28,7 @@ export interface UseCasesContent {
 ## Usage
 
 ```ts
-import {
-	UseCasesSectionComponent,
-	UseCasesContent,
-} from '@pageComponent/use-cases';
+import { UseCasesSectionComponent, UseCasesContent } from '@pageComponent/use-cases';
 
 @Component({
 	// ...
@@ -53,19 +50,11 @@ export class LandingComponent {
 			},
 			{
 				title: 'For teams',
-				bullets: [
-					'Consistent UI + architecture',
-					'Shared components',
-					'Faster onboarding',
-				],
+				bullets: ['Consistent UI + architecture', 'Shared components', 'Faster onboarding'],
 			},
 			{
 				title: 'For developers',
-				bullets: [
-					'Modern Angular skills',
-					'Real project experience',
-					'Reusable patterns',
-				],
+				bullets: ['Modern Angular skills', 'Real project experience', 'Reusable patterns'],
 			},
 		],
 	};
@@ -73,7 +62,5 @@ export class LandingComponent {
 ```
 
 ```html
-<page-component-use-cases
-	[content]="useCasesContent"
-></page-component-use-cases>
+<page-component-use-cases [content]="useCasesContent"></page-component-use-cases>
 ```

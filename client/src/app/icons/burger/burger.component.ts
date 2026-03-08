@@ -1,11 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	input,
-	output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 export type BurgerState = 'three-lines' | 'two-lines' | 'one-line' | 'cross';
 

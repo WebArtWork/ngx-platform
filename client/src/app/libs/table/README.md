@@ -87,12 +87,12 @@ Row-level actions are configured via `config`:
 
 ```ts
 config = {
-	update: (row) => edit(row),
-	delete: (row) => remove(row),
+	update: row => edit(row),
+	delete: row => remove(row),
 	buttons: [
 		{
 			icon: 'visibility',
-			click: (row) => view(row),
+			click: row => view(row),
 		},
 	],
 };
@@ -151,8 +151,8 @@ config = {
 	allDocs: false,
 	perPage: 20,
 	page: 1,
-	paginate: (page) => fetchPage(page),
-	setPerPage: (n) => setPageSize(n),
+	paginate: page => fetchPage(page),
+	setPerPage: n => setPageSize(n),
 };
 ```
 

@@ -19,15 +19,11 @@ interface SelectTemplateContext {}
 export class SelectFormComponent implements OnInit {
 	private readonly _formService = inject(FormService);
 
-	readonly templateRef =
-		viewChild.required<TemplateRef<SelectTemplateContext>>('templateRef');
+	readonly templateRef = viewChild.required<TemplateRef<SelectTemplateContext>>('templateRef');
 
 	readonly selectDefaults = selectDefaults;
 
 	ngOnInit(): void {
-		this._formService.addTemplateComponent<SelectTemplateContext>(
-			'Select',
-			this.templateRef(),
-		);
+		this._formService.addTemplateComponent<SelectTemplateContext>('Select', this.templateRef());
 	}
 }

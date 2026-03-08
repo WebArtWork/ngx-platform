@@ -1,9 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	inject,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CoreService } from 'wacom';
 
 import { ButtonComponent } from '../../../button/button.component';

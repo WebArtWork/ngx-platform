@@ -26,11 +26,7 @@
 						type="password"
 					></winput>
 
-					<wbutton
-						[disabled]="isSecurityDisabled()"
-						type="primary"
-						class="mt-2"
-					>
+					<wbutton [disabled]="isSecurityDisabled()" type="primary" class="mt-2">
 						Update password
 					</wbutton>
 				</form>
@@ -38,17 +34,15 @@
 				<icon-theme size="48px" [showText]="true"></icon-theme>
 
 				@if (languageService.language()?.name) {
-				<button
-					(click)="languageService.nextLanguage()"
-					class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
-					aria-label="Switch language"
-					type="button"
-				>
-					<span class="material-icons text-xl">language</span>
-					<span
-						[translate]="languageService.language()?.name || ''"
-					></span>
-				</button>
+					<button
+						(click)="languageService.nextLanguage()"
+						class="inline-flex flex-1 items-center justify-center gap-2 rounded-[var(--radius)] bg-transparent px-2 py-2 text-sm text-[var(--c-text-primary)]"
+						aria-label="Switch language"
+						type="button"
+					>
+						<span class="material-icons text-xl">language</span>
+						<span [translate]="languageService.language()?.name || ''"></span>
+					</button>
 				}
 
 				<wbutton (wClick)="userService.logout()" type="secondary">

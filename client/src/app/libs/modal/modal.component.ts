@@ -1,9 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	OnDestroy,
-	OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'lib-modal',
@@ -23,8 +18,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 	// optional custom class applied to the content panel
 	panelClass = '';
 
-	private readonly _popStateHandler = (e: PopStateEvent) =>
-		this.popStateListener(e);
+	private readonly _popStateHandler = (e: PopStateEvent) => this.popStateListener(e);
 
 	ngOnInit(): void {
 		if (typeof this.onClickOutside !== 'function') {

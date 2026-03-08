@@ -1,16 +1,5 @@
-import {
-	Directive,
-	ElementRef,
-	HostBinding,
-	HostListener,
-	input,
-	output,
-} from '@angular/core';
-import {
-	buttonDefaults,
-	WBUTTON_BASE_CLASSES,
-	WBUTTON_TYPE_CLASSES,
-} from './button.const';
+import { Directive, ElementRef, HostBinding, HostListener, input, output } from '@angular/core';
+import { buttonDefaults, WBUTTON_BASE_CLASSES, WBUTTON_TYPE_CLASSES } from './button.const';
 import { ButtonType } from './button.type';
 
 @Directive({
@@ -23,9 +12,7 @@ export class ButtonDirective {
 	readonly type = input<ButtonType>(buttonDefaults.type);
 	readonly disabled = input<boolean>(buttonDefaults.disabled);
 	readonly disableSubmit = input<boolean>(buttonDefaults.disableSubmit);
-	readonly isMultipleClicksAllowed = input<boolean>(
-		buttonDefaults.isMultipleClicksAllowed,
-	);
+	readonly isMultipleClicksAllowed = input<boolean>(buttonDefaults.isMultipleClicksAllowed);
 
 	readonly extraClass = input<string>(buttonDefaults.extraClass);
 
@@ -40,18 +27,12 @@ export class ButtonDirective {
 		return this.tag === 'BUTTON';
 	}
 	private get isBlocked(): boolean {
-		return (
-			this.disabled() || (!this.isMultipleClicksAllowed() && this.cooling)
-		);
+		return this.disabled() || (!this.isMultipleClicksAllowed() && this.cooling);
 	}
 
 	@HostBinding('attr.type')
 	get hostType(): 'button' | 'submit' | null {
-		return this.isButton
-			? this.disableSubmit()
-				? 'button'
-				: 'submit'
-			: null;
+		return this.isButton ? (this.disableSubmit() ? 'button' : 'submit') : null;
 	}
 
 	@HostBinding('attr.disabled')
@@ -66,15 +47,9 @@ export class ButtonDirective {
 
 	@HostBinding('class')
 	get hostClass(): string {
-		const typeClass =
-			WBUTTON_TYPE_CLASSES[this.type()] ?? WBUTTON_TYPE_CLASSES.primary;
+		const typeClass = WBUTTON_TYPE_CLASSES[this.type()] ?? WBUTTON_TYPE_CLASSES.primary;
 
-		return [
-			'wbutton',
-			WBUTTON_BASE_CLASSES,
-			typeClass,
-			this.extraClass() || '',
-		]
+		return ['wbutton', WBUTTON_BASE_CLASSES, typeClass, this.extraClass() || '']
 			.filter(Boolean)
 			.join(' ');
 	}

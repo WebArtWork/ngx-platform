@@ -34,9 +34,7 @@ export class FormComponentComponent {
 	readonly submition = input<Record<string, unknown> | null>({});
 
 	/** Signal Form model + field tree (new) */
-	readonly model = input<WritableSignal<Record<string, unknown>> | null>(
-		null,
-	);
+	readonly model = input<WritableSignal<Record<string, unknown>> | null>(null);
 	readonly fieldTree = input<any | null>(null);
 
 	readonly wSubmit = output<Record<string, unknown>>();
@@ -49,17 +47,12 @@ export class FormComponentComponent {
 		effect(() => {
 			this._form.templatesVersion(); // dependency on registry readiness
 			const name = this.component().name as string | undefined;
-			this.template.set(
-				name ? this._form.getTemplateComponent(name) : null,
-			);
+			this.template.set(name ? this._form.getTemplateComponent(name) : null);
 		});
 	}
 
 	hasChildren(): boolean {
-		return (
-			Array.isArray(this.component().components) &&
-			!!this.component().components?.length
-		);
+		return Array.isArray(this.component().components) && !!this.component().components?.length;
 	}
 
 	effectiveKey(): string | null {

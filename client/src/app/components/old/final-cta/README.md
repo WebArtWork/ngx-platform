@@ -33,10 +33,7 @@ export interface FinalCtaContent {
 ## Usage
 
 ```ts
-import {
-	FinalCtaSectionComponent,
-	FinalCtaContent,
-} from '@pageComponent/final-cta';
+import { FinalCtaSectionComponent, FinalCtaContent } from '@pageComponent/final-cta';
 
 @Component({
 	// ...
@@ -57,7 +54,5 @@ export class LandingComponent {
 ```
 
 ```html
-<page-component-final-cta
-	[content]="finalCtaContent"
-></page-component-final-cta>
+<page-component-final-cta [content]="finalCtaContent"></page-component-final-cta>
 ```

@@ -25,8 +25,7 @@ const DEFAULT_ACE_CONFIG: AceConfigInterface = {
 export class AceFormComponent implements OnInit {
 	private readonly _form = inject(FormService);
 
-	readonly templateRef =
-		viewChild.required<TemplateRef<Interface>>('templateRef');
+	readonly templateRef = viewChild.required<TemplateRef<Interface>>('templateRef');
 
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Ace', this.templateRef());
@@ -73,11 +72,7 @@ export class AceFormComponent implements OnInit {
 			}
 		}
 		// 2) Model signal
-		else if (
-			data?.model &&
-			typeof data.model.update === 'function' &&
-			key
-		) {
+		else if (data?.model && typeof data.model.update === 'function' && key) {
 			data.model.update((current: Record<string, unknown>) => ({
 				...current,
 				[key]: value,
@@ -120,39 +115,27 @@ export class AceFormComponent implements OnInit {
 		if (tabSize !== undefined) config.tabSize = tabSize;
 
 		// Behavior toggles
-		if (typeof props['useSoftTabs'] === 'boolean')
-			config.useSoftTabs = props['useSoftTabs'];
+		if (typeof props['useSoftTabs'] === 'boolean') config.useSoftTabs = props['useSoftTabs'];
 		if (typeof props['wrap'] === 'boolean') config.wrap = props['wrap'];
 		if (typeof props['showLineNumbers'] === 'boolean')
 			config.showLineNumbers = props['showLineNumbers'];
-		if (typeof props['showGutter'] === 'boolean')
-			config.showGutter = props['showGutter'];
+		if (typeof props['showGutter'] === 'boolean') config.showGutter = props['showGutter'];
 		if (typeof props['highlightActiveLine'] === 'boolean')
 			config.highlightActiveLine = props['highlightActiveLine'];
 		if (typeof props['showPrintMargin'] === 'boolean')
 			config.showPrintMargin = props['showPrintMargin'];
-		if (typeof props['readOnly'] === 'boolean')
-			config.readOnly = props['readOnly'];
-		if (typeof props['useWorker'] === 'boolean')
-			config.useWorker = props['useWorker'];
+		if (typeof props['readOnly'] === 'boolean') config.readOnly = props['readOnly'];
+		if (typeof props['useWorker'] === 'boolean') config.useWorker = props['useWorker'];
 
 		// Local config object from props
 		const localConfig = props['config'];
-		if (
-			localConfig &&
-			typeof localConfig === 'object' &&
-			!Array.isArray(localConfig)
-		) {
+		if (localConfig && typeof localConfig === 'object' && !Array.isArray(localConfig)) {
 			Object.assign(config, localConfig as Partial<AceConfigInterface>);
 		}
 
 		// Per-field config (code-level override)
 		const fieldConfig = data?.field?.Config;
-		if (
-			fieldConfig &&
-			typeof fieldConfig === 'object' &&
-			!Array.isArray(fieldConfig)
-		) {
+		if (fieldConfig && typeof fieldConfig === 'object' && !Array.isArray(fieldConfig)) {
 			Object.assign(config, fieldConfig as Partial<AceConfigInterface>);
 		}
 
@@ -193,11 +176,7 @@ export class AceFormComponent implements OnInit {
 	}
 
 	isDisabled(data: any): boolean {
-		return !!(
-			data?.props?.disabled ||
-			data?.component?.disabled ||
-			data?.field?.Disabled
-		);
+		return !!(data?.props?.disabled || data?.component?.disabled || data?.field?.Disabled);
 	}
 
 	getUseAceClass(data: any): boolean {

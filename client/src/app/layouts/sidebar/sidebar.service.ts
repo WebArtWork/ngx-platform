@@ -21,22 +21,15 @@ export class SidebarService {
 	readonly previewOpen = signal(false);
 
 	// Layout decisions
-	readonly pinnedVisible = computed(
-		() => !this.isMobile() && this.webMode() !== 'hidden',
-	);
+	readonly pinnedVisible = computed(() => !this.isMobile() && this.webMode() !== 'hidden');
 
 	readonly previewVisible = computed(
-		() =>
-			!this.isMobile() &&
-			this.webMode() === 'hidden' &&
-			this.previewOpen(),
+		() => !this.isMobile() && this.webMode() === 'hidden' && this.previewOpen(),
 	);
 
 	readonly anySidebarVisible = computed(
 		() =>
-			this.pinnedVisible() ||
-			this.previewVisible() ||
-			(this.isMobile() && this.mobileOpen()),
+			this.pinnedVisible() || this.previewVisible() || (this.isMobile() && this.mobileOpen()),
 	);
 
 	// UI decisions for sidebar content
@@ -71,7 +64,7 @@ export class SidebarService {
 	// Burger click behavior
 	burgerClick(): void {
 		if (this.isMobile()) {
-			this.mobileOpen.update((v) => !v);
+			this.mobileOpen.update(v => !v);
 			return;
 		}
 
@@ -114,9 +107,7 @@ export class SidebarService {
 
 	private _loadWebMode(): WebSidebarMode {
 		try {
-			const v = localStorage.getItem(
-				this._lsKeyWebMode,
-			) as WebSidebarMode | null;
+			const v = localStorage.getItem(this._lsKeyWebMode) as WebSidebarMode | null;
 			if (v === 'shown' || v === 'minimized' || v === 'hidden') return v;
 		} catch {}
 		return 'shown';

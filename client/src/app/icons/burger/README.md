@@ -69,8 +69,7 @@ Example:
 Examples:
 
 ```html
-<icon-burger (updated)="onBurgerClick()" />
-<icon-burger (hovered)="onBurgerHover($event)" />
+<icon-burger (updated)="onBurgerClick()" /> <icon-burger (hovered)="onBurgerHover($event)" />
 ```
 
 ---

@@ -1,9 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	inject,
-	input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { HttpService } from 'wacom';
 import { FormComponent } from '../../components/form/form.component';
 import { FormInterface } from '../../interfaces/form.interface';
@@ -30,10 +25,7 @@ export class ModalUniqueComponent {
 	// values are emitted by wform now (Signal Form model), but we still rely on doc() for now
 	change(_values?: Record<string, unknown>): void {
 		this._http
-			.post(
-				`/api/${this.module()}/unique${this.field() || ''}`,
-				this.doc(),
-			)
+			.post(`/api/${this.module()}/unique${this.field() || ''}`, this.doc())
 			.subscribe((resp: string) => {
 				if (this.doc()[this.field()] !== resp) {
 					this.doc()[this.field()] = resp;

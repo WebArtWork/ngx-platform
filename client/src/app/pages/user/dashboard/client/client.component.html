@@ -2,14 +2,8 @@
 	<div
 		class="flex flex-col gap-4 rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] p-5 shadow-[var(--shadow-sm)] sm:p-4"
 	>
-		<form
-			(submit)="wFormSubmit(); $event.preventDefault()"
-			class="flex flex-col gap-3"
-		>
-			<winput
-				placeholder="Enter your name..."
-				[formField]="clientForm.name"
-			></winput>
+		<form (submit)="wFormSubmit(); $event.preventDefault()" class="flex flex-col gap-3">
+			<winput placeholder="Enter your name..." [formField]="clientForm.name"></winput>
 
 			<winput
 				placeholder="Enter your email..."
@@ -30,9 +24,7 @@
 			></winput>
 
 			<div class="mt-2 flex flex-wrap gap-2">
-				<wbutton [disabled]="isSubmitDisabled()" type="primary">
-					Create
-				</wbutton>
+				<wbutton [disabled]="isSubmitDisabled()" type="primary"> Create </wbutton>
 			</div>
 		</form>
 	</div>

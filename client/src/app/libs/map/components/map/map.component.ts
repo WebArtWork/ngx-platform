@@ -47,9 +47,7 @@ export class MapComponent {
 
 	// NEW: user location override for map start center
 	private readonly userCenter = signal<LatLngLiteral | null>(null);
-	readonly centerResolved = computed<LatLngLiteral>(
-		() => this.userCenter() ?? this.center(),
-	);
+	readonly centerResolved = computed<LatLngLiteral>(() => this.userCenter() ?? this.center());
 
 	// Map options (computed from inputs)
 	readonly options = computed<google.maps.MapOptions>(() => ({
@@ -71,8 +69,8 @@ export class MapComponent {
 			draggable: false,
 		};
 
-		return base.some((m) => m.id === this.CLICK_MARKER_ID)
-			? base.map((m) => (m.id === this.CLICK_MARKER_ID ? clickMarker : m))
+		return base.some(m => m.id === this.CLICK_MARKER_ID)
+			? base.map(m => (m.id === this.CLICK_MARKER_ID ? clickMarker : m))
 			: [...base, clickMarker];
 	});
 
@@ -84,7 +82,7 @@ export class MapComponent {
 
 		effect(() => {
 			// dev sanity: duplicate IDs
-			const ids = this.markersResolved().map((m) => m.id);
+			const ids = this.markersResolved().map(m => m.id);
 			if (ids.length !== new Set(ids).size) {
 				// eslint-disable-next-line no-console
 				console.warn('[lib-map] Duplicate marker ids detected:', ids);
@@ -126,10 +124,7 @@ export class MapComponent {
 			const raw = localStorage.getItem(LAST_CENTER_KEY);
 			if (raw) {
 				const saved = JSON.parse(raw) as LatLngLiteral;
-				if (
-					typeof saved?.lat === 'number' &&
-					typeof saved?.lng === 'number'
-				) {
+				if (typeof saved?.lat === 'number' && typeof saved?.lng === 'number') {
 					this.userCenter.set(saved);
 				}
 			}
@@ -142,7 +137,7 @@ export class MapComponent {
 		if (!('geolocation' in navigator)) return;
 
 		navigator.geolocation.getCurrentPosition(
-			(pos) => {
+			pos => {
 				const center: LatLngLiteral = {
 					lat: pos.coords.latitude,
 					lng: pos.coords.longitude,

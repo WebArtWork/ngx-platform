@@ -4,9 +4,7 @@
 	"version": "1.0.0",
 	"scripts": {
 		"start": "ng serve -o --proxy-config proxy.conf.json",
-		"build": "ng build --configuration production",
-		"e2e": "playwright test",
-		"test": "jest"
+		"build": "ng build --configuration production"
 	},
 	"dependencies": {
 		"@angular/cdk": "21.2.0",
@@ -18,7 +16,7 @@
 		"@angular/router": "21.2.0",
 		"@angular/ssr": "21.2.0",
 		"@tailwindcss/postcss": "4.1.18",
-		"dompurify": "3.3.1",
+		"dompurify": "3.3.2",
 		"marked": "17.0.1",
 		"ngx-ace-signal": "21.0.0",
 		"ngx-image-cropper": "9.1.5",
@@ -29,44 +27,18 @@
 		"tailwindcss": "4.1.18",
 		"tinymce": "8.2.2",
 		"tslib": "2.3.0",
-		"wacom": "21.2.1"
+		"wacom": "21.2.3"
 	},
 	"devDependencies": {
-		"@angular-eslint/builder": "21.2.0",
-		"@angular-eslint/eslint-plugin": "21.2.0",
-		"@angular-eslint/eslint-plugin-template": "21.2.0",
-		"@angular-eslint/schematics": "21.2.0",
-		"@angular-eslint/template-parser": "21.2.0",
 		"@angular/build": "21.2.0",
 		"@angular/cli": "21.2.0",
 		"@angular/compiler": "21.2.0",
 		"@angular/compiler-cli": "21.2.0",
-		"@eslint/config-array": "0.21.0",
-		"@eslint/object-schema": "2.1.6",
-		"@playwright/test": "1.55.1",
-		"@types/dompurify": "3.0.5",
 		"@types/express": "5.0.1",
-		"@types/jest": "30.0.0",
-		"@types/node": "20.17.19",
-		"@typescript-eslint/eslint-plugin": "8.47.0",
-		"@typescript-eslint/parser": "8.47.0",
+		"@types/node": "24.1.0",
 		"baseline-browser-mapping": "2.9.19",
-		"eslint": "9.31.0",
-		"eslint-config-prettier": "10.1.5",
-		"eslint-plugin-prettier": "5.5.1",
-		"jest": "30.2.0",
-		"jest-environment-jsdom": "30.2.0",
-		"jest-preset-angular": "15.0.3",
-		"ng-packagr": "21.0.0",
 		"prettier": "3.6.2",
-		"ts-jest": "29.4.5",
-		"typescript": "5.9.3",
-		"zone.js": "0.16.0"
+		"typescript": "5.9.3"
 	},
-	"overrides": {
-		"glob": "13.0.6",
-		"hono": "4.12.3",
-		"minimatch": "10.2.4",
-		"rollup": "4.59.0"
-	}
+	"overrides": {}
 }

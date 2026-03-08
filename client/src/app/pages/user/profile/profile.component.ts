@@ -1,10 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, submit } from '@angular/forms/signals';
 import { MaterialComponent } from '@icon/material';
@@ -18,12 +12,7 @@ import { profileSchema } from './profile.schema';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [
-		InputComponent,
-		ButtonComponent,
-		FileComponent,
-		MaterialComponent,
-	],
+	imports: [InputComponent, ButtonComponent, FileComponent, MaterialComponent],
 	templateUrl: './profile.component.html',
 })
 export class ProfileComponent {
@@ -56,7 +45,7 @@ export class ProfileComponent {
 	}
 
 	wFormSubmit(): void {
-		submit(this.profileForm, (formTree) => {
+		submit(this.profileForm, formTree => {
 			this.userService.user.set({
 				...this.userService.user(),
 				...(formTree().value() as ProfileModel),

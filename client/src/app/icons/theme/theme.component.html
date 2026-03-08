@@ -1,14 +1,6 @@
-<div
-	[class.icon-theme--with-text]="showText()"
-	(click)="nextTheme()"
-	class="icon-theme"
->
+<div [class.icon-theme--with-text]="showText()" (click)="nextTheme()" class="icon-theme">
 	<!-- Icon box -->
-	<span
-		[style.height]="resolvedHeight()"
-		[style.width]="resolvedWidth()"
-		class="icon-theme__box"
-	>
+	<span [style.height]="resolvedHeight()" [style.width]="resolvedWidth()" class="icon-theme__box">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			class="icon-theme__svg"
@@ -31,13 +23,15 @@
 	</span>
 
 	@if (showText()) {
-	<span
-		class="icon-theme__text"
-		[translate]="
-      ((resolvedMode()) | titlecase) + ' ' +
-	  ((resolvedDensityName()) | titlecase) + ' ' +
-      ((resolvedRadiusName()) | titlecase)
-    "
-	></span>
+		<span
+			class="icon-theme__text"
+			[translate]="
+				(resolvedMode() | titlecase) +
+				' ' +
+				(resolvedDensityName() | titlecase) +
+				' ' +
+				(resolvedRadiusName() | titlecase)
+			"
+		></span>
 	}
 </div>

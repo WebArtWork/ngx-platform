@@ -89,9 +89,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		// server mode or global search handled outside
 		if (!cfg.allDocs || cfg.globalSearch) return rows;
 
-		const term = (this.filter_filter || this.searching_text || '')
-			.trim()
-			.toLowerCase();
+		const term = (this.filter_filter || this.searching_text || '').trim().toLowerCase();
 
 		if (!term) return rows;
 
@@ -140,15 +138,13 @@ export class TableComponent implements OnInit, AfterContentInit {
 	});
 
 	/** total rows count after local search (client mode) */
-	readonly totalCount = computed<number>(
-		() => this.filteredRows().length || 0,
-	);
+	readonly totalCount = computed<number>(() => this.filteredRows().length || 0);
 
 	tableId =
 		'table_' +
 		this._router.url
 			.split('/')
-			.filter((p) => p && p.length !== 24)
+			.filter(p => p && p.length !== 24)
 			.join('/');
 
 	private _search_timeout: any;
@@ -158,9 +154,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		effect(() => {
 			const raw = this.rows() || [];
 			const normalized = Array.isArray(raw)
-				? raw.map((row: any) =>
-						isSignal(row) ? (row as Signal<any>)() : row,
-					)
+				? raw.map((row: any) => (isSignal(row) ? (row as Signal<any>)() : row))
 				: [];
 			this.normalizedRows.set(normalized);
 		});
@@ -209,7 +203,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 	}
 
 	private refresh() {
-		this._refreshToken.update((v) => v + 1);
+		this._refreshToken.update(v => v + 1);
 	}
 
 	searching() {
@@ -292,11 +286,7 @@ export class TableComponent implements OnInit, AfterContentInit {
 		this._storeService.set(this.tableId + 'perPage', row.toString());
 
 		const rows = this.normalizedRows();
-		if (
-			rows &&
-			cfg.perPage > 0 &&
-			(cfg.page - 1) * cfg.perPage > rows.length
-		) {
+		if (rows && cfg.perPage > 0 && (cfg.page - 1) * cfg.perPage > rows.length) {
 			this.lastPage();
 		}
 

@@ -13,11 +13,7 @@ import { UserService } from '../../user.service';
 	templateUrl: './clients.component.html',
 	styleUrls: ['./clients.component.scss'],
 })
-export class ClientsComponent extends CrudComponent<
-	UserService,
-	User,
-	FormInterface
-> {
+export class ClientsComponent extends CrudComponent<UserService, User, FormInterface> {
 	/** Use server-side pagination for clients */
 	protected override configType: 'server' | 'local' = 'server';
 
@@ -32,11 +28,7 @@ export class ClientsComponent extends CrudComponent<
 		return false;
 	}
 
-	constructor(
-		_userService: UserService,
-		_form: FormService,
-		_formService: FormService,
-	) {
+	constructor(_userService: UserService, _form: FormService, _formService: FormService) {
 		// 'user' docType reuses existing user form components
 		super(userFormComponents, _form, _userService, 'user');
 

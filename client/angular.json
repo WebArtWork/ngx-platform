@@ -41,7 +41,6 @@
 					"options": {
 						"outputPath": "dist/app",
 						"index": "src/index.html",
-						"polyfills": ["src/polyfills.ts"],
 						"tsConfig": "tsconfig.app.json",
 						"inlineStyleLanguage": "scss",
 						"assets": [
@@ -112,27 +111,14 @@
 						}
 					},
 					"defaultConfiguration": "development"
-				},
-				"lint": {
-					"builder": "@angular-eslint/builder:lint",
-					"options": {
-						"lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
-					}
 				}
 			}
 		}
 	},
 	"cli": {
-		"analytics": false,
-		"schematicCollections": ["@angular-eslint/schematics"]
+		"analytics": false
 	},
 	"schematics": {
-		"@angular-eslint/schematics:application": {
-			"setParserOptionsProject": true
-		},
-		"@angular-eslint/schematics:library": {
-			"setParserOptionsProject": true
-		},
 		"@schematics/angular:component": {
 			"type": "component"
 		},

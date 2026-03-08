@@ -1,7 +1,7 @@
 import { required, schema } from '@angular/forms/signals';
 import { SecurityModel } from './settings.interface';
 
-export const securitySchema = schema<SecurityModel>((path) => {
+export const securitySchema = schema<SecurityModel>(path => {
 	required(path.currentPassword, {
 		message: 'Enter your current password...',
 	});

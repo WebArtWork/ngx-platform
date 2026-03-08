@@ -26,10 +26,7 @@ export interface TrustBarContent {
 ## Usage
 
 ```ts
-import {
-	TrustBarSectionComponent,
-	TrustBarContent,
-} from '@pageComponent/trust-bar';
+import { TrustBarSectionComponent, TrustBarContent } from '@pageComponent/trust-bar';
 
 @Component({
 	// ...
@@ -38,13 +35,7 @@ import {
 export class LandingComponent {
 	readonly trustBar: TrustBarContent = {
 		title: 'Trusted building blocks for product teams and learners',
-		items: [
-			'WAW Studio',
-			'WAW Education',
-			'WAW Framework',
-			'Open Source',
-			'Community',
-		],
+		items: ['WAW Studio', 'WAW Education', 'WAW Framework', 'Open Source', 'Community'],
 	};
 }
 ```

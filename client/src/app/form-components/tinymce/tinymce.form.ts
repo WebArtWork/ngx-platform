@@ -182,8 +182,7 @@ export const tinymceForm = {
 			key: 'configJson',
 			props: {
 				label: 'Extra TinyMCE config (JSON)',
-				placeholder:
-					'{"menubar": false, "toolbar": "undo redo | bold italic"}',
+				placeholder: '{"menubar": false, "toolbar": "undo redo | bold italic"}',
 				type: 'textarea',
 			},
 		},

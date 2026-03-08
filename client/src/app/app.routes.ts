@@ -8,9 +8,7 @@ export const routes: Routes = [
 	{
 		path: '',
 		loadComponent: () =>
-			import('./layouts/public/public.component').then(
-				(m) => m.PublicComponent,
-			),
+			import('./layouts/public/public.component').then(m => m.PublicComponent),
 		children: [
 			/* public */
 			{
@@ -22,19 +20,14 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./pages/public/landing/landing.routes').then(
-						(m) => m.routes,
-					),
+					import('./pages/public/landing/landing.routes').then(m => m.routes),
 			},
 		],
 	},
 	{
 		path: '',
 		canActivate: [GuestGuard],
-		loadComponent: () =>
-			import('./layouts/guest/guest.component').then(
-				(m) => m.GuestComponent,
-			),
+		loadComponent: () => import('./layouts/guest/guest.component').then(m => m.GuestComponent),
 		children: [
 			/* guest */
 			{
@@ -45,20 +38,14 @@ export const routes: Routes = [
 						title: 'Sign',
 					},
 				},
-				loadChildren: () =>
-					import('./pages/guest/sign/sign.routes').then(
-						(m) => m.routes,
-					),
+				loadChildren: () => import('./pages/guest/sign/sign.routes').then(m => m.routes),
 			},
 		],
 	},
 	{
 		path: '',
 		canActivate: [AuthenticatedGuard],
-		loadComponent: () =>
-			import('./layouts/user/user.component').then(
-				(m) => m.UserComponent,
-			),
+		loadComponent: () => import('./layouts/user/user.component').then(m => m.UserComponent),
 		children: [
 			/* user */
 			{
@@ -70,9 +57,7 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./pages/user/dashboard/dashboard.routes').then(
-						(m) => m.routes,
-					),
+					import('./pages/user/dashboard/dashboard.routes').then(m => m.routes),
 			},
 			{
 				path: 'profile',
@@ -83,9 +68,7 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./pages/user/profile/profile.routes').then(
-						(m) => m.routes,
-					),
+					import('./pages/user/profile/profile.routes').then(m => m.routes),
 			},
 			{
 				path: 'settings',
@@ -96,19 +79,14 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./pages/user/settings/settings.routes').then(
-						(m) => m.routes,
-					),
+					import('./pages/user/settings/settings.routes').then(m => m.routes),
 			},
 		],
 	},
 	{
 		path: 'admin',
 		canActivate: [AdminsGuard],
-		loadComponent: () =>
-			import('./layouts/user/user.component').then(
-				(m) => m.UserComponent,
-			),
+		loadComponent: () => import('./layouts/user/user.component').then(m => m.UserComponent),
 		children: [
 			/* admin */
 			{
@@ -120,9 +98,7 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./modules/user/pages/users/users.routes').then(
-						(m) => m.routes,
-					),
+					import('./modules/user/pages/users/users.routes').then(m => m.routes),
 			},
 			{
 				path: 'clients',
@@ -133,9 +109,7 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./modules/user/pages/clients/clients.routes').then(
-						(m) => m.routes,
-					),
+					import('./modules/user/pages/clients/clients.routes').then(m => m.routes),
 			},
 			{
 				path: 'forms',
@@ -146,9 +120,7 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./libs/form/pages/forms/forms.routes').then(
-						(m) => m.routes,
-					),
+					import('./libs/form/pages/forms/forms.routes').then(m => m.routes),
 			},
 			{
 				path: 'form/:formId',
@@ -159,9 +131,7 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import('./libs/form/pages/form/form.routes').then(
-						(m) => m.routes,
-					),
+					import('./libs/form/pages/form/form.routes').then(m => m.routes),
 			},
 			{
 				path: 'translates',
@@ -172,9 +142,9 @@ export const routes: Routes = [
 					},
 				},
 				loadChildren: () =>
-					import(
-						'./libs/translate/pages/translates/translates.routes'
-					).then((m) => m.routes),
+					import('./libs/translate/pages/translates/translates.routes').then(
+						m => m.routes,
+					),
 			},
 		],
 	},

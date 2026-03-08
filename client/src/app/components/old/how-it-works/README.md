@@ -28,10 +28,7 @@ export interface HowItWorksContent {
 ## Usage
 
 ```ts
-import {
-	HowItWorksSectionComponent,
-	HowItWorksContent,
-} from '@pageComponent/how-it-works';
+import { HowItWorksSectionComponent, HowItWorksContent } from '@pageComponent/how-it-works';
 
 @Component({
 	// ...
@@ -64,7 +61,5 @@ export class LandingComponent {
 ```
 
 ```html
-<page-component-how-it-works
-	[content]="howItWorksContent"
-></page-component-how-it-works>
+<page-component-how-it-works [content]="howItWorksContent"></page-component-how-it-works>
 ```

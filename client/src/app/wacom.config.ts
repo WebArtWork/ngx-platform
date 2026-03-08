@@ -9,9 +9,7 @@ let _dbPromise: Promise<IDBDatabase> | null = null;
 
 const _open = () => {
 	if (typeof indexedDB === 'undefined') {
-		return Promise.reject(
-			new Error('IndexedDB is not available in this environment'),
-		);
+		return Promise.reject(new Error('IndexedDB is not available in this environment'));
 	}
 
 	if (_dbPromise) return _dbPromise;
@@ -27,12 +25,8 @@ const _open = () => {
 		};
 
 		req.onsuccess = () => resolve(req.result);
-		req.onerror = () =>
-			reject(req.error ?? new Error('IndexedDB open failed'));
-		req.onblocked = () =>
-			reject(
-				new Error('IndexedDB open blocked (another tab may hold it)'),
-			);
+		req.onerror = () => reject(req.error ?? new Error('IndexedDB open failed'));
+		req.onblocked = () => reject(new Error('IndexedDB open blocked (another tab may hold it)'));
 	});
 
 	return _dbPromise;
@@ -61,10 +55,8 @@ export const wacomConfig = {
 					store.put(toStore, key);
 
 					tx.oncomplete = () => resolve();
-					tx.onabort = () =>
-						reject(tx.error ?? new Error('IndexedDB tx aborted'));
-					tx.onerror = () =>
-						reject(tx.error ?? new Error('IndexedDB tx error'));
+					tx.onabort = () => reject(tx.error ?? new Error('IndexedDB tx aborted'));
+					tx.onerror = () => reject(tx.error ?? new Error('IndexedDB tx error'));
 				});
 
 				callback();
@@ -95,13 +87,10 @@ export const wacomConfig = {
 						// StoreConfig expects string; use '' when missing
 						resolve(typeof result === 'string' ? result : '');
 					};
-					req.onerror = () =>
-						reject(req.error ?? new Error('IndexedDB get failed'));
+					req.onerror = () => reject(req.error ?? new Error('IndexedDB get failed'));
 
-					tx.onabort = () =>
-						reject(tx.error ?? new Error('IndexedDB tx aborted'));
-					tx.onerror = () =>
-						reject(tx.error ?? new Error('IndexedDB tx error'));
+					tx.onabort = () => reject(tx.error ?? new Error('IndexedDB tx aborted'));
+					tx.onerror = () => reject(tx.error ?? new Error('IndexedDB tx error'));
 				});
 
 				callback?.(value);
@@ -128,10 +117,8 @@ export const wacomConfig = {
 					store.delete(key);
 
 					tx.oncomplete = () => resolve();
-					tx.onabort = () =>
-						reject(tx.error ?? new Error('IndexedDB tx aborted'));
-					tx.onerror = () =>
-						reject(tx.error ?? new Error('IndexedDB tx error'));
+					tx.onabort = () => reject(tx.error ?? new Error('IndexedDB tx aborted'));
+					tx.onerror = () => reject(tx.error ?? new Error('IndexedDB tx error'));
 				});
 
 				callback();
@@ -156,10 +143,8 @@ export const wacomConfig = {
 					store.clear();
 
 					tx.oncomplete = () => resolve();
-					tx.onabort = () =>
-						reject(tx.error ?? new Error('IndexedDB tx aborted'));
-					tx.onerror = () =>
-						reject(tx.error ?? new Error('IndexedDB tx error'));
+					tx.onabort = () => reject(tx.error ?? new Error('IndexedDB tx aborted'));
+					tx.onerror = () => reject(tx.error ?? new Error('IndexedDB tx error'));
 				});
 
 				callback();

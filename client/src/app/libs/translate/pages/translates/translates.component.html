@@ -1,9 +1,4 @@
-<wtable
-	[rows]="documents()"
-	[columns]="columns"
-	[config]="config"
-	title="Translates"
->
+<wtable [rows]="documents()" [columns]="columns" [config]="config" title="Translates">
 	<ng-template tableHeader>
 		<language-selector
 			(wChange)="languageService.setLanguageId(($event ?? '') + '')"

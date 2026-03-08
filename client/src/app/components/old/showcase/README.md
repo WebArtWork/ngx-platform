@@ -42,10 +42,7 @@ export interface ShowcaseContent {
 ## Usage
 
 ```ts
-import {
-	ShowcaseSectionComponent,
-	ShowcaseContent,
-} from '@pageComponent/showcase';
+import { ShowcaseSectionComponent, ShowcaseContent } from '@pageComponent/showcase';
 
 @Component({
 	// ...

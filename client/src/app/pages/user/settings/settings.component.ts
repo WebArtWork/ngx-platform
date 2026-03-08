@@ -1,10 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, submit } from '@angular/forms/signals';
 import { MaterialComponent } from '@icon/material';
@@ -18,12 +12,7 @@ import { securitySchema } from './settings.schema';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [
-		InputComponent,
-		ButtonComponent,
-		ThemeComponent,
-		MaterialComponent,
-	],
+	imports: [InputComponent, ButtonComponent, ThemeComponent, MaterialComponent],
 	templateUrl: './settings.component.html',
 })
 export class SettingsComponent {
@@ -41,13 +30,11 @@ export class SettingsComponent {
 
 	readonly isSecurityDisabled = computed(() => {
 		const m = this.securityModel();
-		return (
-			this.securityForm().invalid() || m.newPassword !== m.confirmPassword
-		);
+		return this.securityForm().invalid() || m.newPassword !== m.confirmPassword;
 	});
 
 	wSecuritySubmit(): void {
-		submit(this.securityForm, (formTree) => {
+		submit(this.securityForm, formTree => {
 			const payload = formTree().value() as SecurityModel;
 
 			this.userService

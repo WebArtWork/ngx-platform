@@ -53,10 +53,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 
 	/** computed placeholder */
 	readonly placeholder = computed(
-		() =>
-			(this.documents().length
-				? 'Select language'
-				: 'Create new language') + '...',
+		() => (this.documents().length ? 'Select language' : 'Create new language') + '...',
 	);
 
 	/** buttons (only visible if mutatable = true) */
@@ -100,9 +97,7 @@ export class LanguageSelectorComponent extends CrudComponent<
 	mutate(current = true) {
 		const selectedId = (this.wModel() as string | null) ?? null;
 
-		const docSig = current
-			? this._languageService.getSignal(selectedId as string)
-			: undefined;
+		const docSig = current ? this._languageService.getSignal(selectedId as string) : undefined;
 
 		console.log(docSig?.() || {});
 
@@ -121,14 +116,12 @@ export class LanguageSelectorComponent extends CrudComponent<
 								this.setDocuments();
 							});
 					} else {
-						this._languageService
-							.create(updated as Language)
-							.subscribe((l) => {
-								this.setDocuments();
-								this._languageService.setLanguage(l);
-								this.wModel.set(l._id as SelectValue);
-								this.wChange.emit(l._id as SelectValue);
-							});
+						this._languageService.create(updated as Language).subscribe(l => {
+							this.setDocuments();
+							this._languageService.setLanguage(l);
+							this.wModel.set(l._id as SelectValue);
+							this.wChange.emit(l._id as SelectValue);
+						});
 					}
 
 					close();

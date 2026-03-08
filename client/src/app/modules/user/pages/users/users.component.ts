@@ -15,11 +15,7 @@ import { UserService } from '../../user.service';
 	imports: [TableComponent, CellDirective, InputComponent],
 	templateUrl: './users.component.html',
 })
-export class UsersComponent extends CrudComponent<
-	UserService,
-	User,
-	FormInterface
-> {
+export class UsersComponent extends CrudComponent<UserService, User, FormInterface> {
 	protected override configType: 'server' | 'local' = 'local';
 
 	protected override allowUrl(): boolean {
@@ -44,11 +40,7 @@ export class UsersComponent extends CrudComponent<
 
 	config = this.getConfig();
 
-	constructor(
-		_userService: UserService,
-		_form: FormService,
-		_formService: FormService,
-	) {
+	constructor(_userService: UserService, _form: FormService, _formService: FormService) {
 		super(userFormComponents, _form, _userService, 'user');
 
 		this.setDocuments();

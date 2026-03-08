@@ -16,11 +16,7 @@ import { fileDefaults } from '../../file.const';
 import { FileService } from '../../file.service';
 import { FileCropperComponent } from '../file-cropper/file-cropper.component';
 
-export type FileMode =
-	| 'single-image'
-	| 'single-file'
-	| 'multi-image'
-	| 'multi-file';
+export type FileMode = 'single-image' | 'single-file' | 'multi-image' | 'multi-file';
 
 export type FileView = 'dropzone' | 'list' | 'thumb-only';
 
@@ -100,8 +96,7 @@ export class FileComponent {
 		const list = input.files;
 		if (!list || !list.length) return;
 
-		const doCrop =
-			this.isImageMode() && !!this.cropWidth() && !!this.cropHeight();
+		const doCrop = this.isImageMode() && !!this.cropWidth() && !!this.cropHeight();
 		const urls: string[] = [];
 		const container = this.container();
 		const name = this.name();
@@ -114,7 +109,7 @@ export class FileComponent {
 
 			if (doCrop) {
 				// Open crop modal for each image
-				await new Promise<void>((resolve) => {
+				await new Promise<void>(resolve => {
 					this._modal.show({
 						component: FileCropperComponent,
 						size: 'big',
@@ -122,21 +117,15 @@ export class FileComponent {
 						width: this.cropWidth()!,
 						height: this.cropHeight()!,
 						uploadImage: (cropped: string) => {
-							this._fs
-								.uploadBase64(cropped, container, name)
-								.then((url) => {
-									urls.push(url);
-									resolve();
-								});
+							this._fs.uploadBase64(cropped, container, name).then(url => {
+								urls.push(url);
+								resolve();
+							});
 						},
 					});
 				});
 			} else {
-				const url = await this._fs.uploadBase64(
-					dataUrl,
-					container,
-					name,
-				);
+				const url = await this._fs.uploadBase64(dataUrl, container, name);
 				urls.push(url);
 			}
 

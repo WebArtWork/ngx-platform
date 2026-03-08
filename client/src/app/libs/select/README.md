@@ -45,12 +45,7 @@ export class DemoComponent {}
 
 ```html
 <form>
-	<wselect
-		[field]="form.assignee"
-		[items]="users"
-		bindLabel="name"
-		bindValue="_id"
-	></wselect>
+	<wselect [field]="form.assignee" [items]="users" bindLabel="name" bindValue="_id"></wselect>
 </form>
 ```
 
@@ -59,8 +54,7 @@ export class DemoComponent {}
 ### 2️⃣ Template-driven binding
 
 ```html
-<wselect [items]="users" bindLabel="name" bindValue="_id" [(wModel)]="assignee">
-</wselect>
+<wselect [items]="users" bindLabel="name" bindValue="_id" [(wModel)]="assignee"> </wselect>
 ```
 
 ---
@@ -69,13 +63,7 @@ export class DemoComponent {}
 
 ```html
 <form [formGroup]="form">
-	<wselect
-		formControlName="assignee"
-		[items]="users"
-		bindLabel="name"
-		bindValue="_id"
-	>
-	</wselect>
+	<wselect formControlName="assignee" [items]="users" bindLabel="name" bindValue="_id"> </wselect>
 </form>
 ```
 
@@ -84,8 +72,7 @@ export class DemoComponent {}
 ## 🔍 Search
 
 ```html
-<wselect [items]="items" [searchable]="true" searchableBy="name email">
-</wselect>
+<wselect [items]="items" [searchable]="true" searchableBy="name email"> </wselect>
 ```
 
 - Search is built-in
@@ -97,8 +84,7 @@ export class DemoComponent {}
 ## 🔢 Multiple select
 
 ```html
-<wselect [items]="tags" [multiple]="true" [(wModel)]="selectedTagIds">
-</wselect>
+<wselect [items]="tags" [multiple]="true" [(wModel)]="selectedTagIds"> </wselect>
 ```
 
 ---
@@ -106,13 +92,7 @@ export class DemoComponent {}
 ## 🎨 Templates
 
 ```html
-<wselect
-	[items]="users"
-	[t_view]="viewTpl"
-	[t_item]="itemTpl"
-	[t_search]="searchTpl"
->
-</wselect>
+<wselect [items]="users" [t_view]="viewTpl" [t_item]="itemTpl" [t_search]="searchTpl"> </wselect>
 
 <ng-template #viewTpl>
 	<div>Custom header content</div>

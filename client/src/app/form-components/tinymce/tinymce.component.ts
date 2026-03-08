@@ -20,8 +20,7 @@ import { FormService } from 'src/app/libs/form/services/form.service';
 export class TinymceFormComponent implements OnInit {
 	private readonly _form = inject(FormService);
 
-	readonly templateRef =
-		viewChild.required<TemplateRef<unknown>>('templateRef');
+	readonly templateRef = viewChild.required<TemplateRef<unknown>>('templateRef');
 
 	ngOnInit(): void {
 		this._form.addTemplateComponent('Tinymce', this.templateRef());

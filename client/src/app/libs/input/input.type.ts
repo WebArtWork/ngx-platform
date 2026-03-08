@@ -1,11 +1,4 @@
-export type InputValue =
-	| null
-	| string
-	| number
-	| boolean
-	| string[]
-	| number[]
-	| boolean[];
+export type InputValue = null | string | number | boolean | string[] | number[] | boolean[];
 
 export type InputType =
 	| 'text'

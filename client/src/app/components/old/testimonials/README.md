@@ -28,10 +28,7 @@ export interface TestimonialsContent {
 ## Usage
 
 ```ts
-import {
-	TestimonialsSectionComponent,
-	TestimonialsContent,
-} from '@pageComponent/testimonials';
+import { TestimonialsSectionComponent, TestimonialsContent } from '@pageComponent/testimonials';
 
 @Component({
 	// ...
@@ -59,7 +56,5 @@ export class LandingComponent {
 ```
 
 ```html
-<page-component-testimonials
-	[content]="testimonialsContent"
-></page-component-testimonials>
+<page-component-testimonials [content]="testimonialsContent"></page-component-testimonials>
 ```

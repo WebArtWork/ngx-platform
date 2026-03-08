@@ -3,11 +3,7 @@ import { TranslateService } from '@lib/translate';
 import { DomComponent, DomService } from 'wacom';
 import { AlertComponent } from '../components/alert/alert.component';
 import { WrapperComponent } from '../components/wrapper/wrapper.component';
-import {
-	Alert,
-	AlertConfig,
-	DEFAULT_ALERT_CONFIG,
-} from '../interfaces/alert.interface';
+import { Alert, AlertConfig, DEFAULT_ALERT_CONFIG } from '../interfaces/alert.interface';
 
 @Injectable({
 	providedIn: 'root',
@@ -41,8 +37,8 @@ export class AlertService {
 			opts.text = this._translateService.translate(opts.text)();
 		}
 
-		if (opts.unique && this._alerts.find((m) => m.unique === opts.unique)) {
-			return this._alerts.find((m) => m.unique === opts.unique) as Alert;
+		if (opts.unique && this._alerts.find(m => m.unique === opts.unique)) {
+			return this._alerts.find(m => m.unique === opts.unique) as Alert;
 		}
 
 		this._alerts.push(opts);
@@ -71,16 +67,12 @@ export class AlertService {
 			}
 
 			this._alerts.splice(
-				this._alerts.findIndex((m) => m.id === opts.id),
+				this._alerts.findIndex(m => m.id === opts.id),
 				1,
 			);
 		};
 
-		alertComponent = this._dom.appendById(
-			AlertComponent,
-			opts,
-			opts.position,
-		);
+		alertComponent = this._dom.appendById(AlertComponent, opts, opts.position);
 
 		if (typeof opts.component === 'function') {
 			content = this._dom.appendComponent(

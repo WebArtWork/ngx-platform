@@ -1,10 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	input,
-	signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { PricingContent, PricingPlan } from './pricing.interfaces';
 
 @Component({
@@ -19,8 +14,6 @@ export class PricingSectionComponent {
 	readonly billing = signal<'monthly' | 'yearly'>('monthly');
 
 	priceFor(plan: PricingPlan): number | undefined {
-		return this.billing() === 'monthly'
-			? plan.priceMonthly
-			: plan.priceYearly;
+		return this.billing() === 'monthly' ? plan.priceMonthly : plan.priceYearly;
 	}
 }

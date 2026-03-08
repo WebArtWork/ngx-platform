@@ -70,8 +70,7 @@ export const tinymceConfig: TinymceOptions = {
 
 		// quick toolbars when selecting text / images
 		quickbars_selection_toolbar:
-			'bold italic underline | forecolor backcolor | link quickimage | ' +
-			'removeformat',
+			'bold italic underline | forecolor backcolor | link quickimage | ' + 'removeformat',
 		quickbars_insert_toolbar: 'quickimage media table',
 
 		// look & feel

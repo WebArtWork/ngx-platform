@@ -59,8 +59,7 @@ export const inputForm = {
 			name: 'Input',
 			key: 'autocomplete',
 			props: {
-				placeholder:
-					'Enter autocomplete (email, name, current-password, off...)',
+				placeholder: 'Enter autocomplete (email, name, current-password, off...)',
 				label: 'Autocomplete',
 			},
 		},

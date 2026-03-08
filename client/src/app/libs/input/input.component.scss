@@ -24,11 +24,7 @@
 
 		&:focus-within {
 			box-shadow: var(--focus-ring);
-			border-color: color-mix(
-				in srgb,
-				var(--c-primary) 40%,
-				var(--c-border)
-			);
+			border-color: color-mix(in srgb, var(--c-primary) 40%, var(--c-border));
 		}
 
 		&._disabled {

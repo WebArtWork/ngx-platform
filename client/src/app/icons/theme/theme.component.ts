@@ -1,18 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-	input,
-} from '@angular/core';
-import {
-	ThemeDensity,
-	ThemeMode,
-	ThemeRadius,
-	ThemeService,
-	TranslateDirective,
-} from 'wacom';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ThemeDensity, ThemeMode, ThemeRadius, ThemeService, TranslateDirective } from 'wacom';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,8 +52,7 @@ export class ThemeComponent {
 		() => this.radius() ?? this._themeService.radius() ?? 'rounded',
 	);
 	readonly resolvedRadiusName = computed<ThemeRadius>(() =>
-		(this.radius() ?? this._themeService.radius() ?? 'rounded') ===
-		'rounded'
+		(this.radius() ?? this._themeService.radius() ?? 'rounded') === 'rounded'
 			? 'Round'
 			: 'Square',
 	);
@@ -73,8 +60,7 @@ export class ThemeComponent {
 		() => this.density() ?? this._themeService.density() ?? 'comfortable',
 	);
 	readonly resolvedDensityName = computed<ThemeDensity>(() =>
-		(this.density() ?? this._themeService.density() ?? 'comfortable') ===
-		'comfortable'
+		(this.density() ?? this._themeService.density() ?? 'comfortable') === 'comfortable'
 			? 'Wide'
 			: 'Tight',
 	);

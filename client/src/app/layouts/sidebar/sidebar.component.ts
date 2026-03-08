@@ -1,10 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-	ChangeDetectionStrategy,
-	Component,
-	computed,
-	inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialComponent } from '@icon/material';
 import { LanguageService } from '@lib/translate';
@@ -34,9 +29,7 @@ export class SidebarComponent {
 	readonly isOverlay = computed(() => this.isMobile() || this.isPreview());
 	readonly isMinimized = computed(
 		() =>
-			!this.isMobile() &&
-			!this.isPreview() &&
-			this.sidebarService.webMode() === 'minimized',
+			!this.isMobile() && !this.isPreview() && this.sidebarService.webMode() === 'minimized',
 	);
 
 	closeIfOverlay(): void {
