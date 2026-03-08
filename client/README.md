@@ -1,4 +1,4 @@
-# NGX Platform Client (Angular 21)
+# Angular project v21 (NGX)
 
 Angular 21 app built with standalone components, zoneless change detection, and the Wacom platform services (routing meta, CRUD helpers, signals-first state). The project ships with ready-to-use UI libraries, feature modules, and example pages for guest, public, user, and admin flows.
 
@@ -25,18 +25,18 @@ Environments live in `src/environments/`:
 ## Scripts
 
 - `npm start` - run the dev server with proxying to the configured API URL
-- `npm run build` - production build to `dist/`
+- `npm run build` - production build to `dist/app`
 
 ## Project Structure (key paths)
 
 - `src/app/app.config.ts` - root providers (zoneless change detection, Wacom config, TinyMCE, router)
 - `src/app/app.routes.ts` - route map for public, guest, user, and admin areas
 - `src/app/layouts/` - layout shells for public/guest/user routes
-- `src/app/pages/` - routed pages per role (`guest/sign`, `public/components`, `user/profile`)
+- `src/app/pages/` - routed pages per role (`guest/sign`, `public/landing`, `user/dashboard`, `user/profile`, `user/settings`)
 - `src/app/modules/` - feature domains (auth/users with guards, translate flows, bird sample CRUD)
 - `src/app/libs/` - reusable UI building blocks (alert, button, file picker/cropper, form builder, input, modal, select, table, etc.)
 - `src/app/form-components/` + `src/app/app.formcomponents.ts` - template registry for the dynamic form system
-- `src/app/page-components/` - marketing/section blocks (hero, stats, gallery, pagination, etc.)
+- `src/app/components/` - marketing/section blocks (hero, faq, pricing, showcase, trust bar, use cases, etc.)
 - `src/app/icons/` - icon packs used across the UI
 - `src/environments/` - API/meta/language configuration
 

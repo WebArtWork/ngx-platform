@@ -1,15 +1,110 @@
-### Contributing rules
+# Contributing
 
-- Use **Conventional Commits**: `type(scope): subject`
-- Types: `feat`, `fix`, `refactor`, `perf`, `docs`, `style`, `chore`, `build`, `ci`, `revert`
-- Subject: **imperative**, present tense, **no period**, keep it short
-- One commit = **one logical change** (split big work into smaller commits)
-- Prefix private class variables with an underscore (e.g. \_cache, \_token, \_state) to clearly mark internal usage and avoid accidental external access.
-- In Angular templates, if the same expression (signal read, computed, or method call) is used more than once, assign it with `@let` and reuse the variable instead of calling it repeatedly. Use inline expression only when it appears once.
-- Use Tailwind via BEM + @apply in component scss; keep templates readable (no long utility strings in HTML).
-- Avoid hover effects that change layout (border/size/padding). Prefer non-layout effects (background tint, shadow) and always add matching :focus-visible styles.
-- Keep spacing and colors consistent (use Tailwind scale + existing design tokens; avoid ad-hoc pixel values unless unavoidable).
-- Document only public functions and variables with short, clear comments directly above their declarations (purpose + expected behavior).
-- Angular forms: use the `signals-based forms API only`. Import from `@angular/forms/signals` (e.g. `import { form, submit } from '@angular/forms/signals';`) and avoid non-signal forms patterns in new code.
-- Angular v20+ signal-first APIs: use function-based APIs instead of decorators wherever possible: input() (not @Input()), output() (not @Output()), viewChild()/viewChildren() (not @ViewChild()/@ViewChildren()), contentChild()/contentChildren() (not @ContentChild()/@ContentChildren()), and model() for two-way binding when appropriate; in templates use the new control flow (@if, @for, @switch) instead of *ngIf/*ngFor/\*ngSwitch, and prefer signals with computed()/effect() for local state over manual subscription patterns unless RxJS interop is clearly needed.
-- CSS variables (design tokens) first: use the tokens defined in src/styles.scss for colors, spacing, radius, shadows, motion, typography, and layout (e.g. var(--c-_), var(--sp-_), var(--radius-_), var(--shadow-_), var(--motion-\*), var(--ff-base), var(--container), var(--gutter)). Do not hard-code hex colors or random pixel values in templates or SCSS; if a value is missing, extend :root instead of bypassing the system. In Tailwind, prefer mapping utilities to tokens (e.g. via config or custom classes using var(--token)) rather than scattering arbitrary values like bg-[#123456] or p-[13px]. Ensure all components remain compatible with data-mode, data-density, and data-radius, and keep Tailwind usage aligned with the global design tokens rather than overriding them ad hoc.
+This project is an Angular 21 application built with standalone components, zoneless change detection, signals-first patterns, Tailwind 4, and Wacom platform services.
+
+## Prerequisites
+
+- Node 20+
+- npm 10+
+
+Install dependencies:
+
+```sh
+npm install
+```
+
+## Local Development
+
+Start the app locally:
+
+```sh
+npm start
+```
+
+This runs the Angular dev server with `proxy.conf.json` and opens the app in the browser.
+
+Production build:
+
+```sh
+npm run build
+```
+
+Build output goes to `dist/app`.
+
+## Project Layout
+
+Key folders in this repo:
+
+- `src/app/app.config.ts` for root providers and app bootstrap configuration
+- `src/app/app.routes.ts` for the route map across public, guest, user, and admin flows
+- `src/app/layouts/` for route shells such as public, guest, user, sidebar, topbar, and footer
+- `src/app/pages/` for routed pages like `public/landing`, `guest/sign`, `user/dashboard`, `user/profile`, and `user/settings`
+- `src/app/modules/` for feature domains such as user/admin flows
+- `src/app/libs/` for reusable UI and feature libraries such as form, alert, button, input, modal, select, table, file, map, and translate
+- `src/app/components/` for marketing-style standalone sections such as hero, faq, pricing, showcase, trust bar, and use cases
+- `src/app/form-components/` and `src/app/app.formcomponents.ts` for dynamic form template registration
+- `src/environments/` for API, branding, language, and default app configuration
+
+## Architecture Notes
+
+- Prefer standalone Angular components.
+- Prefer signals for local state with `signal`, `computed`, and `effect`.
+- Use function-based Angular APIs where practical: `input()`, `output()`, `viewChild()`, `viewChildren()`, `contentChild()`, `contentChildren()`, and `model()`.
+- Prefer the new template control flow: `@if`, `@for`, and `@switch`.
+- Use Wacom services and guards consistently with the existing app patterns.
+- Dynamic form templates must be registered in `FORM_TEMPLATE_COMPONENTS` in `src/app/app.formcomponents.ts`.
+
+## Code Style
+
+- Use Conventional Commits: `type(scope): subject`
+- Allowed commit types: `feat`, `fix`, `refactor`, `perf`, `docs`, `style`, `chore`, `build`, `ci`, `revert`
+- Keep commit subjects imperative, present tense, short, and without a trailing period
+- Keep one commit focused on one logical change
+- Prefix private class fields and private functions with an underscore
+- Keep component class members in this order:
+  1. injections
+  2. inputs, outputs, and view queries
+  3. variables
+  4. constructor
+  5. lifecycle hooks
+  6. public and private methods
+- Document only public functions and public variables when a short comment adds real value
+
+## Angular and Template Conventions
+
+- Use signals-based forms APIs for new form work
+- Avoid older decorator-heavy patterns when the function API fits
+- In templates, if the same signal read, computed value, or method result is used more than once, assign it with `@let` and reuse it
+- Keep templates readable; avoid long utility-class strings when the styling belongs in component SCSS
+
+## Styling Conventions
+
+- Use SCSS in components
+- Use Tailwind with BEM-style component structure and `@apply` where it improves readability
+- Prefer existing design tokens and CSS variables from `src/styles.scss`
+- Avoid hard-coded hex colors and arbitrary spacing unless there is no token for the value
+- Avoid hover effects that shift layout; use non-layout effects and provide matching `:focus-visible` states
+
+## Environment and Configuration
+
+- Local development settings are in `src/environments/environment.ts`
+- Production defaults are in `src/environments/environment.prod.ts`
+- When changing branding or SEO, update `environment.meta`
+- When wiring a different backend, verify `url`, language options, roles, defaults, and sign-in presets
+
+## Before Opening a PR
+
+- Confirm the app still starts with `npm start`
+- Run `npm run build` and resolve any production build issues
+- Keep changes aligned with the existing standalone, signals-first architecture
+- Update documentation when paths, scripts, or workflows change
+
+## Pull Requests
+
+When opening a pull request:
+
+- describe the problem and the change clearly
+- keep the scope focused
+- mention any setup or migration steps
+- include screenshots for UI changes when useful
+- call out known limitations or follow-up work

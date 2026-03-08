@@ -1,18 +1,18 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
-import { AboutContent, AboutSectionComponent } from '@component/old/about';
-import { FaqContent, FaqSectionComponent } from '@component/old/faq';
-import { FeaturesContent, FeaturesSectionComponent } from '@component/old/features';
-import { FinalCtaContent, FinalCtaSectionComponent } from '@component/old/final-cta';
-import { HeroContent, HeroSectionComponent } from '@component/old/hero';
-import { HowItWorksContent, HowItWorksSectionComponent } from '@component/old/how-it-works';
-import { MarkedSectionComponent } from '@component/old/marked';
-import { PricingContent, PricingSectionComponent } from '@component/old/pricing';
-import { ShowcaseContent, ShowcaseSectionComponent } from '@component/old/showcase';
-import { TestimonialsContent, TestimonialsSectionComponent } from '@component/old/testimonials';
-import { TrustBarContent, TrustBarSectionComponent } from '@component/old/trust-bar';
-import { UseCasesContent, UseCasesSectionComponent } from '@component/old/use-cases';
+import { AboutContent, AboutSectionComponent } from '@component/about';
+import { FaqContent, FaqSectionComponent } from '@component/faq';
+import { FeaturesContent, FeaturesSectionComponent } from '@component/features';
+import { FinalCtaContent, FinalCtaSectionComponent } from '@component/final-cta';
+import { HeroContent, HeroSectionComponent } from '@component/hero';
+import { HowItWorksContent, HowItWorksSectionComponent } from '@component/how-it-works';
+import { MarkedSectionComponent } from '@component/marked';
+import { PricingContent, PricingSectionComponent } from '@component/pricing';
+import { ShowcaseContent, ShowcaseSectionComponent } from '@component/showcase';
+import { TestimonialsContent, TestimonialsSectionComponent } from '@component/testimonials';
+import { TrustBarContent, TrustBarSectionComponent } from '@component/trust-bar';
+import { UseCasesContent, UseCasesSectionComponent } from '@component/use-cases';
 import { FooterComponent } from '@layout/footer';
 
 @Component({
