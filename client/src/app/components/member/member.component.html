@@ -1,0 +1,43 @@
+<article [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	@if (content().avatar) {
+		<img class="member__avatar" [src]="content().avatar!" [alt]="content().name || 'Member'" />
+	}
+
+	@if (content().name) {
+		<h2 class="member__name">{{ content().name! | translate }}</h2>
+	}
+
+	@if (content().role) {
+		<p class="member__role">{{ content().role! | translate }}</p>
+	}
+
+	@if (content().bio) {
+		<p class="member__bio">{{ content().bio! | translate }}</p>
+	}
+
+	@if (content().stats?.length) {
+		<ul class="member__stats">
+			@for (stat of content().stats; track stat.label ?? $index) {
+				<li>
+					<strong>{{ stat.value || '' | translate }}</strong>
+					<span>{{ stat.label || '' | translate }}</span>
+				</li>
+			}
+		</ul>
+	}
+
+	@if (content().links?.length) {
+		<div class="member__links">
+			@for (link of content().links; track link.label ?? $index) {
+				<a [attr.href]="link.href || null">
+					@if (link.icon) {
+						<span class="material-symbols-outlined">{{ link.icon }}</span>
+					}
+					<span>{{ link.label || '' | translate }}</span>
+				</a>
+			}
+		</div>
+	}
+
+	<ng-content />
+</article>

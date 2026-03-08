@@ -1,0 +1,45 @@
+<article [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	@if (content().cover) {
+		<img
+			class="article__cover"
+			[src]="content().cover!"
+			[alt]="content().title || 'Article cover'"
+		/>
+	}
+
+	@if (content().title) {
+		<h1 class="article__title">{{ content().title! | translate }}</h1>
+	}
+
+	@if (content().description) {
+		<p class="article__description">{{ content().description! | translate }}</p>
+	}
+
+	@if (content().meta?.length) {
+		<ul class="article__meta">
+			@for (item of content().meta; track item.label ?? $index) {
+				<li>
+					<strong>{{ item.value || '' | translate }}</strong>
+					<span>{{ item.label || '' | translate }}</span>
+				</li>
+			}
+		</ul>
+	}
+
+	@if (content().sections?.length) {
+		<div class="article__sections">
+			@for (section of content().sections; track section.heading ?? $index) {
+				<section class="article__section">
+					@if (section.heading) {
+						<h2>{{ section.heading | translate }}</h2>
+					}
+					@if (section.body) {
+						<p>{{ section.body | translate }}</p>
+					}
+				</section>
+			}
+		</div>
+	}
+
+	<ng-content />
+</article>

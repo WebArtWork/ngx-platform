@@ -1,14 +1,20 @@
-import { AboutContent } from '@component/about';
-import { FaqContent } from '@component/faq';
-import { FeaturesContent } from '@component/features';
-import { FinalCtaContent } from '@component/final-cta';
+import { ArticleContent, ArticleLayout } from '@component/article';
+import { ArticlesContent, ArticlesLayout } from '@component/articles';
+import { CardContent, CardLayout } from '@component/card';
+import { ContentLayout, ContentSectionContent } from '@component/content';
+import { CtaContent, CtaLayout } from '@component/cta';
+import { FeaturesContent, FeaturesLayout } from '@component/features';
 import { HeroContent, HeroLayout } from '@component/hero';
-import { HowItWorksContent } from '@component/how-it-works';
-import { PricingContent } from '@component/pricing';
-import { ShowcaseContent } from '@component/showcase';
-import { TestimonialsContent } from '@component/testimonials';
-import { TrustBarContent } from '@component/trust-bar';
-import { UseCasesContent } from '@component/use-cases';
+import { MarketingContent, MarketingLayout } from '@component/marketing';
+import { MemberContent, MemberLayout } from '@component/member';
+import { ModalContent, ModalLayout } from '@component/modal';
+import { NavigationContent, NavigationLayout } from '@component/navigation';
+import { ProductContent, ProductLayout } from '@component/product';
+import { ProductsContent, ProductsLayout } from '@component/products';
+import { SocialContent, SocialLayout } from '@component/social';
+import { TablesContent, TablesLayout } from '@component/tables';
+import { TeamContent, TeamLayout } from '@component/team';
+import { UtilityContent, UtilityLayout } from '@component/utility';
 
 export interface LandingHeroSection {
 	id: string;
@@ -16,16 +22,23 @@ export interface LandingHeroSection {
 	content: HeroContent;
 }
 
+export interface LandingComponentSection<TContent, TLayout extends string> {
+	id: string;
+	title: string;
+	layout: TLayout;
+	content: TContent;
+}
+
 const sharedHeroCtas = [
 	{
 		label: 'Get started',
-		targetId: 'pricing',
+		targetId: 'hero-panel',
 		variant: 'primary' as const,
 		icon: 'arrow_forward',
 	},
 	{
-		label: 'Explore features',
-		targetId: 'features',
+		label: 'Explore layouts',
+		targetId: 'hero-dashboard',
 		variant: 'ghost' as const,
 		icon: 'play_arrow',
 	},
@@ -108,8 +121,8 @@ export const panelHeroContent: HeroContent = {
 		'This variant is for login, signup, and request flows where the right side changes often and should be fully projected from the page.',
 	ctas: [
 		{
-			label: 'Watch video',
-			targetId: 'features',
+			label: 'View dashboard layout',
+			targetId: 'hero-dashboard',
 			variant: 'primary',
 			icon: 'videocam',
 		},
@@ -149,8 +162,8 @@ export const backgroundHeroContent: HeroContent = {
 		'Background layout works for travel, hospitality, and campaign pages where a large image sets the mood and the form stays page-owned.',
 	ctas: [
 		{
-			label: 'Sign in / Register',
-			targetId: 'pricing',
+			label: 'Browse panel layout',
+			targetId: 'hero-panel',
 			variant: 'primary',
 			icon: 'login',
 		},
@@ -224,207 +237,418 @@ export const heroSections: LandingHeroSection[] = [
 	{ id: 'hero-dashboard', layout: 'dashboard', content: dashboardHeroContent },
 ];
 
-export const trustBarContent: TrustBarContent = {
-	title: 'Trusted building blocks for product teams and learners',
-	items: ['WAW Studio', 'WAW Education', 'WAW Framework', 'Open Source', 'Community'],
+export const navigationSection: LandingComponentSection<NavigationContent, NavigationLayout> = {
+	id: 'navigation-preview',
+	title: 'Navigation',
+	layout: 'topbar',
+	content: {
+		title: 'Explore every layout from one adaptive nav shell.',
+		description:
+			'Top bar actions, grouped links, and brand metadata stay configurable from content.',
+		brand: {
+			label: 'Ngx Platform',
+			href: '#hero-centered',
+		},
+		links: [
+			{ label: 'Home', href: '#hero-centered', active: true, icon: 'home' },
+			{ label: 'Features', href: '#features-preview', icon: 'extension' },
+			{ label: 'Articles', href: '#articles-preview', icon: 'article' },
+			{ label: 'Contact', href: '#cta-preview', icon: 'call_made' },
+		],
+		actions: [
+			{ label: 'Sign in', href: '#member-preview', variant: 'ghost' },
+			{ label: 'Start trial', href: '#product-preview', variant: 'primary' },
+		],
+	},
 };
 
-export const aboutContent: AboutContent = {
-	sectionId: 'about',
-	title: 'Common problems, solved with one system',
-	description:
-		'Most teams waste time rebuilding UI, struggling with inconsistent patterns, and learning in isolation.',
-	painPoints: [
-		{
-			title: 'Building products takes too long',
-			desc: 'Teams get stuck in rewrites, inconsistent UI, and slow delivery cycles.',
-		},
-		{
-			title: 'Learning rarely matches real work',
-			desc: 'Tutorials do not translate into production-ready architecture and habits.',
-		},
-	],
-	solutionsTitle: 'What you get',
-	solutions: [
-		{
-			title: 'Ship modular features faster',
-			desc: 'A consistent UI system and modern Angular patterns reduce friction and rework.',
-		},
-		{
-			title: 'Learn by building real products',
-			desc: 'Education content is derived from production code and real project workflows.',
-		},
-	],
-	ctas: [
-		{
-			label: 'See how it works',
-			targetId: 'features',
-			variant: 'primary',
-		},
-		{ label: 'Read FAQ', targetId: 'faq', variant: 'ghost' },
-	],
+export const contentSection: LandingComponentSection<ContentSectionContent, ContentLayout> = {
+	id: 'content-preview',
+	title: 'Content',
+	layout: 'split',
+	content: {
+		title: 'Long-form copy, mixed media, and structured narrative blocks.',
+		description:
+			'Use the content section when the page needs more than a hero but less than a full article template.',
+		blocks: [
+			{
+				eyebrow: 'Story block',
+				title: 'Keep editorial rhythm without hardcoding templates.',
+				body: 'Each block can carry copy, media, and supporting text while the page controls ordering.',
+			},
+			{
+				eyebrow: 'Media block',
+				title: 'Drop in screenshots, photos, or recorded walkthroughs.',
+				body: 'The section supports mixed arrangements for product pages, case studies, and guides.',
+				media: {
+					type: 'image',
+					src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+					alt: 'Workspace',
+					caption: 'Media stays optional per block.',
+				},
+			},
+		],
+	},
 };
 
-export const featuresContent: FeaturesContent = {
-	sectionId: 'features',
-	title: 'Key features',
-	description:
-		'A set of focused building blocks that help you ship faster, teach better, and reuse more.',
-	items: [
-		{
-			icon: 'rocket_launch',
-			title: 'Fast delivery',
-			desc: 'Reusable patterns and token-driven design speed up building and iteration.',
-		},
-		{
-			icon: 'extension',
-			title: 'Modular architecture',
-			desc: 'Small, scalable building blocks you can recombine across projects.',
-		},
-	],
+export const featuresSection: LandingComponentSection<FeaturesContent, FeaturesLayout> = {
+	id: 'features-preview',
+	title: 'Features',
+	layout: 'grid',
+	content: {
+		title: 'Feature grids stay clean, even when the message shifts by page.',
+		description: 'A reusable shape for benefits, capabilities, and selling points.',
+		items: [
+			{
+				icon: 'bolt',
+				title: 'Fast setup',
+				desc: 'Content-driven APIs with standalone components.',
+			},
+			{
+				icon: 'category',
+				title: 'Composable',
+				desc: 'Layouts switch without replacing the component.',
+			},
+			{
+				icon: 'translate',
+				title: 'Translation-ready',
+				desc: 'All labels route through the translation pipe.',
+			},
+		],
+		footer: 'Add projected content if one feature needs custom visuals.',
+	},
 };
 
-export const howItWorksContent: HowItWorksContent = {
-	sectionId: 'how',
-	title: 'How it works',
-	description: 'Keep it simple: start, build, promote reuse.',
-	steps: [
-		{
-			title: 'Choose a path',
-			desc: 'Start with a project goal: product, feature, or learning track.',
-			icon: 'trending_up',
-		},
-		{
-			title: 'Build with the system',
-			desc: 'Compose sections and components using tokens and clean patterns.',
-			icon: 'trending_up',
-		},
-		{
-			title: 'Reuse and scale',
-			desc: 'Promote repeatables into shared libs and ship the next project faster.',
-			icon: 'trending_up',
-		},
-	],
+export const ctaSection: LandingComponentSection<CtaContent, CtaLayout> = {
+	id: 'cta-preview',
+	title: 'CTA',
+	layout: 'banner',
+	content: {
+		eyebrow: 'Conversion block',
+		title: 'Drive the next action with one focused component.',
+		description: 'Use it for trial starts, contact prompts, upgrades, or internal jumps.',
+		actions: [
+			{
+				label: 'Book a demo',
+				href: '#modal-preview',
+				variant: 'primary',
+				icon: 'calendar_month',
+			},
+			{
+				label: 'Read docs',
+				href: '#articles-preview',
+				variant: 'secondary',
+				icon: 'menu_book',
+			},
+		],
+		note: 'Projected content can hold forms, badges, or legal notes.',
+	},
 };
 
-export const showcaseContent: ShowcaseContent = {
-	sectionId: 'showcase',
-	title: 'Product showcase',
-	description: 'Three parts of one ecosystem, pick a view.',
-	defaultTabId: 'studio',
-	tabs: [
-		{
-			id: 'studio',
-			label: 'Studio',
-			title: 'Build real products with a modular system',
-			desc: 'Deliver production features with a consistent UI foundation and scalable architecture.',
-			bullets: [
-				'Feature delivery',
-				'Design tokens',
-				'Clean component boundaries',
-				'Performance defaults',
-			],
+export const cardSection: LandingComponentSection<CardContent, CardLayout> = {
+	id: 'card-preview',
+	title: 'Card',
+	layout: 'preview',
+	content: {
+		badge: 'Reusable card',
+		title: 'Compact summary for dashboards, lists, or promo rails.',
+		description:
+			'Cards can surface media, metadata, and small action groups without extra wrappers.',
+		media: {
+			src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
+			alt: 'Code workspace',
 		},
-		{
-			id: 'education',
-			label: 'Education',
-			title: 'Learn by working on live projects',
-			desc: 'Turn production code into learning material, practical skills you actually use.',
-			bullets: ['Hands-on tasks', 'Code reviews', 'Real constraints', 'Progressive complexity'],
-		},
-	],
-	primaryCtaLabel: 'View pricing',
-	primaryCtaTargetId: 'pricing',
-	secondaryCtaLabel: 'Questions?',
-	secondaryCtaTargetId: 'faq',
+		meta: [
+			{ label: 'Projects', value: '24' },
+			{ label: 'Status', value: 'Active' },
+		],
+		actions: [
+			{
+				label: 'Open summary',
+				href: '#utility-preview',
+				variant: 'primary',
+				icon: 'north_east',
+			},
+		],
+	},
 };
 
-export const useCasesContent: UseCasesContent = {
-	sectionId: 'use-cases',
-	title: 'Benefits for every role',
-	description: 'Tailor outcomes without changing the foundation.',
-	items: [
-		{
-			title: 'For founders',
-			bullets: ['Validate faster', 'Ship MVPs with fewer rewrites', 'Build a reusable base'],
-		},
-		{
-			title: 'For teams',
-			bullets: ['Consistent UI and architecture', 'Shared components', 'Faster onboarding'],
-		},
-		{
-			title: 'For developers',
-			bullets: ['Modern Angular skills', 'Real project experience', 'Reusable patterns'],
-		},
-	],
+export const socialSection: LandingComponentSection<SocialContent, SocialLayout> = {
+	id: 'social-preview',
+	title: 'Social',
+	layout: 'testimonials',
+	content: {
+		title: 'Show trust through quotes, ratings, and proof points.',
+		description: 'This section can pivot between testimonials and compact trust signals.',
+		quotes: [
+			{
+				quote: 'Reusable sections reduced duplicate page code across launches.',
+				name: 'Olena K.',
+				role: 'Product designer',
+				avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=256&q=80',
+			},
+			{
+				quote: 'The API is direct enough for engineers and flexible enough for content teams.',
+				name: 'Dmytro S.',
+				role: 'Engineering lead',
+				avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&q=80',
+			},
+		],
+		signals: [
+			{ icon: 'star', value: '4.9/5', label: 'Average rating' },
+			{ icon: 'verified', value: '120+', label: 'Trusted teams' },
+		],
+	},
 };
 
-export const testimonialsContent: TestimonialsContent = {
-	sectionId: 'testimonials',
-	title: 'What people say',
-	description: 'Short, real outcomes, keep it credible.',
-	items: [
-		{
-			quote: 'We stopped rebuilding the same UI and started shipping features weekly.',
-			name: 'A. Product Lead',
-			role: 'SaaS Team',
-		},
-		{
-			quote: 'Learning directly from production patterns made my day-to-day work cleaner and faster.',
-			name: 'D. Frontend Dev',
-			role: 'Angular Engineer',
-		},
-	],
+export const teamSection: LandingComponentSection<TeamContent, TeamLayout> = {
+	id: 'team-preview',
+	title: 'Team',
+	layout: 'grid',
+	content: {
+		title: 'Highlight the people behind the work.',
+		description:
+			'Use the overview grid for leadership, contributors, speakers, or maintainers.',
+		members: [
+			{
+				name: 'Iryna Petrenko',
+				role: 'Creative director',
+				bio: 'Shapes product narratives and visual systems across launches.',
+				avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=256&q=80',
+				links: [{ label: 'Profile', href: '#member-preview' }],
+			},
+			{
+				name: 'Taras Melnyk',
+				role: 'Frontend architect',
+				bio: 'Owns Angular architecture, tooling, and reusable section APIs.',
+				avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&q=80',
+				links: [{ label: 'Profile', href: '#member-preview' }],
+			},
+		],
+	},
 };
 
-export const pricingContent: PricingContent = {
-	sectionId: 'pricing',
-	title: 'Pricing',
-	description: 'Start free, then upgrade when you are shipping or scaling reuse.',
-	plans: [
-		{
-			id: 'starter',
-			name: 'Starter',
-			blurb: 'For individuals exploring the system.',
-			priceMonthly: 0,
-			priceYearly: 0,
-			features: ['Landing templates', 'Basic components'],
-		},
-		{
-			id: 'pro',
-			name: 'Pro',
-			blurb: 'For building and learning seriously.',
-			priceMonthly: 19,
-			priceYearly: 190,
-			highlight: true,
-			features: ['Full component set', 'Example app patterns'],
-		},
-	],
+export const memberSection: LandingComponentSection<MemberContent, MemberLayout> = {
+	id: 'member-preview',
+	title: 'Member',
+	layout: 'profile',
+	content: {
+		name: 'Taras Melnyk',
+		role: 'Frontend architect',
+		avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&q=80',
+		bio: 'Leads component architecture, design system integration, and platform-level Angular decisions.',
+		stats: [
+			{ label: 'Projects shipped', value: '18' },
+			{ label: 'Years building UI systems', value: '9' },
+		],
+		links: [
+			{ label: 'LinkedIn', href: '#team-preview', icon: 'share' },
+			{ label: 'Articles', href: '#articles-preview', icon: 'article' },
+		],
+	},
 };
 
-export const faqContent: FaqContent = {
-	sectionId: 'faq',
-	title: 'FAQ',
-	description: 'Quick answers to reduce hesitation.',
-	items: [
-		{
-			q: 'Is this only for Angular?',
-			a: 'WAW is centered on a modern Angular ecosystem, but many architectural patterns and token-driven design ideas apply broadly.',
-		},
-		{
-			q: 'Does it support dark theme?',
-			a: 'Yes, the UI is token-driven and automatically adapts to your global html.dark token overrides.',
-		},
-	],
+export const articlesSection: LandingComponentSection<ArticlesContent, ArticlesLayout> = {
+	id: 'articles-preview',
+	title: 'Articles',
+	layout: 'grid',
+	content: {
+		title: 'List posts, guides, news, or editorial updates.',
+		description: 'Great for blog overviews and content hubs.',
+		items: [
+			{
+				title: 'How to scale reusable Angular page sections',
+				excerpt:
+					'A practical approach to keeping content-driven sections maintainable over time.',
+				image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80',
+				category: 'Guide',
+				date: 'March 2026',
+				href: '#article-preview',
+			},
+			{
+				title: 'When to promote landing sections into shared libraries',
+				excerpt: 'A review checklist for deciding if a page pattern is ready for reuse.',
+				image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80',
+				category: 'Architecture',
+				date: 'March 2026',
+				href: '#article-preview',
+			},
+		],
+	},
 };
 
-export const finalCtaContent: FinalCtaContent = {
-	sectionId: 'final-cta',
-	title: 'Ready to ship faster and reuse more?',
-	description:
-		'Start with the landing template, then grow into a full product system with modern Angular patterns and token-driven UI.',
-	buttons: [
-		{ label: 'Start now', targetId: 'pricing', variant: 'primary' },
-		{ label: 'See features', targetId: 'features', variant: 'ghost' },
-	],
+export const articleSection: LandingComponentSection<ArticleContent, ArticleLayout> = {
+	id: 'article-preview',
+	title: 'Article',
+	layout: 'cover',
+	content: {
+		title: 'Single article layout for long-form reading experiences.',
+		description: 'Combine cover media, metadata, and structured body sections.',
+		cover: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1600&q=80',
+		meta: [
+			{ label: 'Author', value: 'Ngx Platform Team' },
+			{ label: 'Read time', value: '6 min' },
+		],
+		sections: [
+			{
+				heading: 'Why shared sections matter',
+				body: 'Landing pages evolve quickly. Shared sections reduce rewrites and keep API decisions visible.',
+			},
+			{
+				heading: 'What to keep page-owned',
+				body: 'Forms, route-specific actions, and unusual media often belong in projection slots instead of the base component.',
+			},
+		],
+	},
+};
+
+export const productsSection: LandingComponentSection<ProductsContent, ProductsLayout> = {
+	id: 'products-preview',
+	title: 'Products',
+	layout: 'grid',
+	content: {
+		title: 'Product collections, bundles, or categories.',
+		description: 'Use the list view for storefront rails or internal catalogs.',
+		items: [
+			{
+				name: 'Design system starter',
+				description: 'A reusable UI foundation with tokens, layouts, and starter sections.',
+				image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80',
+				price: '$49',
+				tag: 'Starter',
+				href: '#product-preview',
+			},
+			{
+				name: 'Content block bundle',
+				description: 'Section variants for marketing, editorial, and product storytelling.',
+				image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=80',
+				price: '$79',
+				tag: 'Bundle',
+				href: '#product-preview',
+			},
+		],
+	},
+};
+
+export const productSection: LandingComponentSection<ProductContent, ProductLayout> = {
+	id: 'product-preview',
+	title: 'Product',
+	layout: 'detail',
+	content: {
+		name: 'Design system starter',
+		description: 'A detailed product card with gallery, specs, pricing, and action buttons.',
+		price: '$49 one-time',
+		gallery: [
+			{
+				src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+				alt: 'Dashboard preview',
+			},
+			{
+				src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+				alt: 'Workspace preview',
+			},
+		],
+		specs: [
+			{ label: 'License', value: 'MIT' },
+			{ label: 'Stack', value: 'Angular 21' },
+		],
+		actions: [
+			{ label: 'Buy now', href: '#cta-preview', variant: 'primary', icon: 'shopping_cart' },
+			{ label: 'Compare', href: '#products-preview', variant: 'secondary', icon: 'balance' },
+		],
+	},
+};
+
+export const tablesSection: LandingComponentSection<TablesContent, TablesLayout> = {
+	id: 'tables-preview',
+	title: 'Tables',
+	layout: 'default',
+	content: {
+		title: 'Structured data with optional row actions.',
+		description:
+			'Useful for pricing comparisons, admin previews, and compact reporting tables.',
+		columns: [
+			{ key: 'plan', label: 'Plan' },
+			{ key: 'seats', label: 'Seats' },
+			{ key: 'price', label: 'Price' },
+		],
+		rows: [
+			{
+				cells: { plan: 'Starter', seats: '5', price: '$29' },
+				actions: [{ label: 'Select', href: '#cta-preview', variant: 'primary' }],
+			},
+			{
+				cells: { plan: 'Growth', seats: '25', price: '$79' },
+				actions: [{ label: 'Select', href: '#cta-preview', variant: 'primary' }],
+			},
+		],
+	},
+};
+
+export const modalSection: LandingComponentSection<ModalContent, ModalLayout> = {
+	id: 'modal-preview',
+	title: 'Modal',
+	layout: 'dialog',
+	content: {
+		title: 'Modal shell for focused decisions or forms.',
+		description:
+			'The base component provides the overlay and panel while page content stays projected.',
+		actions: [
+			{
+				label: 'Confirm',
+				href: '#marketing-preview',
+				variant: 'primary',
+				icon: 'check_circle',
+			},
+			{ label: 'Learn more', href: '#article-preview', variant: 'secondary', icon: 'info' },
+		],
+		dismissLabel: 'Maybe later',
+	},
+};
+
+export const marketingSection: LandingComponentSection<MarketingContent, MarketingLayout> = {
+	id: 'marketing-preview',
+	title: 'Marketing',
+	layout: 'campaign',
+	content: {
+		eyebrow: 'Campaign banner',
+		title: 'Promotions and announcements can live in their own reusable shell.',
+		description: 'Use this for launches, discount windows, event promos, or ecosystem updates.',
+		highlight: 'Spring release: 16 new page components ready for review.',
+		actions: [
+			{
+				label: 'Explore all',
+				href: '#navigation-preview',
+				variant: 'primary',
+				icon: 'explore',
+			},
+			{
+				label: 'Read article',
+				href: '#article-preview',
+				variant: 'secondary',
+				icon: 'article',
+			},
+		],
+	},
+};
+
+export const utilitySection: LandingComponentSection<UtilityContent, UtilityLayout> = {
+	id: 'utility-preview',
+	title: 'Utility',
+	layout: 'error',
+	content: {
+		status: '404',
+		title: 'Fallback, maintenance, and empty states belong in a reusable system too.',
+		description:
+			'This component covers system-level messaging without page-specific hardcoding.',
+		actions: [
+			{ label: 'Go home', href: '#hero-centered', variant: 'primary', icon: 'home' },
+			{
+				label: 'Contact support',
+				href: '#cta-preview',
+				variant: 'secondary',
+				icon: 'support_agent',
+			},
+		],
+	},
 };

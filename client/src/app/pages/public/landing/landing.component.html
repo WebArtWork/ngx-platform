@@ -1,8 +1,6 @@
 <main>
-	<page-marked [markdown]="markdown()"></page-marked>
-
 	@for (hero of heroSections; track hero.id) {
-		<page-component-hero [content]="hero.content" [layout]="hero.layout">
+		<page-component-hero [content]="hero.content" [layout]="hero.layout" [attr.id]="hero.id">
 			@if (hero.layout === 'centered') {
 				<div hero-media class="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
 					<div
@@ -12,13 +10,19 @@
 							{{ 'Release overview' | translate }}
 						</div>
 						<div class="mt-3 space-y-2 text-sm text-[var(--c-text-primary)]">
-							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+							<div
+								class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2"
+							>
 								{{ 'Reusable hero API' | translate }}
 							</div>
-							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+							<div
+								class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2"
+							>
 								{{ 'Translation-ready content' | translate }}
 							</div>
-							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+							<div
+								class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2"
+							>
 								{{ 'Theme token styling' | translate }}
 							</div>
 						</div>
@@ -30,7 +34,10 @@
 							{{ 'Suggested use' | translate }}
 						</div>
 						<div class="mt-3 text-sm leading-6 text-[var(--c-text-primary)]">
-							{{ 'Landing intros, launch messaging, and centered CTA stacks.' | translate }}
+							{{
+								'Landing intros, launch messaging, and centered CTA stacks.'
+									| translate
+							}}
 						</div>
 					</div>
 				</div>
@@ -69,19 +76,25 @@
 						</div>
 						<div class="mt-3 grid gap-3 sm:grid-cols-3">
 							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] p-3">
-								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">24</div>
+								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">
+									24
+								</div>
 								<div class="mt-1 text-sm text-[var(--c-text-primary)]">
 									{{ 'Reusable sections' | translate }}
 								</div>
 							</div>
 							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] p-3">
-								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">8</div>
+								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">
+									8
+								</div>
 								<div class="mt-1 text-sm text-[var(--c-text-primary)]">
 									{{ 'Feature domains' | translate }}
 								</div>
 							</div>
 							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] p-3">
-								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">100%</div>
+								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">
+									100%
+								</div>
 								<div class="mt-1 text-sm text-[var(--c-text-primary)]">
 									{{ 'Signals-first flow' | translate }}
 								</div>
@@ -96,13 +109,19 @@
 							{{ 'Shipping flow' | translate }}
 						</div>
 						<div class="mt-3 space-y-2 text-sm text-[var(--c-text-primary)]">
-							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+							<div
+								class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2"
+							>
 								{{ 'Compose sections' | translate }}
 							</div>
-							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+							<div
+								class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2"
+							>
 								{{ 'Promote repeatables' | translate }}
 							</div>
-							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+							<div
+								class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2"
+							>
 								{{ 'Scale features' | translate }}
 							</div>
 						</div>
@@ -243,16 +262,28 @@
 					<div
 						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
 					>
-						<div class="text-3xl font-semibold text-[var(--c-text-secondary)]">$45,385</div>
+						<div class="text-3xl font-semibold text-[var(--c-text-secondary)]">
+							$45,385
+						</div>
 						<div class="mt-1 text-sm text-[var(--c-text-muted)]">
 							{{ 'Sales this week' | translate }}
 						</div>
 						<div class="mt-6 flex h-40 items-end gap-3">
-							<div class="h-[42%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_55%,transparent)]"></div>
-							<div class="h-[66%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_70%,transparent)]"></div>
-							<div class="h-[54%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_85%,transparent)]"></div>
-							<div class="h-[88%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_65%,transparent)]"></div>
-							<div class="h-[58%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_45%,transparent)]"></div>
+							<div
+								class="h-[42%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_55%,transparent)]"
+							></div>
+							<div
+								class="h-[66%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_70%,transparent)]"
+							></div>
+							<div
+								class="h-[54%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_85%,transparent)]"
+							></div>
+							<div
+								class="h-[88%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_65%,transparent)]"
+							></div>
+							<div
+								class="h-[58%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_45%,transparent)]"
+							></div>
 						</div>
 					</div>
 
@@ -263,11 +294,19 @@
 							<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
 								{{ 'Calendar' | translate }}
 							</div>
-							<div class="mt-4 grid grid-cols-7 gap-2 text-center text-xs text-[var(--c-text-primary)]">
-								@for (day of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; track day) {
+							<div
+								class="mt-4 grid grid-cols-7 gap-2 text-center text-xs text-[var(--c-text-primary)]"
+							>
+								@for (
+									day of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+									track day
+								) {
 									<div class="opacity-70">{{ day }}</div>
 								}
-								@for (date of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; track date) {
+								@for (
+									date of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+									track date
+								) {
 									<div
 										class="rounded-[var(--radius)] px-2 py-2"
 										[class.bg-[var(--c-primary)]]="date === 12"
@@ -286,7 +325,10 @@
 								{{ 'Private repos' | translate }}
 							</div>
 							<div class="mt-2 text-sm text-[var(--c-text-primary)]">
-								{{ 'Host code that you do not want to share with the world in private.' | translate }}
+								{{
+									'Host code that you do not want to share with the world in private.'
+										| translate
+								}}
 							</div>
 						</div>
 					</div>
@@ -295,25 +337,233 @@
 		</page-component-hero>
 	}
 
-	<page-component-trust-bar [content]="trustBarContent"></page-component-trust-bar>
+	<section class="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:px-6">
+		<div class="grid gap-3">
+			<p class="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--c-text-muted)]">
+				{{ 'Component previews' | translate }}
+			</p>
+			<h2 class="text-3xl font-semibold text-[var(--c-text-secondary)]">
+				{{ 'Review the new reusable sections in one landing flow.' | translate }}
+			</h2>
+			<p class="max-w-3xl text-base text-[var(--c-text-primary)]">
+				{{
+					'Each block below renders one of the new page components with demo content so you can inspect layout, spacing, and API shape quickly.'
+						| translate
+				}}
+			</p>
+		</div>
 
-	<page-component-about [content]="aboutContent"></page-component-about>
+		<div class="grid gap-10">
+			<section class="grid gap-4" [attr.id]="navigationSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ navigationSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-navigation
+					[content]="navigationSection.content"
+					[layout]="navigationSection.layout"
+				></page-component-navigation>
+			</section>
 
-	<page-component-features [content]="featuresContent"></page-component-features>
+			<section class="grid gap-4" [attr.id]="contentSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ contentSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-content
+					[content]="contentSection.content"
+					[layout]="contentSection.layout"
+				></page-component-content>
+			</section>
 
-	<page-component-how-it-works [content]="howItWorksContent"></page-component-how-it-works>
+			<section class="grid gap-4" [attr.id]="featuresSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ featuresSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-features
+					[content]="featuresSection.content"
+					[layout]="featuresSection.layout"
+				></page-component-features>
+			</section>
 
-	<page-component-showcase [content]="showcaseContent"></page-component-showcase>
+			<section class="grid gap-4" [attr.id]="ctaSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ ctaSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-cta [content]="ctaSection.content" [layout]="ctaSection.layout">
+					<div
+						class="rounded-[var(--radius-card)] border border-white/15 bg-white/10 p-4 text-sm text-white/80"
+					>
+						{{
+							'Projected content slot for badges, small forms, or legal notes.'
+								| translate
+						}}
+					</div>
+				</page-component-cta>
+			</section>
 
-	<page-component-use-cases [content]="useCasesContent"></page-component-use-cases>
+			<div class="grid gap-10 lg:grid-cols-2">
+				<section class="grid gap-4" [attr.id]="cardSection.id">
+					<div>
+						<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+							{{ cardSection.title | translate }}
+						</h3>
+					</div>
+					<page-component-card
+						[content]="cardSection.content"
+						[layout]="cardSection.layout"
+					></page-component-card>
+				</section>
 
-	<page-component-testimonials [content]="testimonialsContent"></page-component-testimonials>
+				<section class="grid gap-4" [attr.id]="memberSection.id">
+					<div>
+						<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+							{{ memberSection.title | translate }}
+						</h3>
+					</div>
+					<page-component-member
+						[content]="memberSection.content"
+						[layout]="memberSection.layout"
+					></page-component-member>
+				</section>
+			</div>
 
-	<page-component-pricing [content]="pricingContent"></page-component-pricing>
+			<section class="grid gap-4" [attr.id]="socialSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ socialSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-social
+					[content]="socialSection.content"
+					[layout]="socialSection.layout"
+				></page-component-social>
+			</section>
 
-	<page-component-faq [content]="faqContent"></page-component-faq>
+			<section class="grid gap-4" [attr.id]="teamSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ teamSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-team
+					[content]="teamSection.content"
+					[layout]="teamSection.layout"
+				></page-component-team>
+			</section>
 
-	<page-component-final-cta [content]="finalCtaContent"></page-component-final-cta>
+			<section class="grid gap-4" [attr.id]="articlesSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ articlesSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-articles
+					[content]="articlesSection.content"
+					[layout]="articlesSection.layout"
+				></page-component-articles>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="articleSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ articleSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-article
+					[content]="articleSection.content"
+					[layout]="articleSection.layout"
+				></page-component-article>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="productsSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ productsSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-products
+					[content]="productsSection.content"
+					[layout]="productsSection.layout"
+				></page-component-products>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="productSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ productSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-product
+					[content]="productSection.content"
+					[layout]="productSection.layout"
+				></page-component-product>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="tablesSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ tablesSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-tables
+					[content]="tablesSection.content"
+					[layout]="tablesSection.layout"
+				></page-component-tables>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="modalSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ modalSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-modal
+					[content]="modalSection.content"
+					[layout]="modalSection.layout"
+				>
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] p-4 text-sm text-[var(--c-text-primary)]"
+					>
+						{{
+							'Projected body area for confirmation copy, forms, or contextual details.'
+								| translate
+						}}
+					</div>
+				</page-component-modal>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="marketingSection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ marketingSection.title | translate }}
+					</h3>
+				</div>
+				<page-component-marketing
+					[content]="marketingSection.content"
+					[layout]="marketingSection.layout"
+				></page-component-marketing>
+			</section>
+
+			<section class="grid gap-4" [attr.id]="utilitySection.id">
+				<div>
+					<h3 class="text-xl font-semibold text-[var(--c-text-secondary)]">
+						{{ utilitySection.title | translate }}
+					</h3>
+				</div>
+				<page-component-utility
+					[content]="utilitySection.content"
+					[layout]="utilitySection.layout"
+				></page-component-utility>
+			</section>
+		</div>
+	</section>
 
 	<layout-footer></layout-footer>
 </main>

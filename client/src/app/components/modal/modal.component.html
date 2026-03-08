@@ -1,0 +1,37 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="modal__backdrop"></div>
+	<div class="modal__panel">
+		@if (content().title) {
+			<h2 class="modal__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="modal__description">{{ content().description! | translate }}</p>
+		}
+
+		<ng-content />
+
+		@if (content().actions?.length) {
+			<div class="modal__actions">
+				@for (action of content().actions; track action.label ?? $index) {
+					<a
+						class="modal__action"
+						[class.modal__action--primary]="action.variant === 'primary'"
+						[attr.href]="action.href || null"
+					>
+						@if (action.icon) {
+							<span class="material-symbols-outlined">{{ action.icon }}</span>
+						}
+						<span>{{ action.label || '' | translate }}</span>
+					</a>
+				}
+			</div>
+		}
+
+		@if (content().dismissLabel) {
+			<button class="modal__dismiss" type="button">
+				{{ content().dismissLabel! | translate }}
+			</button>
+		}
+	</div>
+</section>

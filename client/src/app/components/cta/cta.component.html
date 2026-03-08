@@ -1,0 +1,39 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="cta__inner">
+		@if (content().eyebrow) {
+			<p class="cta__eyebrow">{{ content().eyebrow! | translate }}</p>
+		}
+
+		@if (content().title) {
+			<h2 class="cta__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="cta__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().actions?.length) {
+			<div class="cta__actions">
+				@for (action of content().actions; track action.label ?? $index) {
+					<a
+						class="cta__action"
+						[class.cta__action--primary]="action.variant === 'primary'"
+						[class.cta__action--secondary]="action.variant === 'secondary'"
+						[attr.href]="action.href || null"
+					>
+						@if (action.icon) {
+							<span class="material-symbols-outlined">{{ action.icon }}</span>
+						}
+						<span>{{ action.label || '' | translate }}</span>
+					</a>
+				}
+			</div>
+		}
+
+		<ng-content />
+
+		@if (content().note) {
+			<p class="cta__note">{{ content().note! | translate }}</p>
+		}
+	</div>
+</section>

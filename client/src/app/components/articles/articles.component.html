@@ -1,0 +1,50 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="articles__inner">
+		@if (content().title) {
+			<h2 class="articles__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="articles__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().items?.length) {
+			<div class="articles__items">
+				@for (item of content().items; track item.title ?? $index) {
+					<article class="articles__item">
+						@if (item.image) {
+							<img
+								class="articles__image"
+								[src]="item.image"
+								[alt]="item.title || 'Article'"
+							/>
+						}
+						@if (item.category || item.date) {
+							<p class="articles__meta">
+								@if (item.category) {
+									<span>{{ item.category | translate }}</span>
+								}
+								@if (item.date) {
+									<span>{{ item.date | translate }}</span>
+								}
+							</p>
+						}
+						@if (item.title) {
+							<h3 class="articles__item-title">{{ item.title | translate }}</h3>
+						}
+						@if (item.excerpt) {
+							<p class="articles__excerpt">{{ item.excerpt | translate }}</p>
+						}
+						@if (item.href) {
+							<a class="articles__link" [href]="item.href">{{
+								'Read more' | translate
+							}}</a>
+						}
+					</article>
+				}
+			</div>
+		}
+
+		<ng-content />
+	</div>
+</section>

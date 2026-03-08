@@ -2,12 +2,14 @@
 @let _layout = layout();
 
 @if (_hasContent()) {
-	<section
-		[ngClass]="_sectionClass()"
-	>
+	<section [ngClass]="_sectionClass()">
 		@if (_content.backgroundImage) {
 			<div class="hero__backdrop">
-				<img class="hero__backdrop-image" [src]="_content.backgroundImage" [alt]="_content.title || ''" />
+				<img
+					class="hero__backdrop-image"
+					[src]="_content.backgroundImage"
+					[alt]="_content.title || ''"
+				/>
 			</div>
 		}
 		<div class="hero__overlay"></div>
@@ -21,7 +23,7 @@
 									{{ _content.badge!.icon }}
 								</span>
 							}
-							<span>{{ (_content.badge?.text ?? '') | translate }}</span>
+							<span>{{ _content.badge?.text ?? '' | translate }}</span>
 						</div>
 					}
 
@@ -46,13 +48,18 @@
 											type="button"
 											class="hero__cta"
 											[ngClass]="{
-												'hero__cta--primary': (cta.variant ?? 'primary') === 'primary',
-												'hero__cta--ghost': (cta.variant ?? 'primary') === 'ghost'
+												'hero__cta--primary':
+													(cta.variant ?? 'primary') === 'primary',
+												'hero__cta--ghost':
+													(cta.variant ?? 'primary') === 'ghost',
 											}"
 											(click)="onCtaClick(cta)"
 										>
 											@if (cta.icon) {
-												<span class="material-icons hero__cta-icon" aria-hidden="true">
+												<span
+													class="material-icons hero__cta-icon"
+													aria-hidden="true"
+												>
 													{{ cta.icon }}
 												</span>
 											}
@@ -70,7 +77,7 @@
 										{{ _content.meta!.icon }}
 									</span>
 								}
-								<span>{{ (_content.meta?.text ?? '') | translate }}</span>
+								<span>{{ _content.meta?.text ?? '' | translate }}</span>
 							</div>
 						}
 					</div>
@@ -83,10 +90,17 @@
 						@for (logo of _content.logos!; track logo.label) {
 							<div class="hero__logo">
 								@if (logo.src) {
-									<img class="hero__logo-image" [src]="logo.src" [alt]="logo.alt || logo.label || ''" />
+									<img
+										class="hero__logo-image"
+										[src]="logo.src"
+										[alt]="logo.alt || logo.label || ''"
+									/>
 								} @else {
 									@if (logo.icon) {
-										<span class="material-icons hero__logo-icon" aria-hidden="true">
+										<span
+											class="material-icons hero__logo-icon"
+											aria-hidden="true"
+										>
 											{{ logo.icon }}
 										</span>
 									}
@@ -106,15 +120,22 @@
 						@for (metric of _content.metrics!; track metric.label) {
 							<div class="hero__metric">
 								@if (metric.icon) {
-									<span class="material-icons hero__metric-icon" aria-hidden="true">
+									<span
+										class="material-icons hero__metric-icon"
+										aria-hidden="true"
+									>
 										{{ metric.icon }}
 									</span>
 								}
 								@if (metric.value) {
-									<div class="hero__metric-value">{{ metric.value | translate }}</div>
+									<div class="hero__metric-value">
+										{{ metric.value | translate }}
+									</div>
 								}
 								@if (metric.label) {
-									<div class="hero__metric-label">{{ metric.label | translate }}</div>
+									<div class="hero__metric-label">
+										{{ metric.label | translate }}
+									</div>
 								}
 								@if (metric.description) {
 									<div class="hero__metric-description">
@@ -133,7 +154,10 @@
 						@for (highlight of _content.highlights!; track highlight.title) {
 							<div class="hero__highlight">
 								@if (highlight.icon) {
-									<span class="material-icons hero__highlight-icon" aria-hidden="true">
+									<span
+										class="material-icons hero__highlight-icon"
+										aria-hidden="true"
+									>
 										{{ highlight.icon }}
 									</span>
 								}
@@ -160,7 +184,9 @@
 					<div class="hero__note">
 						<div class="hero__note-header">
 							@if (_content.note?.title) {
-								<div class="hero__note-title">{{ (_content.note?.title ?? '') | translate }}</div>
+								<div class="hero__note-title">
+									{{ _content.note?.title ?? '' | translate }}
+								</div>
 							}
 							@if (_content.note?.icon) {
 								<span class="material-icons hero__note-icon" aria-hidden="true">
@@ -170,7 +196,7 @@
 						</div>
 						@if (_content.note?.desc) {
 							<div class="hero__note-description">
-								{{ (_content.note?.desc ?? '') | translate }}
+								{{ _content.note?.desc ?? '' | translate }}
 							</div>
 						}
 					</div>

@@ -11,7 +11,7 @@ import { HeroLayout } from './hero.types';
 	styleUrl: './hero.component.scss',
 	imports: [NgClass, NgTemplateOutlet, TranslatePipe],
 })
-export class HeroSectionComponent {
+export class HeroComponent {
 	readonly content = input.required<HeroContent>();
 
 	readonly layout = input<HeroLayout>('split');

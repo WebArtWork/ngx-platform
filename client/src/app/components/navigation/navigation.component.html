@@ -1,0 +1,77 @@
+<nav [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="navigation__inner">
+		@if (content().brand; as brand) {
+			<a class="navigation__brand" [attr.href]="brand.href || null">
+				@if (brand.logo) {
+					<img
+						class="navigation__logo"
+						[src]="brand.logo"
+						[alt]="brand.label || 'Brand'"
+					/>
+				}
+				@if (brand.label) {
+					<span class="navigation__brand-label">{{ brand.label | translate }}</span>
+				}
+			</a>
+		}
+
+		<div class="navigation__content">
+			@if (content().title) {
+				<h2 class="navigation__title">{{ content().title! | translate }}</h2>
+			}
+
+			@if (content().description) {
+				<p class="navigation__description">{{ content().description! | translate }}</p>
+			}
+
+			@if (content().links?.length) {
+				<ul class="navigation__links">
+					@for (link of content().links; track link.label ?? $index) {
+						<li>
+							<a
+								class="navigation__link"
+								[class.navigation__link--active]="link.active"
+								[attr.href]="link.href || null"
+							>
+								@if (link.icon) {
+									<span class="material-symbols-outlined">{{ link.icon }}</span>
+								}
+								<span>{{ link.label || '' | translate }}</span>
+							</a>
+
+							@if (link.description) {
+								<p class="navigation__link-description">
+									{{ link.description | translate }}
+								</p>
+							}
+						</li>
+					}
+				</ul>
+			}
+		</div>
+
+		@if (content().actions?.length) {
+			<div class="navigation__actions">
+				@for (action of content().actions; track action.label ?? $index) {
+					<a
+						class="navigation__action"
+						[class.navigation__action--primary]="action.variant === 'primary'"
+						[class.navigation__action--secondary]="action.variant === 'secondary'"
+						[attr.href]="action.href || null"
+					>
+						@if (action.icon) {
+							<span class="material-symbols-outlined">{{ action.icon }}</span>
+						}
+						<span>{{ action.label || '' | translate }}</span>
+					</a>
+				}
+			</div>
+		}
+
+		<ng-content />
+
+		@if (content().note) {
+			<p class="navigation__note">{{ content().note! | translate }}</p>
+		}
+	</div>
+</nav>

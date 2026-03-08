@@ -17,7 +17,11 @@
 	);
 	position: relative;
 	background:
-		radial-gradient(circle at top left, color-mix(in srgb, var(--hero-accent) 12%, transparent), transparent 36%),
+		radial-gradient(
+			circle at top left,
+			color-mix(in srgb, var(--hero-accent) 12%, transparent),
+			transparent 36%
+		),
 		var(--hero-surface);
 	color: var(--hero-text);
 	overflow: hidden;
@@ -53,8 +57,16 @@
 	position: absolute;
 	inset: 0;
 	background:
-		linear-gradient(180deg, transparent, color-mix(in srgb, var(--hero-surface) 14%, transparent)),
-		radial-gradient(circle at center, transparent 0%, color-mix(in srgb, var(--hero-surface) 30%, transparent) 100%);
+		linear-gradient(
+			180deg,
+			transparent,
+			color-mix(in srgb, var(--hero-surface) 14%, transparent)
+		),
+		radial-gradient(
+			circle at center,
+			transparent 0%,
+			color-mix(in srgb, var(--hero-surface) 30%, transparent) 100%
+		);
 	pointer-events: none;
 }
 
@@ -63,10 +75,7 @@
 	z-index: 1;
 	width: min(100%, var(--container));
 	margin: 0 auto;
-	padding:
-		clamp(3.5rem, 6vw, 5rem)
-		max(var(--gutter), 1rem)
-		clamp(3rem, 6vw, 4.5rem);
+	padding: clamp(3.5rem, 6vw, 5rem) max(var(--gutter), 1rem) clamp(3rem, 6vw, 4.5rem);
 }
 
 .hero__layout {

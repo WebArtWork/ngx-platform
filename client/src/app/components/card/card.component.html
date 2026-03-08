@@ -1,0 +1,51 @@
+<article [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	@if (content().badge) {
+		<p class="card__badge">{{ content().badge! | translate }}</p>
+	}
+
+	@if (content().media?.src) {
+		<img
+			class="card__media"
+			[src]="content().media!.src"
+			[alt]="content().media!.alt || content().title || 'Card media'"
+		/>
+	}
+
+	@if (content().title) {
+		<h3 class="card__title">{{ content().title! | translate }}</h3>
+	}
+
+	@if (content().description) {
+		<p class="card__description">{{ content().description! | translate }}</p>
+	}
+
+	@if (content().meta?.length) {
+		<ul class="card__meta">
+			@for (item of content().meta; track item.label ?? $index) {
+				<li>
+					<strong>{{ item.value || '' | translate }}</strong>
+					<span>{{ item.label || '' | translate }}</span>
+				</li>
+			}
+		</ul>
+	}
+
+	@if (content().actions?.length) {
+		<div class="card__actions">
+			@for (action of content().actions; track action.label ?? $index) {
+				<a
+					class="card__action"
+					[class.card__action--primary]="action.variant === 'primary'"
+					[attr.href]="action.href || null"
+				>
+					@if (action.icon) {
+						<span class="material-symbols-outlined">{{ action.icon }}</span>
+					}
+					<span>{{ action.label || '' | translate }}</span>
+				</a>
+			}
+		</div>
+	}
+
+	<ng-content />
+</article>

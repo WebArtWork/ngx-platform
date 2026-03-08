@@ -1,0 +1,47 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="team__inner">
+		@if (content().title) {
+			<h2 class="team__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="team__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().members?.length) {
+			<div class="team__members">
+				@for (member of content().members; track member.name ?? $index) {
+					<article class="team__member">
+						@if (member.avatar) {
+							<img
+								class="team__avatar"
+								[src]="member.avatar"
+								[alt]="member.name || 'Member'"
+							/>
+						}
+						@if (member.name) {
+							<h3 class="team__member-name">{{ member.name | translate }}</h3>
+						}
+						@if (member.role) {
+							<p class="team__member-role">{{ member.role | translate }}</p>
+						}
+						@if (member.bio) {
+							<p class="team__member-bio">{{ member.bio | translate }}</p>
+						}
+						@if (member.links?.length) {
+							<div class="team__links">
+								@for (link of member.links; track link.label ?? $index) {
+									<a [attr.href]="link.href || null">{{
+										link.label || '' | translate
+									}}</a>
+								}
+							</div>
+						}
+					</article>
+				}
+			</div>
+		}
+
+		<ng-content />
+	</div>
+</section>

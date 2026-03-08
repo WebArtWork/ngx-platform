@@ -1,0 +1,52 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="social__inner">
+		@if (content().title) {
+			<h2 class="social__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="social__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().quotes?.length) {
+			<div class="social__quotes">
+				@for (quote of content().quotes; track quote.name ?? $index) {
+					<article class="social__quote">
+						@if (quote.avatar) {
+							<img
+								class="social__avatar"
+								[src]="quote.avatar"
+								[alt]="quote.name || 'Avatar'"
+							/>
+						}
+						@if (quote.quote) {
+							<blockquote>{{ quote.quote | translate }}</blockquote>
+						}
+						@if (quote.name) {
+							<p class="social__name">{{ quote.name | translate }}</p>
+						}
+						@if (quote.role) {
+							<p class="social__role">{{ quote.role | translate }}</p>
+						}
+					</article>
+				}
+			</div>
+		}
+
+		@if (content().signals?.length) {
+			<ul class="social__signals">
+				@for (signal of content().signals; track signal.label ?? $index) {
+					<li class="social__signal">
+						@if (signal.icon) {
+							<span class="material-symbols-outlined">{{ signal.icon }}</span>
+						}
+						<strong>{{ signal.value || '' | translate }}</strong>
+						<span>{{ signal.label || '' | translate }}</span>
+					</li>
+				}
+			</ul>
+		}
+
+		<ng-content />
+	</div>
+</section>

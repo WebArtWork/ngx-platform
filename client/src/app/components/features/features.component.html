@@ -1,57 +1,37 @@
-@let _content = content();
-@if (_content?.title || _content?.description || _content?.items?.length) {
-	<section class="features" [attr.id]="_content.sectionId ?? null">
-		<div class="mx-auto w-full max-w-6xl px-4 py-12 md:py-16">
-			<div class="max-w-2xl">
-				@if (_content.title) {
-					<h2 class="text-2xl md:text-3xl font-semibold text-[var(--c-text-secondary)]">
-						{{ _content.title }}
-					</h2>
-				}
-				@if (_content.description) {
-					<p class="mt-3 text-base text-[var(--c-text-primary)]">
-						{{ _content.description }}
-					</p>
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="features__inner">
+		@if (content().title) {
+			<h2 class="features__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="features__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().items?.length) {
+			<div class="features__items">
+				@for (item of content().items; track item.title ?? $index) {
+					<article class="features__item">
+						@if (item.icon) {
+							<span class="features__icon material-symbols-outlined">{{
+								item.icon
+							}}</span>
+						}
+						@if (item.title) {
+							<h3 class="features__item-title">{{ item.title | translate }}</h3>
+						}
+						@if (item.desc) {
+							<p class="features__item-description">{{ item.desc | translate }}</p>
+						}
+					</article>
 				}
 			</div>
+		}
 
-			@if (_content.items?.length) {
-				<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-					@for (f of _content.items!; track f.title) {
-						@if (f.title || f.desc) {
-							<div
-								class="rounded-lg p-5 shadow-[var(--shadow-sm)] border border-[var(--c-border)] bg-[var(--c-bg-tertiary)]"
-							>
-								<div class="flex items-start gap-3">
-									@if (f.icon) {
-										<span
-											class="material-icons text-[var(--c-text-muted)]"
-											aria-hidden="true"
-										>
-											{{ f.icon }}
-										</span>
-									}
+		<ng-content />
 
-									<div class="min-w-0">
-										@if (f.title) {
-											<div
-												class="font-semibold text-[var(--c-text-secondary)]"
-											>
-												{{ f.title }}
-											</div>
-										}
-										@if (f.desc) {
-											<div class="mt-1 text-sm text-[var(--c-text-primary)]">
-												{{ f.desc }}
-											</div>
-										}
-									</div>
-								</div>
-							</div>
-						}
-					}
-				</div>
-			}
-		</div>
-	</section>
-}
+		@if (content().footer) {
+			<p class="features__footer">{{ content().footer! | translate }}</p>
+		}
+	</div>
+</section>

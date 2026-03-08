@@ -1,0 +1,49 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="tables__inner">
+		@if (content().title) {
+			<h2 class="tables__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="tables__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().columns?.length && content().rows?.length) {
+			<div class="tables__wrap">
+				<table class="tables__table">
+					<thead>
+						<tr>
+							@for (column of content().columns; track column.key) {
+								<th>{{ column.label || column.key | translate }}</th>
+							}
+							<th>{{ 'Actions' | translate }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (row of content().rows; track $index) {
+							<tr>
+								@for (column of content().columns; track column.key) {
+									<td>{{ row.cells[column.key] ?? '' }}</td>
+								}
+								<td class="tables__actions">
+									@for (
+										action of row.actions ?? [];
+										track action.label ?? $index
+									) {
+										<a [attr.href]="action.href || null">{{
+											action.label || '' | translate
+										}}</a>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		} @else if (content().emptyState) {
+			<p class="tables__empty">{{ content().emptyState! | translate }}</p>
+		}
+
+		<ng-content />
+	</div>
+</section>

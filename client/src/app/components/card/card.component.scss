@@ -1,0 +1,49 @@
+.card {
+	display: grid;
+	gap: 1rem;
+	padding: 1.5rem;
+	border-radius: 1.25rem;
+	border: 1px solid var(--color-border, rgba(15, 23, 42, 0.12));
+	background: var(--color-surface, #fff);
+}
+
+.card__badge,
+.card__description,
+.card__meta {
+	margin: 0;
+	color: var(--color-text-muted, rgba(15, 23, 42, 0.72));
+}
+
+.card__title {
+	margin: 0;
+	font: inherit;
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+.card__media {
+	width: 100%;
+	border-radius: 1rem;
+	display: block;
+}
+
+.card__meta,
+.card__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	padding: 0;
+	list-style: none;
+}
+
+.card__action {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: inherit;
+	text-decoration: none;
+}
+
+.card__action--primary {
+	font-weight: 700;
+}

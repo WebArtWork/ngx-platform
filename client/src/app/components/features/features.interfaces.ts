@@ -5,11 +5,9 @@ export interface FeaturesItem {
 }
 
 export interface FeaturesContent {
-	/** Optional section id (e.g. "features") to support anchor navigation. */
 	sectionId?: string;
-
 	title?: string;
 	description?: string;
-
 	items?: FeaturesItem[];
+	footer?: string;
 }

@@ -1,0 +1,51 @@
+<article [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	@if (content().gallery?.length) {
+		<div class="product__gallery">
+			@for (image of content().gallery; track image.src ?? $index) {
+				<img [src]="image.src" [alt]="image.alt || content().name || 'Product image'" />
+			}
+		</div>
+	}
+
+	@if (content().name) {
+		<h2 class="product__name">{{ content().name! | translate }}</h2>
+	}
+
+	@if (content().description) {
+		<p class="product__description">{{ content().description! | translate }}</p>
+	}
+
+	@if (content().price) {
+		<p class="product__price">{{ content().price! | translate }}</p>
+	}
+
+	@if (content().specs?.length) {
+		<ul class="product__specs">
+			@for (spec of content().specs; track spec.label ?? $index) {
+				<li>
+					<strong>{{ spec.label || '' | translate }}</strong>
+					<span>{{ spec.value || '' | translate }}</span>
+				</li>
+			}
+		</ul>
+	}
+
+	@if (content().actions?.length) {
+		<div class="product__actions">
+			@for (action of content().actions; track action.label ?? $index) {
+				<a
+					class="product__action"
+					[class.product__action--primary]="action.variant === 'primary'"
+					[attr.href]="action.href || null"
+				>
+					@if (action.icon) {
+						<span class="material-symbols-outlined">{{ action.icon }}</span>
+					}
+					<span>{{ action.label || '' | translate }}</span>
+				</a>
+			}
+		</div>
+	}
+
+	<ng-content />
+</article>

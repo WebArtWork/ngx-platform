@@ -1,88 +1,85 @@
-import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
-import { AboutContent, AboutSectionComponent } from '@component/about';
-import { FaqContent, FaqSectionComponent } from '@component/faq';
-import { FeaturesContent, FeaturesSectionComponent } from '@component/features';
-import { FinalCtaContent, FinalCtaSectionComponent } from '@component/final-cta';
-import { HeroSectionComponent } from '@component/hero';
-import { HowItWorksContent, HowItWorksSectionComponent } from '@component/how-it-works';
-import { MarkedSectionComponent } from '@component/marked';
-import { PricingContent, PricingSectionComponent } from '@component/pricing';
-import { ShowcaseContent, ShowcaseSectionComponent } from '@component/showcase';
-import { TestimonialsContent, TestimonialsSectionComponent } from '@component/testimonials';
-import { TrustBarContent, TrustBarSectionComponent } from '@component/trust-bar';
-import { UseCasesContent, UseCasesSectionComponent } from '@component/use-cases';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ArticleComponent } from '@component/article';
+import { ArticlesComponent } from '@component/articles';
+import { CardComponent } from '@component/card';
+import { ContentComponent } from '@component/content';
+import { CtaComponent } from '@component/cta';
+import { FeaturesComponent } from '@component/features';
+import { HeroComponent } from '@component/hero';
+import { MarketingComponent } from '@component/marketing';
+import { MemberComponent } from '@component/member';
+import { ModalComponent } from '@component/modal';
+import { NavigationComponent } from '@component/navigation';
+import { ProductComponent } from '@component/product';
+import { ProductsComponent } from '@component/products';
+import { SocialComponent } from '@component/social';
+import { TablesComponent } from '@component/tables';
+import { TeamComponent } from '@component/team';
+import { UtilityComponent } from '@component/utility';
 import { FooterComponent } from '@layout/footer';
 import { TranslatePipe } from 'wacom';
 import {
-	aboutContent,
-	faqContent,
-	featuresContent,
-	finalCtaContent,
+	articleSection,
+	articlesSection,
+	cardSection,
+	contentSection,
+	ctaSection,
+	featuresSection,
 	heroSections,
-	howItWorksContent,
 	LandingHeroSection,
-	pricingContent,
-	showcaseContent,
-	testimonialsContent,
-	trustBarContent,
-	useCasesContent,
+	marketingSection,
+	memberSection,
+	modalSection,
+	navigationSection,
+	productSection,
+	productsSection,
+	socialSection,
+	tablesSection,
+	teamSection,
+	utilitySection,
 } from './landing.const';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './landing.component.html',
 	imports: [
-		MarkedSectionComponent,
-		HeroSectionComponent,
-		TrustBarSectionComponent,
-		AboutSectionComponent,
-		FeaturesSectionComponent,
-		HowItWorksSectionComponent,
-		ShowcaseSectionComponent,
-		UseCasesSectionComponent,
-		TestimonialsSectionComponent,
-		PricingSectionComponent,
-		FaqSectionComponent,
-		FinalCtaSectionComponent,
+		ArticleComponent,
+		ArticlesComponent,
+		CardComponent,
+		ContentComponent,
+		CtaComponent,
+		FeaturesComponent,
+		HeroComponent,
+		MarketingComponent,
+		MemberComponent,
+		ModalComponent,
+		NavigationComponent,
+		ProductComponent,
+		ProductsComponent,
+		SocialComponent,
+		TablesComponent,
+		TeamComponent,
+		UtilityComponent,
 		FooterComponent,
 		TranslatePipe,
 	],
 })
 export class LandingComponent {
-	private readonly _http = inject(HttpClient);
-	private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-
-	markdown = signal<string>('');
-
-	constructor() {
-		if (this._isBrowser) {
-			this._http.get('/assets/README.md', { responseType: 'text' }).subscribe({
-				next: markdown => this.markdown.set(markdown),
-			});
-		}
-	}
-
 	readonly heroSections: LandingHeroSection[] = heroSections;
-
-	readonly trustBarContent: TrustBarContent = trustBarContent;
-
-	readonly aboutContent: AboutContent = aboutContent;
-
-	readonly featuresContent: FeaturesContent = featuresContent;
-
-	readonly howItWorksContent: HowItWorksContent = howItWorksContent;
-
-	readonly showcaseContent: ShowcaseContent = showcaseContent;
-
-	readonly useCasesContent: UseCasesContent = useCasesContent;
-
-	readonly testimonialsContent: TestimonialsContent = testimonialsContent;
-
-	readonly pricingContent: PricingContent = pricingContent;
-
-	readonly faqContent: FaqContent = faqContent;
-
-	readonly finalCtaContent: FinalCtaContent = finalCtaContent;
+	readonly navigationSection = navigationSection;
+	readonly contentSection = contentSection;
+	readonly featuresSection = featuresSection;
+	readonly ctaSection = ctaSection;
+	readonly cardSection = cardSection;
+	readonly socialSection = socialSection;
+	readonly teamSection = teamSection;
+	readonly memberSection = memberSection;
+	readonly articlesSection = articlesSection;
+	readonly articleSection = articleSection;
+	readonly productsSection = productsSection;
+	readonly productSection = productSection;
+	readonly tablesSection = tablesSection;
+	readonly modalSection = modalSection;
+	readonly marketingSection = marketingSection;
+	readonly utilitySection = utilitySection;
 }

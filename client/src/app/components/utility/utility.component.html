@@ -1,0 +1,34 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="utility__inner">
+		@if (content().status) {
+			<p class="utility__status">{{ content().status! | translate }}</p>
+		}
+
+		@if (content().title) {
+			<h2 class="utility__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="utility__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().actions?.length) {
+			<div class="utility__actions">
+				@for (action of content().actions; track action.label ?? $index) {
+					<a
+						class="utility__action"
+						[class.utility__action--primary]="action.variant === 'primary'"
+						[attr.href]="action.href || null"
+					>
+						@if (action.icon) {
+							<span class="material-symbols-outlined">{{ action.icon }}</span>
+						}
+						<span>{{ action.label || '' | translate }}</span>
+					</a>
+				}
+			</div>
+		}
+
+		<ng-content />
+	</div>
+</section>

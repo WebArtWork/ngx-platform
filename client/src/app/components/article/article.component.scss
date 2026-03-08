@@ -1,0 +1,45 @@
+.article {
+	display: grid;
+	gap: 1rem;
+	padding: 2rem;
+	border-radius: 1.5rem;
+	background: var(--color-surface, #fff);
+	border: 1px solid var(--color-border, rgba(15, 23, 42, 0.12));
+}
+
+.article__cover {
+	width: 100%;
+	border-radius: 1rem;
+	display: block;
+}
+
+.article__title,
+.article__section h2 {
+	margin: 0;
+	font: inherit;
+	font-weight: 700;
+}
+
+.article__title {
+	font-size: 2rem;
+}
+
+.article__description,
+.article__section p {
+	margin: 0;
+	color: var(--color-text-muted, rgba(15, 23, 42, 0.72));
+}
+
+.article__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.article__sections {
+	display: grid;
+	gap: 1rem;
+}

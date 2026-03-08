@@ -1,0 +1,50 @@
+.social {
+	padding: 2rem;
+	border-radius: 1.5rem;
+	background: var(--color-surface, #fff);
+	border: 1px solid var(--color-border, rgba(15, 23, 42, 0.12));
+}
+
+.social__inner,
+.social__quotes {
+	display: grid;
+	gap: 1rem;
+}
+
+.social__quotes,
+.social__signals {
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	display: grid;
+	gap: 1rem;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.social__quote,
+.social__signal {
+	padding: 1rem;
+	border-radius: 1rem;
+	background: var(--color-surface-alt, rgba(15, 23, 42, 0.04));
+}
+
+.social__title,
+.social__name {
+	margin: 0;
+	font: inherit;
+	font-weight: 700;
+}
+
+.social__description,
+.social__role,
+blockquote {
+	margin: 0;
+	color: var(--color-text-muted, rgba(15, 23, 42, 0.72));
+}
+
+.social__avatar {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 999px;
+	object-fit: cover;
+}

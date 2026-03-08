@@ -1,0 +1,50 @@
+<section [ngClass]="_sectionClass()" [attr.id]="content().sectionId || null">
+	<div class="content__inner">
+		@if (content().title) {
+			<h2 class="content__title">{{ content().title! | translate }}</h2>
+		}
+
+		@if (content().description) {
+			<p class="content__description">{{ content().description! | translate }}</p>
+		}
+
+		@if (content().blocks?.length) {
+			<div class="content__blocks">
+				@for (block of content().blocks; track block.title ?? $index) {
+					<article class="content__block">
+						@if (block.eyebrow) {
+							<p class="content__eyebrow">{{ block.eyebrow | translate }}</p>
+						}
+
+						@if (block.title) {
+							<h3 class="content__block-title">{{ block.title | translate }}</h3>
+						}
+
+						@if (block.body) {
+							<p class="content__body">{{ block.body | translate }}</p>
+						}
+
+						@if (block.media; as media) {
+							<figure class="content__media">
+								@if (media.type === 'video') {
+									<video controls [src]="media.src"></video>
+								} @else {
+									<img
+										[src]="media.src"
+										[alt]="media.alt || block.title || 'Content media'"
+									/>
+								}
+
+								@if (media.caption) {
+									<figcaption>{{ media.caption | translate }}</figcaption>
+								}
+							</figure>
+						}
+					</article>
+				}
+			</div>
+		}
+
+		<ng-content />
+	</div>
+</section>
