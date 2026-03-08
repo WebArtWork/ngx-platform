@@ -2,7 +2,7 @@ import { AboutContent } from '@component/about';
 import { FaqContent } from '@component/faq';
 import { FeaturesContent } from '@component/features';
 import { FinalCtaContent } from '@component/final-cta';
-import { HeroContent } from '@component/hero';
+import { HeroContent, HeroLayout } from '@component/hero';
 import { HowItWorksContent } from '@component/how-it-works';
 import { PricingContent } from '@component/pricing';
 import { ShowcaseContent } from '@component/showcase';
@@ -10,54 +10,219 @@ import { TestimonialsContent } from '@component/testimonials';
 import { TrustBarContent } from '@component/trust-bar';
 import { UseCasesContent } from '@component/use-cases';
 
-export const heroContent: HeroContent = {
-	badge: {
-		icon: 'auto_awesome',
-		text: 'Build • Teach • Reuse • Scale',
+export interface LandingHeroSection {
+	id: string;
+	layout: HeroLayout;
+	content: HeroContent;
+}
+
+const sharedHeroCtas = [
+	{
+		label: 'Get started',
+		targetId: 'pricing',
+		variant: 'primary' as const,
+		icon: 'arrow_forward',
 	},
-	title: 'A modular ecosystem to ship products and grow developers.',
+	{
+		label: 'Explore features',
+		targetId: 'features',
+		variant: 'ghost' as const,
+		icon: 'play_arrow',
+	},
+];
+
+export const centeredHeroContent: HeroContent = {
+	badge: {
+		icon: 'flare',
+		text: 'Centered hero',
+	},
+	title: 'Build once and reuse across every product surface.',
 	description:
-		'Web Art Work combines a software studio, an education platform, and a reusable framework — all driven by production-grade patterns and a token-based UI system.',
-	ctas: [
-		{ label: 'Get started', targetId: 'pricing', variant: 'primary' },
+		'This layout matches announcement-style heroes with centered copy, stacked actions, and optional logos or media below the fold.',
+	ctas: sharedHeroCtas,
+	meta: {
+		icon: 'verified',
+		text: 'Good for marketing entry points and video-led intros',
+	},
+	logos: [
+		{ icon: 'inventory_2', label: 'Studio' },
+		{ icon: 'menu_book', label: 'Education' },
+		{ icon: 'view_in_ar', label: 'Framework' },
+		{ icon: 'groups', label: 'Community' },
+	],
+	highlights: [
 		{
-			label: 'Explore features',
+			icon: 'rocket_launch',
+			title: 'Fast launch',
+			desc: 'Start with strong narrative, actions, and trust cues.',
+		},
+		{
+			icon: 'movie',
+			title: 'Media ready',
+			desc: 'Project a video or promo block directly from the page.',
+		},
+	],
+};
+
+export const splitHeroContent: HeroContent = {
+	badge: {
+		icon: 'splitscreen',
+		text: 'Split hero',
+	},
+	title: 'Balance product story on the left with visual proof on the right.',
+	description:
+		'Use the split layout for launch pages, product overviews, and email capture sections where the hero needs text plus a focused visual.',
+	ctas: sharedHeroCtas,
+	meta: {
+		icon: 'tips_and_updates',
+		text: 'Designed for forms, screenshots, and side media',
+	},
+	metrics: [
+		{
+			icon: 'dashboard',
+			value: '24',
+			label: 'Reusable sections',
+			description: 'Composable blocks aligned around one token system.',
+		},
+		{
+			icon: 'bolt',
+			value: '21',
+			label: 'Angular-first stack',
+			description: 'Signals, standalone components, and strong defaults.',
+		},
+	],
+	logos: [
+		{ icon: 'inventory_2', label: 'Studio' },
+		{ icon: 'menu_book', label: 'Education' },
+		{ icon: 'view_in_ar', label: 'Framework' },
+	],
+};
+
+export const panelHeroContent: HeroContent = {
+	badge: {
+		icon: 'dashboard_customize',
+		text: 'Panel hero',
+	},
+	title: 'Let the page own a side panel while the hero keeps the shell and rhythm.',
+	description:
+		'This variant is for login, signup, and request flows where the right side changes often and should be fully projected from the page.',
+	ctas: [
+		{
+			label: 'Watch video',
 			targetId: 'features',
-			variant: 'ghost',
+			variant: 'primary',
+			icon: 'videocam',
 		},
 	],
 	meta: {
-		icon: 'verified',
-		text: 'Token-driven UI • Modern Angular',
+		icon: 'person_add',
+		text: 'Ideal for auth cards, request forms, and signup panels',
 	},
-	card: {
-		title: 'Starter template',
-		subtitle: 'Sections + patterns',
-		icon: 'grid_view',
-		miniCards: [
-			{
-				icon: 'rocket_launch',
-				title: 'Fast delivery',
-				desc: 'Reusable UI + architecture',
-			},
-			{
-				icon: 'school',
-				title: 'Hands-on learning',
-				desc: 'From real production code',
-			},
-			{
-				icon: 'extension',
-				title: 'Shared framework',
-				desc: 'Promote repeatables to libs',
-			},
-		],
-		note: {
-			title: 'Ready in minutes',
-			icon: 'bolt',
-			desc: 'Standalone components, signals, OnPush, and token-driven theming.',
+	metrics: [
+		{
+			value: '42k',
+			label: 'Active users',
 		},
+		{
+			value: '3k',
+			label: 'Professional creators',
+		},
+		{
+			value: '560k',
+			label: 'Weekly downloads',
+		},
+	],
+	note: {
+		title: 'Page-controlled panel',
+		icon: 'widgets',
+		desc: 'The form card is projected through ng-content, so the hero stays reusable.',
 	},
 };
+
+export const backgroundHeroContent: HeroContent = {
+	badge: {
+		icon: 'landscape',
+		text: 'Background hero',
+	},
+	title: 'Use imagery as atmosphere without hardcoding structure into the component.',
+	description:
+		'Background layout works for travel, hospitality, and campaign pages where a large image sets the mood and the form stays page-owned.',
+	ctas: [
+		{
+			label: 'Sign in / Register',
+			targetId: 'pricing',
+			variant: 'primary',
+			icon: 'login',
+		},
+	],
+	backgroundImage:
+		'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80',
+	note: {
+		title: 'Background image support',
+		icon: 'image',
+		desc: 'The hero renders the backdrop while the page projects the booking or search form.',
+	},
+};
+
+export const dashboardHeroContent: HeroContent = {
+	badge: {
+		icon: 'query_stats',
+		text: 'Dashboard hero',
+	},
+	title: 'Show dense product value without losing hero clarity.',
+	description:
+		'The dashboard layout gives you a strong content column plus a richer visual column for charts, system cards, or product snapshots.',
+	ctas: sharedHeroCtas,
+	meta: {
+		icon: 'insights',
+		text: 'Best when the hero needs product story and interface proof together',
+	},
+	metrics: [
+		{
+			icon: 'dashboard',
+			value: '24',
+			label: 'Composable sections',
+			description: 'Reusable blocks aligned around one token system.',
+		},
+		{
+			icon: 'school',
+			value: '3',
+			label: 'Connected pillars',
+			description: 'Studio, education, and framework in one loop.',
+		},
+		{
+			icon: 'bolt',
+			value: '21',
+			label: 'Angular-first stack',
+			description: 'Signals, standalone components, and zoneless-ready patterns.',
+		},
+	],
+	highlights: [
+		{
+			icon: 'rocket_launch',
+			title: 'Fast delivery',
+			desc: 'Reusable UI and clean architecture reduce rebuilds.',
+		},
+		{
+			icon: 'school',
+			title: 'Hands-on learning',
+			desc: 'Lessons grow directly out of production code and reviews.',
+		},
+		{
+			icon: 'extension',
+			title: 'Shared framework',
+			desc: 'Promote repeatables to libs and scale the next product faster.',
+		},
+	],
+};
+
+export const heroSections: LandingHeroSection[] = [
+	{ id: 'hero-centered', layout: 'centered', content: centeredHeroContent },
+	{ id: 'hero-split', layout: 'split', content: splitHeroContent },
+	{ id: 'hero-panel', layout: 'panel', content: panelHeroContent },
+	{ id: 'hero-background', layout: 'background', content: backgroundHeroContent },
+	{ id: 'hero-dashboard', layout: 'dashboard', content: dashboardHeroContent },
+];
 
 export const trustBarContent: TrustBarContent = {
 	title: 'Trusted building blocks for product teams and learners',
@@ -76,14 +241,14 @@ export const aboutContent: AboutContent = {
 		},
 		{
 			title: 'Learning rarely matches real work',
-			desc: 'Tutorials don’t translate into production-ready architecture and habits.',
+			desc: 'Tutorials do not translate into production-ready architecture and habits.',
 		},
 	],
 	solutionsTitle: 'What you get',
 	solutions: [
 		{
 			title: 'Ship modular features faster',
-			desc: 'A consistent UI system + modern Angular patterns reduce friction and rework.',
+			desc: 'A consistent UI system and modern Angular patterns reduce friction and rework.',
 		},
 		{
 			title: 'Learn by building real products',
@@ -109,7 +274,7 @@ export const featuresContent: FeaturesContent = {
 		{
 			icon: 'rocket_launch',
 			title: 'Fast delivery',
-			desc: 'Reusable patterns + token-driven design speed up building and iteration.',
+			desc: 'Reusable patterns and token-driven design speed up building and iteration.',
 		},
 		{
 			icon: 'extension',
@@ -131,7 +296,7 @@ export const howItWorksContent: HowItWorksContent = {
 		},
 		{
 			title: 'Build with the system',
-			desc: 'Compose sections and components using tokens + clean patterns.',
+			desc: 'Compose sections and components using tokens and clean patterns.',
 			icon: 'trending_up',
 		},
 		{
@@ -145,7 +310,7 @@ export const howItWorksContent: HowItWorksContent = {
 export const showcaseContent: ShowcaseContent = {
 	sectionId: 'showcase',
 	title: 'Product showcase',
-	description: 'Three parts of one ecosystem — pick a view.',
+	description: 'Three parts of one ecosystem, pick a view.',
 	defaultTabId: 'studio',
 	tabs: [
 		{
@@ -164,13 +329,8 @@ export const showcaseContent: ShowcaseContent = {
 			id: 'education',
 			label: 'Education',
 			title: 'Learn by working on live projects',
-			desc: 'Turn production code into learning material — practical skills you actually use.',
-			bullets: [
-				'Hands-on tasks',
-				'Code reviews',
-				'Real constraints',
-				'Progressive complexity',
-			],
+			desc: 'Turn production code into learning material, practical skills you actually use.',
+			bullets: ['Hands-on tasks', 'Code reviews', 'Real constraints', 'Progressive complexity'],
 		},
 	],
 	primaryCtaLabel: 'View pricing',
@@ -190,7 +350,7 @@ export const useCasesContent: UseCasesContent = {
 		},
 		{
 			title: 'For teams',
-			bullets: ['Consistent UI + architecture', 'Shared components', 'Faster onboarding'],
+			bullets: ['Consistent UI and architecture', 'Shared components', 'Faster onboarding'],
 		},
 		{
 			title: 'For developers',
@@ -202,7 +362,7 @@ export const useCasesContent: UseCasesContent = {
 export const testimonialsContent: TestimonialsContent = {
 	sectionId: 'testimonials',
 	title: 'What people say',
-	description: 'Short, real outcomes — keep it credible.',
+	description: 'Short, real outcomes, keep it credible.',
 	items: [
 		{
 			quote: 'We stopped rebuilding the same UI and started shipping features weekly.',
@@ -220,7 +380,7 @@ export const testimonialsContent: TestimonialsContent = {
 export const pricingContent: PricingContent = {
 	sectionId: 'pricing',
 	title: 'Pricing',
-	description: 'Start free, then upgrade when you’re shipping or scaling reuse.',
+	description: 'Start free, then upgrade when you are shipping or scaling reuse.',
 	plans: [
 		{
 			id: 'starter',
@@ -253,7 +413,7 @@ export const faqContent: FaqContent = {
 		},
 		{
 			q: 'Does it support dark theme?',
-			a: 'Yes — the UI is token-driven and automatically adapts to your global `html.dark` token overrides.',
+			a: 'Yes, the UI is token-driven and automatically adapts to your global html.dark token overrides.',
 		},
 	],
 };
@@ -262,7 +422,7 @@ export const finalCtaContent: FinalCtaContent = {
 	sectionId: 'final-cta',
 	title: 'Ready to ship faster and reuse more?',
 	description:
-		'Start with the landing template, then grow into a full product system — with modern Angular patterns and token-driven UI.',
+		'Start with the landing template, then grow into a full product system with modern Angular patterns and token-driven UI.',
 	buttons: [
 		{ label: 'Start now', targetId: 'pricing', variant: 'primary' },
 		{ label: 'See features', targetId: 'features', variant: 'ghost' },

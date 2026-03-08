@@ -5,7 +5,7 @@ import { AboutContent, AboutSectionComponent } from '@component/about';
 import { FaqContent, FaqSectionComponent } from '@component/faq';
 import { FeaturesContent, FeaturesSectionComponent } from '@component/features';
 import { FinalCtaContent, FinalCtaSectionComponent } from '@component/final-cta';
-import { HeroContent, HeroSectionComponent } from '@component/hero';
+import { HeroSectionComponent } from '@component/hero';
 import { HowItWorksContent, HowItWorksSectionComponent } from '@component/how-it-works';
 import { MarkedSectionComponent } from '@component/marked';
 import { PricingContent, PricingSectionComponent } from '@component/pricing';
@@ -14,13 +14,15 @@ import { TestimonialsContent, TestimonialsSectionComponent } from '@component/te
 import { TrustBarContent, TrustBarSectionComponent } from '@component/trust-bar';
 import { UseCasesContent, UseCasesSectionComponent } from '@component/use-cases';
 import { FooterComponent } from '@layout/footer';
+import { TranslatePipe } from 'wacom';
 import {
 	aboutContent,
 	faqContent,
 	featuresContent,
 	finalCtaContent,
-	heroContent,
+	heroSections,
 	howItWorksContent,
+	LandingHeroSection,
 	pricingContent,
 	showcaseContent,
 	testimonialsContent,
@@ -45,6 +47,7 @@ import {
 		FaqSectionComponent,
 		FinalCtaSectionComponent,
 		FooterComponent,
+		TranslatePipe,
 	],
 })
 export class LandingComponent {
@@ -61,7 +64,7 @@ export class LandingComponent {
 		}
 	}
 
-	readonly heroContent: HeroContent = heroContent;
+	readonly heroSections: LandingHeroSection[] = heroSections;
 
 	readonly trustBarContent: TrustBarContent = trustBarContent;
 

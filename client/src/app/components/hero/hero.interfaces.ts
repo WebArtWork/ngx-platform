@@ -1,4 +1,4 @@
-import { HeroCtaVariant } from './hero.types';
+import { HeroCtaVariant, HeroMediaAspect, HeroMediaType } from './hero.types';
 
 export interface HeroBadge {
 	icon?: string;
@@ -7,6 +7,7 @@ export interface HeroBadge {
 
 export interface HeroCta {
 	label?: string;
+	icon?: string;
 	/** If set: calls scrollTo(targetId). */
 	targetId?: string;
 	/** Reserved for later use (routerLink / href). */
@@ -31,12 +32,26 @@ export interface HeroMeta {
 	text?: string;
 }
 
-export interface HeroCard {
+export interface HeroMedia {
+	type?: HeroMediaType;
+	src?: string;
+	alt?: string;
 	title?: string;
-	subtitle?: string;
+	aspect?: HeroMediaAspect;
+}
+
+export interface HeroLogo {
+	label?: string;
 	icon?: string;
-	miniCards?: HeroMiniCard[];
-	note?: HeroNote;
+	src?: string;
+	alt?: string;
+}
+
+export interface HeroMetric {
+	icon?: string;
+	value?: string;
+	label?: string;
+	description?: string;
 }
 
 export interface HeroContent {
@@ -45,5 +60,10 @@ export interface HeroContent {
 	description?: string;
 	ctas?: HeroCta[];
 	meta?: HeroMeta;
-	card?: HeroCard;
+	media?: HeroMedia;
+	logos?: HeroLogo[];
+	highlights?: HeroMiniCard[];
+	metrics?: HeroMetric[];
+	note?: HeroNote;
+	backgroundImage?: string;
 }

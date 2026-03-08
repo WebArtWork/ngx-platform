@@ -1,7 +1,299 @@
 <main>
 	<page-marked [markdown]="markdown()"></page-marked>
 
-	<page-component-hero [content]="heroContent"></page-component-hero>
+	@for (hero of heroSections; track hero.id) {
+		<page-component-hero [content]="hero.content" [layout]="hero.layout">
+			@if (hero.layout === 'centered') {
+				<div hero-media class="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+					>
+						<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
+							{{ 'Release overview' | translate }}
+						</div>
+						<div class="mt-3 space-y-2 text-sm text-[var(--c-text-primary)]">
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+								{{ 'Reusable hero API' | translate }}
+							</div>
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+								{{ 'Translation-ready content' | translate }}
+							</div>
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+								{{ 'Theme token styling' | translate }}
+							</div>
+						</div>
+					</div>
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+					>
+						<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
+							{{ 'Suggested use' | translate }}
+						</div>
+						<div class="mt-3 text-sm leading-6 text-[var(--c-text-primary)]">
+							{{ 'Landing intros, launch messaging, and centered CTA stacks.' | translate }}
+						</div>
+					</div>
+				</div>
+			}
+
+			@if (hero.layout === 'split') {
+				<form
+					hero-form
+					class="grid gap-3 rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_84%,transparent)] p-3 shadow-[var(--shadow-sm)] md:grid-cols-[1fr_auto]"
+				>
+					<label class="sr-only" [for]="hero.id + '-search'">{{
+						'Search the ecosystem' | translate
+					}}</label>
+					<input
+						[id]="hero.id + '-search'"
+						type="text"
+						class="min-h-14 rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] px-4 text-[var(--c-text-primary)] outline-none transition focus:border-[color-mix(in_srgb,var(--c-primary)_45%,var(--c-border))]"
+						[placeholder]="'Search templates, modules, guides...' | translate"
+					/>
+					<button
+						type="button"
+						class="min-h-14 rounded-[var(--radius-btn)] bg-[var(--c-primary)] px-6 text-sm font-semibold text-[var(--c-text-secondary)] transition hover:bg-[var(--c-primary-hover)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+					>
+						{{ 'Search' | translate }}
+					</button>
+				</form>
+			}
+
+			@if (hero.layout === 'split') {
+				<div hero-media class="grid gap-4 md:grid-cols-2">
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)] md:col-span-2"
+					>
+						<div class="text-xs uppercase tracking-[0.2em] text-[var(--c-text-muted)]">
+							{{ 'Platform snapshot' | translate }}
+						</div>
+						<div class="mt-3 grid gap-3 sm:grid-cols-3">
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] p-3">
+								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">24</div>
+								<div class="mt-1 text-sm text-[var(--c-text-primary)]">
+									{{ 'Reusable sections' | translate }}
+								</div>
+							</div>
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] p-3">
+								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">8</div>
+								<div class="mt-1 text-sm text-[var(--c-text-primary)]">
+									{{ 'Feature domains' | translate }}
+								</div>
+							</div>
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] p-3">
+								<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">100%</div>
+								<div class="mt-1 text-sm text-[var(--c-text-primary)]">
+									{{ 'Signals-first flow' | translate }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+					>
+						<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
+							{{ 'Shipping flow' | translate }}
+						</div>
+						<div class="mt-3 space-y-2 text-sm text-[var(--c-text-primary)]">
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+								{{ 'Compose sections' | translate }}
+							</div>
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+								{{ 'Promote repeatables' | translate }}
+							</div>
+							<div class="rounded-[var(--radius)] bg-[var(--c-bg-secondary)] px-3 py-2">
+								{{ 'Scale features' | translate }}
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+					>
+						<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
+							{{ 'Design system' | translate }}
+						</div>
+						<div class="mt-3 grid grid-cols-4 gap-2">
+							<div
+								class="aspect-square rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-primary)]"
+							></div>
+							<div
+								class="aspect-square rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)]"
+							></div>
+							<div
+								class="aspect-square rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-tertiary)]"
+							></div>
+							<div
+								class="aspect-square rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-border)]"
+							></div>
+						</div>
+					</div>
+				</div>
+			}
+
+			@if (hero.layout === 'panel') {
+				<div
+					hero-panel
+					class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_84%,transparent)] p-6 shadow-[var(--shadow-md)]"
+				>
+					<div class="text-2xl font-semibold text-[var(--c-text-secondary)]">
+						{{ 'Join over 3,000 creators' | translate }}
+					</div>
+					<div class="mt-5 grid gap-3 sm:grid-cols-2">
+						<button
+							type="button"
+							class="min-h-12 rounded-[var(--radius-btn)] bg-[color-mix(in_srgb,var(--c-primary)_85%,white)] px-4 text-sm font-semibold text-[var(--c-text-secondary)]"
+						>
+							Google
+						</button>
+						<button
+							type="button"
+							class="min-h-12 rounded-[var(--radius-btn)] bg-[var(--c-secondary)] px-4 text-sm font-semibold text-white"
+						>
+							Dribbble
+						</button>
+					</div>
+					<div class="my-5 flex items-center gap-3 text-sm text-[var(--c-text-muted)]">
+						<div class="h-px flex-1 bg-[var(--c-border)]"></div>
+						<span>{{ 'or' | translate }}</span>
+						<div class="h-px flex-1 bg-[var(--c-border)]"></div>
+					</div>
+					<div class="grid gap-4">
+						<label class="grid gap-2">
+							<span class="text-sm font-medium text-[var(--c-text-secondary)]">{{
+								'Your email' | translate
+							}}</span>
+							<input
+								type="email"
+								class="min-h-12 rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] px-4 text-[var(--c-text-primary)] outline-none"
+								placeholder="name@flowbite.com"
+							/>
+						</label>
+						<label class="grid gap-2">
+							<span class="text-sm font-medium text-[var(--c-text-secondary)]">{{
+								'Your password' | translate
+							}}</span>
+							<input
+								type="password"
+								class="min-h-12 rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] px-4 text-[var(--c-text-primary)] outline-none"
+								placeholder="••••••••"
+							/>
+						</label>
+						<button
+							type="button"
+							class="min-h-12 rounded-[var(--radius-btn)] bg-[var(--c-primary)] px-4 text-sm font-semibold text-[var(--c-text-secondary)]"
+						>
+							{{ 'Create an account' | translate }}
+						</button>
+					</div>
+				</div>
+			}
+
+			@if (hero.layout === 'background') {
+				<form
+					hero-form
+					class="grid gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_srgb,var(--c-border)_50%,transparent)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_28%,transparent)] p-4 shadow-[var(--shadow-md)] md:grid-cols-[1.4fr_repeat(3,1fr)]"
+				>
+					<input
+						type="text"
+						class="min-h-14 rounded-[var(--radius)] border border-[color-mix(in_srgb,var(--c-border)_45%,transparent)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_80%,transparent)] px-4 text-[var(--c-text-primary)] outline-none"
+						[placeholder]="'Search destinations' | translate"
+					/>
+					<input
+						type="text"
+						class="min-h-14 rounded-[var(--radius)] border border-[color-mix(in_srgb,var(--c-border)_45%,transparent)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_80%,transparent)] px-4 text-[var(--c-text-primary)] outline-none"
+						[placeholder]="'Check in' | translate"
+					/>
+					<input
+						type="text"
+						class="min-h-14 rounded-[var(--radius)] border border-[color-mix(in_srgb,var(--c-border)_45%,transparent)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_80%,transparent)] px-4 text-[var(--c-text-primary)] outline-none"
+						[placeholder]="'Check out' | translate"
+					/>
+					<button
+						type="button"
+						class="min-h-14 rounded-[var(--radius-btn)] bg-[var(--c-primary)] px-6 text-sm font-semibold text-[var(--c-text-secondary)]"
+					>
+						{{ 'Search' | translate }}
+					</button>
+				</form>
+			}
+
+			@if (hero.layout === 'dashboard') {
+				<form
+					hero-form
+					class="grid gap-3 rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_84%,transparent)] p-3 shadow-[var(--shadow-sm)] md:grid-cols-[1fr_auto]"
+				>
+					<input
+						type="text"
+						class="min-h-14 rounded-[var(--radius)] border border-[var(--c-border)] bg-[var(--c-bg-secondary)] px-4 text-[var(--c-text-primary)] outline-none"
+						[placeholder]="'Search mockups, logos...' | translate"
+					/>
+					<button
+						type="button"
+						class="min-h-14 rounded-[var(--radius-btn)] bg-[var(--c-primary)] px-6 text-sm font-semibold text-[var(--c-text-secondary)]"
+					>
+						{{ 'Search' | translate }}
+					</button>
+				</form>
+			}
+
+			@if (hero.layout === 'dashboard') {
+				<div hero-media class="grid gap-4 md:grid-cols-[0.7fr_1fr]">
+					<div
+						class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+					>
+						<div class="text-3xl font-semibold text-[var(--c-text-secondary)]">$45,385</div>
+						<div class="mt-1 text-sm text-[var(--c-text-muted)]">
+							{{ 'Sales this week' | translate }}
+						</div>
+						<div class="mt-6 flex h-40 items-end gap-3">
+							<div class="h-[42%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_55%,transparent)]"></div>
+							<div class="h-[66%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_70%,transparent)]"></div>
+							<div class="h-[54%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_85%,transparent)]"></div>
+							<div class="h-[88%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_65%,transparent)]"></div>
+							<div class="h-[58%] w-full rounded-t-[var(--radius)] bg-[color-mix(in_srgb,var(--c-primary)_45%,transparent)]"></div>
+						</div>
+					</div>
+
+					<div class="grid gap-4">
+						<div
+							class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+						>
+							<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
+								{{ 'Calendar' | translate }}
+							</div>
+							<div class="mt-4 grid grid-cols-7 gap-2 text-center text-xs text-[var(--c-text-primary)]">
+								@for (day of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; track day) {
+									<div class="opacity-70">{{ day }}</div>
+								}
+								@for (date of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; track date) {
+									<div
+										class="rounded-[var(--radius)] px-2 py-2"
+										[class.bg-[var(--c-primary)]]="date === 12"
+										[class.text-[var(--c-text-secondary)]]="date === 12"
+									>
+										{{ date }}
+									</div>
+								}
+							</div>
+						</div>
+
+						<div
+							class="rounded-[var(--radius-card)] border border-[var(--c-border)] bg-[color-mix(in_srgb,var(--c-bg-secondary)_78%,transparent)] p-4 shadow-[var(--shadow-sm)]"
+						>
+							<div class="text-sm font-semibold text-[var(--c-text-secondary)]">
+								{{ 'Private repos' | translate }}
+							</div>
+							<div class="mt-2 text-sm text-[var(--c-text-primary)]">
+								{{ 'Host code that you do not want to share with the world in private.' | translate }}
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</page-component-hero>
+	}
 
 	<page-component-trust-bar [content]="trustBarContent"></page-component-trust-bar>
 
